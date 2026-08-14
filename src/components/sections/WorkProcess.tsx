@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef } from 'react'
+import Image from 'next/image'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { PROCESS_STEPS } from '@/data/process'
@@ -12,156 +13,484 @@ if (typeof window !== 'undefined') {
 
 export function WorkProcess() {
   const sectionRef = useRef<HTMLDivElement>(null)
-  const stepsRef = useRef<(HTMLDivElement | null)[]>([])
+  const pinContainerRef = useRef<HTMLDivElement>(null)
+  const leftColRef = useRef<HTMLDivElement>(null)
+  const rightColRef = useRef<HTMLDivElement>(null)
+
+  const step1 = PROCESS_STEPS[0]
+  const step2 = PROCESS_STEPS[1]
+  const step3 = PROCESS_STEPS[2]
+  const step4 = PROCESS_STEPS[3]
 
   useEffect(() => {
     if (typeof window === 'undefined' || !sectionRef.current) return
 
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        stepsRef.current.filter(Boolean),
-        {
-          opacity: 0,
-          y: 40,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.2,
-          ease: 'power3.out',
+      if (leftColRef.current && rightColRef.current && pinContainerRef.current) {
+        const tl = gsap.timeline({
           scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 75%',
+            trigger: pinContainerRef.current,
+            start: 'top 12%',
+            end: '+=180%',
+            pin: true,
+            scrub: 0.6,
           },
-        }
-      )
+        })
+
+        // Left Column: Step 01 & 03 float UP from below the middle card
+        tl.fromTo(
+          leftColRef.current,
+          { y: 550 },
+          { y: -700, ease: 'none' },
+          0
+        )
+
+        // Right Column: Step 02 & 04 float UP with a staggered starting delay from below
+        tl.fromTo(
+          rightColRef.current,
+          { y: 800 },
+          { y: -450, ease: 'none' },
+          0
+        )
+      }
     }, sectionRef)
 
     return () => ctx.revert()
   }, [])
 
   return (
-    <section
-      id="work-process"
-      ref={sectionRef}
-      style={{
-        backgroundColor: '#111111',
-        padding: '7rem 1.5rem',
-        color: '#ffffff',
-        position: 'relative',
-      }}
-    >
-      <div
+    <div style={{ position: 'relative', width: '100%' }}>
+      <section
+        id="work-process"
+        ref={sectionRef}
         style={{
-          maxWidth: '1280px',
-          margin: '0 auto',
+          backgroundColor: '#f7f3ec',
+          color: '#2c221e',
+          position: 'relative',
+          padding: '6rem 1.5rem 8rem',
         }}
       >
-        {/* Section Header with Wind Reveal Heading */}
-        <div style={{ textAlign: 'center', marginBottom: '4.5rem' }}>
-          <p
-            style={{
-              color: '#c9a96e',
-              fontFamily: 'var(--font-sans)',
-              fontSize: '0.875rem',
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              marginBottom: '0.75rem',
-              fontWeight: 600,
-            }}
-          >
-            OUR SEAMLESS METHODOLOGY
-          </p>
-          <div style={{ maxWidth: '800px', margin: '0 auto 1.25rem' }}>
-            <WindRevealHeading
-              as="h2"
+        <div style={{ maxWidth: '1440px', margin: '0 auto', width: '100%' }}>
+          {/* Section Header - Scrolls naturally out of view */}
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <span
+              className="label"
               style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(2.25rem, 5vw, 3.5rem)',
-                color: '#ffffff',
-                letterSpacing: '0.04em',
-                fontWeight: 500,
-                lineHeight: 1.2,
+                color: '#3c3127',
+                fontSize: '0.8125rem',
+                letterSpacing: '0.2em',
+                display: 'inline-block',
+                marginBottom: '0.5rem',
               }}
             >
-              How We Craft Your Event
-            </WindRevealHeading>
+              ◇ OUR WORK PROCESS
+            </span>
+            <div style={{ maxWidth: '850px', marginInline: 'auto' }}>
+              <WindRevealHeading
+                as="h2"
+                className="heading-lg"
+                style={{
+                  color: '#2c221e',
+                  fontSize: 'clamp(1.85rem, 3.8vw, 3.15rem)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.03em',
+                  lineHeight: 1.15,
+                }}
+              >
+                STEPS TO PLAN A SUCCESSFUL EVENT
+              </WindRevealHeading>
+            </div>
           </div>
-          <p
+
+          {/* 3-Column Pinned Container (Only Grid Pins, Heading Scrolls Away) */}
+          <div
+            ref={pinContainerRef}
             style={{
-              color: '#e0d8cc',
-              fontSize: '1.05rem',
-              maxWidth: '600px',
-              margin: '0 auto',
-              lineHeight: 1.6,
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              position: 'relative',
+              paddingBlock: '1rem',
             }}
           >
-            A refined four-step journey from initial creative vision to flawless event execution.
-          </p>
-        </div>
-
-        {/* Process Steps Grid */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-            gap: '2rem',
-          }}
-        >
-          {PROCESS_STEPS.map((step, idx) => (
             <div
-              key={step.number}
-              ref={(el) => {
-                stepsRef.current[idx] = el
-              }}
               style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                backdropFilter: 'blur(12px)',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
-                borderRadius: '16px',
-                padding: '2.5rem 2rem',
-                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.4)',
+                display: 'grid',
+                gridTemplateColumns: 'minmax(240px, 320px) minmax(380px, 540px) minmax(240px, 320px)',
+                justifyContent: 'center',
+                gap: '3.5rem',
+                alignItems: 'center',
                 position: 'relative',
+                width: '100%',
               }}
             >
+              {/* Left Column: Step 01 & Step 03 Floating Cards */}
+              <div
+                ref={leftColRef}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '4.5rem',
+                  willChange: 'transform',
+                }}
+              >
+                {step1 && (
+                  <div style={{ textAlign: 'center' }}>
+                    <div
+                      style={{
+                        position: 'relative',
+                        width: '100%',
+                        height: '240px',
+                        borderRadius: '20px',
+                        overflow: 'hidden',
+                        boxShadow: '0 18px 40px rgba(44, 34, 30, 0.14)',
+                      }}
+                    >
+                      <Image
+                        src={step1.image}
+                        alt={step1.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 320px"
+                        style={{ objectFit: 'cover' }}
+                      />
+                      <div
+                        style={{
+                          position: 'absolute',
+                          inset: 0,
+                          backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                        }}
+                      />
+                      <span
+                        style={{
+                          position: 'absolute',
+                          bottom: '0.75rem',
+                          left: '50%',
+                          transform: 'translateX(-50%)',
+                          fontFamily: 'var(--font-display)',
+                          fontSize: '3.5rem',
+                          fontWeight: 400,
+                          color: '#ffffff',
+                          textShadow: '0 4px 18px rgba(0, 0, 0, 0.65)',
+                          lineHeight: 1,
+                        }}
+                      >
+                        {step1.number}
+                      </span>
+                    </div>
+                    <h3
+                      style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: '1.15rem',
+                        color: '#2c221e',
+                        letterSpacing: '0.04em',
+                        textTransform: 'uppercase',
+                        marginTop: '1rem',
+                        marginBottom: '0.4rem',
+                        fontWeight: 600,
+                      }}
+                    >
+                      {step1.title}
+                    </h3>
+                    <p
+                      style={{
+                        color: '#6b5e54',
+                        fontSize: '0.875rem',
+                        lineHeight: 1.55,
+                        maxWidth: '280px',
+                        margin: '0 auto',
+                      }}
+                    >
+                      {step1.description}
+                    </p>
+                  </div>
+                )}
+
+                {step3 && (
+                  <div style={{ textAlign: 'center' }}>
+                    <div
+                      style={{
+                        position: 'relative',
+                        width: '100%',
+                        height: '240px',
+                        borderRadius: '20px',
+                        overflow: 'hidden',
+                        boxShadow: '0 18px 40px rgba(44, 34, 30, 0.14)',
+                      }}
+                    >
+                      <Image
+                        src={step3.image}
+                        alt={step3.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 320px"
+                        style={{ objectFit: 'cover' }}
+                      />
+                      <div
+                        style={{
+                          position: 'absolute',
+                          inset: 0,
+                          backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                        }}
+                      />
+                      <span
+                        style={{
+                          position: 'absolute',
+                          bottom: '0.75rem',
+                          left: '50%',
+                          transform: 'translateX(-50%)',
+                          fontFamily: 'var(--font-display)',
+                          fontSize: '3.5rem',
+                          fontWeight: 400,
+                          color: '#ffffff',
+                          textShadow: '0 4px 18px rgba(0, 0, 0, 0.65)',
+                          lineHeight: 1,
+                        }}
+                      >
+                        {step3.number}
+                      </span>
+                    </div>
+                    <h3
+                      style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: '1.15rem',
+                        color: '#2c221e',
+                        letterSpacing: '0.04em',
+                        textTransform: 'uppercase',
+                        marginTop: '1rem',
+                        marginBottom: '0.4rem',
+                        fontWeight: 600,
+                      }}
+                    >
+                      {step3.title}
+                    </h3>
+                    <p
+                      style={{
+                        color: '#6b5e54',
+                        fontSize: '0.875rem',
+                        lineHeight: 1.55,
+                        maxWidth: '280px',
+                        margin: '0 auto',
+                      }}
+                    >
+                      {step3.description}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Center Column: Prominent Pinned Central Showcase Photo */}
               <div
                 style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '2.75rem',
-                  color: '#c9a96e',
-                  fontWeight: 400,
-                  marginBottom: '1rem',
-                  lineHeight: 1,
+                  position: 'relative',
+                  width: '100%',
+                  zIndex: 2,
                 }}
               >
-                {step.number}
+                <div
+                  style={{
+                    position: 'relative',
+                    width: '100%',
+                    height: '620px',
+                    borderRadius: '28px',
+                    overflow: 'hidden',
+                    boxShadow: '0 30px 70px rgba(44, 34, 30, 0.22)',
+                  }}
+                >
+                  <Image
+                    src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=1400&auto=format&fit=crop"
+                    alt="1111 Decor Work Process Showcase"
+                    fill
+                    priority
+                    sizes="(max-width: 768px) 100vw, 540px"
+                    style={{ objectFit: 'cover' }}
+                  />
+                  <div
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      backgroundColor: 'rgba(20, 20, 20, 0.15)',
+                    }}
+                  />
+
+                  {/* Vertical Watermark Text Overlay */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      left: '1.75rem',
+                      bottom: '2.5rem',
+                      writingMode: 'vertical-rl',
+                      transform: 'rotate(180deg)',
+                      fontFamily: 'var(--font-display)',
+                      fontSize: 'clamp(3.5rem, 7vw, 5.5rem)',
+                      fontWeight: 400,
+                      color: 'rgba(255, 255, 255, 0.45)',
+                      letterSpacing: '0.08em',
+                      textTransform: 'lowercase',
+                      pointerEvents: 'none',
+                      userSelect: 'none',
+                    }}
+                  >
+                    1111 decor
+                  </div>
+                </div>
               </div>
-              <h3
+
+              {/* Right Column: Step 02 & Step 04 Floating Cards */}
+              <div
+                ref={rightColRef}
                 style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '1.3rem',
-                  color: '#ffffff',
-                  letterSpacing: '0.05em',
-                  marginBottom: '0.75rem',
-                  fontWeight: 600,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '4.5rem',
+                  willChange: 'transform',
                 }}
               >
-                {step.title}
-              </h3>
-              <p
-                style={{
-                  color: '#cccccc',
-                  fontSize: '0.925rem',
-                  lineHeight: 1.6,
-                }}
-              >
-                {step.description}
-              </p>
+                {step2 && (
+                  <div style={{ textAlign: 'center' }}>
+                    <div
+                      style={{
+                        position: 'relative',
+                        width: '100%',
+                        height: '240px',
+                        borderRadius: '20px',
+                        overflow: 'hidden',
+                        boxShadow: '0 18px 40px rgba(44, 34, 30, 0.14)',
+                      }}
+                    >
+                      <Image
+                        src={step2.image}
+                        alt={step2.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 320px"
+                        style={{ objectFit: 'cover' }}
+                      />
+                      <div
+                        style={{
+                          position: 'absolute',
+                          inset: 0,
+                          backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                        }}
+                      />
+                      <span
+                        style={{
+                          position: 'absolute',
+                          bottom: '0.75rem',
+                          left: '50%',
+                          transform: 'translateX(-50%)',
+                          fontFamily: 'var(--font-display)',
+                          fontSize: '3.5rem',
+                          fontWeight: 400,
+                          color: '#ffffff',
+                          textShadow: '0 4px 18px rgba(0, 0, 0, 0.65)',
+                          lineHeight: 1,
+                        }}
+                      >
+                        {step2.number}
+                      </span>
+                    </div>
+                    <h3
+                      style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: '1.15rem',
+                        color: '#2c221e',
+                        letterSpacing: '0.04em',
+                        textTransform: 'uppercase',
+                        marginTop: '1rem',
+                        marginBottom: '0.4rem',
+                        fontWeight: 600,
+                      }}
+                    >
+                      {step2.title}
+                    </h3>
+                    <p
+                      style={{
+                        color: '#6b5e54',
+                        fontSize: '0.875rem',
+                        lineHeight: 1.55,
+                        maxWidth: '280px',
+                        margin: '0 auto',
+                      }}
+                    >
+                      {step2.description}
+                    </p>
+                  </div>
+                )}
+
+                {step4 && (
+                  <div style={{ textAlign: 'center' }}>
+                    <div
+                      style={{
+                        position: 'relative',
+                        width: '100%',
+                        height: '240px',
+                        borderRadius: '20px',
+                        overflow: 'hidden',
+                        boxShadow: '0 18px 40px rgba(44, 34, 30, 0.14)',
+                      }}
+                    >
+                      <Image
+                        src={step4.image}
+                        alt={step4.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 320px"
+                        style={{ objectFit: 'cover' }}
+                      />
+                      <div
+                        style={{
+                          position: 'absolute',
+                          inset: 0,
+                          backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                        }}
+                      />
+                      <span
+                        style={{
+                          position: 'absolute',
+                          bottom: '0.75rem',
+                          left: '50%',
+                          transform: 'translateX(-50%)',
+                          fontFamily: 'var(--font-display)',
+                          fontSize: '3.5rem',
+                          fontWeight: 400,
+                          color: '#ffffff',
+                          textShadow: '0 4px 18px rgba(0, 0, 0, 0.65)',
+                          lineHeight: 1,
+                        }}
+                      >
+                        {step4.number}
+                      </span>
+                    </div>
+                    <h3
+                      style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: '1.15rem',
+                        color: '#2c221e',
+                        letterSpacing: '0.04em',
+                        textTransform: 'uppercase',
+                        marginTop: '1rem',
+                        marginBottom: '0.4rem',
+                        fontWeight: 600,
+                      }}
+                    >
+                      {step4.title}
+                    </h3>
+                    <p
+                      style={{
+                        color: '#6b5e54',
+                        fontSize: '0.875rem',
+                        lineHeight: 1.55,
+                        maxWidth: '280px',
+                        margin: '0 auto',
+                      }}
+                    >
+                      {step4.description}
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
-          ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   )
 }

@@ -2,32 +2,37 @@ export interface ProcessStep {
   number: string
   title: string
   description: string
-  icon: string
+  image: string
+  icon?: string
 }
 
 export const PROCESS_DATA: ProcessStep[] = [
   {
     number: '01',
-    title: 'Tell us about your event',
-    description: 'Share your vision, preferred aesthetics, guest count, and date during your initial consultation.',
+    title: 'TELL US ABOUT YOUR EVENT',
+    description: 'We take pride in audience matching menus, custom-designed to connect with your guests.',
+    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop',
     icon: '✨',
   },
   {
     number: '02',
-    title: 'Put your trust in our team',
-    description: 'Our lead designers draft complete 3D spatial renders, custom floral concepts, and menu pairings.',
+    title: 'CHOOSE YOUR PACKAGE',
+    description: 'We take pride in audience matching menus, custom-designed to connect with your guests.',
+    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800&auto=format&fit=crop',
     icon: '💎',
   },
   {
     number: '03',
-    title: 'Creating unforgettable moments',
-    description: 'Our execution specialists transform your venue with surgical precision on event day.',
+    title: 'MEET YOUR COORDINATOR',
+    description: 'We take pride in audience matching menus, custom-designed to connect with your guests.',
+    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=800&auto=format&fit=crop',
     icon: '🥂',
   },
   {
     number: '04',
-    title: 'Celebrate & create memories',
-    description: 'Immerse yourself in flawless hospitality while our team manages every detail smoothly.',
+    title: 'WALK THROUGH AND POLISH DETAILS',
+    description: 'We take pride in audience matching menus, custom-designed to connect with your guests.',
+    image: 'https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=800&auto=format&fit=crop',
     icon: '🎉',
   },
 ]

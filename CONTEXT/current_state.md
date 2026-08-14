@@ -563,6 +563,12 @@ CTA section: GSAP horizontal text slide-in from left (heading) and right (button
 > - **About Section Editorial Heading Sizing (`AboutSection.tsx`):** Refined typography hierarchy by adjusting the section heading size to `clamp(2.125rem, 4.5vw, 3.85rem)` with `lineHeight: 1.15` and `letterSpacing: 0.03em`, creating a prominent yet balanced display serif appearance.
 > - **Quality Assurance & Verification:** Executed `pnpm ci:quality` — 0 ESLint warnings/errors, 0 TypeScript errors (`tsc --noEmit`), 13 unit tests passing (`pnpm test:unit`), and 14/14 Next.js static pages generated cleanly in production build (`pnpm build`).
 
+> ### 📝 Session Note (Interactive 3-Column Sticky Pinning Work Process Redesign) — August 14, 2026
+> - **Interactive 3-Column Sticky Pinning Layout (`WorkProcess.tsx`):** Rebuilt the Work Process section into a 3-column interactive layout matching the Anika reference theme. Features a centered sticky tall showcase photo container (`height: 620px`, `width: 540px`) with vertical `1111 decor` typography overlay, flanked by floating left (Steps 01 & 03) and right (Steps 02 & 04) cards moving vertically from below the viewport. The section heading scrolls away naturally while only the 3-column showcase grid pins in place.
+> - **Process Card Micro-Design:** Updated process cards with high-resolution photo headers, large overlay step numerals (**01**, **02**, **03**, **04**), uppercase display titles, and body description text on Silk Cream background (`#f7f3ec`).
+> - **Data & Unit Testing (`src/data/process.ts` & `tests/work-process.unit.test.ts`):** Extended process steps data schema to include dedicated step card images and added unit test suite `tests/work-process.unit.test.ts` (15 total unit tests passing across project).
+> - **Quality Assurance & Verification:** Executed `pnpm ci:quality` — 0 ESLint warnings/errors, 0 TypeScript errors (`tsc --noEmit`), 15 unit tests passing (`pnpm test:unit`), and 14/14 Next.js static pages generated cleanly in production build (`pnpm build`).
+
 ---
 
 ## Phase 3 — Menu & Event Pages

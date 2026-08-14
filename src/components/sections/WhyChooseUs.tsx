@@ -1,115 +1,188 @@
 'use client'
 
-import React from 'react'
-import Image from 'next/image'
+import React, { useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger)
+}
+
+const FEATURES = [
+  {
+    number: '01',
+    title: 'CUISINE EXCELLENCE',
+    description:
+      'Michelin-trained executive chefs crafting bespoke culinary journeys with farm-to-table organic ingredients.',
+  },
+  {
+    number: '02',
+    title: 'SPATIAL ARTISTRY',
+    description:
+      'Architectural floral installations and custom lighting design transforming venues into immersive dreamscapes.',
+  },
+  {
+    number: '03',
+    title: 'WHITE-GLOVE SERVICE',
+    description:
+      'Discreet, impeccable hospitality directors ensuring every guest experiences warmth and royal care.',
+  },
+  {
+    number: '04',
+    title: 'TAILORED PERFECTION',
+    description:
+      'Uncompromising attention to detail from custom table linens to curated multi-sensory entertainment.',
+  },
+]
 
 export function WhyChooseUs() {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([])
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !sectionRef.current) return
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        cardsRef.current.filter(Boolean),
+        {
+          opacity: 0,
+          y: 40,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 75%',
+          },
+        }
+      )
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section id="why-choose-us" className="section-padding" style={{ backgroundColor: 'var(--color-primary)' }}>
-      <div className="container">
-        <div className="grid-responsive-2" style={{ alignItems: 'center' }}>
-          {/* Left Column: Features */}
-          <div>
-            <span className="label" style={{ display: 'block', marginBottom: '0.75rem' }}>
-              Why Choose Us
-            </span>
-            <h2 className="heading-lg" style={{ marginBottom: '1.5rem', color: 'var(--color-secondary)' }}>
-              Unforgettable Catering & Event Mastery
-            </h2>
-            <p className="body-lg" style={{ marginBottom: '2.5rem' }}>
-              We set the gold standard in event execution. Our surgical attention to detail ensures that every centerpiece, napkin fold, and culinary course is executed flawlessly.
-            </p>
+    <section
+      id="why-choose-us"
+      ref={sectionRef}
+      style={{
+        backgroundColor: '#111111',
+        padding: '7rem 1.5rem',
+        color: '#ffffff',
+        position: 'relative',
+      }}
+    >
+      <div
+        style={{
+          maxWidth: '1280px',
+          margin: '0 auto',
+        }}
+      >
+        {/* Section Header */}
+        <div style={{ textAlign: 'center', marginBottom: '4.5rem' }}>
+          <p
+            style={{
+              color: '#c9a96e',
+              fontFamily: 'var(--font-sans)',
+              fontSize: '0.875rem',
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              marginBottom: '0.75rem',
+              fontWeight: 600,
+            }}
+          >
+            THE 1111 DECOR STANDARD
+          </p>
+          <h2
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(2.25rem, 5vw, 3.5rem)',
+              color: '#ffffff',
+              letterSpacing: '0.04em',
+              fontWeight: 500,
+              maxWidth: '800px',
+              margin: '0 auto 1.25rem',
+              lineHeight: 1.2,
+            }}
+          >
+            Why Discerning Clients Choose Us
+          </h2>
+          <p
+            style={{
+              color: '#e0d8cc',
+              fontSize: '1.05rem',
+              maxWidth: '600px',
+              margin: '0 auto',
+              lineHeight: 1.6,
+            }}
+          >
+            We merge culinary mastery with spatial design, transforming extraordinary visions into unforgettable luxury celebrations.
+          </p>
+        </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-              {/* Feature 1 */}
-              <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
-                <div
-                  style={{
-                    width: '56px',
-                    height: '56px',
-                    borderRadius: '50%',
-                    backgroundColor: 'rgba(201, 169, 110, 0.15)',
-                    border: '1px solid var(--color-accent)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '1.5rem',
-                    flexShrink: 0,
-                  }}
-                >
-                  ⚜️
-                </div>
-                <div>
-                  <h3 className="heading-sm" style={{ marginBottom: '0.5rem', color: 'var(--color-secondary)' }}>
-                    Bespoke Spatial Design
-                  </h3>
-                  <p className="body-md">
-                    Custom 3D layout renders and architectural floral installations tailored specifically to your venue footprint.
-                  </p>
-                </div>
-              </div>
-
-              {/* Feature 2 */}
-              <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
-                <div
-                  style={{
-                    width: '56px',
-                    height: '56px',
-                    borderRadius: '50%',
-                    backgroundColor: 'rgba(201, 169, 110, 0.15)',
-                    border: '1px solid var(--color-accent)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '1.5rem',
-                    flexShrink: 0,
-                  }}
-                >
-                  🥂
-                </div>
-                <div>
-                  <h3 className="heading-sm" style={{ marginBottom: '0.5rem', color: 'var(--color-secondary)' }}>
-                    Michelin-Standard Gastronomy
-                  </h3>
-                  <p className="body-md">
-                    Multi-sensory tasting menus and sommelier wine pairings crafted by our award-winning culinary directors.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column: Full-Height Image with Callout */}
-          <div style={{ position: 'relative', height: '520px' }}>
-            <div className="card-base" style={{ height: '100%', border: '1px solid rgba(201, 169, 110, 0.2)' }}>
-              <Image
-                src="https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=1200&auto=format&fit=crop"
-                alt="Unforgettable Catering & Premium Dining by 1111 Decor"
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                style={{ objectFit: 'cover' }}
-              />
-            </div>
+        {/* Feature Grid */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gap: '2rem',
+          }}
+        >
+          {FEATURES.map((feature, idx) => (
             <div
+              key={feature.number}
+              ref={(el) => {
+                cardsRef.current[idx] = el
+              }}
               style={{
-                position: 'absolute',
-                top: '2rem',
-                right: '2rem',
-                backgroundColor: 'rgba(26, 26, 26, 0.9)',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid var(--color-accent)',
-                padding: '1.25rem 1.75rem',
-                borderRadius: '4px',
+                backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                backdropFilter: 'blur(12px)',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
+                borderRadius: '16px',
+                padding: '2.5rem 2rem',
+                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.4)',
+                transition: 'transform 0.3s ease, boxShadow 0.3s ease',
               }}
             >
-              <span className="label" style={{ display: 'block', color: 'var(--color-accent)' }}>
-                Premium dining
-              </span>
-              <span className="heading-sm" style={{ color: 'var(--color-secondary)' }}>
-                Abundant flavors
-              </span>
+              <div
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '2.5rem',
+                  color: '#c9a96e',
+                  fontWeight: 400,
+                  marginBottom: '1.25rem',
+                }}
+              >
+                {feature.number}
+              </div>
+              <h3
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '1.25rem',
+                  color: '#ffffff',
+                  letterSpacing: '0.06em',
+                  marginBottom: '0.75rem',
+                  fontWeight: 600,
+                }}
+              >
+                {feature.title}
+              </h3>
+              <p
+                style={{
+                  color: '#cccccc',
+                  fontSize: '0.925rem',
+                  lineHeight: 1.6,
+                }}
+              >
+                {feature.description}
+              </p>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

@@ -45,3 +45,5 @@ export const BLOG_DATA: BlogPost[] = [
     readTime: '6 min read',
   },
 ]
+
+export const BLOG_POSTS = BLOG_DATA

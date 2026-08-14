@@ -31,3 +31,5 @@ export const PROCESS_DATA: ProcessStep[] = [
     icon: '🎉',
   },
 ]
+
+export const PROCESS_STEPS = PROCESS_DATA

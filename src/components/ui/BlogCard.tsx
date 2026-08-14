@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
+import Link from 'next/link'
 import { BlogPost } from '@/data/blog'
 
 interface BlogCardProps {
@@ -10,68 +10,118 @@ interface BlogCardProps {
 }
 
 export function BlogCard({ post }: BlogCardProps) {
+  if (!post) return null
+
   return (
-    <div
-      className="card-base"
+    <article
       style={{
-        backgroundColor: '#1b1b1b',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
+        backgroundColor: '#ffffff',
+        borderRadius: '16px',
+        overflow: 'hidden',
+        border: '1px solid rgba(0, 0, 0, 0.08)',
+        boxShadow: '0 12px 30px rgba(0, 0, 0, 0.05)',
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
+        transition: 'transform 0.3s ease, boxShadow 0.3s ease',
       }}
     >
-      <div style={{ position: 'relative', height: '240px', width: '100%' }}>
+      <div
+        style={{
+          position: 'relative',
+          width: '100%',
+          height: '240px',
+          overflow: 'hidden',
+        }}
+      >
         <Image
           src={post.image}
           alt={post.title}
           fill
-          sizes="(max-width: 768px) 100vw, 33vw"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           style={{ objectFit: 'cover' }}
         />
-        <span
-          className="label"
+        <div
           style={{
             position: 'absolute',
             top: '1rem',
             left: '1rem',
-            backgroundColor: 'rgba(26, 26, 26, 0.85)',
+            backgroundColor: 'rgba(255, 255, 255, 0.92)',
             backdropFilter: 'blur(8px)',
-            padding: '0.25rem 0.875rem',
-            borderRadius: '40px',
+            color: '#c9a96e',
+            fontWeight: 600,
             fontSize: '0.75rem',
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            padding: '0.35rem 0.85rem',
+            borderRadius: '20px',
+            border: '1px solid rgba(201, 169, 110, 0.3)',
           }}
         >
           {post.category}
-        </span>
+        </div>
       </div>
 
-      <div style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-        <div style={{ fontSize: '0.8125rem', color: 'var(--color-accent)', marginBottom: '0.5rem' }}>
-          {post.date} • {post.readTime}
+      <div
+        style={{
+          padding: '1.75rem',
+          display: 'flex',
+          flexDirection: 'column',
+          flexGrow: 1,
+        }}
+      >
+        <div
+          style={{
+            color: '#8a8275',
+            fontSize: '0.8rem',
+            marginBottom: '0.75rem',
+          }}
+        >
+          {post.date} &bull; {post.readTime}
         </div>
-        <h3 className="heading-sm" style={{ marginBottom: '0.75rem', color: 'var(--color-secondary)', lineHeight: 1.3 }}>
+
+        <h3
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '1.35rem',
+            color: '#1a1a1a',
+            marginBottom: '0.75rem',
+            fontWeight: 600,
+            lineHeight: 1.3,
+          }}
+        >
           {post.title}
         </h3>
-        <p className="body-sm" style={{ marginBottom: '1.5rem', flexGrow: 1 }}>
+
+        <p
+          style={{
+            color: '#5a544c',
+            fontSize: '0.9rem',
+            lineHeight: 1.6,
+            marginBottom: '1.5rem',
+            flexGrow: 1,
+          }}
+        >
           {post.excerpt}
         </p>
+
         <Link
           href={`/blog/${post.slug}`}
           style={{
-            color: 'var(--color-accent)',
+            color: '#c9a96e',
             fontSize: '0.875rem',
-            fontWeight: 700,
-            letterSpacing: '0.05em',
+            fontWeight: 600,
+            letterSpacing: '0.08em',
             textTransform: 'uppercase',
+            textDecoration: 'none',
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '0.375rem',
+            gap: '0.35rem',
           }}
         >
-          Read More →
+          Read Article &rarr;
         </Link>
       </div>
-    </div>
+    </article>
   )
 }

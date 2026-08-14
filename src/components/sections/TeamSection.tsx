@@ -6,16 +6,59 @@ import { TeamCard } from '@/components/ui/TeamCard'
 
 export function TeamSection() {
   return (
-    <section id="team" className="section-padding" style={{ backgroundColor: '#141414' }}>
-      <div className="container">
-        <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-          <span className="label" style={{ display: 'block', marginBottom: '0.75rem' }}>
-            Meet Incredible People
+    <section
+      id="team"
+      style={{
+        backgroundColor: '#faf6f0',
+        padding: '7rem 1.5rem',
+        color: '#1a1a1a',
+        position: 'relative',
+      }}
+    >
+      <div
+        style={{
+          maxWidth: '1280px',
+          margin: '0 auto',
+        }}
+      >
+        <div style={{ textAlign: 'center', marginBottom: '4.5rem' }}>
+          <span
+            style={{
+              color: '#c9a96e',
+              fontFamily: 'var(--font-sans)',
+              fontSize: '0.875rem',
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              marginBottom: '0.75rem',
+              fontWeight: 600,
+              display: 'block',
+            }}
+          >
+            MEET INCREDIBLE PEOPLE
           </span>
-          <h2 className="heading-lg">The Creative Minds Behind 1111 Decor</h2>
+          <h2
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(2.25rem, 5vw, 3.5rem)',
+              color: '#1a1a1a',
+              letterSpacing: '0.04em',
+              fontWeight: 500,
+              maxWidth: '800px',
+              margin: '0 auto 1.25rem',
+              lineHeight: 1.2,
+            }}
+          >
+            The Creative Minds Behind 1111 Decor
+          </h2>
         </div>
 
-        <div className="grid-responsive-4">
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gap: '2rem',
+          }}
+        >
           {TEAM_DATA.map((member) => (
             <TeamCard key={member.id} member={member} />
           ))}

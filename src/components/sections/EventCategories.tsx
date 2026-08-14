@@ -14,9 +14,9 @@ export function EventCategories() {
   const [activeIndex, setActiveIndex] = useState<number>(0)
 
   const sectionRef = useRef<HTMLDivElement>(null)
-  const bgTrackRef = useRef<HTMLDivElement>(null)
-  const circleTrackRef = useRef<HTMLDivElement>(null)
   const circleWindowRef = useRef<HTMLDivElement>(null)
+  const bgSlideRefs = useRef<(HTMLDivElement | null)[]>([])
+  const circleSlideRefs = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
     if (typeof window === 'undefined' || !sectionRef.current) return
@@ -35,57 +35,135 @@ export function EventCategories() {
         const circleTop = cRect.top - sRect.top
         const circleD = cRect.height || 340
 
-        // Sub-pixel accurate enter & exit progress ratios:
-        const enterRatio = Math.max(0, Math.min(1, 1 - circleBottom / H))
-        const exitRatio = Math.max(0, Math.min(1, 1 - circleTop / H))
-        const circleDuration = exitRatio - enterRatio
+        // Progress Mapping:
+        // tStep 0.0 -> 0.5: reveals 35% (Y: 1.0H -> 0.65H) - initial smooth reveal
+        // tStep 0.5 -> 1.0: reveals remaining 65% (Y: 0.65H -> 0) - VELOCITY INCREASES & WIPE COMPLETES 100%!
+
+        const getYProgress = (Y: number): number => {
+          const yRatio = Y / H
+          if (yRatio > 0.65) {
+            return ((1 - yRatio) / 0.35) * 0.5
+          }
+          return 0.5 + ((0.65 - yRatio) / 0.65) * 0.5
+        }
+
+        const getBgY = (tStep: number): number => {
+          if (tStep <= 0.5) {
+            return H * (1 - (tStep / 0.5) * 0.35)
+          } else if (tStep <= 1.0) {
+            return H * (0.65 - ((tStep - 0.5) / 0.5) * 0.65)
+          } else {
+            return 0
+          }
+        }
+
+        const stepDuration = 1.0 // 1.0s active wipe (0..0.5 normal, 0.5..1.0 accelerated complete)
+        const totalDuration = (totalSlides - 1) * stepDuration
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRef.current,
             start: 'top top',
-            end: '+=400%',
+            end: '+=160%', // Exactly calibrated so unpin happens immediately when final slide completes!
             pin: true,
-            scrub: 0.5,
+            scrub: 0.3,
             onUpdate: (self) => {
+              const currentT = self.progress * totalDuration
               const idx = Math.min(
                 totalSlides - 1,
-                Math.floor(self.progress * totalSlides)
+                Math.floor(currentT / stepDuration)
               )
               setActiveIndex(idx)
             },
           },
         })
 
+        // For slide i (1 to totalSlides - 1):
         for (let i = 1; i < totalSlides; i++) {
-          const slideStartTime = i - 1
-          const targetBgY = -(i / totalSlides) * 100
-          const targetCircleY = -i * circleD
-          const circleStartTime = slideStartTime + enterRatio
+          const slideStartTime = (i - 1) * stepDuration
+          const tMid = slideStartTime + 0.5
+          const tDone = slideStartTime + 1.0
 
-          // 1. Background image track moves linearly across slide step i
-          tl.to(
-            bgTrackRef.current,
-            {
-              yPercent: targetBgY,
-              ease: 'none',
-              duration: 1.0,
-            },
-            slideStartTime
-          )
+          const bgEl = bgSlideRefs.current[i]
+          const circleEl = circleSlideRefs.current[i]
 
-          // 2. Card circle track starts moving at the EXACT instant bg seam touches circle bottom,
-          // and moves at the exact same pixel velocity as the bg seam!
-          if (circleTrackRef.current) {
-            tl.to(
-              circleTrackRef.current,
+          if (bgEl) {
+            // 1. Background Wipe Reveal (Speed increases past 50% and completes wipe 100% at tDone)
+            tl.fromTo(
+              bgEl,
+              { clipPath: 'inset(100% 0% 0% 0%)' },
               {
-                y: targetCircleY,
+                clipPath: 'inset(65% 0% 0% 0%)',
                 ease: 'none',
-                duration: circleDuration,
+                duration: 0.5,
               },
-              circleStartTime
+              slideStartTime
+            ).to(
+              bgEl,
+              {
+                clipPath: 'inset(0% 0% 0% 0%)',
+                ease: 'none',
+                duration: 0.5,
+              },
+              tMid
             )
+          }
+
+          if (circleEl) {
+            // 2. Circle Photo Window Wipe Reveal (derived dynamically for 100% sub-pixel lockstep alignment)
+            const enterOffset = getYProgress(circleBottom)
+            const exitOffset = getYProgress(circleTop)
+
+            const circleStartTime = slideStartTime + enterOffset
+            const circleEndTime = slideStartTime + exitOffset
+
+            const points: { t: number; insetPercent: number }[] = [
+              { t: circleStartTime, insetPercent: 100 },
+            ]
+
+            if (circleStartTime < tMid && circleEndTime > tMid) {
+              const yMid = getBgY(0.5)
+              const insetMid = Math.max(
+                0,
+                Math.min(100, ((yMid - circleTop) / circleD) * 100)
+              )
+              points.push({ t: tMid, insetPercent: insetMid })
+            }
+
+            points.push({ t: Math.min(circleEndTime, tDone), insetPercent: 0 })
+
+            // Build piecewise linear timeline for circleEl
+            for (let k = 0; k < points.length - 1; k++) {
+              const pStart = points[k]
+              const pEnd = points[k + 1]
+              if (!pStart || !pEnd) continue
+
+              const dur = pEnd.t - pStart.t
+              if (dur > 0.001) {
+                if (k === 0) {
+                  tl.fromTo(
+                    circleEl,
+                    { clipPath: `inset(${pStart.insetPercent}% 0% 0% 0%)` },
+                    {
+                      clipPath: `inset(${pEnd.insetPercent}% 0% 0% 0%)`,
+                      ease: 'none',
+                      duration: dur,
+                    },
+                    pStart.t
+                  )
+                } else {
+                  tl.to(
+                    circleEl,
+                    {
+                      clipPath: `inset(${pEnd.insetPercent}% 0% 0% 0%)`,
+                      ease: 'none',
+                      duration: dur,
+                    },
+                    pStart.t
+                  )
+                }
+              }
+            }
           }
         }
       }
@@ -122,29 +200,26 @@ export function EventCategories() {
         backgroundColor: '#111111',
       }}
     >
-      {/* Background Images Vertical Sliding Track */}
+      {/* Stacked Full-Bleed Background Slides for Curtain Wipe Reveal */}
       <div
-        ref={bgTrackRef}
         style={{
           position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: `${CATEGORIES.length * 100}vh`,
-          display: 'flex',
-          flexDirection: 'column',
+          inset: 0,
           zIndex: 1,
-          willChange: 'transform',
         }}
       >
         {CATEGORIES.map((cat, idx) => (
           <div
             key={`bg-${cat.id}`}
+            ref={(el) => {
+              bgSlideRefs.current[idx] = el
+            }}
             style={{
-              position: 'relative',
-              height: '100vh',
-              width: '100vw',
-              flexShrink: 0,
+              position: 'absolute',
+              inset: 0,
+              zIndex: idx + 1,
+              clipPath: idx === 0 ? 'inset(0% 0% 0% 0%)' : 'inset(100% 0% 0% 0%)',
+              willChange: 'clip-path',
             }}
           >
             <Image
@@ -196,17 +271,17 @@ export function EventCategories() {
           left: '50%',
           transform: 'translate(-50%, -50%)',
           zIndex: 3,
-          width: 'clamp(360px, 90vw, 460px)',
-          backgroundColor: 'rgba(45, 38, 30, 0.75)',
+          width: 'clamp(380px, 90vw, 480px)',
+          backgroundColor: 'rgba(45, 38, 30, 0.78)',
           backdropFilter: 'blur(24px)',
           borderRadius: '28px',
-          padding: '3rem 2.25rem',
+          padding: '3.25rem 2.5rem',
           textAlign: 'center',
           border: '1px solid rgba(255, 255, 255, 0.25)',
           boxShadow: '0 35px 70px rgba(0, 0, 0, 0.6)',
         }}
       >
-        {/* Inner Circular Photo Window with Sub-Pixel Seam Alignment */}
+        {/* Inner Circular Photo Window with Synchronized Stacked Wipe Reveal */}
         <div
           ref={circleWindowRef}
           style={{
@@ -215,57 +290,48 @@ export function EventCategories() {
             height: '340px',
             borderRadius: '50%',
             overflow: 'hidden',
-            margin: '0 auto 1.75rem',
+            margin: '0 auto 1.85rem',
             border: '4px solid rgba(255, 255, 255, 0.4)',
             boxShadow: '0 15px 35px rgba(0,0,0,0.5)',
           }}
         >
-          <div
-            ref={circleTrackRef}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '340px',
-              height: `${CATEGORIES.length * 340}px`,
-              display: 'flex',
-              flexDirection: 'column',
-              willChange: 'transform',
-            }}
-          >
-            {CATEGORIES.map((cat, idx) => (
-              <div
-                key={`circle-${cat.id}`}
-                style={{
-                  position: 'relative',
-                  width: '340px',
-                  height: '340px',
-                  flexShrink: 0,
-                }}
-              >
-                <Image
-                  src={cat.cardImage}
-                  alt={cat.name}
-                  fill
-                  priority={idx === 0}
-                  sizes="340px"
-                  style={{ objectFit: 'cover' }}
-                />
-              </div>
-            ))}
-          </div>
+          {CATEGORIES.map((cat, idx) => (
+            <div
+              key={`circle-${cat.id}`}
+              ref={(el) => {
+                circleSlideRefs.current[idx] = el
+              }}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                zIndex: idx + 1,
+                clipPath: idx === 0 ? 'inset(0% 0% 0% 0%)' : 'inset(100% 0% 0% 0%)',
+                willChange: 'clip-path',
+              }}
+            >
+              <Image
+                src={cat.cardImage}
+                alt={cat.name}
+                fill
+                priority={idx === 0}
+                sizes="340px"
+                style={{ objectFit: 'cover' }}
+              />
+            </div>
+          ))}
         </div>
 
-        {/* Dynamic Category Content (Title & Description) */}
+        {/* Dynamic Category Content (Title & Description with Increased Font Sizes) */}
         <div>
           <h3
-            className="heading-md"
             style={{
               fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(1.85rem, 4vw, 2.35rem)',
+              fontWeight: 600,
               color: '#ffffff',
-              letterSpacing: '0.08em',
+              letterSpacing: '0.1em',
               textTransform: 'uppercase',
-              marginBottom: '0.75rem',
+              marginBottom: '0.85rem',
               transition: 'opacity 0.3s ease',
             }}
           >
@@ -273,12 +339,13 @@ export function EventCategories() {
           </h3>
 
           <p
-            className="body-sm"
             style={{
-              color: '#e8e0d4',
-              fontSize: '0.875rem',
-              lineHeight: 1.55,
-              maxWidth: '360px',
+              fontFamily: 'var(--font-sans)',
+              color: '#f3ece1',
+              fontSize: '1.05rem',
+              fontWeight: 400,
+              lineHeight: 1.6,
+              maxWidth: '380px',
               marginInline: 'auto',
             }}
           >

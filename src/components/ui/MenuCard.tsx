@@ -1,65 +1,134 @@
 'use client'
 
 import React from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
+import Link from 'next/link'
 import { MenuItem } from '@/data/menus'
 
 interface MenuCardProps {
-  item: MenuItem
+  menu: MenuItem
 }
 
-export function MenuCard({ item }: MenuCardProps) {
+export function MenuCard({ menu }: MenuCardProps) {
+  if (!menu) return null
+
+  const imageSrc =
+    menu.image ||
+    'https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=1200&auto=format&fit=crop'
+  const priceDisplay = menu.price.includes('/ guest') || menu.price.includes('/ person')
+    ? menu.price
+    : `${menu.price} / guest`
+
   return (
     <div
-      className="card-base card-menu"
       style={{
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-        transition: 'transform 0.4s ease, border-color 0.4s ease',
+        backgroundColor: '#ffffff',
+        borderRadius: '16px',
+        overflow: 'hidden',
+        border: '1px solid rgba(0, 0, 0, 0.08)',
+        boxShadow: '0 12px 30px rgba(0, 0, 0, 0.05)',
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        transition: 'transform 0.3s ease, boxShadow 0.3s ease',
       }}
     >
-      <Image
-        src={item.image}
-        alt={item.title}
-        fill
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-        style={{ objectFit: 'cover' }}
-      />
       <div
         style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(to top, rgba(20,20,20,0.95) 0%, rgba(20,20,20,0.3) 60%)',
+          position: 'relative',
+          width: '100%',
+          height: '240px',
+          overflow: 'hidden',
         }}
-      />
-      <div style={{ position: 'relative', zIndex: 2, padding: '1.5rem' }}>
-        <span className="label" style={{ display: 'block', marginBottom: '0.375rem', fontSize: '0.75rem' }}>
-          {item.category}
-        </span>
-        <h3 className="heading-sm" style={{ marginBottom: '0.5rem', color: 'var(--color-secondary)' }}>
-          {item.title}
-        </h3>
-        <p className="body-sm" style={{ marginBottom: '1rem', color: '#b0a898' }}>
-          {item.description}
-        </p>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ color: 'var(--color-accent)', fontWeight: 700, fontSize: '0.9375rem' }}>
-            {item.price}
-          </span>
-          <Link
-            href={`/menus/${item.slug}`}
-            style={{
-              color: 'var(--color-secondary)',
-              fontSize: '0.8125rem',
-              fontWeight: 600,
-              textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-              borderBottom: '1px solid var(--color-accent)',
-            }}
-          >
-            View Menu →
-          </Link>
+      >
+        <Image
+          src={imageSrc}
+          alt={menu.title || 'Menu Item'}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          style={{ objectFit: 'cover' }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            top: '1rem',
+            right: '1rem',
+            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(8px)',
+            color: '#c9a96e',
+            fontWeight: 600,
+            fontSize: '0.875rem',
+            padding: '0.35rem 0.85rem',
+            borderRadius: '20px',
+            border: '1px solid rgba(201, 169, 110, 0.3)',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+          }}
+        >
+          {priceDisplay}
         </div>
+      </div>
+
+      <div
+        style={{
+          padding: '1.75rem',
+          display: 'flex',
+          flexDirection: 'column',
+          flexGrow: 1,
+        }}
+      >
+        <div
+          style={{
+            color: '#c9a96e',
+            fontSize: '0.75rem',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            fontWeight: 600,
+            marginBottom: '0.5rem',
+          }}
+        >
+          {menu.category}
+        </div>
+
+        <h3
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '1.4rem',
+            color: '#1a1a1a',
+            marginBottom: '0.75rem',
+            fontWeight: 600,
+          }}
+        >
+          {menu.title}
+        </h3>
+
+        <p
+          style={{
+            color: '#5a544c',
+            fontSize: '0.9rem',
+            lineHeight: 1.6,
+            marginBottom: '1.5rem',
+            flexGrow: 1,
+          }}
+        >
+          {menu.description}
+        </p>
+
+        <Link
+          href={`/menus/${menu.slug || 'menu-detail'}`}
+          style={{
+            color: '#c9a96e',
+            fontSize: '0.875rem',
+            fontWeight: 600,
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            textDecoration: 'none',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.35rem',
+          }}
+        >
+          Explore Menu &rarr;
+        </Link>
       </div>
     </div>
   )

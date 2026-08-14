@@ -64,10 +64,12 @@ export function Hero() {
           style={{
             display: 'inline-block',
             marginBottom: '1.5rem',
-            padding: '0.375rem 1.25rem',
-            backgroundColor: 'rgba(201, 169, 110, 0.15)',
-            border: '1px solid rgba(201, 169, 110, 0.4)',
+            padding: '0.5rem 1.5rem',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            border: '1px solid rgba(201, 169, 110, 0.6)',
             borderRadius: '40px',
+            color: 'var(--color-accent)',
+            boxShadow: '0 4px 15px rgba(0,0,0,0.4)',
           }}
         >
           Luxury Event Styling & Catering
@@ -80,7 +82,8 @@ export function Hero() {
             maxWidth: '1000px',
             marginInline: 'auto',
             marginBottom: '1.5rem',
-            textShadow: '0 4px 20px rgba(0,0,0,0.6)',
+            color: '#ffffff',
+            textShadow: '0 4px 25px rgba(0, 0, 0, 0.85)',
           }}
         >
           The Best Events Start Here
@@ -93,7 +96,8 @@ export function Hero() {
             maxWidth: '680px',
             marginInline: 'auto',
             marginBottom: '2.5rem',
-            color: '#d0c8b8',
+            color: '#f5f0e8',
+            textShadow: '0 2px 12px rgba(0, 0, 0, 0.85)',
           }}
         >
           1111 Decor crafts breathtaking bespoke atmospheres, luxury floral architecture, and high-end gastronomy for unforgettable galas and weddings.
@@ -113,15 +117,16 @@ export function Hero() {
             href="/contact"
             style={{
               padding: '1rem 2.25rem',
-              backgroundColor: 'var(--color-accent)',
-              color: 'var(--color-primary)',
+              backgroundColor: '#c9a96e',
+              color: '#111111',
               fontFamily: 'var(--font-body)',
               fontSize: '0.9375rem',
               fontWeight: 700,
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
               borderRadius: '4px',
-              boxShadow: '0 10px 30px rgba(201, 169, 110, 0.3)',
+              textDecoration: 'none',
+              boxShadow: '0 8px 25px rgba(201, 169, 110, 0.45)',
               transition: 'transform 0.3s ease, background-color 0.3s ease',
             }}
           >
@@ -132,14 +137,17 @@ export function Hero() {
             href="/about-us"
             style={{
               padding: '1rem 2.25rem',
-              border: '1px solid var(--color-secondary)',
-              color: 'var(--color-secondary)',
+              backgroundColor: 'rgba(255, 255, 255, 0.12)',
+              border: '1.5px solid #ffffff',
+              color: '#ffffff',
               fontFamily: 'var(--font-body)',
               fontSize: '0.9375rem',
               fontWeight: 600,
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
               borderRadius: '4px',
+              textDecoration: 'none',
+              backdropFilter: 'blur(10px)',
               transition: 'background-color 0.3s ease, border-color 0.3s ease',
             }}
           >

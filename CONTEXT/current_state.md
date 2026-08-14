@@ -531,6 +531,14 @@ CTA section: GSAP horizontal text slide-in from left (heading) and right (button
 > - **Verification Suite:** 10 unit tests (`tests/tokens.test.ts`, `tests/animations.unit.test.ts`, `tests/counter.unit.test.ts`) passed; strict TypeScript compilation (`tsc --noEmit`), ESLint (`next lint`), and Next.js 14 production build (`next build`) verified green.
 > - **Phase 2 Status:** Phase 2 (Home Page) is 100% complete and verified.
 
+> ### 📝 Session Note (Event Categories Alignment & Contrast Optimization) — August 14, 2026
+> - **Work Item Enhancement:** W-203 (Event Categories Section — Card Sizing, Distinct Imagery & Synchronized Seam Transition).
+> - **Card & Photo Window Sizing:** Enlarged central frosted glass card container width to `clamp(360px, 90vw, 460px)` and expanded inner circular photo window to 340px x 340px with crisp border contrast and shadow elevation.
+> - **Distinct Imagery & Photomapping:** Created separate `bgImage` (ambient full-bleed venue scenes) and `cardImage` (framed category detail shots) in `src/data/categories.ts` adhering strictly to a dark luxury color palette (`#1a1a1a`, `#2d261e`, `#c9a96e`).
+> - **Sub-Pixel Seam Alignment & Timing Sync:** Computed exact DOM bounding rectangle progress offsets (`enterRatio = 1 - cRect.bottom / H` and `exitRatio = 1 - cRect.top / H`). Configured GSAP timeline so `circleTrackRef` stays stationary until the background seam line reaches the bottom edge of the card circle, then moves at the exact same pixel-per-second velocity (`duration = circleD / H`) across the aperture height. This guarantees that seam lines inside and outside the card circle form a single unbroken horizontal line during transition.
+> - **Global Link & Contrast Fixes:** Resolved browser `:visited` pseudo-state link color overrides across `src/app/globals.css` and `src/styles/globals.css` with strict `!important` resets, and updated `Hero` and `NavigationClient` CTA buttons with explicit `#c9a96e` gold and frosted white styling.
+> - **Verification:** 12 unit tests passed (`tests/event-categories-animation.unit.test.ts`), `pnpm typecheck`, `pnpm lint`, and production build (`pnpm build`) verified green.
+
 ---
 
 ## Phase 3 — Menu & Event Pages

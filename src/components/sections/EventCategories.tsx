@@ -4,55 +4,19 @@ import React, { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { CATEGORIES } from '@/data/categories'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
 }
 
-interface Category {
-  id: string
-  name: string
-  title: string
-  description: string
-  image: string
-}
-
-const CATEGORIES: Category[] = [
-  {
-    id: 'corporate',
-    name: 'CORPORATE',
-    title: 'CORPORATE GALAS',
-    description: 'Professional Elementor adjustment with better compatibility, higher stability, and improved visual consistency.',
-    image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=1600&auto=format&fit=crop',
-  },
-  {
-    id: 'social',
-    name: 'SOCIAL EVENT',
-    title: 'SOCIAL RECEPTIONS',
-    description: 'Professional Elementor adjustment with better compatibility, higher stability, and improved visual consistency.',
-    image: 'https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?q=80&w=1600&auto=format&fit=crop',
-  },
-  {
-    id: 'weddings',
-    name: 'WEDDINGS',
-    title: 'WEDDING BANQUETS',
-    description: 'Professional Elementor adjustment with better compatibility, higher stability, and improved visual consistency.',
-    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop',
-  },
-  {
-    id: 'parties',
-    name: 'PARTIES',
-    title: 'PRIVATE SOIRÉES',
-    description: 'Professional Elementor adjustment with better compatibility, higher stability, and improved visual consistency.',
-    image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1600&auto=format&fit=crop',
-  },
-]
-
 export function EventCategories() {
   const [activeIndex, setActiveIndex] = useState<number>(0)
+
   const sectionRef = useRef<HTMLDivElement>(null)
   const bgTrackRef = useRef<HTMLDivElement>(null)
   const circleTrackRef = useRef<HTMLDivElement>(null)
+  const circleWindowRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (typeof window === 'undefined' || !sectionRef.current) return
@@ -60,51 +24,73 @@ export function EventCategories() {
     const totalSlides = CATEGORIES.length
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top top',
-          end: '+=400%',
-          pin: true,
-          scrub: 0.3, // Fast, low-latency scroll reaction
-          onUpdate: (self) => {
-            const idx = Math.min(
-              totalSlides - 1,
-              Math.floor(self.progress * totalSlides)
-            )
-            setActiveIndex(idx)
+      const buildTimeline = () => {
+        if (!circleWindowRef.current || !sectionRef.current) return
+
+        const cRect = circleWindowRef.current.getBoundingClientRect()
+        const sRect = sectionRef.current.getBoundingClientRect()
+
+        const H = sRect.height || window.innerHeight || 900
+        const circleBottom = cRect.bottom - sRect.top
+        const circleTop = cRect.top - sRect.top
+        const circleD = cRect.height || 340
+
+        // Sub-pixel accurate enter & exit progress ratios:
+        const enterRatio = Math.max(0, Math.min(1, 1 - circleBottom / H))
+        const exitRatio = Math.max(0, Math.min(1, 1 - circleTop / H))
+        const circleDuration = exitRatio - enterRatio
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top top',
+            end: '+=400%',
+            pin: true,
+            scrub: 0.5,
+            onUpdate: (self) => {
+              const idx = Math.min(
+                totalSlides - 1,
+                Math.floor(self.progress * totalSlides)
+              )
+              setActiveIndex(idx)
+            },
           },
-        },
-      })
+        })
 
-      // Synchronized vertical swipe for background and circle photo tracks
-      for (let i = 1; i < totalSlides; i++) {
-        const targetY = -(i / totalSlides) * 100
+        for (let i = 1; i < totalSlides; i++) {
+          const slideStartTime = i - 1
+          const targetBgY = -(i / totalSlides) * 100
+          const targetCircleY = -i * circleD
+          const circleStartTime = slideStartTime + enterRatio
 
-        if (bgTrackRef.current) {
+          // 1. Background image track moves linearly across slide step i
           tl.to(
             bgTrackRef.current,
             {
-              yPercent: targetY,
-              duration: 0.8,
-              ease: 'expo.inOut', // Rapid swipe during middle scroll, smooth settling
+              yPercent: targetBgY,
+              ease: 'none',
+              duration: 1.0,
             },
-            `slide-${i}`
+            slideStartTime
           )
-        }
 
-        if (circleTrackRef.current) {
-          tl.to(
-            circleTrackRef.current,
-            {
-              yPercent: targetY,
-              duration: 0.8,
-              ease: 'expo.inOut',
-            },
-            `slide-${i}`
-          )
+          // 2. Card circle track starts moving at the EXACT instant bg seam touches circle bottom,
+          // and moves at the exact same pixel velocity as the bg seam!
+          if (circleTrackRef.current) {
+            tl.to(
+              circleTrackRef.current,
+              {
+                y: targetCircleY,
+                ease: 'none',
+                duration: circleDuration,
+              },
+              circleStartTime
+            )
+          }
         }
       }
+
+      buildTimeline()
 
       setTimeout(() => {
         ScrollTrigger.refresh()
@@ -118,8 +104,10 @@ export function EventCategories() {
     id: 'corporate',
     name: 'CORPORATE',
     title: 'CORPORATE GALAS',
-    description: 'Professional Elementor adjustment with better compatibility, higher stability, and improved visual consistency.',
-    image: '',
+    description:
+      'Professional Elementor adjustment with better compatibility, higher stability, and improved visual consistency.',
+    bgImage: '',
+    cardImage: '',
   }
 
   return (
@@ -160,7 +148,7 @@ export function EventCategories() {
             }}
           >
             <Image
-              src={cat.image}
+              src={cat.bgImage}
               alt={cat.name}
               fill
               priority={idx === 0}
@@ -171,7 +159,7 @@ export function EventCategories() {
               style={{
                 position: 'absolute',
                 inset: 0,
-                backgroundColor: 'rgba(15, 15, 15, 0.45)',
+                backgroundColor: 'rgba(15, 15, 15, 0.5)',
               }}
             />
           </div>
@@ -200,7 +188,7 @@ export function EventCategories() {
         EVENTS CATER
       </div>
 
-      {/* Centered Translucent Frosted Glass Card */}
+      {/* Centered Translucent Frosted Glass Card (Enlarged & Prominent) */}
       <div
         style={{
           position: 'absolute',
@@ -208,27 +196,28 @@ export function EventCategories() {
           left: '50%',
           transform: 'translate(-50%, -50%)',
           zIndex: 3,
-          width: 'clamp(300px, 90vw, 400px)',
-          backgroundColor: 'rgba(110, 95, 80, 0.65)',
-          backdropFilter: 'blur(16px)',
-          borderRadius: '20px',
-          padding: '2.5rem 2rem',
+          width: 'clamp(360px, 90vw, 460px)',
+          backgroundColor: 'rgba(45, 38, 30, 0.75)',
+          backdropFilter: 'blur(24px)',
+          borderRadius: '28px',
+          padding: '3rem 2.25rem',
           textAlign: 'center',
           border: '1px solid rgba(255, 255, 255, 0.25)',
-          boxShadow: '0 30px 60px rgba(0, 0, 0, 0.5)',
+          boxShadow: '0 35px 70px rgba(0, 0, 0, 0.6)',
         }}
       >
-        {/* Inner Circular Photo Window with Pixel-Aligned Vertical Sliding Track */}
+        {/* Inner Circular Photo Window with Sub-Pixel Seam Alignment */}
         <div
+          ref={circleWindowRef}
           style={{
             position: 'relative',
-            width: '260px',
-            height: '260px',
+            width: '340px',
+            height: '340px',
             borderRadius: '50%',
             overflow: 'hidden',
-            margin: '0 auto 1.5rem',
-            border: '3px solid rgba(255, 255, 255, 0.3)',
-            boxShadow: '0 10px 25px rgba(0,0,0,0.3)',
+            margin: '0 auto 1.75rem',
+            border: '4px solid rgba(255, 255, 255, 0.4)',
+            boxShadow: '0 15px 35px rgba(0,0,0,0.5)',
           }}
         >
           <div
@@ -237,28 +226,29 @@ export function EventCategories() {
               position: 'absolute',
               top: 0,
               left: 0,
-              width: '100%',
-              height: `${CATEGORIES.length * 260}px`,
+              width: '340px',
+              height: `${CATEGORIES.length * 340}px`,
               display: 'flex',
               flexDirection: 'column',
               willChange: 'transform',
             }}
           >
-            {CATEGORIES.map((cat) => (
+            {CATEGORIES.map((cat, idx) => (
               <div
                 key={`circle-${cat.id}`}
                 style={{
                   position: 'relative',
-                  width: '260px',
-                  height: '260px',
+                  width: '340px',
+                  height: '340px',
                   flexShrink: 0,
                 }}
               >
                 <Image
-                  src={cat.image}
+                  src={cat.cardImage}
                   alt={cat.name}
                   fill
-                  sizes="260px"
+                  priority={idx === 0}
+                  sizes="340px"
                   style={{ objectFit: 'cover' }}
                 />
               </div>
@@ -266,34 +256,35 @@ export function EventCategories() {
           </div>
         </div>
 
-        {/* Category Title */}
-        <h3
-          className="heading-md"
-          style={{
-            fontFamily: 'var(--font-display)',
-            color: '#ffffff',
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            marginBottom: '0.75rem',
-            transition: 'opacity 0.3s ease',
-          }}
-        >
-          {currentCategory.name}
-        </h3>
+        {/* Dynamic Category Content (Title & Description) */}
+        <div>
+          <h3
+            className="heading-md"
+            style={{
+              fontFamily: 'var(--font-display)',
+              color: '#ffffff',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              marginBottom: '0.75rem',
+              transition: 'opacity 0.3s ease',
+            }}
+          >
+            {currentCategory.name}
+          </h3>
 
-        {/* Category Description */}
-        <p
-          className="body-sm"
-          style={{
-            color: '#e8e0d4',
-            fontSize: '0.8125rem',
-            lineHeight: 1.5,
-            maxWidth: '320px',
-            marginInline: 'auto',
-          }}
-        >
-          {currentCategory.description}
-        </p>
+          <p
+            className="body-sm"
+            style={{
+              color: '#e8e0d4',
+              fontSize: '0.875rem',
+              lineHeight: 1.55,
+              maxWidth: '360px',
+              marginInline: 'auto',
+            }}
+          >
+            {currentCategory.description}
+          </p>
+        </div>
       </div>
     </section>
   )

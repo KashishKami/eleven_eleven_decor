@@ -50,9 +50,10 @@ export function NavigationClient() {
           <span
             className="heading-md"
             style={{
-              color: 'var(--color-secondary)',
+              color: '#ffffff',
               letterSpacing: '0.05em',
               textTransform: 'uppercase',
+              textShadow: '0 2px 10px rgba(0, 0, 0, 0.8)',
             }}
           >
             1111 <span style={{ color: 'var(--color-accent)' }}>Decor</span>
@@ -69,8 +70,9 @@ export function NavigationClient() {
                 fontFamily: 'var(--font-body)',
                 fontSize: '0.9375rem',
                 fontWeight: 500,
-                color: 'var(--color-secondary)',
+                color: '#f5f0e8',
                 letterSpacing: '0.05em',
+                textShadow: '0 1px 8px rgba(0, 0, 0, 0.8)',
                 transition: 'color 0.2s ease',
               }}
             >
@@ -85,14 +87,16 @@ export function NavigationClient() {
             href="/contact"
             style={{
               padding: '0.625rem 1.5rem',
-              backgroundColor: 'var(--color-accent)',
-              color: 'var(--color-primary)',
+              backgroundColor: '#c9a96e',
+              color: '#111111',
               fontFamily: 'var(--font-body)',
               fontSize: '0.875rem',
-              fontWeight: 600,
+              fontWeight: 700,
               borderRadius: '4px',
               letterSpacing: '0.05em',
               textTransform: 'uppercase',
+              textDecoration: 'none',
+              boxShadow: '0 4px 15px rgba(201, 169, 110, 0.45)',
               transition: 'background-color 0.3s ease',
             }}
           >

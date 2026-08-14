@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Cormorant_Garamond, DM_Sans } from 'next/font/google'
+import { SmoothScrollProvider } from '@/components/providers/SmoothScrollProvider'
 import '@/styles/globals.css'
 
 const fontDisplay = Cormorant_Garamond({
@@ -29,7 +30,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${fontDisplay.variable} ${fontBody.variable}`}>
-      <body>{children}</body>
+      <body>
+        <SmoothScrollProvider>{children}</SmoothScrollProvider>
+      </body>
     </html>
   )
 }

@@ -5,6 +5,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { MENUS } from '@/data/menus'
 import { MenuCard } from '@/components/ui/MenuCard'
+import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
@@ -66,7 +67,7 @@ export function MenusSection() {
           margin: '0 auto',
         }}
       >
-        {/* Section Header */}
+        {/* Section Header with Wind Reveal Heading */}
         <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
           <p
             style={{
@@ -81,20 +82,21 @@ export function MenusSection() {
           >
             SAVOR EXTRAORDINARY FLAVORS
           </p>
-          <h2
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(2.25rem, 5vw, 3.5rem)',
-              color: '#1a1a1a',
-              letterSpacing: '0.04em',
-              fontWeight: 500,
-              maxWidth: '800px',
-              margin: '0 auto 1.25rem',
-              lineHeight: 1.2,
-            }}
-          >
-            Bespoke Catering & Dining Menus
-          </h2>
+          <div style={{ maxWidth: '800px', margin: '0 auto 1.25rem' }}>
+            <WindRevealHeading
+              as="h2"
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(2.25rem, 5vw, 3.5rem)',
+                color: '#1a1a1a',
+                letterSpacing: '0.04em',
+                fontWeight: 500,
+                lineHeight: 1.2,
+              }}
+            >
+              Bespoke Catering & Dining Menus
+            </WindRevealHeading>
+          </div>
           <p
             style={{
               color: '#4a443c',

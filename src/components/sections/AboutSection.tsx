@@ -3,6 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 
 export function AboutSection() {
   return (
@@ -17,7 +18,7 @@ export function AboutSection() {
       }}
     >
       <div className="container">
-        {/* Header Label & Title */}
+        {/* Header Label & Wind Reveal Title */}
         <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
           <span
             className="label"
@@ -31,18 +32,19 @@ export function AboutSection() {
           >
             ◇ WHO WE ARE
           </span>
-          <h2
-            className="heading-xl"
-            style={{
-              color: '#2c221e',
-              textTransform: 'uppercase',
-              maxWidth: '900px',
-              marginInline: 'auto',
-              letterSpacing: '0.02em',
-            }}
-          >
-            PROFESSIONAL CATERING TEAMS IN 1111 DECOR
-          </h2>
+          <div style={{ maxWidth: '900px', marginInline: 'auto' }}>
+            <WindRevealHeading
+              as="h2"
+              className="heading-xl"
+              style={{
+                color: '#2c221e',
+                textTransform: 'uppercase',
+                letterSpacing: '0.02em',
+              }}
+            >
+              PROFESSIONAL CATERING TEAMS IN 1111 DECOR
+            </WindRevealHeading>
+          </div>
         </div>
 
         {/* Content Layout */}

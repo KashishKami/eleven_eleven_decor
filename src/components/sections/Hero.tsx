@@ -3,10 +3,11 @@
 import React, { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import gsap from 'gsap'
+import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 
 export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const titleRef = useRef<HTMLHeadingElement>(null)
+  const labelRef = useRef<HTMLSpanElement>(null)
   const subtextRef = useRef<HTMLParagraphElement>(null)
   const ctaRef = useRef<HTMLDivElement>(null)
 
@@ -17,15 +18,15 @@ export function Hero() {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
       tl.fromTo(
-        titleRef.current,
-        { y: 60, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.0 }
+        labelRef.current,
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6 }
       )
         .fromTo(
           subtextRef.current,
           { y: 30, opacity: 0 },
           { y: 0, opacity: 1, duration: 0.8 },
-          '-=0.5'
+          '-=0.2'
         )
         .fromTo(
           ctaRef.current,
@@ -60,6 +61,7 @@ export function Hero() {
     >
       <div className="container" style={{ textAlign: 'center', zIndex: 2, paddingBlock: '4rem' }}>
         <span
+          ref={labelRef}
           className="label"
           style={{
             display: 'inline-block',
@@ -75,19 +77,18 @@ export function Hero() {
           Luxury Event Styling & Catering
         </span>
 
-        <h1
-          ref={titleRef}
-          className="heading-xl"
-          style={{
-            maxWidth: '1000px',
-            marginInline: 'auto',
-            marginBottom: '1.5rem',
-            color: '#ffffff',
-            textShadow: '0 4px 25px rgba(0, 0, 0, 0.85)',
-          }}
-        >
-          The Best Events Start Here
-        </h1>
+        <div style={{ maxWidth: '1000px', marginInline: 'auto', marginBottom: '1.5rem' }}>
+          <WindRevealHeading
+            as="h1"
+            className="heading-xl"
+            style={{
+              color: '#ffffff',
+              textShadow: '0 4px 25px rgba(0, 0, 0, 0.85)',
+            }}
+          >
+            The Best Events Start Here
+          </WindRevealHeading>
+        </div>
 
         <p
           ref={subtextRef}

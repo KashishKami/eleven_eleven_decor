@@ -3,6 +3,7 @@
 import React from 'react'
 import { TEAM_DATA } from '@/data/team'
 import { TeamCard } from '@/components/ui/TeamCard'
+import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 
 export function TeamSection() {
   return (
@@ -36,20 +37,21 @@ export function TeamSection() {
           >
             MEET INCREDIBLE PEOPLE
           </span>
-          <h2
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(2.25rem, 5vw, 3.5rem)',
-              color: '#1a1a1a',
-              letterSpacing: '0.04em',
-              fontWeight: 500,
-              maxWidth: '800px',
-              margin: '0 auto 1.25rem',
-              lineHeight: 1.2,
-            }}
-          >
-            The Creative Minds Behind 1111 Decor
-          </h2>
+          <div style={{ maxWidth: '800px', margin: '0 auto 1.25rem' }}>
+            <WindRevealHeading
+              as="h2"
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(2.25rem, 5vw, 3.5rem)',
+                color: '#1a1a1a',
+                letterSpacing: '0.04em',
+                fontWeight: 500,
+                lineHeight: 1.2,
+              }}
+            >
+              The Creative Minds Behind 1111 Decor
+            </WindRevealHeading>
+          </div>
         </div>
 
         <div

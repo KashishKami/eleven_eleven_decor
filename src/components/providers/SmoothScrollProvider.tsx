@@ -41,9 +41,18 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
     }
   }, [])
 
+  // Safely clean up GSAP ScrollTriggers when switching routes
   useEffect(() => {
     if (typeof window === 'undefined') return
-    ScrollTrigger.refresh()
+
+    // Kill stale triggers from the unmounting route
+    ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
+
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh()
+    }, 100)
+
+    return () => clearTimeout(timer)
   }, [pathname])
 
   return <>{children}</>

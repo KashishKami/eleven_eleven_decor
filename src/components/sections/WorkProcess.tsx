@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { PROCESS_STEPS } from '@/data/process'
+import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
@@ -57,7 +58,7 @@ export function WorkProcess() {
           margin: '0 auto',
         }}
       >
-        {/* Section Header */}
+        {/* Section Header with Wind Reveal Heading */}
         <div style={{ textAlign: 'center', marginBottom: '4.5rem' }}>
           <p
             style={{
@@ -72,20 +73,21 @@ export function WorkProcess() {
           >
             OUR SEAMLESS METHODOLOGY
           </p>
-          <h2
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(2.25rem, 5vw, 3.5rem)',
-              color: '#ffffff',
-              letterSpacing: '0.04em',
-              fontWeight: 500,
-              maxWidth: '800px',
-              margin: '0 auto 1.25rem',
-              lineHeight: 1.2,
-            }}
-          >
-            How We Craft Your Event
-          </h2>
+          <div style={{ maxWidth: '800px', margin: '0 auto 1.25rem' }}>
+            <WindRevealHeading
+              as="h2"
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(2.25rem, 5vw, 3.5rem)',
+                color: '#ffffff',
+                letterSpacing: '0.04em',
+                fontWeight: 500,
+                lineHeight: 1.2,
+              }}
+            >
+              How We Craft Your Event
+            </WindRevealHeading>
+          </div>
           <p
             style={{
               color: '#e0d8cc',

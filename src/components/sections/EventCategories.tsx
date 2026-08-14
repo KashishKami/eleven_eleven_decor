@@ -170,9 +170,13 @@ export function EventCategories() {
 
       buildTimeline()
 
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         ScrollTrigger.refresh()
       }, 100)
+
+      return () => {
+        clearTimeout(timer)
+      }
     }, sectionRef)
 
     return () => ctx.revert()

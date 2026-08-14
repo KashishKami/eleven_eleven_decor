@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Cormorant_Garamond, DM_Sans } from 'next/font/google'
 import { SmoothScrollProvider } from '@/components/providers/SmoothScrollProvider'
-import { TopBar } from '@/components/layout/TopBar'
 import { Navigation } from '@/components/layout/Navigation'
 import { Footer } from '@/components/layout/Footer'
 import './globals.css'
@@ -35,7 +34,6 @@ export default function RootLayout({
     <html lang="en" className={`${fontDisplay.variable} ${fontBody.variable}`}>
       <body>
         <SmoothScrollProvider>
-          <TopBar />
           <Navigation />
           <main>{children}</main>
           <Footer />

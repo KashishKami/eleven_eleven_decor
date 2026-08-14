@@ -5,6 +5,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { BLOG_POSTS } from '@/data/blog'
 import { BlogCard } from '@/components/ui/BlogCard'
+import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
@@ -58,7 +59,7 @@ export function BlogSection() {
           margin: '0 auto',
         }}
       >
-        {/* Section Header */}
+        {/* Section Header with Wind Reveal Heading */}
         <div style={{ textAlign: 'center', marginBottom: '4.5rem' }}>
           <p
             style={{
@@ -73,20 +74,21 @@ export function BlogSection() {
           >
             INSIGHTS & INSPIRATION
           </p>
-          <h2
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(2.25rem, 5vw, 3.5rem)',
-              color: '#1a1a1a',
-              letterSpacing: '0.04em',
-              fontWeight: 500,
-              maxWidth: '800px',
-              margin: '0 auto 1.25rem',
-              lineHeight: 1.2,
-            }}
-          >
-            The 1111 Decor Journal
-          </h2>
+          <div style={{ maxWidth: '800px', margin: '0 auto 1.25rem' }}>
+            <WindRevealHeading
+              as="h2"
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(2.25rem, 5vw, 3.5rem)',
+                color: '#1a1a1a',
+                letterSpacing: '0.04em',
+                fontWeight: 500,
+                lineHeight: 1.2,
+              }}
+            >
+              The 1111 Decor Journal
+            </WindRevealHeading>
+          </div>
           <p
             style={{
               color: '#4a443c',

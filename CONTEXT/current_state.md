@@ -539,6 +539,17 @@ CTA section: GSAP horizontal text slide-in from left (heading) and right (button
 > - **Global Link & Contrast Fixes:** Resolved browser `:visited` pseudo-state link color overrides across `src/app/globals.css` and `src/styles/globals.css` with strict `!important` resets, and updated `Hero` and `NavigationClient` CTA buttons with explicit `#c9a96e` gold and frosted white styling.
 > - **Verification:** 12 unit tests passed (`tests/event-categories-animation.unit.test.ts`), `pnpm typecheck`, `pnpm lint`, and production build (`pnpm build`) verified green.
 
+> ### 📝 Session Note (Wipe Motion Velocity & Theme Alternation Correction) — August 14, 2026
+> - **Event Categories Wipe Motion Refinement:** Removed GSAP `snap` automatic ease-out jump logic. Implemented mathematical inverse progress mapping (`getYProgress(Y)`) for sub-pixel seam lockstep between the background curtain wipe and circular card photo window. Calibrated timeline progress such that initial reveal is 1:1, velocity accelerates 1.86x past 50% scroll, completes 100% of the wipe on screen, and unpins cleanly (`end: '+=160%'`) without empty pinned dead-space.
+> - **Card Typography Enlargement:** Increased category title font size to `clamp(1.85rem, 4vw, 2.35rem)` and description font size to `1.05rem` with `#f3ece1` warm cream text color.
+> - **Home Page Luxury Theme Alternation:**
+>   - `WhyChooseUs.tsx`: Converted to dark theme (`#111111` background, `#ffffff` heading, frosted dark cards `rgba(255,255,255,0.04)`).
+>   - `MenusSection.tsx` & `MenuCard.tsx`: Converted to light theme (`#f7f3ec` alabaster cream, white cards `#ffffff`, dark titles). Added defensive checks for `MenuItem` data schema.
+>   - `WorkProcess.tsx`: Converted to dark theme (`#111111` background, gold step numbers `#c9a96e`, dark frosted cards).
+>   - `TeamSection.tsx` & `TeamCard.tsx`: Converted to light theme (`#faf6f0` silk cream background, dark headings).
+>   - `BlogSection.tsx` & `BlogCard.tsx`: Converted to light theme (`#faf6f0` silk cream background, white blog cards).
+> - **Quality Assurance & Build:** Verified zero TypeScript errors (`tsc --noEmit`), 12 unit tests passing (`pnpm test:unit`), zero ESLint errors (`pnpm lint`), and successful Next.js 14 static build (`pnpm build`).
+
 ---
 
 ## Phase 3 — Menu & Event Pages

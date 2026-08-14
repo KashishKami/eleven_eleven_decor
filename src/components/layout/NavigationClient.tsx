@@ -46,7 +46,7 @@ export function NavigationClient() {
         }}
       >
         {/* Brand Logo */}
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
           <span
             className="heading-md"
             style={{
@@ -60,22 +60,10 @@ export function NavigationClient() {
           </span>
         </Link>
 
-        {/* Desktop Navigation Links */}
-        <nav className="desktop-only" style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+        {/* Desktop Navigation Links with Bold Typography & Champagne Gold Hover Underline */}
+        <nav className="desktop-only" style={{ display: 'flex', alignItems: 'center', gap: '2.25rem' }}>
           {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.9375rem',
-                fontWeight: 500,
-                color: '#f5f0e8',
-                letterSpacing: '0.05em',
-                textShadow: '0 1px 8px rgba(0, 0, 0, 0.8)',
-                transition: 'color 0.2s ease',
-              }}
-            >
+            <Link key={link.href} href={link.href} className="nav-item-link">
               {link.label}
             </Link>
           ))}
@@ -97,7 +85,7 @@ export function NavigationClient() {
               textTransform: 'uppercase',
               textDecoration: 'none',
               boxShadow: '0 4px 15px rgba(201, 169, 110, 0.45)',
-              transition: 'background-color 0.3s ease',
+              transition: 'background-color 0.3s ease, transform 0.2s ease',
             }}
           >
             Reserve Event
@@ -115,6 +103,9 @@ export function NavigationClient() {
             flexDirection: 'column',
             gap: '6px',
             padding: '8px',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
           }}
         >
           <span
@@ -168,7 +159,7 @@ export function NavigationClient() {
               href={link.href}
               onClick={() => setMobileMenuOpen(false)}
               className="heading-md"
-              style={{ color: 'var(--color-secondary)' }}
+              style={{ color: 'var(--color-secondary)', textDecoration: 'none', fontWeight: 700 }}
             >
               {link.label}
             </Link>
@@ -182,8 +173,9 @@ export function NavigationClient() {
               backgroundColor: 'var(--color-accent)',
               color: 'var(--color-primary)',
               textAlign: 'center',
-              fontWeight: 600,
+              fontWeight: 700,
               borderRadius: '4px',
+              textDecoration: 'none',
             }}
           >
             Reserve Event
@@ -191,8 +183,43 @@ export function NavigationClient() {
         </div>
       )}
 
-      {/* Responsive Header CSS */}
+      {/* Bold Navbar Styling & Expanding Gold Underline Hover CSS */}
       <style jsx global>{`
+        .nav-item-link {
+          position: relative;
+          font-family: var(--font-body);
+          font-size: 1rem;
+          font-weight: 700 !important;
+          color: #ffffff !important;
+          letter-spacing: 0.05em;
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+          text-decoration: none !important;
+          padding-bottom: 6px;
+          transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .nav-item-link::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 2.5px;
+          background: linear-gradient(90deg, transparent, #c9a96e, transparent);
+          transform: scaleX(0);
+          transform-origin: center;
+          transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .nav-item-link:hover {
+          color: #c9a96e !important;
+          transform: translateY(-1px);
+        }
+
+        .nav-item-link:hover::after {
+          transform: scaleX(1);
+        }
+
         @media (max-width: 768px) {
           .desktop-only {
             display: none !important;

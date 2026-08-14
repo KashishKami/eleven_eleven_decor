@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
+import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 
 export function FooterCTA() {
   return (
@@ -20,9 +21,15 @@ export function FooterCTA() {
         <span className="label" style={{ display: 'block', marginBottom: '1rem' }}>
           Reserve Your Date
         </span>
-        <h2 className="heading-xl" style={{ marginBottom: '1.5rem', color: 'var(--color-secondary)' }}>
-          Unforgettable Catering For Any Occasion!
-        </h2>
+        <div style={{ marginBottom: '1.5rem' }}>
+          <WindRevealHeading
+            as="h2"
+            className="heading-xl"
+            style={{ color: 'var(--color-secondary)' }}
+          >
+            Unforgettable Catering For Any Occasion!
+          </WindRevealHeading>
+        </div>
         <p className="body-lg" style={{ marginBottom: '2.5rem', color: '#d0c8b8' }}>
           Let our creative team transform your next gala, wedding, or VIP summit into a masterwork of design and gastronomy.
         </p>

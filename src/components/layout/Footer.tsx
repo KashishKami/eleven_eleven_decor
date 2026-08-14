@@ -110,7 +110,7 @@ export function Footer() {
           }}
         >
           <p className="body-sm">
-            © {new Date().getFullYear()} 1111 Decor (Eleven Eleven Decor). All rights reserved. Replica of Anika Event Theme.
+            © {new Date().getFullYear()} 1111 Decor (Eleven Eleven Decor). All rights reserved.
           </p>
           <div style={{ display: 'flex', gap: '1.5rem' }}>
             <Link href="/faqs" className="body-sm">

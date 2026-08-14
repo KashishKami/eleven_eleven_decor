@@ -569,6 +569,11 @@ CTA section: GSAP horizontal text slide-in from left (heading) and right (button
 > - **Data & Unit Testing (`src/data/process.ts` & `tests/work-process.unit.test.ts`):** Extended process steps data schema to include dedicated step card images and added unit test suite `tests/work-process.unit.test.ts` (15 total unit tests passing across project).
 > - **Quality Assurance & Verification:** Executed `pnpm ci:quality` — 0 ESLint warnings/errors, 0 TypeScript errors (`tsc --noEmit`), 15 unit tests passing (`pnpm test:unit`), and 14/14 Next.js static pages generated cleanly in production build (`pnpm build`).
 
+> ### 📝 Session Note (Mobile View Responsiveness & Lockstep Animation Alignment) — August 14, 2026
+> - **Work Process Mobile Responsiveness (`WorkProcess.tsx`):** Added `ScrollTrigger.matchMedia` guard to disable pinning on mobile viewports (< 992px), switching to an unpinned linear step flow and tightening header margins to remove blank vertical gap space.
+> - **Event Categories Mobile Centering (`EventCategories.tsx`):** Refined frosted glass card (`clamp(280px, 86vw, 420px)`) and circular photo window (`clamp(200px, 58vw, 290px)`), ensuring perfect horizontal centering (`transform: translate(-50%, -50%)`) and zero side clipping on 360px–430px mobile screens while preserving exact sub-pixel curtain wipe seam matching.
+> - **Quality Assurance & Verification:** Executed `pnpm ci:quality` — 0 ESLint warnings/errors, 0 TypeScript errors (`tsc --noEmit`), 15 unit tests passing (`pnpm test:unit`), and 14/14 Next.js static pages generated cleanly in production build (`pnpm build`).
+
 ---
 
 ## Phase 3 — Menu & Event Pages

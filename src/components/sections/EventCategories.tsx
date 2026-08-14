@@ -268,7 +268,7 @@ export function EventCategories() {
         EVENTS CATER
       </div>
 
-      {/* Centered Translucent Frosted Glass Card (Enlarged & Prominent) */}
+      {/* Centered Translucent Frosted Glass Card (Responsive & Centered on Mobile) */}
       <div
         style={{
           position: 'absolute',
@@ -276,14 +276,15 @@ export function EventCategories() {
           left: '50%',
           transform: 'translate(-50%, -50%)',
           zIndex: 3,
-          width: 'clamp(380px, 90vw, 480px)',
+          width: 'clamp(280px, 86vw, 420px)',
+          maxWidth: 'calc(100vw - 2rem)',
           backgroundColor: 'rgba(45, 38, 30, 0.78)',
           backdropFilter: 'blur(24px)',
-          borderRadius: '28px',
-          padding: '3.25rem 2.5rem',
+          borderRadius: '24px',
+          padding: 'clamp(1.5rem, 5vw, 2.75rem) clamp(1.25rem, 4vw, 2.25rem)',
           textAlign: 'center',
           border: '1px solid rgba(255, 255, 255, 0.25)',
-          boxShadow: '0 35px 70px rgba(0, 0, 0, 0.6)',
+          boxShadow: '0 30px 60px rgba(0, 0, 0, 0.6)',
         }}
       >
         {/* Inner Circular Photo Window with Synchronized Stacked Wipe Reveal */}
@@ -291,13 +292,13 @@ export function EventCategories() {
           ref={circleWindowRef}
           style={{
             position: 'relative',
-            width: '340px',
-            height: '340px',
+            width: 'clamp(200px, 58vw, 290px)',
+            height: 'clamp(200px, 58vw, 290px)',
             borderRadius: '50%',
             overflow: 'hidden',
-            margin: '0 auto 1.85rem',
-            border: '4px solid rgba(255, 255, 255, 0.4)',
-            boxShadow: '0 15px 35px rgba(0,0,0,0.5)',
+            margin: '0 auto 1.5rem',
+            border: '3.5px solid rgba(255, 255, 255, 0.4)',
+            boxShadow: '0 12px 30px rgba(0,0,0,0.5)',
           }}
         >
           {CATEGORIES.map((cat, idx) => (
@@ -319,24 +320,24 @@ export function EventCategories() {
                 alt={cat.name}
                 fill
                 priority={idx === 0}
-                sizes="340px"
+                sizes="(max-width: 768px) 58vw, 290px"
                 style={{ objectFit: 'cover' }}
               />
             </div>
           ))}
         </div>
 
-        {/* Dynamic Category Content (Title & Description with Increased Font Sizes) */}
+        {/* Dynamic Category Content */}
         <div>
           <h3
             style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(1.85rem, 4vw, 2.35rem)',
+              fontSize: 'clamp(1.5rem, 3.5vw, 2.15rem)',
               fontWeight: 600,
               color: '#ffffff',
-              letterSpacing: '0.1em',
+              letterSpacing: '0.08em',
               textTransform: 'uppercase',
-              marginBottom: '0.85rem',
+              marginBottom: '0.6rem',
               transition: 'opacity 0.3s ease',
             }}
           >
@@ -345,12 +346,12 @@ export function EventCategories() {
 
           <p
             style={{
-              fontFamily: 'var(--font-sans)',
+              fontFamily: 'var(--font-body)',
               color: '#f3ece1',
-              fontSize: '1.05rem',
+              fontSize: 'clamp(0.875rem, 2.2vw, 1rem)',
               fontWeight: 400,
-              lineHeight: 1.6,
-              maxWidth: '380px',
+              lineHeight: 1.55,
+              maxWidth: '340px',
               marginInline: 'auto',
             }}
           >

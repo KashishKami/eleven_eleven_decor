@@ -193,17 +193,18 @@ export function EventCategories() {
   }
 
   return (
-    <section
-      id="event-categories"
-      ref={sectionRef}
-      style={{
-        position: 'relative',
-        height: '100vh',
-        width: '100vw',
-        overflow: 'hidden',
-        backgroundColor: '#111111',
-      }}
-    >
+    <div style={{ position: 'relative', width: '100%' }}>
+      <section
+        id="event-categories"
+        ref={sectionRef}
+        style={{
+          position: 'relative',
+          height: '100vh',
+          width: '100vw',
+          overflow: 'hidden',
+          backgroundColor: '#111111',
+        }}
+      >
       {/* Stacked Full-Bleed Background Slides for Curtain Wipe Reveal */}
       <div
         style={{
@@ -358,5 +359,6 @@ export function EventCategories() {
         </div>
       </div>
     </section>
+  </div>
   )
 }

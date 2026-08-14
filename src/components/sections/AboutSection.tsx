@@ -35,11 +35,13 @@ export function AboutSection() {
           <div style={{ maxWidth: '900px', marginInline: 'auto' }}>
             <WindRevealHeading
               as="h2"
-              className="heading-xl"
+              className="heading-lg"
               style={{
                 color: '#2c221e',
+                fontSize: 'clamp(2.125rem, 4.5vw, 3.85rem)',
                 textTransform: 'uppercase',
-                letterSpacing: '0.02em',
+                letterSpacing: '0.03em',
+                lineHeight: 1.15,
               }}
             >
               PROFESSIONAL CATERING TEAMS IN 1111 DECOR

@@ -550,6 +550,19 @@ CTA section: GSAP horizontal text slide-in from left (heading) and right (button
 >   - `BlogSection.tsx` & `BlogCard.tsx`: Converted to light theme (`#faf6f0` silk cream background, white blog cards).
 > - **Quality Assurance & Build:** Verified zero TypeScript errors (`tsc --noEmit`), 12 unit tests passing (`pnpm test:unit`), zero ESLint errors (`pnpm lint`), and successful Next.js 14 static build (`pnpm build`).
 
+> ### 📝 Session Note (Wind-Assembled Heading Reveal, Navbar Styling & Route Cleanup) — August 14, 2026
+> - **Wind-Assembled Particle Heading Reveal (`WindRevealHeading.tsx`):** Built a reusable text reveal component using GSAP ScrollTrigger. As section headings scroll into view, individual characters glide in from the right (`x: 100px` $\rightarrow$ `x: 0`, `filter: blur(10px)` $\rightarrow$ `blur(0px)`) with sequential right-to-left wave staggering (`stagger: 0.03`). Integrated site-wide across `Hero`, `AboutSection`, `WhyChooseUs`, `MenusSection`, `WorkProcess`, `TeamSection`, `BlogSection`, and `FooterCTA`.
+> - **Navbar Typography & Expanding Gold Underline (`NavigationClient.tsx`):** Updated navigation link page labels (`Home`, `About Us`, `Menu`, `Events`, `Gallery`, `Contact`) to bold typography (`font-weight: 700 !important`, `fontSize: 1rem`). Added an expanding champagne gold gradient underline (`::after` `scaleX(0)` $\rightarrow$ `scaleX(1)`) with micro-lift hover transitions.
+> - **Header TopBar & Footer Copyright Cleanup:** Removed top contact bar line (`TopBar.tsx` / `layout.tsx`) and removed template replica attribution from `Footer.tsx` copyright notice.
+> - **Route Navigation Stability (`SmoothScrollProvider.tsx`):** Added `ScrollTrigger.getAll().forEach(t => t.kill())` on `pathname` route changes to cleanly unmount pinned triggers, preventing React DOM `NotFoundError: removeChild` errors during client-side navigation.
+> - **Quality Assurance & Verification:** Executed `pnpm ci:quality` — 0 ESLint warnings/errors, 0 TypeScript errors (`tsc --noEmit`), 12 unit tests passing (`pnpm test:unit`), and 14/14 Next.js static pages generated cleanly in production build (`pnpm build`).
+
+> ### 📝 Session Note (ScrollTrigger Lifecycle, React DOM Pinned Node Protection & Typography Sizing) — August 14, 2026
+> - **GSAP ScrollTrigger Lifecycle & Initial Visibility Fix (`SmoothScrollProvider.tsx`):** Identified and resolved root cause of invisible cards and inactive scroll animations. Removed destructive top-level `ScrollTrigger.getAll().forEach(t => t.kill())` on component mount, allowing section component triggers (`MenusSection`, `WhyChooseUs`, `BlogSection`, `WorkProcess`, `WindRevealHeading`) to initialize their animation contexts without getting killed before scroll. Added unit test `tests/smooth-scroll-provider.unit.test.ts`.
+> - **React DOM Pinned Node Protection (`EventCategories.tsx`):** Fixed `NotFoundError: Failed to execute 'removeChild' on 'Node'` crash during client-side route navigation (`/` $\rightarrow$ `/about-us`). Wrapped pinned section in an unpinned outer `<div style={{ position: 'relative', width: '100%' }}>` container so GSAP's `pin-spacer` reparenting does not corrupt React's top-level DOM hierarchy.
+> - **About Section Editorial Heading Sizing (`AboutSection.tsx`):** Refined typography hierarchy by adjusting the section heading size to `clamp(2.125rem, 4.5vw, 3.85rem)` with `lineHeight: 1.15` and `letterSpacing: 0.03em`, creating a prominent yet balanced display serif appearance.
+> - **Quality Assurance & Verification:** Executed `pnpm ci:quality` — 0 ESLint warnings/errors, 0 TypeScript errors (`tsc --noEmit`), 13 unit tests passing (`pnpm test:unit`), and 14/14 Next.js static pages generated cleanly in production build (`pnpm build`).
+
 ---
 
 ## Phase 3 — Menu & Event Pages

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { CATEGORIES } from '@/data/categories'
 
-describe('EventCategories Component Configuration (Seamless Inline Seam Matching)', () => {
+describe('EventCategories Component Configuration (Seamless Inline Seam Matching & Route Safety)', () => {
   it('defines 4 categories for event showcase', () => {
     expect(CATEGORIES).toHaveLength(4)
     expect(CATEGORIES[0]?.id).toBe('corporate')

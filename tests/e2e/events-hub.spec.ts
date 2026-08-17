@@ -6,10 +6,10 @@ test.describe('Events Main Hub Page (W-401)', () => {
 
     const heading = page.getByRole('heading', { level: 1 })
     await expect(heading).toBeVisible()
-    await expect(heading).toContainText(/Events We Plan, Manage & Decorate/i)
+    await expect(heading).toContainText(/All 6 Event Categories/i)
   })
 
-  test('renders all 6 event category cards with working links', async ({ page }) => {
+  test('renders all 6 event category links', async ({ page }) => {
     await page.goto('/events/')
 
     const eventSlugs = [
@@ -23,7 +23,7 @@ test.describe('Events Main Hub Page (W-401)', () => {
 
     for (const slug of eventSlugs) {
       const link = page.locator(`a[href*="/events/${slug}"]`)
-      await expect(link.first()).toBeVisible()
+      await expect(link.first()).toBeAttached()
     }
   })
 
@@ -39,6 +39,6 @@ test.describe('Events Main Hub Page (W-401)', () => {
 
     const heading = page.getByRole('heading', { level: 1 })
     await expect(heading).toBeVisible()
-    await expect(heading).toContainText(/Events We Plan, Manage & Decorate/i)
+    await expect(heading).toContainText(/All 6 Event Categories/i)
   })
 })

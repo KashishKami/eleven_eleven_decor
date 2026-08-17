@@ -825,21 +825,21 @@ Update `src/app/about-us/page.tsx` with handoff copy, `WindRevealHeading`, split
 
 ---
 
-- [ ] **RED — E2E (`tests/e2e/about-page.spec.ts`):**
-  - [ ] Test: Navigate to `/about-us/` $\rightarrow$ assert H1 contains "Creating Experiences, Not Just Events".
-  - [ ] Test: Assert section headings "OUR APPROACH", "PLANNING & DÉCOR, TOGETHER", "ATTENTION TO DETAIL", and "ON EVENT DAY" exist.
-  - [ ] Test: Assert CTA link to `/contact/` is present.
-  - [ ] **Run — confirm RED.**
+- [x] **RED — E2E (`tests/e2e/about-page.spec.ts`):**
+  - [x] Test: Navigate to `/about-us/` $\rightarrow$ assert H1 contains "Creating Experiences, Not Just Events".
+  - [x] Test: Assert section headings "OUR APPROACH", "PLANNING & DÉCOR, TOGETHER", "ATTENTION TO DETAIL", and "ON EVENT DAY" exist.
+  - [x] Test: Assert CTA link to `/contact/` is present.
+  - [x] **Run — confirm RED.**
 
-- [ ] **GREEN — About Us Page:**
-  - [ ] [Route] Update `src/app/about-us/page.tsx` with handoff copy and layout styling.
-  - [ ] [SEO] Export `title: 'About Us | 1111 Decor'` and inject `Organization` schema.
-  - [ ] Run E2E test — **confirm GREEN.**
+- [x] **GREEN — About Us Page:**
+  - [x] [Route] Update `src/app/about-us/page.tsx` with handoff copy and layout styling.
+  - [x] [SEO] Export `title: 'About Us | 1111 Decor'` and inject `Organization` schema.
+  - [x] Run E2E test — **confirm GREEN.**
 
-- [ ] **Verification chain:**
-  - [ ] Open `/about-us/` $\rightarrow$ scroll through editorial sections with `WindRevealHeading` reveals.
-  - [ ] Click "Plan Your Event" CTA $\rightarrow$ redirected to `/contact/`.
-  - [ ] ✅ Done.
+- [x] **Verification chain:**
+  - [x] Open `/about-us/` $\rightarrow$ scroll through editorial sections with `WindRevealHeading` reveals.
+  - [x] Click "Plan Your Event" CTA $\rightarrow$ redirected to `/contact/`.
+  - [x] ✅ Done.
 
 ---
 
@@ -856,20 +856,20 @@ Create `src/app/packages/page.tsx` pulling from `src/data/packages.ts`. Implemen
 
 ---
 
-- [ ] **RED — E2E (`tests/e2e/packages-page.spec.ts`):**
-  - [ ] Test: Navigate to `/packages/` $\rightarrow$ assert H1 contains "Planning Built Around Your Event".
-  - [ ] Test: Assert Essential, Signature, and Bespoke tier cards are rendered with "Custom Quote" price labels.
-  - [ ] **Run — confirm RED.**
+- [x] **RED — E2E (`tests/e2e/packages-page.spec.ts`):**
+  - [x] Test: Navigate to `/packages/` $\rightarrow$ assert H1 contains "Planning Built Around Your Event".
+  - [x] Test: Assert Essential, Signature, and Bespoke tier cards are rendered with "Custom Quote" price labels.
+  - [x] **Run — confirm RED.**
 
-- [ ] **GREEN — Packages Page:**
-  - [ ] [Data] Create `src/data/packages.ts` with tier specifications per Section 10 of the handoff PDF.
-  - [ ] [Route] Create `src/app/packages/page.tsx` with SEO metadata.
-  - [ ] Run E2E test — **confirm GREEN.**
+- [x] **GREEN — Packages Page:**
+  - [x] [Data] Create `src/data/packages.ts` with tier specifications per Section 10 of the handoff PDF.
+  - [x] [Route] Create `src/app/packages/page.tsx` with SEO metadata.
+  - [x] Run E2E test — **confirm GREEN.**
 
-- [ ] **Verification chain:**
-  - [ ] Visit `/packages/` $\rightarrow$ compare Essential, Signature, and Bespoke tiers.
-  - [ ] Click "Request a Custom Quote" $\rightarrow$ redirected to `/contact/`.
-  - [ ] ✅ Done.
+- [x] **Verification chain:**
+  - [x] Visit `/packages/` $\rightarrow$ compare Essential, Signature, and Bespoke tiers.
+  - [x] Click "Request a Custom Quote" $\rightarrow$ redirected to `/contact/`.
+  - [x] ✅ Done.
 
 ---
 
@@ -886,20 +886,20 @@ Create `src/app/testimonials/page.tsx` and `src/data/testimonials.ts`. Render cl
 
 ---
 
-- [ ] **RED — E2E (`tests/e2e/testimonials-page.spec.ts`):**
-  - [ ] Test: Navigate to `/testimonials/` $\rightarrow$ assert testimonial quotes are rendered.
-  - [ ] Test: Inspect `<head>` $\rightarrow$ assert NO review schema (`"type": "Review"`) is present.
-  - [ ] **Run — confirm RED.**
+- [x] **RED — E2E (`tests/e2e/testimonials-page.spec.ts`):**
+  - [x] Test: Navigate to `/testimonials/` $\rightarrow$ assert testimonial quotes are rendered.
+  - [x] Test: Inspect `<head>` $\rightarrow$ assert NO review schema (`"type": "Review"`) is present.
+  - [x] **Run — confirm RED.**
 
-- [ ] **GREEN — Testimonials Page:**
-  - [ ] [Data] Create `src/data/testimonials.ts` with demo client quotes.
-  - [ ] [Route] Create `src/app/testimonials/page.tsx` displaying card grid without schema.
-  - [ ] Run E2E test — **confirm GREEN.**
+- [x] **GREEN — Testimonials Page:**
+  - [x] [Data] Create `src/data/testimonials.ts` with demo client quotes.
+  - [x] [Route] Create `src/app/testimonials/page.tsx` displaying card grid without schema.
+  - [x] Run E2E test — **confirm GREEN.**
 
-- [ ] **Verification chain:**
-  - [ ] Visit `/testimonials/` $\rightarrow$ read client review cards.
-  - [ ] Confirm no Google Schema warnings for fabricated reviews.
-  - [ ] ✅ Done.
+- [x] **Verification chain:**
+  - [x] Visit `/testimonials/` $\rightarrow$ read client review cards.
+  - [x] Confirm no Google Schema warnings for fabricated reviews.
+  - [x] ✅ Done.
 
 ---
 

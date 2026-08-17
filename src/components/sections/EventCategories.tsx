@@ -100,7 +100,7 @@ export function EventCategories() {
             }
           }
 
-          // 3. Elegant Text & Button Crossfade (Fade out previous text, Fade in current text)
+          // 3. Strict Interactive Pointer & Visibility Control for Text Blocks
           const tTextStart = slideStartTime + pTextEnter * stepDuration
 
           if (prevTextEl) {
@@ -113,11 +113,27 @@ export function EventCategories() {
                 duration: 0.2 * stepDuration,
               },
               tTextStart
+            ).set(
+              prevTextEl,
+              {
+                pointerEvents: 'none',
+                visibility: 'hidden',
+                zIndex: 1,
+              },
+              tTextStart + 0.2 * stepDuration
             )
           }
 
           if (textEl) {
-            tl.fromTo(
+            tl.set(
+              textEl,
+              {
+                pointerEvents: 'auto',
+                visibility: 'visible',
+                zIndex: 10,
+              },
+              tTextStart
+            ).fromTo(
               textEl,
               { opacity: 0, y: 12 },
               {
@@ -126,7 +142,7 @@ export function EventCategories() {
                 ease: 'none',
                 duration: 0.25 * stepDuration,
               },
-              tTextStart + 0.1 * stepDuration
+              tTextStart + 0.05 * stepDuration
             )
           }
         }
@@ -230,12 +246,12 @@ export function EventCategories() {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             zIndex: 3,
-            width: 'clamp(280px, 86vw, 420px)',
+            width: 'clamp(290px, 88vw, 420px)',
             maxWidth: 'calc(100vw - 2rem)',
-            backgroundColor: 'rgba(45, 38, 30, 0.78)',
+            backgroundColor: 'rgba(45, 38, 30, 0.82)',
             backdropFilter: 'blur(24px)',
             borderRadius: '24px',
-            padding: 'clamp(1.5rem, 5vw, 2.75rem) clamp(1.25rem, 4vw, 2.25rem)',
+            padding: 'clamp(1.75rem, 4vw, 2.5rem) clamp(1.25rem, 4vw, 2rem) clamp(2rem, 4.5vw, 2.75rem)',
             textAlign: 'center',
             border: '1px solid rgba(255, 255, 255, 0.25)',
             boxShadow: '0 30px 60px rgba(0, 0, 0, 0.6)',
@@ -246,11 +262,11 @@ export function EventCategories() {
             ref={circleWindowRef}
             style={{
               position: 'relative',
-              width: 'clamp(200px, 58vw, 290px)',
-              height: 'clamp(200px, 58vw, 290px)',
+              width: 'clamp(170px, 48vw, 240px)',
+              height: 'clamp(170px, 48vw, 240px)',
               borderRadius: '50%',
               overflow: 'hidden',
-              margin: '0 auto 1.5rem',
+              margin: '0 auto 1.15rem',
               border: '3.5px solid rgba(255, 255, 255, 0.4)',
               boxShadow: '0 12px 30px rgba(0,0,0,0.5)',
             }}
@@ -274,7 +290,7 @@ export function EventCategories() {
                   alt={cat.name}
                   fill
                   priority={idx === 0}
-                  sizes="(max-width: 768px) 58vw, 290px"
+                  sizes="(max-width: 768px) 48vw, 240px"
                   style={{ objectFit: 'cover' }}
                 />
               </div>
@@ -282,7 +298,7 @@ export function EventCategories() {
           </div>
 
           {/* Stacked Synchronized Category Content Blocks */}
-          <div ref={textWindowRef} style={{ position: 'relative', minHeight: '175px' }}>
+          <div ref={textWindowRef} style={{ position: 'relative', minHeight: '190px' }}>
             {CATEGORIES.map((cat, idx) => (
               <div
                 key={`text-${cat.id}`}
@@ -292,35 +308,47 @@ export function EventCategories() {
                 style={{
                   position: idx === 0 ? 'relative' : 'absolute',
                   inset: 0,
-                  zIndex: idx + 1,
+                  zIndex: idx === 0 ? 10 : 1,
                   opacity: idx === 0 ? 1 : 0,
+                  pointerEvents: idx === 0 ? 'auto' : 'none',
+                  visibility: idx === 0 ? 'visible' : 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
                   willChange: 'opacity, transform',
                 }}
               >
-                <h3
-                  style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: 'clamp(1.4rem, 3.2vw, 2rem)',
-                    fontWeight: 600,
-                    color: '#ffffff',
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
-                    marginBottom: '0.5rem',
-                  }}
-                >
-                  {cat.name}
-                </h3>
+                <div style={{ minHeight: '3rem', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '0.4rem' }}>
+                  <h3
+                    style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: 'clamp(1.3rem, 3vw, 1.85rem)',
+                      fontWeight: 600,
+                      color: '#ffffff',
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                      lineHeight: 1.25,
+                      margin: 0,
+                    }}
+                  >
+                    {cat.name}
+                  </h3>
+                </div>
 
                 <p
                   style={{
                     fontFamily: 'var(--font-body)',
                     color: '#f3ece1',
-                    fontSize: 'clamp(0.85rem, 2vw, 0.98rem)',
+                    fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)',
                     fontWeight: 400,
-                    lineHeight: 1.55,
-                    maxWidth: '340px',
+                    lineHeight: 1.5,
+                    maxWidth: '330px',
                     marginInline: 'auto',
-                    marginBottom: '1.25rem',
+                    marginBottom: '1.35rem',
+                    minHeight: '2.8rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
                 >
                   {cat.description}
@@ -334,7 +362,7 @@ export function EventCategories() {
                     backgroundColor: '#c9a96e',
                     color: '#111111',
                     fontFamily: 'var(--font-body)',
-                    fontSize: '0.85rem',
+                    fontSize: '0.825rem',
                     fontWeight: 700,
                     borderRadius: '4px',
                     letterSpacing: '0.08em',

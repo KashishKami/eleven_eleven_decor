@@ -1,0 +1,146 @@
+.aboutContainer {
+  background-color: #1a1a1a;
+  color: #f5f0e8;
+  min-height: 100vh;
+  padding-top: 80px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* SECTION 1: Dark Hero Header */
+.heroSection {
+  padding: 5.5rem 1.5rem 4.5rem;
+  background-color: #121212;
+  text-align: center;
+  border-bottom: 1px solid rgba(201, 169, 110, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.heroSubtitle {
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  color: #c9a96e;
+  margin-top: 1.25rem;
+  max-width: 760px;
+  line-height: 1.6;
+}
+
+/* SECTION 2: Light Theme Intro & Our Approach */
+.approachSectionLight {
+  padding: 5.5rem 0;
+  background-color: #f7f3ec;
+  color: #1a1a1a;
+}
+
+.splitGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 3rem;
+  align-items: center;
+}
+
+.imageBox {
+  position: relative;
+  height: 420px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+.textContentLight {
+  font-family: var(--font-body);
+  font-size: 1.08rem;
+  line-height: 1.8;
+  color: #4a453f;
+}
+
+/* SECTION 3: Dark Theme Planning & Décor Together */
+.togetherSectionDark {
+  padding: 5.5rem 0;
+  background-color: #181818;
+  color: #ffffff;
+}
+
+.cardsGridDark {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.cardDark {
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(201, 169, 110, 0.25);
+  border-radius: 6px;
+  padding: 2.25rem;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.cardDark:hover {
+  transform: translateY(-4px);
+  border-color: #c9a96e;
+}
+
+.cardTitleGold {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: #c9a96e;
+  margin-bottom: 0.85rem;
+}
+
+.cardTextDark {
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  color: #d1cbd0;
+  line-height: 1.65;
+}
+
+/* SECTION 4: Light Theme Attention to Detail */
+.detailSectionLight {
+  padding: 5.5rem 0;
+  background-color: #faf6f0;
+  color: #1a1a1a;
+}
+
+/* SECTION 5: Dark Theme On Event Day */
+.daySectionDark {
+  padding: 5.5rem 0;
+  background-color: #121212;
+  color: #ffffff;
+}
+
+/* Section Header Common */
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.labelGold {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #c9a96e;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.labelDark {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #a8834a;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}

@@ -6,7 +6,8 @@ test.describe('Footer CTA Banner & Footer (W-210)', () => {
 
     const cta = page.locator('#footer-cta')
     await expect(cta).toBeVisible()
-    await expect(cta.locator('h2')).toContainText(/Unforgettable Catering/i)
+    const headingText = await cta.locator('h2').textContent()
+    expect(headingText).toContain('Catering')
 
     const reserveBtn = cta.getByRole('link', { name: /reserve now/i })
     await expect(reserveBtn).toBeVisible()

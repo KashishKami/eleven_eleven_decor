@@ -30,8 +30,14 @@ jobs:
       - name: TypeScript check
         run: pnpm typecheck
 
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
       - name: Unit tests
         run: pnpm test:unit
+
+      - name: E2E tests
+        run: pnpm test:e2e
 
       - name: Production build
         run: pnpm build

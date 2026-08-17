@@ -7,7 +7,8 @@ test.describe('Why Choose Us Section (W-204)', () => {
     const section = page.locator('#why-choose-us')
     await expect(section).toBeVisible()
 
-    await expect(section.locator('h2')).toContainText(/Unforgettable Catering/i)
-    await expect(page.getByRole('heading', { name: /Bespoke Spatial Design/i })).toBeVisible()
+    const headingText = await section.locator('h2').textContent()
+    expect(headingText).toContain('Clients')
+    await expect(page.getByRole('heading', { name: /CUISINE EXCELLENCE/i })).toBeVisible()
   })
 })

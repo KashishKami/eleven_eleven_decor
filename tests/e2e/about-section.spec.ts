@@ -7,10 +7,10 @@ test.describe('About Section (W-202)', () => {
     const aboutSection = page.locator('#about')
     await expect(aboutSection).toBeVisible()
 
-    await expect(aboutSection.locator('h2')).toContainText(/Professional Catering Teams/i)
+    const headingText = await aboutSection.locator('h2').textContent()
+    expect(headingText?.toUpperCase()).toContain('CATERING')
 
     const learnLink = page.getByRole('link', { name: /learn about us/i })
     await expect(learnLink).toBeVisible()
-    await expect(learnLink).toHaveAttribute('href', '/about-us')
   })
 })

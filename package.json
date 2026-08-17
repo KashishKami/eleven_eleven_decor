@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit",
     "test:unit": "vitest run",
     "test:e2e": "playwright test",
-    "ci:quality": "pnpm lint && pnpm typecheck && pnpm test:unit && pnpm build"
+    "ci:quality": "pnpm lint && pnpm typecheck && pnpm test:unit && pnpm test:e2e && pnpm build"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

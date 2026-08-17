@@ -576,335 +576,607 @@ CTA section: GSAP horizontal text slide-in from left (heading) and right (button
 
 ---
 
-## Phase 3 — Menu & Event Pages
+## Phase 3 — Services Architecture (Main Hub + 10 Service Pages)
 
-### W-301 — All Menus Page (`/menu`)
+### W-301 — Services Main Hub (`/services/`)
 
 **Root cause:**  
-Users who want to explore the full menu offering need a dedicated archive page with filterable categories.
+Section 4 of the Content Handoff PDF requires a dedicated `/services/` landing page showcasing all 10 service offerings with one-line descriptions, CTAs, the 4-step process, and Why Choose Us blocks.
 
 **Goal:**  
-A full menus listing page with: hero banner, category filter tabs, and a masonry/grid of all menu cards.
+A fully responsive `/services/` page with: `WindRevealHeading` H1 ("Event Planning, Management & Décor Services"), intro copy, a 10-service card grid with direct links, a 4-step process section, Why Choose Us cards, and an FAQ accordion.
+
+**Approach:**  
+Create `src/app/services/page.tsx` pulling structured data from `src/data/services.ts`. Integrate `WindRevealHeading` and `WorkProcess` components. Export full SEO metadata and `Service` JSON-LD schema.
 
 ---
 
-- [ ] **RED — E2E (`tests/e2e/menus-page.spec.ts`):**
-  - [ ] Test: Navigate to `/menu` → assert page title is "Our Menu".
-  - [ ] Test: Assert at least 4 menu cards rendered.
+- [x] **RED — E2E (`tests/e2e/services-hub.spec.ts`):**
+  - [x] Test: Navigate to `/services/` $\rightarrow$ assert H1 contains "Event Planning, Management & Décor Services".
+  - [x] Test: Assert all 10 service cards are rendered with title, description, and link to `/services/[slug]/`.
+  - [x] Test: Assert FAQ section renders with expanding accordions.
+  - [x] **Run — confirm RED.**
+
+- [x] **GREEN — Services Main Page:**
+  - [x] [Data] Create `src/data/services.ts` containing the full 10-service registry, process steps, and FAQs per Section 4 of the handoff PDF.
+  - [x] [Route] Create `src/app/services/page.tsx` with SEO metadata (`title: 'Event Planning, Management & Décor Services | 11:11 Decor'`).
+  - [x] [Component] Implement 10-card service grid with subtle zoom hover interactions and gold CTA links.
+  - [x] [SEO] Inject `Service` schema via `src/components/seo/JsonLd.tsx`.
+  - [x] Run E2E test — **confirm GREEN.**
+
+- [x] **Verification chain:**
+  - [x] Visit `/services/` $\rightarrow$ page loads with 10 service cards.
+  - [x] Click any service card (e.g., "Event Management") $\rightarrow$ navigates to `/services/event-management/`.
+  - [x] ✅ Done.
+
+---
+
+### W-302 — Planning & Management Services (`/services/event-management/`, `/services/event-planning/`, `/services/corporate-event-management/`)
+
+**Root cause:**  
+Sections 5.1, 5.2, and 5.5 of the handoff PDF define dedicated service pages for on-site execution (Management), pre-event strategy (Planning), and corporate celebrations. Strict keyword isolation is required to prevent keyword cannibalization against Event pages.
+
+**Goal:**  
+Dynamic route handling for `/services/event-management/`, `/services/event-planning/`, and `/services/corporate-event-management/` following the standardized handoff template: H1 $\rightarrow$ Intro $\rightarrow$ What We Provide $\rightarrow$ Why Choose 11:11 Decor $\rightarrow$ Our Process $\rightarrow$ What You Can Expect $\rightarrow$ Related Services $\rightarrow$ FAQs $\rightarrow$ CTA.
+
+**Approach:**  
+Create `src/app/services/[slug]/page.tsx` using `generateStaticParams` and `generateMetadata`. Map individual copy blocks from `src/data/services.ts`.
+
+---
+
+- [x] **RED — E2E (`tests/e2e/services-planning.spec.ts`):**
+  - [x] Test: Navigate to `/services/event-management/` $\rightarrow$ assert H1 equals "Event Management Services".
+  - [x] Test: Navigate to `/services/event-planning/` $\rightarrow$ assert H1 equals "Event Planning Services".
+  - [x] Test: Navigate to `/services/corporate-event-management/` $\rightarrow$ assert H1 equals "Corporate Event Management".
+  - [x] Test: Assert `<meta name="description">` is present and unique for each page.
+  - [x] **Run — confirm RED.**
+
+- [x] **GREEN — Planning & Management Service Detail Pages:**
+  - [x] [Route] Create `src/app/services/[slug]/page.tsx` with `generateStaticParams` covering management and planning slugs.
+  - [x] [Data] Populate Section 5.1, 5.2, and 5.5 copy in `src/data/services.ts` (What We Provide, Why Choose, Process, Expect, FAQs).
+  - [x] [Component] Render standardized service template layout with `WindRevealHeading` H1.
+  - [x] Run E2E test — **confirm GREEN.**
+
+- [x] **Verification chain:**
+  - [x] Navigate to `/services/event-management/` $\rightarrow$ view run-of-show timeline and on-site coordination details.
+  - [x] Click "Get a Quote" CTA $\rightarrow$ redirected to `/contact/`.
+  - [x] ✅ Done.
+
+---
+
+### W-303 — Visual Decoration Services (`/services/event-decoration/`, `/services/wedding-decoration/`, `/services/stage-decoration/`, `/services/venue-decoration/`, `/services/floral-decoration/`)
+
+**Root cause:**  
+Sections 5.3, 5.4, 5.6, 5.7, and 5.8 of the handoff PDF define dedicated service pages targeting visual styling, mandap design, stage backdrops, venue transformation, and florals.
+
+**Goal:**  
+Dynamic route handling for visual decoration service slugs (`event-decoration`, `wedding-decoration`, `stage-decoration`, `venue-decoration`, `floral-decoration`) showcasing palette concept moodboards, installation scope, and related service cross-links.
+
+**Approach:**  
+Extend `src/app/services/[slug]/page.tsx` and `src/data/services.ts` with visual styling data props, moodboard placeholders, and ceremony decoration scope items.
+
+---
+
+- [x] **RED — E2E (`tests/e2e/services-decoration.spec.ts`):**
+  - [x] Test: Navigate to `/services/wedding-decoration/` $\rightarrow$ assert H1 equals "Wedding Decoration".
+  - [x] Test: Assert "What We Provide" lists mandap, stage, entrance, and seating styling.
+  - [x] Test: Navigate to `/services/floral-decoration/` $\rightarrow$ assert H1 equals "Floral Decoration".
+  - [x] **Run — confirm RED.**
+
+- [x] **GREEN — Visual Decoration Service Pages:**
+  - [x] [Data] Add Section 5.3, 5.4, 5.6, 5.7, and 5.8 copy and FAQs to `src/data/services.ts`.
+  - [x] [Template] Update `src/app/services/[slug]/page.tsx` to support visual styling features and related service chips.
+  - [x] Run E2E test — **confirm GREEN.**
+
+- [x] **Verification chain:**
+  - [x] Navigate to `/services/wedding-decoration/` $\rightarrow$ read mandap and venue styling breakdown.
+  - [x] Click related service chip "Floral Decoration" $\rightarrow$ navigates to `/services/floral-decoration/`.
+  - [x] ✅ Done.
+
+---
+
+### W-304 — Production & Hospitality Services (`/services/lighting-production/`, `/services/entertainment-hospitality/`)
+
+**Root cause:**  
+Sections 5.9 and 5.10 of the handoff PDF require specialized service pages for ambient/event lighting production and guest experience/hospitality management.
+
+**Goal:**  
+Dynamic route handling for `/services/lighting-production/` and `/services/entertainment-hospitality/` displaying technical production support, guest arrival flow, and venue lighting plans.
+
+**Approach:**  
+Add static params for `lighting-production` and `entertainment-hospitality` in `src/app/services/[slug]/page.tsx` and complete Section 5.9 and 5.10 copy in `src/data/services.ts`.
+
+---
+
+- [x] **RED — E2E (`tests/e2e/services-production.spec.ts`):**
+  - [x] Test: Navigate to `/services/lighting-production/` $\rightarrow$ assert H1 equals "Lighting & Production".
+  - [x] Test: Navigate to `/services/entertainment-hospitality/` $\rightarrow$ assert H1 equals "Entertainment & Hospitality".
+  - [x] **Run — confirm RED.**
+
+- [x] **GREEN — Production & Hospitality Service Pages:**
+  - [x] [Data] Add Section 5.9 and 5.10 data to `src/data/services.ts`.
+  - [x] [Static Params] Ensure all 10 service slugs are exported by `generateStaticParams`.
+  - [x] Run E2E test — **confirm GREEN.**
+
+- [x] **Verification chain:**
+  - [x] Navigate to `/services/lighting-production/` $\rightarrow$ page renders with technical lighting scope and FAQs.
+  - [x] All 10 service routes pass static generation checks.
+  - [x] ✅ Done.
+
+> ### 📝 Session Note (Services Architecture, Schema Engine & CI E2E Integration) — August 18, 2026
+> - **Roadmap Alignment:** Re-architected `current_state.md` roadmap from Phase 3 through Phase 9 to match 1:1 with the 11:11 Decor Website Structure & Content Handoff specification from the Digital Marketing team.
+> - **Phase 3 Completion (Services Architecture — W-301 through W-304):**
+>   - Built `src/data/services.ts` containing the full 10-service registry, process steps, and FAQs per Sections 4 and 5 of the handoff PDF.
+>   - Implemented Services Hub page `src/app/services/page.tsx` with `WindRevealHeading` H1, 10-service card grid, 4-step `WorkProcess`, `WhyChooseUs`, and FAQ accordion.
+>   - Implemented dynamic static-prerendered route `src/app/services/[slug]/page.tsx` covering all 10 service pages (`event-management`, `event-planning`, `event-decoration`, `wedding-decoration`, `corporate-event-management`, `stage-decoration`, `venue-decoration`, `floral-decoration`, `lighting-production`, `entertainment-hospitality`).
+>   - Enforced search intent keyword isolation across management, planning, and decoration services to prevent cannibalization per Section 15 notes.
+>   - Created `src/components/seo/JsonLd.tsx` for structured data injection (`Service` JSON-LD schema).
+> - **Layout & Typography Refinements:** Refined `.servicesContainer` and `.detailContainer` flex layouts and label block alignment to guarantee vertical heading stacking above subtext across all viewports.
+> - **Full E2E Suite Alignment & CI Quality Tooling:** Updated `package.json` (`ci:quality`) and `.github/workflows/ci.yml` to include Playwright browser installation (`pnpm exec playwright install --with-deps chromium`) and automated Playwright E2E test execution (`pnpm test:e2e`). Aligned all legacy Phase 2 E2E specs (`about-section`, `hero`, `navigation`, `menus-section`, `why-choose-us`, `work-process`, `blog-section`, `footer`) to match current copy and heading components.
+> - **Verification & Build:** 55/55 Playwright E2E tests passing with 0 failures across all test files (`tests/e2e/`), 15 Vitest unit tests passing, 0 ESLint warnings/errors (`next lint`), 0 TypeScript errors (`tsc --noEmit`), and 25 static pages prerendered cleanly in Next.js production build (`pnpm build`).
+
+---
+
+## Phase 4 — Events Architecture (Main Hub + 6 Event Category Pages)
+
+### W-401 — Events Main Hub (`/events/`)
+
+**Root cause:**  
+Section 6 of the handoff PDF requires a central `/events/` hub page introducing all 6 event categories with intro text and visual cards.
+
+**Goal:**  
+A dedicated `/events/` hub page reusing the `EventCategories.tsx` curtain-wipe animation component, displaying H1 "Events We Plan, Manage & Decorate", introductory copy, and category links to all 6 event detail pages.
+
+**Approach:**  
+Create `src/app/events/page.tsx` integrating `WindRevealHeading` and `EventCategories.tsx`. Export full SEO metadata and `BreadcrumbList` schema.
+
+---
+
+- [ ] **RED — E2E (`tests/e2e/events-hub.spec.ts`):**
+  - [ ] Test: Navigate to `/events/` $\rightarrow$ assert H1 contains "Events We Plan, Manage & Decorate".
+  - [ ] Test: Assert all 6 event category links (`wedding-events`, `corporate-events`, `birthday-events`, `engagement-events`, `private-events`, `destination-events`) exist.
   - [ ] **Run — confirm RED.**
 
-- [ ] **GREEN — Menus Page:**
-  - [ ] [Route] Create `src/app/menu/page.tsx` with correct metadata export.
-  - [ ] [Layout] Page hero banner + grid layout.
-  - [ ] [SEO] `export const metadata: Metadata = { title: 'Our Menu | 1111 Decor', description: '...' }`.
-  - [ ] Run E2E — **confirm GREEN.**
+- [ ] **GREEN — Events Main Page:**
+  - [ ] [Data] Create `src/data/events.ts` containing the registry of 6 event categories per Section 6 of the handoff PDF.
+  - [ ] [Route] Create `src/app/events/page.tsx` with SEO metadata (`title: 'Events We Plan, Manage & Decorate | 1111 Decor'`).
+  - [ ] [Component] Re-use `EventCategories.tsx` synchronized curtain wipe animation for visual event selection.
+  - [ ] Run E2E test — **confirm GREEN.**
 
 - [ ] **Verification chain:**
-  - [ ] Visit `/menu` → page loads with all menus displayed.
+  - [ ] Visit `/events/` $\rightarrow$ interactive curtain wipe selector renders with 6 event categories.
+  - [ ] Click "Wedding Events" $\rightarrow$ navigates to `/events/wedding-events/`.
   - [ ] ✅ Done.
 
 ---
 
-### W-302 — Menu Detail Page (`/menus/[slug]`)
+### W-402 — Primary Celebrations (`/events/wedding-events/`, `/events/engagement-events/`, `/events/birthday-events/`)
 
 **Root cause:**  
-Individual menu pages need to showcase the full details of a specific menu offering to help clients decide.
+Sections 7.1, 7.3, and 7.4 of the handoff PDF define dedicated event pages for weddings, birthdays, and engagements targeting event planning & multi-day celebration search intent (kept distinct from decoration service pages).
 
 **Goal:**  
-A dynamic route for each menu: hero image, menu title, description, item list with prices, photo gallery.
+Dynamic route handling for `/events/wedding-events/`, `/events/engagement-events/`, and `/events/birthday-events/` matching handoff template: H1 $\rightarrow$ Intro $\rightarrow$ Event Planning Services $\rightarrow$ Decoration Options $\rightarrow$ Event Management $\rightarrow$ What We Handle $\rightarrow$ Our Process $\rightarrow$ Why Choose Us $\rightarrow$ FAQs $\rightarrow$ CTA.
+
+**Approach:**  
+Create `src/app/events/[slug]/page.tsx` with `generateStaticParams` and `generateMetadata`. Map individual celebration copy blocks from `src/data/events.ts`.
 
 ---
 
-- [ ] **RED — E2E (`tests/e2e/menu-detail.spec.ts`):**
-  - [ ] Test: Navigate to `/menus/corporate-menu` → assert heading contains "Corporate Menu".
-  - [ ] Test: Assert `<meta name="description">` is not empty.
+- [ ] **RED — E2E (`tests/e2e/events-celebrations.spec.ts`):**
+  - [ ] Test: Navigate to `/events/wedding-events/` $\rightarrow$ assert H1 equals "Wedding Event Planning & Management".
+  - [ ] Test: Assert H1 is distinct from `/services/wedding-decoration/` H1 ("Wedding Decoration").
+  - [ ] Test: Navigate to `/events/birthday-events/` $\rightarrow$ assert H1 equals "Birthday Event Planning".
   - [ ] **Run — confirm RED.**
 
-- [ ] **GREEN — Menu Detail:**
-  - [ ] [Route] Create `src/app/menus/[slug]/page.tsx` with `generateStaticParams` and `generateMetadata`.
-  - [ ] [Data] Extend `src/data/menus.ts` with full item data.
-  - [ ] Run E2E — **confirm GREEN.**
+- [ ] **GREEN — Primary Celebration Event Pages:**
+  - [ ] [Route] Create `src/app/events/[slug]/page.tsx` with `generateStaticParams`.
+  - [ ] [Data] Add Section 7.1, 7.3, and 7.4 copy and FAQs to `src/data/events.ts`.
+  - [ ] [Template] Render event-specific timeline services, decoration options, and on-site troubleshooting points.
+  - [ ] Run E2E test — **confirm GREEN.**
 
 - [ ] **Verification chain:**
-  - [ ] Navigate to `/menus/catering-wedding` → full wedding menu details shown.
+  - [ ] Navigate to `/events/wedding-events/` $\rightarrow$ view function-by-function timeline planning details.
+  - [ ] Verify search intent isolation against `/services/wedding-decoration/`.
   - [ ] ✅ Done.
 
 ---
 
-### W-303 — All Events Page + Event Detail Pages
+### W-403 — Corporate, Private & Destination Events (`/events/corporate-events/`, `/events/private-events/`, `/events/destination-events/`)
 
 **Root cause:**  
-The Events section (Corporate, Weddings, Social Events, Parties) is a core conversion page where clients browse past work to build confidence in booking.
+Sections 7.2, 7.5, and 7.6 of the handoff PDF specify landing pages for objective-led corporate events, intimate private gatherings, and travel-dependent destination events.
 
 **Goal:**  
-Events archive page with category filter. Individual event detail pages with image gallery, description, date, venue.
+Dynamic route handling for `/events/corporate-events/`, `/events/private-events/`, and `/events/destination-events/` highlighting brand visibility, scalable guest count management, and travel vendor logistics.
+
+**Approach:**  
+Extend `src/app/events/[slug]/page.tsx` static params and populate Section 7.2, 7.5, and 7.6 copy in `src/data/events.ts`.
 
 ---
 
-- [ ] **RED — E2E (`tests/e2e/events-page.spec.ts`):**
-  - [ ] Test: Navigate to `/event` → assert event cards rendered.
-  - [ ] Test: Filter by "Weddings" → assert only wedding events shown.
-  - [ ] Navigate to `/events/weddings` → assert heading matches.
+- [ ] **RED — E2E (`tests/e2e/events-niche.spec.ts`):**
+  - [ ] Test: Navigate to `/events/corporate-events/` $\rightarrow$ assert H1 equals "Corporate Event Planning".
+  - [ ] Test: Navigate to `/events/destination-events/` $\rightarrow$ assert H1 equals "Destination Event Planning" and text covers travel logistics.
   - [ ] **Run — confirm RED.**
 
-- [ ] **GREEN — Events Pages:**
-  - [ ] [Routes] `src/app/event/page.tsx`, `src/app/events/[slug]/page.tsx`.
-  - [ ] [Filter] Client-side category filter with GSAP stagger re-render animation.
-  - [ ] [SEO] `generateMetadata` for each event detail page.
-  - [ ] Run E2E — **confirm GREEN.**
+- [ ] **GREEN — Corporate, Private & Destination Event Pages:**
+  - [ ] [Data] Add Section 7.2, 7.5, and 7.6 data to `src/data/events.ts`.
+  - [ ] [Static Params] Ensure all 6 event slugs (`wedding-events`, `corporate-events`, `birthday-events`, `engagement-events`, `private-events`, `destination-events`) are exported.
+  - [ ] Run E2E test — **confirm GREEN.**
 
 - [ ] **Verification chain:**
-  - [ ] Visit `/event` → all events shown → filter to Weddings → grid animates to show only wedding events.
+  - [ ] Navigate to `/events/destination-events/` $\rightarrow$ read multi-day travel and local sourcing logistics.
+  - [ ] All 6 event category routes pass static generation checks.
   - [ ] ✅ Done.
 
 ---
 
-## Phase 4 — About, Team & Venue Pages
+## Phase 5 — About Us, Packages & Testimonials
 
-### W-401 — About Us Page
+### W-501 — About Us Page (`/about-us/`)
 
 **Root cause:**  
-Potential clients who are on the fence about 1111 Decor will visit the About page to vet the company's story, values, and experience.
+Section 3 of the handoff PDF specifies the exact brand copy and section layout for `/about-us/`.
 
 **Goal:**  
-Full About Us page: hero banner, company story section, mission/vision stats, team highlights, and a CTA section.
+A fully styled `/about-us/` page featuring: H1 "Creating Experiences, Not Just Events", Introduction, Our Approach, Planning & Décor Together, Attention to Detail, On Event Day, and CTA to `/contact/`.
+
+**Approach:**  
+Update `src/app/about-us/page.tsx` with handoff copy, `WindRevealHeading`, split image layout, and `Organization` JSON-LD schema.
 
 ---
 
 - [ ] **RED — E2E (`tests/e2e/about-page.spec.ts`):**
-  - [ ] Navigate to `/about-us` → assert `<h1>` exists.
-  - [ ] Assert page `<title>` contains "About Us".
+  - [ ] Test: Navigate to `/about-us/` $\rightarrow$ assert H1 contains "Creating Experiences, Not Just Events".
+  - [ ] Test: Assert section headings "OUR APPROACH", "PLANNING & DÉCOR, TOGETHER", "ATTENTION TO DETAIL", and "ON EVENT DAY" exist.
+  - [ ] Test: Assert CTA link to `/contact/` is present.
   - [ ] **Run — confirm RED.**
 
-- [ ] **GREEN — About Page:**
-  - [ ] [Route] `src/app/about-us/page.tsx`.
-  - [ ] [SEO] Full metadata, OG tags, structured data (Organization schema).
-  - [ ] Run E2E — **confirm GREEN.**
+- [ ] **GREEN — About Us Page:**
+  - [ ] [Route] Update `src/app/about-us/page.tsx` with handoff copy and layout styling.
+  - [ ] [SEO] Export `title: 'About Us | 1111 Decor'` and inject `Organization` schema.
+  - [ ] Run E2E test — **confirm GREEN.**
 
 - [ ] **Verification chain:**
-  - [ ] `/about-us` renders fully → animations fire on scroll.
+  - [ ] Open `/about-us/` $\rightarrow$ scroll through editorial sections with `WindRevealHeading` reveals.
+  - [ ] Click "Plan Your Event" CTA $\rightarrow$ redirected to `/contact/`.
   - [ ] ✅ Done.
 
 ---
 
-### W-402 — Our Team Page + Venue Pages
+### W-502 — Packages Page (`/packages/`)
 
 **Root cause:**  
-Dedicated team and venue pages provide depth for the brand and help with SEO (long-tail keywords).
+Section 10 of the handoff PDF defines 3 service tiers (**Essential**, **Signature**, **Bespoke**) with Custom Quote pricing.
 
 **Goal:**  
-`/our-team` page with full team grid. `/venue` archive + `/venues/[slug]` detail pages.
-
----
-
-- [ ] **RED — E2E (`tests/e2e/team-page.spec.ts` + `venue-page.spec.ts`):**
-  - [ ] `/our-team` → assert team member cards.
-  - [ ] `/venue` → assert venue cards.
-  - [ ] `/venues/decagon-silver-city` → assert venue name in heading.
-  - [ ] **Run — confirm RED.**
-
-- [ ] **GREEN — Team + Venue Pages:**
-  - [ ] [Routes] `src/app/our-team/page.tsx`, `src/app/venue/page.tsx`, `src/app/venues/[slug]/page.tsx`.
-  - [ ] Run E2E — **confirm GREEN.**
-
-- [ ] **Verification chain:**
-  - [ ] All routes render correctly with content and animations.
-  - [ ] ✅ Done.
-
----
-
-## Phase 5 — Gallery, FAQ, Contact & 404
-
-### W-501 — Gallery Page
-
-**Root cause:**  
-A gallery of real event photos is often the deciding factor for luxury event clients — they want visual proof of quality.
-
-**Goal:**  
-A masonry/filterable gallery page. Filter by category (All, Corporate, Weddings, Parties, Social Events). Each image: lightbox on click (GSAP-powered custom lightbox — no heavy library dependency).
+A `/packages/` page with H1 "Planning Built Around Your Event", intro copy, a 3-column pricing tier card grid, feature inclusions, and custom quote CTAs.
 
 **Approach:**  
-CSS masonry grid via `columns` property. Filter: GSAP `stagger` hide/show with `scale` and `opacity`. Lightbox: GSAP timeline for backdrop fade + image scale from thumbnail position to center.
+Create `src/app/packages/page.tsx` pulling from `src/data/packages.ts`. Implement responsive card grid with champagne gold tier highlights.
+
+---
+
+- [ ] **RED — E2E (`tests/e2e/packages-page.spec.ts`):**
+  - [ ] Test: Navigate to `/packages/` $\rightarrow$ assert H1 contains "Planning Built Around Your Event".
+  - [ ] Test: Assert Essential, Signature, and Bespoke tier cards are rendered with "Custom Quote" price labels.
+  - [ ] **Run — confirm RED.**
+
+- [ ] **GREEN — Packages Page:**
+  - [ ] [Data] Create `src/data/packages.ts` with tier specifications per Section 10 of the handoff PDF.
+  - [ ] [Route] Create `src/app/packages/page.tsx` with SEO metadata.
+  - [ ] Run E2E test — **confirm GREEN.**
+
+- [ ] **Verification chain:**
+  - [ ] Visit `/packages/` $\rightarrow$ compare Essential, Signature, and Bespoke tiers.
+  - [ ] Click "Request a Custom Quote" $\rightarrow$ redirected to `/contact/`.
+  - [ ] ✅ Done.
+
+---
+
+### W-503 — Testimonials Page (`/testimonials/`)
+
+**Root cause:**  
+Section 11 of the handoff PDF specifies placeholder client quotes structure while strictly cautioning against review schema markup on demo data.
+
+**Goal:**  
+A `/testimonials/` page displaying client quotes (quote, star rating, client name + initial, event type, location). Ensure **no review schema** is emitted per SEO notes.
+
+**Approach:**  
+Create `src/app/testimonials/page.tsx` and `src/data/testimonials.ts`. Render clean quote cards without injecting `AggregateRating` or `Review` JSON-LD.
+
+---
+
+- [ ] **RED — E2E (`tests/e2e/testimonials-page.spec.ts`):**
+  - [ ] Test: Navigate to `/testimonials/` $\rightarrow$ assert testimonial quotes are rendered.
+  - [ ] Test: Inspect `<head>` $\rightarrow$ assert NO review schema (`"type": "Review"`) is present.
+  - [ ] **Run — confirm RED.**
+
+- [ ] **GREEN — Testimonials Page:**
+  - [ ] [Data] Create `src/data/testimonials.ts` with demo client quotes.
+  - [ ] [Route] Create `src/app/testimonials/page.tsx` displaying card grid without schema.
+  - [ ] Run E2E test — **confirm GREEN.**
+
+- [ ] **Verification chain:**
+  - [ ] Visit `/testimonials/` $\rightarrow$ read client review cards.
+  - [ ] Confirm no Google Schema warnings for fabricated reviews.
+  - [ ] ✅ Done.
+
+---
+
+## Phase 6 — Portfolio, Venues & Gallery
+
+### W-601 — Portfolio Hub & Project Detail Template (`/portfolio/`, `/portfolio/[slug]/`)
+
+**Root cause:**  
+Section 8 of the handoff PDF specifies a filterable `/portfolio/` grid by event type and an individual project page template.
+
+**Goal:**  
+A `/portfolio/` archive page with category filter pills (Weddings, Corporate, Birthdays, Engagements, Private, Destination) and project cards. Dynamic `/portfolio/[slug]/page.tsx` template.
+
+**Approach:**  
+Create `src/app/portfolio/page.tsx`, `src/app/portfolio/[slug]/page.tsx`, and dataset `src/data/portfolio.ts`.
+
+---
+
+- [ ] **RED — E2E (`tests/e2e/portfolio.spec.ts`):**
+  - [ ] Test: Navigate to `/portfolio/` $\rightarrow$ assert H1 contains "Our Work".
+  - [ ] Test: Assert category filter pills toggle displayed project cards.
+  - [ ] **Run — confirm RED.**
+
+- [ ] **GREEN — Portfolio Pages:**
+  - [ ] [Data] Create `src/data/portfolio.ts` with project cards and project template data.
+  - [ ] [Routes] Create `src/app/portfolio/page.tsx` and `src/app/portfolio/[slug]/page.tsx`.
+  - [ ] Run E2E test — **confirm GREEN.**
+
+- [ ] **Verification chain:**
+  - [ ] Visit `/portfolio/` $\rightarrow$ click category filter pill $\rightarrow$ card grid updates smoothly.
+  - [ ] ✅ Done.
+
+---
+
+### W-602 — Venues Hub & Venue Detail Template (`/venues/`, `/venues/[slug]/`)
+
+**Root cause:**  
+Section 9 of the handoff PDF defines `/venues/` hub ("Find the Right Setting for Your Event") and venue template layout.
+
+**Goal:**  
+A `/venues/` page listing indoor/outdoor venues with capacity details, decor possibilities, and planning considerations. Dynamic `/venues/[slug]/page.tsx`.
+
+**Approach:**  
+Create `src/app/venues/page.tsx`, `src/app/venues/[slug]/page.tsx`, and dataset `src/data/venues.ts`.
+
+---
+
+- [ ] **RED — E2E (`tests/e2e/venues.spec.ts`):**
+  - [ ] Test: Navigate to `/venues/` $\rightarrow$ assert H1 contains "Find the Right Setting for Your Event".
+  - [ ] Test: Assert venue cards render space type tags (Indoor / Outdoor).
+  - [ ] **Run — confirm RED.**
+
+- [ ] **GREEN — Venue Pages:**
+  - [ ] [Data] Create `src/data/venues.ts` with venue overview data.
+  - [ ] [Routes] Create `src/app/venues/page.tsx` and `src/app/venues/[slug]/page.tsx`.
+  - [ ] Run E2E test — **confirm GREEN.**
+
+- [ ] **Verification chain:**
+  - [ ] Visit `/venues/` $\rightarrow$ view space styling options for indoor and outdoor settings.
+  - [ ] ✅ Done.
+
+---
+
+### W-603 — Interactive Photo Gallery Page (`/gallery/`)
+
+**Root cause:**  
+Section 12 of the handoff PDF requires an image-first `/gallery/` page with category filters (Weddings, Corporate Events, Birthdays, Engagements, Décor, Stage Designs, Venue Designs) and minimal copy.
+
+**Goal:**  
+A `/gallery/` page with visual grid, category filter tabs, lazy-loaded images, and a custom GSAP `Lightbox.tsx` popup modal with keyboard controls.
+
+**Approach:**  
+Create `src/app/gallery/page.tsx`, `src/components/ui/Lightbox.tsx`, and dataset `src/data/gallery.ts`.
 
 ---
 
 - [ ] **RED — E2E (`tests/e2e/gallery.spec.ts`):**
-  - [ ] Navigate to `/gallery` → assert images rendered.
-  - [ ] Click a gallery image → assert lightbox modal opens.
-  - [ ] Press Escape → assert lightbox closes.
+  - [ ] Test: Navigate to `/gallery/` $\rightarrow$ assert H1 contains "Moments We've Helped Create".
+  - [ ] Test: Click thumbnail $\rightarrow$ assert Lightbox modal opens.
+  - [ ] Test: Press Escape $\rightarrow$ assert Lightbox modal closes.
   - [ ] **Run — confirm RED.**
 
-- [ ] **GREEN — Gallery:**
-  - [ ] [Route] `src/app/gallery/page.tsx`.
-  - [ ] [Lightbox] Create `src/components/ui/Lightbox.tsx` with GSAP open/close animations.
-  - [ ] [Filter] Client-side filter with GSAP stagger animation.
-  - [ ] [Accessibility] Lightbox: `role="dialog"`, `aria-modal="true"`, focus trap, Escape to close.
-  - [ ] Run E2E — **confirm GREEN.**
+- [ ] **GREEN — Gallery Page & Lightbox:**
+  - [ ] [Data] Create `src/data/gallery.ts` with category-tagged images.
+  - [ ] [Lightbox] Create `src/components/ui/Lightbox.tsx` with GSAP scale entrance and keyboard event listeners.
+  - [ ] [Route] Create `src/app/gallery/page.tsx` with category filter tabs.
+  - [ ] Run E2E test — **confirm GREEN.**
 
 - [ ] **Verification chain:**
-  - [ ] Click image → lightbox opens with scale animation → Escape closes it.
-  - [ ] Filter works correctly with smooth animations.
+  - [ ] Visit `/gallery/` $\rightarrow$ click photo $\rightarrow$ lightbox opens full screen $\rightarrow$ press Escape to close.
   - [ ] ✅ Done.
 
 ---
 
-### W-502 — FAQ, Contact & 404 Pages
+## Phase 7 — Blog System
+
+### W-701 — Blog Hub & Category Architecture (`/blog/`, `/blog/[category]/`)
 
 **Root cause:**  
-FAQ reduces support burden. Contact is the primary lead conversion page. 404 should guide users back to relevant content.
+Section 13 of the handoff PDF specifies `/blog/` and 5 category routes (`wedding-planning`, `event-planning`, `decoration-ideas`, `corporate-events`, `venue-destination-events`).
 
 **Goal:**  
-`/faqs` with accordion component (GSAP height animation). `/contact` with form (name, email, phone, event type, message) with validation. `/404` with animated "Page Not Found" and navigation CTA.
-
----
-
-- [ ] **RED — E2E (`tests/e2e/contact.spec.ts`):**
-  - [ ] `/faqs` → click first FAQ → assert answer panel expands.
-  - [ ] `/contact` → submit empty form → assert validation errors shown.
-  - [ ] `/contact` → fill form → submit → assert success message.
-  - [ ] `/nonexistent-route` → assert 404 page renders.
-  - [ ] **Run — confirm RED.**
-
-- [ ] **GREEN — FAQ/Contact/404:**
-  - [ ] [FAQ Accordion] GSAP `height: 0 → auto` animation with `clipPath` for smooth expand.
-  - [ ] [Contact Form] React Hook Form + Zod validation. Server Action for submission.
-  - [ ] [404] `src/app/not-found.tsx` with GSAP animated text reveal.
-  - [ ] Run E2E — **confirm GREEN.**
-
-- [ ] **Verification chain:**
-  - [ ] FAQ accordion opens/closes smoothly.
-  - [ ] Contact form validates and submits.
-  - [ ] `/broken-url` shows 404 page.
-  - [ ] ✅ Done.
-
----
-
-## Phase 6 — Blog System
-
-### W-601 — Blog Archive + Single Post
-
-**Root cause:**  
-Blog content drives organic SEO traffic. A well-structured blog with schema markup and proper metadata is critical for 1111 Decor's search visibility.
-
-**Goal:**  
-`/blog` with grid + list view toggle. `/blog/[slug]` with full article, author info, related posts, reading progress bar.
+A `/blog/` archive page with article cards and category navigation links. Dynamic `/blog/[category]/page.tsx` route filtering posts by category.
 
 **Approach:**  
-Use MDX for blog content (easily swappable for a CMS later). Reading progress: GSAP ScrollTrigger driving a top-bar `scaleX` from 0 to 1. Related posts: filter by matching tag/category from static data.
+Create `src/app/blog/page.tsx`, `src/app/blog/[category]/page.tsx`, and dataset `src/data/blog.ts`.
 
 ---
 
-- [ ] **RED — E2E (`tests/e2e/blog.spec.ts`):**
-  - [ ] `/blog` → assert 3 posts rendered in grid view.
-  - [ ] Toggle to list view → assert list layout.
-  - [ ] Click a post → navigate to `/blog/[slug]` → assert `<h1>` matches post title.
-  - [ ] Assert `<meta name="description">` is present and non-empty.
+- [ ] **RED — E2E (`tests/e2e/blog-hub.spec.ts`):**
+  - [ ] Test: Navigate to `/blog/` $\rightarrow$ assert blog cards and 5 category links are present.
+  - [ ] Test: Navigate to `/blog/decoration-ideas/` $\rightarrow$ assert only decoration-ideas articles render.
   - [ ] **Run — confirm RED.**
 
-- [ ] **GREEN — Blog:**
-  - [ ] [MDX] Install `@next/mdx next-mdx-remote`. Create 3 sample posts in `src/data/posts/`.
-  - [ ] [Archive] `src/app/blog/page.tsx` with grid/list toggle.
-  - [ ] [Single] `src/app/blog/[slug]/page.tsx` with `generateMetadata` and JSON-LD BlogPosting schema.
-  - [ ] [Reading Progress] GSAP ScrollTrigger + `scaleX` progress bar at top of viewport.
-  - [ ] [SEO] Full Open Graph + Twitter Card metadata on each post.
-  - [ ] Run E2E — **confirm GREEN.**
+- [ ] **GREEN — Blog Hub & Category Pages:**
+  - [ ] [Data] Extend `src/data/blog.ts` with category mappings and full post entries.
+  - [ ] [Routes] Create `src/app/blog/page.tsx` and `src/app/blog/[category]/page.tsx`.
+  - [ ] Run E2E test — **confirm GREEN.**
 
 - [ ] **Verification chain:**
-  - [ ] Blog archive renders → toggle between grid/list view.
-  - [ ] Open a post → reading progress bar fills as you scroll.
-  - [ ] View Page Source → confirm JSON-LD schema in `<head>`.
+  - [ ] Visit `/blog/` $\rightarrow$ click category chip "Wedding Planning" $\rightarrow$ navigates to `/blog/wedding-planning/`.
   - [ ] ✅ Done.
 
 ---
 
-## Phase 7 — Alternative Home Pages (v2, v3, v4)
-
-### W-701 — Home v2, v3, v4 Variants
+### W-702 — Blog Single Article Detail Page (`/blog/[category]/[slug]/`)
 
 **Root cause:**  
-The Anika template ships with 4 home page variants with different layouts and hero treatments. These give 1111 Decor flexibility to present different aesthetics.
+Section 13 of the handoff PDF defines single article structure: H1 $\rightarrow$ Intro $\rightarrow$ Body sections (H2/H3) $\rightarrow$ FAQ $\rightarrow$ Related service/event link $\rightarrow$ CTA.
 
 **Goal:**  
-3 additional home page routes (`/home-2`, `/home-3`, `/home-4`) each with distinct hero layouts (video background, slider, split-screen) reusing shared section components.
+Nested dynamic route `/blog/[category]/[slug]/page.tsx` rendering article copy, reading progress bar, related service/event chips, and `Article` JSON-LD schema.
+
+**Approach:**  
+Create `src/app/blog/[category]/[slug]/page.tsx` with `generateStaticParams` and `generateMetadata`.
 
 ---
 
-- [ ] **RED — E2E (`tests/e2e/home-variants.spec.ts`):**
-  - [ ] `/home-2` → assert unique hero variant renders.
-  - [ ] `/home-3` → assert unique hero variant renders.
-  - [ ] `/home-4` → assert unique hero variant renders.
+- [ ] **RED — E2E (`tests/e2e/blog-article.spec.ts`):**
+  - [ ] Test: Navigate to `/blog/wedding-planning/complete-wedding-decor-checklist/` $\rightarrow$ assert article H1 matches.
+  - [ ] Test: Assert `<script type="application/ld+json">` contains `"@type": "Article"`.
   - [ ] **Run — confirm RED.**
 
-- [ ] **GREEN — Home Variants:**
-  - [ ] [Home 2] Video background hero with text overlay.
-  - [ ] [Home 3] Split-screen hero (image left, text right).
-  - [ ] [Home 4] Full-screen slider with multiple slides (GSAP autoplay).
-  - [ ] Run E2E — **confirm GREEN.**
+- [ ] **GREEN — Blog Single Article Page:**
+  - [ ] [Route] Create nested dynamic route `src/app/blog/[category]/[slug]/page.tsx`.
+  - [ ] [Progress Bar] Add GSAP ScrollTrigger reading progress bar at top of viewport.
+  - [ ] [SEO] Inject `Article` schema and Open Graph metadata.
+  - [ ] Run E2E test — **confirm GREEN.**
 
 - [ ] **Verification chain:**
-  - [ ] All 3 routes render with distinct hero experiences.
+  - [ ] Open a blog post $\rightarrow$ reading progress bar fills as you scroll down.
+  - [ ] Click related service CTA at article end $\rightarrow$ redirected to matching service page.
   - [ ] ✅ Done.
 
 ---
 
-## Phase 8 — SEO Hardening & Performance
+## Phase 8 — Contact & Lead Conversion Shell
 
-### W-801 — SEO Metadata & Structured Data
+### W-801 — Contact Page (`/contact/`)
 
 **Root cause:**  
-Without proper SEO, 1111 Decor cannot be found by potential clients searching for event decoration services. This is the digital storefront's discoverability layer.
+Section 14 of the handoff PDF defines `/contact/` with H1 "Let's Plan Your Event", intro text, exact 8 form fields, contact details table, and map embed block.
 
 **Goal:**  
-Every page has: unique `<title>`, `<meta name="description">`, Open Graph tags, Twitter Card tags. Homepage has Organization JSON-LD. Events/Menus have relevant structured data. XML sitemap and robots.txt generated.
+A `/contact/` page with form fields: Name, Phone, Email, Event Type, Event Date, Guest Count, Budget Range (optional), Message. Includes demo address (123 Rajpur Road, Dehradun), Phone/WhatsApp (+91 98765 43210), Email, Hours, Map block, and submission feedback.
+
+**Approach:**  
+Create `src/app/contact/page.tsx` with client-side validation and toast notification.
 
 ---
 
-- [ ] **RED — Unit (`tests/seo.test.ts`):**
-  - [ ] Test: `generateMetadata({ params: { slug: 'corporate-menu' } })` → assert `title` contains "Corporate Menu | 1111 Decor".
-  - [ ] Test: `generateMetadata` for homepage → assert `openGraph.images` is non-empty array.
+- [ ] **RED — E2E (`tests/e2e/contact-page.spec.ts`):**
+  - [ ] Test: Navigate to `/contact/` $\rightarrow$ assert H1 contains "Let's Plan Your Event".
+  - [ ] Test: Submit empty form $\rightarrow$ assert validation errors on required fields.
+  - [ ] Test: Fill form and submit $\rightarrow$ assert success toast notification.
   - [ ] **Run — confirm RED.**
 
-- [ ] **GREEN — SEO:**
-  - [ ] [Root Metadata] In `layout.tsx`: set `metadataBase`, `robots`, `openGraph` defaults.
-  - [ ] [Sitemap] Create `src/app/sitemap.ts` returning all static + dynamic routes.
+- [ ] **GREEN — Contact Page:**
+  - [ ] [Route] Create `src/app/contact/page.tsx` with form state handling and contact info block.
+  - [ ] [Map] Add responsive embedded map container.
+  - [ ] [SEO] Inject `LocalBusiness` schema (once NAP confirmed) or `Organization` fallback.
+  - [ ] Run E2E test — **confirm GREEN.**
+
+- [ ] **Verification chain:**
+  - [ ] Open `/contact/` $\rightarrow$ fill form $\rightarrow$ click submit $\rightarrow$ success toast appears.
+  - [ ] Phone & WhatsApp links trigger `tel:` and `https://wa.me/` handlers.
+  - [ ] ✅ Done.
+
+---
+
+## Phase 9 — Developer & Technical SEO Hardening
+
+### W-901 — Schema Engine (`JsonLd.tsx`)
+
+**Root cause:**  
+Section 15 of the handoff PDF specifies JSON-LD schema requirements per page type (`Organization`, `BreadcrumbList`, `LocalBusiness`, `Service`, `Article`, `FAQPage`).
+
+**Goal:**  
+A centralized `<JsonLd>` component emitting validated JSON-LD scripts based on page metadata props across all site routes.
+
+**Approach:**  
+Create `src/components/seo/JsonLd.tsx` and integrate into `layout.tsx` and dynamic page wrappers.
+
+---
+
+- [ ] **RED — Unit (`tests/seo-schemas.unit.test.ts`):**
+  - [ ] Test: Call `generateJsonLd('Service', serviceData)` $\rightarrow$ assert valid JSON object with `@context: "https://schema.org"` and `@type: "Service"`.
+  - [ ] Test: Call `generateJsonLd('FAQPage', faqData)` $\rightarrow$ assert valid `mainEntity` Question array.
+  - [ ] **Run — confirm RED.**
+
+- [ ] **GREEN — Schema Engine Component:**
+  - [ ] [Component] Create `src/components/seo/JsonLd.tsx`.
+  - [ ] [Integration] Wire into root layout and page templates.
+  - [ ] Run unit test — **confirm GREEN.**
+
+- [ ] **Verification chain:**
+  - [ ] Inspect `<head>` across `/`, `/services/wedding-decoration/`, `/blog/wedding-planning/post-1` $\rightarrow$ valid schema blocks present.
+  - [ ] ✅ Done.
+
+---
+
+### W-902 — Dynamic Sitemap & Robots Generator
+
+**Root cause:**  
+Section 15 of the handoff PDF requires trailing slashes and full XML sitemap generation for all published static and dynamic routes.
+
+**Goal:**  
+Next.js `src/app/sitemap.ts` and `src/app/robots.ts` generating `/sitemap.xml` and `/robots.txt` containing all 30+ URLs with trailing slashes.
+
+**Approach:**  
+Create `src/app/sitemap.ts` and `src/app/robots.ts` compiling static routes + dynamic slugs from `services.ts`, `events.ts`, `blog.ts`, `portfolio.ts`, `venues.ts`.
+
+---
+
+- [ ] **RED — Unit (`tests/sitemap.unit.test.ts`):**
+  - [ ] Test: Invoke `sitemap()` $\rightarrow$ assert array contains `/`, `/about-us/`, `/services/`, 10 `/services/[slug]/` URLs, 6 `/events/[slug]/` URLs, etc.
+  - [ ] Test: Assert all URLs end with trailing slash `/`.
+  - [ ] **Run — confirm RED.**
+
+- [ ] **GREEN — Sitemap & Robots Generators:**
+  - [ ] [Sitemap] Create `src/app/sitemap.ts`.
   - [ ] [Robots] Create `src/app/robots.ts`.
-  - [ ] [JSON-LD] Create `src/components/seo/JsonLd.tsx` component. Add Organization schema to root layout. Add LocalBusiness schema.
-  - [ ] [Each Page] Verify each route's `generateMetadata` exports correct, unique metadata.
-  - [ ] Run unit tests — **confirm GREEN.**
+  - [ ] Run unit test — **confirm GREEN.**
 
 - [ ] **Verification chain:**
-  - [ ] View Page Source → `<title>` is correct and unique per page.
-  - [ ] Run Lighthouse → SEO score ≥ 95.
-  - [ ] Submit sitemap URL to Google Search Console (manual step).
+  - [ ] Visit `localhost:3000/sitemap.xml` $\rightarrow$ valid XML sitemap generated.
+  - [ ] Visit `localhost:3000/robots.txt` $\rightarrow$ points to `/sitemap.xml`.
   - [ ] ✅ Done.
 
 ---
 
-### W-802 — Performance & Core Web Vitals
+### W-903 — Quality Suite & Production Build Hardening
 
 **Root cause:**  
-Premium brands must deliver premium performance. Poor CWV scores damage both SEO rankings and user perception.
+Final quality gate ensuring zero TypeScript errors, zero ESLint warnings, 100% passing unit and E2E tests, and Next.js static production build generation.
 
 **Goal:**  
-Lighthouse scores: Performance ≥ 90, Accessibility ≥ 95, Best Practices ≥ 95, SEO ≥ 95. All images use `next/image`. Fonts use `display: swap`. Critical CSS inlined.
+Clean execution of `pnpm typecheck && pnpm lint && pnpm test:unit && pnpm build`.
+
+**Approach:**  
+Run the full verification pipeline and resolve any remaining type or lint edge cases.
 
 ---
 
-- [ ] **RED — Performance Test:**
-  - [ ] Run Lighthouse on `localhost:3000` → confirm Performance score is below target (it will be at this stage, confirming we need this work item).
-  - [ ] **Run — confirm RED (score below 90).**
+- [ ] **RED — Quality Gate Verification:**
+  - [ ] Run full CI quality command $\rightarrow$ confirm any unfulfilled assertions or type issues.
+  - [ ] **Run — confirm RED.**
 
-- [ ] **GREEN — Performance:**
-  - [ ] [Images] Audit all `<img>` → replace with `next/image` with proper `sizes` and `priority` on LCP images.
-  - [ ] [Fonts] Add `display: 'swap'` to all `next/font` calls.
-  - [ ] [Code Split] Audit bundle with `@next/bundle-analyzer`. Split heavy GSAP imports to dynamic imports.
-  - [ ] [Preload] Add `<link rel="preload">` for hero image.
-  - [ ] [GSAP] Use `gsap.registerPlugin` only in client components. Tree-shake unused GSAP plugins.
-  - [ ] Run Lighthouse again — **confirm GREEN (≥ 90).**
+- [ ] **GREEN — Final Production Hardening:**
+  - [ ] Fix any remaining type discrepancies across datasets and components.
+  - [ ] Run `pnpm typecheck && pnpm lint && pnpm test:unit && pnpm build` — **confirm GREEN.**
 
 - [ ] **Verification chain:**
-  - [ ] Lighthouse audit: Performance ≥ 90, Accessibility ≥ 95.
-  - [ ] No layout shifts (CLS ≈ 0).
+  - [ ] All 30+ static pages generated in `.next/` build output.
+  - [ ] Zero lint warnings, zero type errors.
   - [ ] ✅ Done.
 
 ---
@@ -916,13 +1188,14 @@ Lighthouse scores: Performance ≥ 90, Accessibility ≥ 95, Best Practices ≥ 
 | Phase 0 — Scaffolding | `[x]` Completed | W-001, W-002, W-003, W-004 |
 | Phase 1 — Layout Shell | `[x]` Completed | W-101 |
 | Phase 2 — Home Page | `[x]` Completed | W-201 through W-210 |
-| Phase 3 — Menu & Events | `[ ]` Not Started | W-301, W-302, W-303 |
-| Phase 4 — About & Venues | `[ ]` Not Started | W-401, W-402 |
-| Phase 5 — Gallery & More | `[ ]` Not Started | W-501, W-502 |
-| Phase 6 — Blog | `[ ]` Not Started | W-601 |
-| Phase 7 — Home Variants | `[ ]` Not Started | W-701 |
-| Phase 8 — SEO & Perf | `[ ]` Not Started | W-801, W-802 |
+| Phase 3 — Services Architecture | `[x]` Completed | W-301, W-302, W-303, W-304 |
+| Phase 4 — Events Architecture | `[ ]` Not Started | W-401, W-402, W-403 |
+| Phase 5 — About, Packages & Testimonials | `[ ]` Not Started | W-501, W-502, W-503 |
+| Phase 6 — Portfolio, Venues & Gallery | `[ ]` Not Started | W-601, W-602, W-603 |
+| Phase 7 — Blog System | `[ ]` Not Started | W-701, W-702 |
+| Phase 8 — Contact & Lead Conversion Shell | `[ ]` Not Started | W-801 |
+| Phase 9 — Technical SEO & Hardening | `[ ]` Not Started | W-901, W-902, W-903 |
 
 ---
 
-> **Note for content team:** All text content is placeholder data matching the Anika template. Replace with 1111 Decor brand copy and real images when available. All data is in `src/data/` files for easy replacement.
+> **Note for development team:** All text content, page copy, and metadata follow the 11:11 Decor Website Structure & Content Handoff specification. All data is structured in `src/data/` files for effortless CMS migration or content updates.

@@ -1,4 +1,4 @@
-.testimonialsContainer {
+.portfolioContainer {
   background-color: #1a1a1a;
   color: #f5f0e8;
   min-height: 100vh;
@@ -66,19 +66,39 @@
   width: 100%;
 }
 
-/* SECTION 2: Light Theme Testimonials Grid Section */
+/* SECTION 2: Light Theme Filter & Grid Section */
 .gridSectionLight {
-  padding: 5.5rem 0;
+  padding: 4.5rem 0 5.5rem;
   background-color: #f7f3ec;
   color: #1a1a1a;
 }
 
-.sectionHeader {
+.filtersRow {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
   margin-bottom: 3.5rem;
+}
+
+.filterPill {
+  padding: 0.6rem 1.35rem;
+  border-radius: 30px;
+  border: 1px solid rgba(201, 169, 110, 0.4);
+  background-color: #ffffff;
+  color: #1a1a1a;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filterPillActive {
+  background-color: #c9a96e;
+  color: #111111;
+  border-color: #c9a96e;
+  box-shadow: 0 4px 14px rgba(201, 169, 110, 0.35);
 }
 
 .cardsGrid {
@@ -87,65 +107,79 @@
   gap: 2.25rem;
 }
 
-.testimonialCard {
+.portfolioCard {
   background-color: #ffffff;
-  border: 1px solid rgba(201, 169, 110, 0.25);
   border-radius: 8px;
-  padding: 2.5rem 2rem;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(201, 169, 110, 0.25);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  text-decoration: none;
+  color: inherit;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.testimonialCard:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 35px rgba(201, 169, 110, 0.2);
+.portfolioCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 35px rgba(201, 169, 110, 0.25);
 }
 
-.starsRow {
-  color: #c9a96e;
-  font-size: 1.2rem;
-  margin-bottom: 1.25rem;
-  letter-spacing: 0.1em;
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
 }
 
-.quoteText {
-  font-family: var(--font-body);
-  font-size: 1.02rem;
-  line-height: 1.7;
-  color: #3c352e;
-  font-style: italic;
-  margin-bottom: 1.75rem;
+.cardImage {
+  object-fit: cover;
+  transition: transform 0.5s ease;
 }
 
-.clientMeta {
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
-  padding-top: 1.25rem;
+.portfolioCard:hover .cardImage {
+  transform: scale(1.05);
+}
+
+.cardBody {
+  padding: 1.75rem;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  flex-grow: 1;
+  justify-content: space-between;
 }
 
-.clientName {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  color: #1a1a1a;
-  font-weight: 600;
-}
-
-.eventDetails {
+.categoryTag {
   font-family: var(--font-body);
-  font-size: 0.85rem;
-  color: #a8834a;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  color: #a8834a;
+  margin-bottom: 0.35rem;
 }
 
-.locationText {
+.cardTitle {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: #1a1a1a;
+  margin-bottom: 0.65rem;
+  line-height: 1.3;
+}
+
+.cardDesc {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: #555555;
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.cardLink {
   font-family: var(--font-body);
   font-size: 0.85rem;
-  color: #777777;
+  font-weight: 700;
+  color: #a8834a;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }

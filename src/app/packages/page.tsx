@@ -42,10 +42,10 @@ export default function PackagesPage() {
       {/* SECTION 1: Dark Hero Header */}
       <section className={styles.heroSection}>
         <div className={styles.container}>
-          <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', letterSpacing: '0.22em', color: '#c9a96e', textTransform: 'uppercase', fontWeight: 600 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '0.85rem', letterSpacing: '0.22em', color: '#c9a96e', textTransform: 'uppercase', fontWeight: 600, marginBottom: '1.25rem' }}>
             CURATED EXPERIENCES
           </span>
-          <WindRevealHeading as="h1" className="heading-xl" style={{ color: '#ffffff', marginTop: '0.5rem' }}>
+          <WindRevealHeading as="h1" className="heading-xl" style={{ color: '#ffffff' }}>
             Planning Built Around Your Event
           </WindRevealHeading>
           <p className={styles.heroSubtitle}>

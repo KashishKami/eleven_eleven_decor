@@ -97,7 +97,12 @@ export function WindRevealHeading({
       ref: containerRef,
       className,
       style: {
-        display: 'inline-block',
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        textAlign: 'center',
+        width: '100%',
+        marginInline: 'auto',
         ...style,
       },
     },

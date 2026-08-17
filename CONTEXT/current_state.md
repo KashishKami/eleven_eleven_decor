@@ -901,6 +901,14 @@ Create `src/app/testimonials/page.tsx` and `src/data/testimonials.ts`. Render cl
   - [x] Confirm no Google Schema warnings for fabricated reviews.
   - [x] ✅ Done.
 
+> [!NOTE]
+> - **Phase 5 Session Summary (About Us, Packages & Testimonials):**
+> - **W-501 (About Us Page `/about-us/`):** Built `src/app/about-us/page.tsx` with H1 *"Creating Experiences, Not Just Events"*, editorial split-grid image sections, alternating light/dark themes, CTA to `/contact/`, and `Organization` JSON-LD schema.
+> - **W-502 (Packages Page `/packages/`):** Created `src/data/packages.ts` for 3 tiers (**Essential**, **Signature**, **Bespoke**) with Custom Quote price labels. Built `src/app/packages/page.tsx` with champagne gold tier highlights and `ItemList` JSON-LD schema.
+> - **W-503 (Testimonials Page `/testimonials/`):** Created `src/data/testimonials.ts` and `src/app/testimonials/page.tsx` displaying client review cards while strictly omitting Review schema per Section 11 SEO guidelines.
+> - **Unit & E2E Verification:** Created `tests/packages.unit.test.ts` (2 tests passing), `tests/testimonials.unit.test.ts` (2 tests passing), `tests/e2e/about-page.spec.ts` (passing), `tests/e2e/packages-page.spec.ts` (passing), and `tests/e2e/testimonials-page.spec.ts` (passing). Total 23 Vitest unit tests and 83 Playwright E2E tests passing.
+> - **CI Quality Pipeline:** `pnpm ci:quality` verified 0 ESLint errors, 0 TypeScript errors, 23 unit tests passed, 83 Playwright E2E tests passed, and 34 static pages generated in Next.js production build.
+
 ---
 
 ## Phase 6 — Portfolio, Venues & Gallery
@@ -918,19 +926,19 @@ Create `src/app/portfolio/page.tsx`, `src/app/portfolio/[slug]/page.tsx`, and da
 
 ---
 
-- [ ] **RED — E2E (`tests/e2e/portfolio.spec.ts`):**
-  - [ ] Test: Navigate to `/portfolio/` $\rightarrow$ assert H1 contains "Our Work".
-  - [ ] Test: Assert category filter pills toggle displayed project cards.
-  - [ ] **Run — confirm RED.**
+- [x] **RED — E2E (`tests/e2e/portfolio.spec.ts`):**
+  - [x] Test: Navigate to `/portfolio/` $\rightarrow$ assert H1 contains "Our Work".
+  - [x] Test: Assert category filter pills toggle displayed project cards.
+  - [x] **Run — confirm RED.**
 
-- [ ] **GREEN — Portfolio Pages:**
-  - [ ] [Data] Create `src/data/portfolio.ts` with project cards and project template data.
-  - [ ] [Routes] Create `src/app/portfolio/page.tsx` and `src/app/portfolio/[slug]/page.tsx`.
-  - [ ] Run E2E test — **confirm GREEN.**
+- [x] **GREEN — Portfolio Pages:**
+  - [x] [Data] Create `src/data/portfolio.ts` with project cards and project template data.
+  - [x] [Routes] Create `src/app/portfolio/page.tsx` and `src/app/portfolio/[slug]/page.tsx`.
+  - [x] Run E2E test — **confirm GREEN.**
 
-- [ ] **Verification chain:**
-  - [ ] Visit `/portfolio/` $\rightarrow$ click category filter pill $\rightarrow$ card grid updates smoothly.
-  - [ ] ✅ Done.
+- [x] **Verification chain:**
+  - [x] Visit `/portfolio/` $\rightarrow$ click category filter pill $\rightarrow$ card grid updates smoothly.
+  - [x] ✅ Done.
 
 ---
 
@@ -947,19 +955,19 @@ Create `src/app/venues/page.tsx`, `src/app/venues/[slug]/page.tsx`, and dataset 
 
 ---
 
-- [ ] **RED — E2E (`tests/e2e/venues.spec.ts`):**
-  - [ ] Test: Navigate to `/venues/` $\rightarrow$ assert H1 contains "Find the Right Setting for Your Event".
-  - [ ] Test: Assert venue cards render space type tags (Indoor / Outdoor).
-  - [ ] **Run — confirm RED.**
+- [x] **RED — E2E (`tests/e2e/venues.spec.ts`):**
+  - [x] Test: Navigate to `/venues/` $\rightarrow$ assert H1 contains "Find the Right Setting for Your Event".
+  - [x] Test: Assert venue cards render space type tags (Indoor / Outdoor).
+  - [x] **Run — confirm RED.**
 
-- [ ] **GREEN — Venue Pages:**
-  - [ ] [Data] Create `src/data/venues.ts` with venue overview data.
-  - [ ] [Routes] Create `src/app/venues/page.tsx` and `src/app/venues/[slug]/page.tsx`.
-  - [ ] Run E2E test — **confirm GREEN.**
+- [x] **GREEN — Venue Pages:**
+  - [x] [Data] Create `src/data/venues.ts` with venue overview data.
+  - [x] [Routes] Create `src/app/venues/page.tsx` and `src/app/venues/[slug]/page.tsx`.
+  - [x] Run E2E test — **confirm GREEN.**
 
-- [ ] **Verification chain:**
-  - [ ] Visit `/venues/` $\rightarrow$ view space styling options for indoor and outdoor settings.
-  - [ ] ✅ Done.
+- [x] **Verification chain:**
+  - [x] Visit `/venues/` $\rightarrow$ view space styling options for indoor and outdoor settings.
+  - [x] ✅ Done.
 
 ---
 
@@ -976,21 +984,33 @@ Create `src/app/gallery/page.tsx`, `src/components/ui/Lightbox.tsx`, and dataset
 
 ---
 
-- [ ] **RED — E2E (`tests/e2e/gallery.spec.ts`):**
-  - [ ] Test: Navigate to `/gallery/` $\rightarrow$ assert H1 contains "Moments We've Helped Create".
-  - [ ] Test: Click thumbnail $\rightarrow$ assert Lightbox modal opens.
-  - [ ] Test: Press Escape $\rightarrow$ assert Lightbox modal closes.
-  - [ ] **Run — confirm RED.**
+- [x] **RED — E2E (`tests/e2e/gallery.spec.ts`):**
+  - [x] Test: Navigate to `/gallery/` $\rightarrow$ assert H1 contains "Moments We've Helped Create".
+  - [x] Test: Click thumbnail $\rightarrow$ assert Lightbox modal opens.
+  - [x] Test: Press Escape $\rightarrow$ assert Lightbox modal closes.
+  - [x] **Run — confirm RED.**
 
-- [ ] **GREEN — Gallery Page & Lightbox:**
-  - [ ] [Data] Create `src/data/gallery.ts` with category-tagged images.
-  - [ ] [Lightbox] Create `src/components/ui/Lightbox.tsx` with GSAP scale entrance and keyboard event listeners.
-  - [ ] [Route] Create `src/app/gallery/page.tsx` with category filter tabs.
-  - [ ] Run E2E test — **confirm GREEN.**
+- [x] **GREEN — Gallery Page & Lightbox:**
+  - [x] [Data] Create `src/data/gallery.ts` with category-tagged images.
+  - [x] [Lightbox] Create `src/components/ui/Lightbox.tsx` with GSAP scale entrance and keyboard event listeners.
+  - [x] [Route] Create `src/app/gallery/page.tsx` with category filter tabs.
+  - [x] Run E2E test — **confirm GREEN.**
 
-- [ ] **Verification chain:**
-  - [ ] Visit `/gallery/` $\rightarrow$ click photo $\rightarrow$ lightbox opens full screen $\rightarrow$ press Escape to close.
-  - [ ] ✅ Done.
+- [x] **Verification chain:**
+  - [x] Visit `/gallery/` $\rightarrow$ click photo $\rightarrow$ lightbox opens full screen $\rightarrow$ press Escape to close.
+  - [x] ✅ Done.
+
+> [!NOTE]
+> - **Phase 6 Session Summary (Portfolio, Venues & Gallery + Global Formatting Polish):**
+> - **W-601 (Portfolio Archive & Case Studies `/portfolio/`, `/portfolio/[slug]/`):** Created `src/data/portfolio.ts` with 6 detailed project case studies. Built `src/app/portfolio/page.tsx` with client-side category filter pills and dynamic `/portfolio/[slug]/page.tsx` with `CreativeWork` JSON-LD schema.
+> - **W-602 (Venues Directory & Detail Templates `/venues/`, `/venues/[slug]/`):** Created `src/data/venues.ts` with preferred venue frameworks. Built `src/app/venues/page.tsx` with space profile badges and dynamic `/venues/[slug]/page.tsx` with `EventVenue` JSON-LD schema.
+> - **W-603 (Interactive Photo Gallery & Lightbox `/gallery/`):** Created `src/data/gallery.ts`, `src/components/ui/Lightbox.tsx` with keyboard controls (Escape, Arrow Left/Right), and `src/app/gallery/page.tsx` with category filter tabs.
+> - **Global Visual Formatting & Centering Polish:**
+>   - Fixed hero header uppercase gold labels across `/about-us/`, `/venues/`, `/portfolio/`, `/gallery/`, `/packages/`, `/testimonials/`, and detail pages with `display: block` and `margin-bottom: 1.25rem - 1.5rem` vertical spacing.
+>   - Fixed horizontal centering of hero subtitle paragraphs (`.heroSubtitle` / `.introSubtext`) across all pages by setting `margin: 1.5rem auto 0; text-align: center; width: 100%;` and flex-column centering on `.heroSection .container`.
+>   - Updated package CTA buttons in `packages.module.css` from solid black to luxury champagne gold (`#c9a96e`).
+> - **Unit & E2E Verification:** Created `tests/portfolio.unit.test.ts` (2 tests), `tests/venues.unit.test.ts` (2 tests), `tests/gallery.unit.test.ts` (2 tests), `tests/e2e/portfolio.spec.ts` (2 tests passing), `tests/e2e/venues.spec.ts` (2 tests passing), and `tests/e2e/gallery.spec.ts` (2 tests passing).
+> - **Suite Status:** 29 Vitest unit tests passing, 89 Playwright E2E tests passing, 0 ESLint errors, 0 TypeScript errors.
 
 ---
 

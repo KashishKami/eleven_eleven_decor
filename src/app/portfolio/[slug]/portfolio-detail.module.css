@@ -1,0 +1,179 @@
+.detailContainer {
+  background-color: #1a1a1a;
+  color: #f5f0e8;
+  min-height: 100vh;
+  padding-top: 80px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* SECTION 1: Dark Hero Banner */
+.heroSection {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #121212;
+}
+
+.heroImage {
+  object-fit: cover;
+  filter: brightness(0.4);
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 900px;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.heroSubtitle {
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  color: #c9a96e;
+  margin-top: 1rem;
+}
+
+/* Metadata Bar */
+.metaBarDark {
+  padding: 2.25rem 0;
+  background-color: #181818;
+  border-bottom: 1px solid rgba(201, 169, 110, 0.25);
+}
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.metaLabelGold {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #c9a96e;
+  margin-bottom: 0.35rem;
+  display: block;
+}
+
+.metaValueWhite {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* SECTION 2: Light Theme Overview & Planning Details */
+.overviewSectionLight {
+  padding: 5.5rem 0;
+  background-color: #f7f3ec;
+  color: #1a1a1a;
+}
+
+.summaryTextLight {
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  line-height: 1.85;
+  color: #3c352e;
+  max-width: 920px;
+  margin: 0 auto 3.5rem;
+  text-align: center;
+}
+
+.splitGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 3rem;
+}
+
+.boxLight {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(201, 169, 110, 0.25);
+}
+
+.boxTitleDark {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: #1a1a1a;
+  margin-bottom: 1.25rem;
+}
+
+.featureListLight {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.featureItemLight {
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  color: #555555;
+  line-height: 1.6;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
+
+.checkIconGold {
+  color: #a8834a;
+  font-weight: bold;
+}
+
+/* SECTION 3: Dark Theme Gallery & Execution Notes */
+.gallerySectionDark {
+  padding: 5.5rem 0;
+  background-color: #121212;
+  color: #ffffff;
+}
+
+.galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3.5rem;
+}
+
+.galleryCard {
+  position: relative;
+  height: 280px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(201, 169, 110, 0.25);
+}
+
+.executionBoxDark {
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(201, 169, 110, 0.3);
+  border-radius: 8px;
+  padding: 2.5rem;
+  max-width: 920px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.executionTextDark {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: #d1cbd0;
+}

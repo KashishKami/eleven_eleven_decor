@@ -41,7 +41,7 @@ export default function AboutUsPage() {
       <section className={styles.heroSection}>
         <div className={styles.container}>
           <span className={styles.labelGold}>ABOUT 11:11 DECOR</span>
-          <WindRevealHeading as="h1" className="heading-xl" style={{ color: '#ffffff', marginTop: '0.5rem' }}>
+          <WindRevealHeading as="h1" className="heading-xl" style={{ color: '#ffffff' }}>
             Creating Experiences, Not Just Events
           </WindRevealHeading>
           <p className={styles.heroSubtitle}>

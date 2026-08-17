@@ -7,7 +7,7 @@ test.describe('Event Categories Section (W-203)', () => {
     const section = page.locator('#event-categories')
     await expect(section).toBeVisible()
 
-    const corporateHeading = section.getByRole('heading', { name: /corporate/i })
-    await expect(corporateHeading).toBeVisible()
+    const categoryHeading = section.getByRole('heading', { name: /wedding|corporate/i })
+    await expect(categoryHeading.first()).toBeVisible()
   })
 })

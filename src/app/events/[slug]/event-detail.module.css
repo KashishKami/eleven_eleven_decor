@@ -1,0 +1,270 @@
+.detailContainer {
+  background-color: #1a1a1a;
+  color: #f5f0e8;
+  min-height: 100vh;
+  padding-top: 80px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* SECTION 1: Dark Hero Banner */
+.heroSection {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #121212;
+}
+
+.heroImage {
+  object-fit: cover;
+  filter: brightness(0.42);
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 860px;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.heroSubtitle {
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  color: #c9a96e;
+  margin-top: 1rem;
+}
+
+/* SECTION 2: Light Theme Intro Overview */
+.introSectionLight {
+  padding: 5rem 0 4.5rem;
+  background-color: #f7f3ec;
+  color: #1a1a1a;
+  border-bottom: 1px solid rgba(201, 169, 110, 0.25);
+}
+
+.introTextLight {
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  line-height: 1.85;
+  color: #4a453f;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  font-weight: 450;
+}
+
+/* SECTION 3: Dark Theme Planning Services */
+.servicesSectionDark {
+  padding: 5rem 0;
+  background-color: #181818;
+  color: #ffffff;
+}
+
+/* SECTION 4: Light Theme Signature Decoration Options */
+.decorSectionLight {
+  padding: 5rem 0;
+  background-color: #faf6f0;
+  color: #1a1a1a;
+}
+
+/* SECTION 5: Dark Theme On-Site Management */
+.managementSectionDark {
+  padding: 5rem 0;
+  background-color: #121212;
+  color: #ffffff;
+}
+
+/* SECTION 6: Light Theme 4-Step Process */
+.processSectionLight {
+  padding: 5rem 0;
+  background-color: #f7f3ec;
+  color: #1a1a1a;
+}
+
+/* SECTION 7: Dark Theme FAQs */
+.faqSectionDark {
+  padding: 5rem 0;
+  background-color: #111111;
+  color: #ffffff;
+}
+
+/* Common Section Header Styling */
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.labelBlockGold {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #c9a96e;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.labelBlockDark {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #a8834a;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+/* Grid & Cards (Dark Sections) */
+.servicesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.75rem;
+}
+
+.featureCardDark {
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(201, 169, 110, 0.25);
+  border-radius: 6px;
+  padding: 1.75rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.featureCardDark:hover {
+  transform: translateY(-4px);
+  border-color: #c9a96e;
+}
+
+.featureIconGold {
+  color: #c9a96e;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.featureTextDark {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  color: #e5dfd5;
+  line-height: 1.55;
+}
+
+/* Cards (Light Sections) */
+.decorGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.decorCardLight {
+  background-color: #ffffff;
+  border-radius: 6px;
+  padding: 1.75rem;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(201, 169, 110, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.decorCardLight:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(201, 169, 110, 0.2);
+}
+
+.decorTextLight {
+  font-family: var(--font-body);
+  font-size: 1.02rem;
+  font-weight: 500;
+  color: #2c2620;
+  line-height: 1.55;
+}
+
+/* Step Process (Light Section) */
+.processGridLight {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.processCardLight {
+  background-color: #ffffff;
+  border: 1px solid rgba(201, 169, 110, 0.25);
+  border-radius: 6px;
+  padding: 1.75rem;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease;
+}
+
+.processCardLight:hover {
+  transform: translateY(-4px);
+}
+
+.processStepNumGold {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  color: #a8834a;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.processTitleLight {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: #1a1a1a;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+}
+
+.processDescLight {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: #655f56;
+  line-height: 1.6;
+}
+
+/* FAQ Grid (Dark Section) */
+.faqGridDark {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.faqCardDark {
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(201, 169, 110, 0.2);
+  border-radius: 6px;
+  padding: 1.75rem;
+}
+
+.faqQuestionGold {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: #c9a96e;
+  margin-bottom: 0.75rem;
+}
+
+.faqAnswerDark {
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  color: #d1cbd0;
+  line-height: 1.6;
+}

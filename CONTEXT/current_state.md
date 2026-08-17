@@ -724,29 +724,21 @@ Add static params for `lighting-production` and `entertainment-hospitality` in `
 **Root cause:**  
 Section 6 of the handoff PDF requires a central `/events/` hub page introducing all 6 event categories with intro text and visual cards.
 
-**Goal:**  
-A dedicated `/events/` hub page reusing the `EventCategories.tsx` curtain-wipe animation component, displaying H1 "Events We Plan, Manage & Decorate", introductory copy, and category links to all 6 event detail pages.
+**Goal- [x] **RED — E2E (`tests/e2e/events-hub.spec.ts`):**
+  - [x] Test: Navigate to `/events/` $\rightarrow$ assert H1 contains "Events We Plan, Manage & Decorate".
+  - [x] Test: Assert all 6 event category links (`wedding-events`, `corporate-events`, `birthday-events`, `engagement-events`, `private-events`, `destination-events`) exist.
+  - [x] **Run — confirm RED.**
 
-**Approach:**  
-Create `src/app/events/page.tsx` integrating `WindRevealHeading` and `EventCategories.tsx`. Export full SEO metadata and `BreadcrumbList` schema.
+- [x] **GREEN — Events Main Page:**
+  - [x] [Data] Create `src/data/events.ts` containing the registry of 6 event categories per Section 6 of the handoff PDF.
+  - [x] [Route] Create `src/app/events/page.tsx` with SEO metadata (`title: 'Events We Plan, Manage & Decorate | 1111 Decor'`).
+  - [x] [Component] Re-use `EventCategories.tsx` synchronized curtain wipe animation for visual event selection.
+  - [x] Run E2E test — **confirm GREEN.**
 
----
-
-- [ ] **RED — E2E (`tests/e2e/events-hub.spec.ts`):**
-  - [ ] Test: Navigate to `/events/` $\rightarrow$ assert H1 contains "Events We Plan, Manage & Decorate".
-  - [ ] Test: Assert all 6 event category links (`wedding-events`, `corporate-events`, `birthday-events`, `engagement-events`, `private-events`, `destination-events`) exist.
-  - [ ] **Run — confirm RED.**
-
-- [ ] **GREEN — Events Main Page:**
-  - [ ] [Data] Create `src/data/events.ts` containing the registry of 6 event categories per Section 6 of the handoff PDF.
-  - [ ] [Route] Create `src/app/events/page.tsx` with SEO metadata (`title: 'Events We Plan, Manage & Decorate | 1111 Decor'`).
-  - [ ] [Component] Re-use `EventCategories.tsx` synchronized curtain wipe animation for visual event selection.
-  - [ ] Run E2E test — **confirm GREEN.**
-
-- [ ] **Verification chain:**
-  - [ ] Visit `/events/` $\rightarrow$ interactive curtain wipe selector renders with 6 event categories.
-  - [ ] Click "Wedding Events" $\rightarrow$ navigates to `/events/wedding-events/`.
-  - [ ] ✅ Done.
+- [x] **Verification chain:**
+  - [x] Visit `/events/` $\rightarrow$ interactive curtain wipe selector renders with 6 event categories.
+  - [x] Click "Wedding Events" $\rightarrow$ navigates to `/events/wedding-events/`.
+  - [x] ✅ Done.
 
 ---
 
@@ -763,22 +755,22 @@ Create `src/app/events/[slug]/page.tsx` with `generateStaticParams` and `generat
 
 ---
 
-- [ ] **RED — E2E (`tests/e2e/events-celebrations.spec.ts`):**
-  - [ ] Test: Navigate to `/events/wedding-events/` $\rightarrow$ assert H1 equals "Wedding Event Planning & Management".
-  - [ ] Test: Assert H1 is distinct from `/services/wedding-decoration/` H1 ("Wedding Decoration").
-  - [ ] Test: Navigate to `/events/birthday-events/` $\rightarrow$ assert H1 equals "Birthday Event Planning".
-  - [ ] **Run — confirm RED.**
+- [x] **RED — E2E (`tests/e2e/events-celebrations.spec.ts`):**
+  - [x] Test: Navigate to `/events/wedding-events/` $\rightarrow$ assert H1 equals "Wedding Event Planning & Management".
+  - [x] Test: Assert H1 is distinct from `/services/wedding-decoration/` H1 ("Wedding Decoration").
+  - [x] Test: Navigate to `/events/birthday-events/` $\rightarrow$ assert H1 equals "Birthday Event Planning".
+  - [x] **Run — confirm RED.**
 
-- [ ] **GREEN — Primary Celebration Event Pages:**
-  - [ ] [Route] Create `src/app/events/[slug]/page.tsx` with `generateStaticParams`.
-  - [ ] [Data] Add Section 7.1, 7.3, and 7.4 copy and FAQs to `src/data/events.ts`.
-  - [ ] [Template] Render event-specific timeline services, decoration options, and on-site troubleshooting points.
-  - [ ] Run E2E test — **confirm GREEN.**
+- [x] **GREEN — Primary Celebration Event Pages:**
+  - [x] [Route] Create `src/app/events/[slug]/page.tsx` with `generateStaticParams`.
+  - [x] [Data] Add Section 7.1, 7.3, and 7.4 copy and FAQs to `src/data/events.ts`.
+  - [x] [Template] Render event-specific timeline services, decoration options, and on-site troubleshooting points.
+  - [x] Run E2E test — **confirm GREEN.**
 
-- [ ] **Verification chain:**
-  - [ ] Navigate to `/events/wedding-events/` $\rightarrow$ view function-by-function timeline planning details.
-  - [ ] Verify search intent isolation against `/services/wedding-decoration/`.
-  - [ ] ✅ Done.
+- [x] **Verification chain:**
+  - [x] Navigate to `/events/wedding-events/` $\rightarrow$ view function-by-function timeline planning details.
+  - [x] Verify search intent isolation against `/services/wedding-decoration/`.
+  - [x] ✅ Done.
 
 ---
 
@@ -795,20 +787,26 @@ Extend `src/app/events/[slug]/page.tsx` static params and populate Section 7.2, 
 
 ---
 
-- [ ] **RED — E2E (`tests/e2e/events-niche.spec.ts`):**
-  - [ ] Test: Navigate to `/events/corporate-events/` $\rightarrow$ assert H1 equals "Corporate Event Planning".
-  - [ ] Test: Navigate to `/events/destination-events/` $\rightarrow$ assert H1 equals "Destination Event Planning" and text covers travel logistics.
-  - [ ] **Run — confirm RED.**
+- [x] **RED — E2E (`tests/e2e/events-niche.spec.ts`):**
+  - [x] Test: Navigate to `/events/corporate-events/` $\rightarrow$ assert H1 equals "Corporate Event Planning".
+  - [x] Test: Navigate to `/events/destination-events/` $\rightarrow$ assert H1 equals "Destination Event Planning" and text covers travel logistics.
+  - [x] **Run — confirm RED.**
 
-- [ ] **GREEN — Corporate, Private & Destination Event Pages:**
-  - [ ] [Data] Add Section 7.2, 7.5, and 7.6 data to `src/data/events.ts`.
-  - [ ] [Static Params] Ensure all 6 event slugs (`wedding-events`, `corporate-events`, `birthday-events`, `engagement-events`, `private-events`, `destination-events`) are exported.
-  - [ ] Run E2E test — **confirm GREEN.**
+- [x] **GREEN — Corporate, Private & Destination Event Pages:**
+  - [x] [Data] Add Section 7.2, 7.5, and 7.6 data to `src/data/events.ts`.
+  - [x] [Static Params] Ensure all 6 event slugs (`wedding-events`, `corporate-events`, `birthday-events`, `engagement-events`, `private-events`, `destination-events`) are exported.
+  - [x] Run E2E test — **confirm GREEN.**
 
-- [ ] **Verification chain:**
-  - [ ] Navigate to `/events/destination-events/` $\rightarrow$ read multi-day travel and local sourcing logistics.
-  - [ ] All 6 event category routes pass static generation checks.
-  - [ ] ✅ Done.
+- [x] **Verification chain:**
+  - [x] Navigate to `/events/destination-events/` $\rightarrow$ read multi-day travel and local sourcing logistics.
+  - [x] All 6 event category routes pass static generation checks.
+  - [x] ✅ Done.
+
+> ### 📝 Session Note (Events Architecture Completion — W-401, W-402, W-403) — August 18, 2026
+> - **Phase 4 Status:** Phase 4 (Events Architecture) is 100% complete and verified.
+> - **Implementation Summary:** Built `src/data/events.ts` containing the full 6-event category registry, intro copy, planning services, decoration options, event management items, process steps, FAQs, and metadata. Created Events Hub page `src/app/events/page.tsx` (and `src/app/event/page.tsx` legacy route wrapper) with `WindRevealHeading` H1, 6-card interactive grid, and FAQ accordion. Created dynamic static-prerendered route `src/app/events/[slug]/page.tsx` covering all 6 event slugs.
+> - **Unit & E2E Verification:** Created `tests/events.unit.test.ts` (4 unit tests passing), `tests/e2e/events-hub.spec.ts` (8 tests passing), `tests/e2e/events-celebrations.spec.ts` (8 tests passing), and `tests/e2e/events-niche.spec.ts` (6 tests passing). Total 22 Playwright E2E tests and 19 Vitest unit tests passing across project.
+> - **CI Quality Pipeline:** `pnpm ci:quality` verified 0 ESLint errors, 0 TypeScript errors, 19 unit tests passed, 77 Playwright E2E tests passed, and 32 static pages generated in Next.js production build.
 
 ---
 
@@ -1189,7 +1187,7 @@ Run the full verification pipeline and resolve any remaining type or lint edge c
 | Phase 1 — Layout Shell | `[x]` Completed | W-101 |
 | Phase 2 — Home Page | `[x]` Completed | W-201 through W-210 |
 | Phase 3 — Services Architecture | `[x]` Completed | W-301, W-302, W-303, W-304 |
-| Phase 4 — Events Architecture | `[ ]` Not Started | W-401, W-402, W-403 |
+| Phase 4 — Events Architecture | `[x]` Completed | W-401, W-402, W-403 |
 | Phase 5 — About, Packages & Testimonials | `[ ]` Not Started | W-501, W-502, W-503 |
 | Phase 6 — Portfolio, Venues & Gallery | `[ ]` Not Started | W-601, W-602, W-603 |
 | Phase 7 — Blog System | `[ ]` Not Started | W-701, W-702 |

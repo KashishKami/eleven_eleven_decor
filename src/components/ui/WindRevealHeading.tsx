@@ -87,6 +87,7 @@ export function WindRevealHeading({
           {char}
         </span>
       ))}
+      {wordIdx < words.length - 1 && ' '}
     </span>
   ))
 

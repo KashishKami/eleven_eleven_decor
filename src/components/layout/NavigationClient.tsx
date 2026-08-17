@@ -31,6 +31,9 @@ export function NavigationClient() {
         zIndex: 1000,
         width: '100%',
         backgroundColor: scrolled ? 'rgba(26, 26, 26, 0.95)' : 'transparent',
+        backgroundImage: scrolled
+          ? 'none'
+          : 'linear-gradient(180deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 70%, rgba(0, 0, 0, 0) 100%)',
         backdropFilter: scrolled ? 'blur(12px)' : 'none',
         borderBottom: scrolled ? '1px solid rgba(201, 169, 110, 0.2)' : 'none',
         transition: 'background-color 0.4s ease, border-bottom 0.4s ease',
@@ -185,7 +188,10 @@ export function NavigationClient() {
 
       {/* Bold Navbar Styling & Expanding Gold Underline Hover CSS */}
       <style jsx global>{`
-        .nav-item-link {
+        .nav-item-link,
+        .nav-item-link:link,
+        .nav-item-link:visited,
+        .nav-item-link:active {
           position: relative;
           font-family: var(--font-body);
           font-size: 1rem;
@@ -211,7 +217,8 @@ export function NavigationClient() {
           transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        .nav-item-link:hover {
+        .nav-item-link:hover,
+        .nav-item-link:hover:visited {
           color: #c9a96e !important;
           transform: translateY(-1px);
         }

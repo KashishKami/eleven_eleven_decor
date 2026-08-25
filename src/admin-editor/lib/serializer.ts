@@ -62,6 +62,16 @@ export function serializeToHtml(doc: JSONContent): string {
 
   let rawHtml = generateHTML(doc, extensions)
 
+  // Attach id attribute to headings for jump link anchors
+  rawHtml = rawHtml.replace(/<h([1-6])([^>]*)>(.*?)<\/h\1>/gi, (match, level, attrs, text) => {
+    if (attrs.includes('id=')) {
+      return match
+    }
+    const plainText = text.replace(/<[^>]+>/g, '').trim()
+    const slug = slugifyText(plainText)
+    return `<h${level} id="${slug}"${attrs}>${text}</h${level}>`
+  })
+
   // If document contains tableOfContents, populate it with the extracted headings
   const headings = extractHeadings(doc)
   if (rawHtml.includes('class="toc"') && headings.length > 0) {

@@ -325,7 +325,7 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
         <button
           type="button"
           className="tb-btn"
-          onClick={() => editor.chain().focus().insertContent({ type: 'faqBlock', attrs: { question: 'Frequently Asked Question?', answer: 'Detailed response and explanation here...' } }).run()}
+          onClick={() => editor.chain().focus().insertContent({ type: 'faqBlock', attrs: { question: '', answer: '' } }).run()}
         >
           ❓ FAQ
         </button>

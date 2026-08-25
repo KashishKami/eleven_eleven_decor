@@ -6,13 +6,13 @@ test.describe('Phase 7.5: Gutenberg Block Editor & Rank Math SEO Analyzer', () =
     page.on('pageerror', (err) => console.log('BROWSER ERROR:', err.message))
 
     // 1. Login
-    await page.goto('http://localhost:8080/manage-7f3b9x2k/index.php')
-    await page.fill('#password', 'Admin1111Decor!')
+    await page.goto('http://127.0.0.1:8080/manage-7f3b9x2k/index.php')
+    await page.fill('#password', 'AdminPassword1111!')
     await page.click('button[type="submit"]')
     await page.waitForURL('**/dashboard.php')
 
     // 2. Navigate to new post page
-    await page.goto('http://localhost:8080/manage-7f3b9x2k/new-post.php')
+    await page.goto('http://127.0.0.1:8080/manage-7f3b9x2k/new-post.php')
     await page.waitForSelector('#editor-root')
 
     // 3. Verify editor root and Tiptap ProseMirror region
@@ -28,8 +28,9 @@ test.describe('Phase 7.5: Gutenberg Block Editor & Rank Math SEO Analyzer', () =
     await expect(gauge).toBeVisible()
 
     // 5. Test Live Focus Keyword interaction
-    const focusKeywordInput = page.locator('#focus-keyword-input')
+    const focusKeywordInput = page.locator('#seo-keyword-input-field')
     await focusKeywordInput.fill('wedding decoration')
+    await focusKeywordInput.press('Enter')
 
     // 6. Test Title auto-slug
     await page.fill('#title', 'Top Luxury Wedding Decoration Trends 2026 | 1111 Decor')

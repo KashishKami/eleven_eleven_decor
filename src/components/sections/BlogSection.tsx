@@ -111,7 +111,7 @@ export function BlogSection() {
             gap: '2rem',
           }}
         >
-          {BLOG_POSTS.map((post) => (
+          {BLOG_POSTS.slice(0, 3).map((post) => (
             <BlogCard key={post.id} post={post} />
           ))}
         </div>

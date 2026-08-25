@@ -1,4 +1,6 @@
 import { Node, mergeAttributes } from '@tiptap/core'
+import { ReactNodeViewRenderer } from '@tiptap/react'
+import { FaqBlockView } from '../components/FaqBlockView'
 
 export interface FaqBlockOptions {
   HTMLAttributes: Record<string, unknown>
@@ -20,6 +22,10 @@ export const FaqBlock = Node.create<FaqBlockOptions>({
   draggable: true,
   selectable: true,
 
+  addNodeView() {
+    return ReactNodeViewRenderer(FaqBlockView)
+  },
+
   addOptions() {
     return {
       HTMLAttributes: {
@@ -31,10 +37,10 @@ export const FaqBlock = Node.create<FaqBlockOptions>({
   addAttributes() {
     return {
       question: {
-        default: 'Frequently Asked Question?',
+        default: '',
       },
       answer: {
-        default: 'Answer and details go here...',
+        default: '',
       },
     }
   },

@@ -97,6 +97,22 @@
   margin: 1.1rem 0 0.5rem;
 }
 
+.ProseMirror a,
+.editor-content-area a {
+  color: #60a5fa;
+  text-decoration: underline;
+  text-decoration-color: rgba(96, 165, 250, 0.45);
+  text-underline-offset: 3px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  word-break: break-all;
+}
+
+.ProseMirror a:hover,
+.editor-content-area a:hover {
+  color: #93c5fd;
+  text-decoration-color: #93c5fd;
+}
+
 .ProseMirror img {
   max-width: 100%;
   height: auto;
@@ -570,4 +586,123 @@
 
 .seo-check-row.failed .seo-check-diagnostic {
   color: #fca5a5;
+}
+
+/* FAQ Block in Admin Editor */
+.faq-nodeview-wrapper {
+  margin: 1.5rem 0;
+  user-select: text;
+}
+
+.faq-editor-card {
+  background: #1c1c1c;
+  border: 1px solid rgba(201, 169, 110, 0.35);
+  border-left: 4px solid #c9a96e;
+  border-radius: 8px;
+  padding: 1.25rem 1.4rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.faq-editor-card:hover,
+.faq-editor-card:focus-within {
+  border-color: #c9a96e;
+  box-shadow: 0 6px 24px rgba(201, 169, 110, 0.15);
+}
+
+.faq-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.faq-card-tag {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #c9a96e;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.faq-delete-btn {
+  background: transparent;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.faq-delete-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+  color: #ffffff;
+}
+
+.faq-field-group {
+  margin-bottom: 0.9rem;
+}
+
+.faq-field-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #d4b883;
+  margin-bottom: 0.35rem;
+}
+
+.faq-input-question {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  background: #242424;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: border-color 0.2s ease;
+}
+
+.faq-input-question:focus {
+  outline: none;
+  border-color: #c9a96e;
+  background: #282828;
+}
+
+.faq-input-answer {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  background: #242424;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  color: #e5e5e5;
+  font-family: inherit;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  resize: vertical;
+  min-height: 75px;
+  transition: border-color 0.2s ease;
+}
+
+.faq-input-answer:focus {
+  outline: none;
+  border-color: #c9a96e;
+  background: #282828;
+}
+
+.faq-card-footer {
+  font-size: 0.72rem;
+  color: #888888;
+  margin-top: 0.4rem;
 }

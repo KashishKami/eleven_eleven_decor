@@ -87,8 +87,8 @@ export const SLASH_COMMANDS: SlashCommandItem[] = [
         .insertContent({
           type: 'faqBlock',
           attrs: {
-            question: 'Frequently Asked Question?',
-            answer: 'Detailed response and explanation here...',
+            question: '',
+            answer: '',
           },
         })
         .run()

@@ -28,13 +28,36 @@ function resolveImageUrl(src?: string): string {
   return src
 }
 
-function transformContentImages(html?: string): string {
+function slugifyHeading(text: string): string {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
+function transformArticleContent(html?: string): string {
   if (!html) return ''
   const base = API_BASE || (typeof window !== 'undefined' && window.location.port === '3000' ? 'http://localhost:8080' : '')
-  if (!base) return html
-  return html.replace(/src=["'](\/(?:manage-[^"']*|uploads\/[^"']*))["']/gi, (match, path) => {
-    return `src="${base}${path}"`
+  
+  let processed = html
+  if (base) {
+    processed = processed.replace(/src=["'](\/(?:manage-[^"']*|uploads\/[^"']*))["']/gi, (match, path) => {
+      return `src="${base}${path}"`
+    })
+  }
+
+  // Ensure headings have id attributes for anchor jumping
+  processed = processed.replace(/<h([1-6])([^>]*)>(.*?)<\/h\1>/gi, (match, level, attrs, text) => {
+    if (attrs.includes('id=')) {
+      return match
+    }
+    const plainText = text.replace(/<[^>]+>/g, '').trim()
+    const slug = slugifyHeading(plainText)
+    return `<h${level} id="${slug}"${attrs}>${text}</h${level}>`
   })
+
+  return processed
 }
 
 export function DynamicBlogClient({ slugArray }: { slugArray: string[] }) {
@@ -342,6 +365,21 @@ function BlogArticleView({ articleSlug }: { articleSlug: string }) {
     )
   }
 
+  const handleContentClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = (e.target as HTMLElement).closest('a[href^="#"]') as HTMLAnchorElement | null
+    if (target) {
+      const href = target.getAttribute('href')
+      if (href && href.length > 1) {
+        const targetEl = document.querySelector(href)
+        if (targetEl) {
+          e.preventDefault()
+          const top = targetEl.getBoundingClientRect().top + window.scrollY - 100
+          window.scrollTo({ top, behavior: 'smooth' })
+        }
+      }
+    }
+  }
+
   return (
     <div style={{ paddingTop: '80px', backgroundColor: '#faf6f0', minHeight: '100vh' }}>
       {/* Scroll Progress Bar */}
@@ -364,7 +402,7 @@ function BlogArticleView({ articleSlug }: { articleSlug: string }) {
       <section
         style={{
           padding: '5rem 1.5rem 3rem',
-          maxWidth: '960px',
+          maxWidth: '1100px',
           margin: '0 auto',
           textAlign: 'center',
         }}
@@ -387,7 +425,7 @@ function BlogArticleView({ articleSlug }: { articleSlug: string }) {
           {post.categoryName || post.category.replace(/-/g, ' ')}
         </div>
 
-        <div style={{ maxWidth: '900px', margin: '0 auto 1.5rem' }}>
+        <div style={{ maxWidth: '1020px', margin: '0 auto 1.5rem' }}>
           <WindRevealHeading
             as="h1"
             style={{
@@ -423,10 +461,10 @@ function BlogArticleView({ articleSlug }: { articleSlug: string }) {
         </div>
       </section>
 
-      {/* Featured Main Image */}
+      {/* Featured Main Image (Expanded Width) */}
       <div
         style={{
-          maxWidth: '1100px',
+          maxWidth: '1380px',
           margin: '0 auto 4rem',
           padding: '0 1.5rem',
         }}
@@ -435,7 +473,7 @@ function BlogArticleView({ articleSlug }: { articleSlug: string }) {
           style={{
             position: 'relative',
             width: '100%',
-            height: 'clamp(320px, 50vw, 550px)',
+            height: 'clamp(360px, 52vw, 620px)',
             borderRadius: '20px',
             overflow: 'hidden',
             boxShadow: '0 20px 45px rgba(0,0,0,0.1)',
@@ -452,10 +490,10 @@ function BlogArticleView({ articleSlug }: { articleSlug: string }) {
         </div>
       </div>
 
-      {/* Article Content Body with Rich Editorial Typography */}
-      <main
+      {/* Article Content Body (Matched to 1100px Width) */}
+      <article
         style={{
-          maxWidth: '820px',
+          maxWidth: '1100px',
           margin: '0 auto',
           padding: '0 1.5rem 5rem',
         }}
@@ -463,7 +501,8 @@ function BlogArticleView({ articleSlug }: { articleSlug: string }) {
         {post.content ? (
           <div
             className="article-editorial-content"
-            dangerouslySetInnerHTML={{ __html: transformContentImages(post.content) }}
+            onClick={handleContentClick}
+            dangerouslySetInnerHTML={{ __html: transformArticleContent(post.content) }}
           />
         ) : (
           <div className="article-editorial-content">
@@ -614,7 +653,7 @@ function BlogArticleView({ articleSlug }: { articleSlug: string }) {
             </Link>
           </div>
         )}
-      </main>
+      </article>
 
       <FooterCTA />
     </div>

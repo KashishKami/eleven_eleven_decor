@@ -21,10 +21,18 @@ export default defineConfig({
       use: { ...devices['Pixel 5'] },
     },
   ],
-  webServer: {
-    command: 'pnpm dev',
-    url: 'http://localhost:3000',
-    reuseExistingServer: true,
-    timeout: 120 * 1000,
-  },
+  webServer: [
+    {
+      command: 'npm run dev',
+      url: 'http://127.0.0.1:3000',
+      reuseExistingServer: true,
+      timeout: 120 * 1000,
+    },
+    {
+      command: 'php -S 127.0.0.1:8080 -t php-admin',
+      url: 'http://127.0.0.1:8080/manage-7f3b9x2k/index.php',
+      reuseExistingServer: true,
+      timeout: 120 * 1000,
+    },
+  ],
 })

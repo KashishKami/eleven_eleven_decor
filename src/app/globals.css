@@ -192,6 +192,15 @@ img {
   line-height: 1.85;
 }
 
+.article-editorial-content h1,
+.article-editorial-content h2,
+.article-editorial-content h3,
+.article-editorial-content h4,
+.article-editorial-content h5,
+.article-editorial-content h6 {
+  scroll-margin-top: 110px;
+}
+
 .article-editorial-content h2 {
   font-family: var(--font-display), Georgia, serif;
   font-size: clamp(1.85rem, 4vw, 2.45rem);
@@ -245,6 +254,20 @@ img {
   font-weight: 600;
 }
 
+.article-editorial-content a:not(.toc-item a) {
+  color: #2563eb;
+  text-decoration: underline;
+  text-decoration-color: rgba(37, 99, 235, 0.35);
+  text-underline-offset: 3px;
+  transition: all 0.2s ease;
+  word-break: break-word;
+}
+
+.article-editorial-content a:not(.toc-item a):hover {
+  color: #1d4ed8;
+  text-decoration-color: #1d4ed8;
+}
+
 .article-editorial-content blockquote {
   font-family: var(--font-display), Georgia, serif;
   font-style: italic;
@@ -257,6 +280,157 @@ img {
   background: rgba(201, 169, 110, 0.05);
   padding: 1.25rem 1.75rem;
   border-radius: 0 12px 12px 0;
+}
+
+/* Luxury Editorial Table of Contents */
+.article-editorial-content nav.toc {
+  background: #ffffff;
+  border: 1px solid rgba(201, 169, 110, 0.35);
+  border-left: 4px solid #c9a96e;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  margin: 2.5rem 0 3.25rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+
+.article-editorial-content .toc-header {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  letter-spacing: 0.03em;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.article-editorial-content ul.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.article-editorial-content li.toc-item {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.article-editorial-content li.toc-item.toc-level-3 {
+  padding-left: 1.4rem;
+  font-size: 0.95rem;
+}
+
+.article-editorial-content li.toc-item.toc-level-4 {
+  padding-left: 2.4rem;
+  font-size: 0.9rem;
+}
+
+.article-editorial-content li.toc-item a {
+  color: #4a443c;
+  text-decoration: none;
+  font-family: var(--font-body), sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.article-editorial-content li.toc-item a::before {
+  content: '—';
+  color: #c9a96e;
+  font-weight: bold;
+  transition: transform 0.2s ease;
+}
+
+.article-editorial-content li.toc-item a:hover {
+  color: #c9a96e;
+  transform: translateX(4px);
+}
+
+/* Luxury Editorial FAQ Accordions */
+.article-editorial-content details.faq-item,
+.article-editorial-content details {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #c9a96e;
+  border-radius: 10px;
+  padding: 1.25rem 1.6rem;
+  margin: 1.25rem 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.article-editorial-content details[open] {
+  border-color: rgba(201, 169, 110, 0.45);
+  box-shadow: 0 8px 25px rgba(201, 169, 110, 0.09);
+  background: #fffdfa;
+}
+
+.article-editorial-content summary {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  cursor: pointer;
+  outline: none;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.article-editorial-content summary::-webkit-details-marker {
+  display: none;
+}
+
+.article-editorial-content summary::after {
+  content: '+';
+  font-family: var(--font-body), sans-serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: #c9a96e;
+  transition: transform 0.3s ease, color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(201, 169, 110, 0.12);
+  flex-shrink: 0;
+}
+
+.article-editorial-content details[open] summary::after {
+  content: '−';
+  background: #c9a96e;
+  color: #ffffff;
+}
+
+.article-editorial-content summary:hover {
+  color: #c9a96e;
+}
+
+.article-editorial-content .faq-answer,
+.article-editorial-content details > div {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  color: #554e44;
+  font-family: var(--font-body), sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.75;
 }
 
 @media (max-width: 480px) {

@@ -20,7 +20,7 @@ describe('W-751: Block Editor Core & Serializer', () => {
     }
 
     const html = serializeToHtml(doc)
-    expect(html).toContain('<h2>Test Heading</h2>')
+    expect(html).toContain('<h2 id="test-heading">Test Heading</h2>')
     expect(html).toContain('<p></p>')
   })
 

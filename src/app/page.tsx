@@ -1,27 +1,58 @@
 import React from 'react'
 import { Hero } from '@/components/sections/Hero'
-import { AboutSection } from '@/components/sections/AboutSection'
 import { EventCategories } from '@/components/sections/EventCategories'
+import { AboutSection } from '@/components/sections/AboutSection'
+import { HomeServices } from '@/components/sections/HomeServices'
 import { WhyChooseUs } from '@/components/sections/WhyChooseUs'
-import { MenusSection } from '@/components/sections/MenusSection'
+import { HomePortfolio } from '@/components/sections/HomePortfolio'
 import { WorkProcess } from '@/components/sections/WorkProcess'
-import { TeamSection } from '@/components/sections/TeamSection'
-import { StatsSection } from '@/components/sections/StatsSection'
-import { BlogSection } from '@/components/sections/BlogSection'
+import { HomeVenues } from '@/components/sections/HomeVenues'
+import { HomePackages } from '@/components/sections/HomePackages'
+import { HomeTestimonials } from '@/components/sections/HomeTestimonials'
+import { HomeGallery } from '@/components/sections/HomeGallery'
+import { HomeFAQ } from '@/components/sections/HomeFAQ'
 import { FooterCTA } from '@/components/sections/FooterCTA'
 
 export default function Home() {
   return (
     <>
+      {/* 1. Hero */}
       <Hero />
-      <AboutSection />
+
+      {/* 2. What We Create (Event Categories) */}
       <EventCategories />
+
+      {/* 3. About 11:11 Decor */}
+      <AboutSection />
+
+      {/* 4. Services Grid (All 10 Services) */}
+      <HomeServices />
+
+      {/* 5. Why Choose 11:11 Decor */}
       <WhyChooseUs />
-      <MenusSection />
+
+      {/* 6. Featured Portfolio */}
+      <HomePortfolio />
+
+      {/* 7. Event Process (4-step workflow) */}
       <WorkProcess />
-      <TeamSection />
-      <StatsSection />
-      <BlogSection />
+
+      {/* 8. Venues Teaser */}
+      <HomeVenues />
+
+      {/* 9. Packages Overview */}
+      <HomePackages />
+
+      {/* 10. Client Testimonials */}
+      <HomeTestimonials />
+
+      {/* 11. Visual Gallery Preview */}
+      <HomeGallery />
+
+      {/* 12. Homepage FAQ */}
+      <HomeFAQ />
+
+      {/* 13. Final CTA */}
       <FooterCTA />
     </>
   )

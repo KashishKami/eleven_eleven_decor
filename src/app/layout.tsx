@@ -22,9 +22,9 @@ const fontBody = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: '11:11 Decor | Luxury Event Planning, Management & Décor',
+  title: '11:11 Decor | Event Management & Décor Studio',
   description:
-    '11:11 Decor creates bespoke event planning, floral design, and luxury stage styling for unforgettable weddings, corporate galas, and social celebrations.',
+    '11:11 Decor plans and decorates weddings, celebrations, and corporate events — from first concept to final detail. Request a custom quote today.',
 }
 
 export default function RootLayout({

@@ -10,7 +10,7 @@ test.describe('Portfolio Hub & Case Study Pages (W-601)', () => {
     await expect(mainHeading).toContainText('Our Work')
 
     // 2. Assert project cards are rendered
-    const projectCards = page.locator('a[href*="/portfolio/"]')
+    const projectCards = page.locator('main a[href*="/portfolio/"]')
     await expect(projectCards.first()).toBeVisible()
 
     // 3. Assert detail page navigation works

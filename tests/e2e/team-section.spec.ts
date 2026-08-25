@@ -1,16 +1,13 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Team Section (W-207)', () => {
-  test('renders team member cards with accessibility alt text', async ({ page }) => {
+test.describe('Curated Venues Section (W-207)', () => {
+  test('renders venue teaser cards with links', async ({ page }) => {
     await page.goto('/')
 
-    const section = page.locator('#team')
+    const section = page.locator('#venues-teaser')
     await expect(section).toBeVisible()
 
-    await expect(page.getByRole('heading', { name: /Elena Rostova/i })).toBeVisible()
-    await expect(page.getByRole('heading', { name: /Marcus Vance/i })).toBeVisible()
-
-    const teamImages = section.locator('img')
-    await expect(teamImages).toHaveCount(4)
+    const exploreLink = section.getByRole('link', { name: /explore venues directory/i })
+    await expect(exploreLink).toBeVisible()
   })
 })

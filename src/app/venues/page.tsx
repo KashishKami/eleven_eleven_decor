@@ -51,7 +51,7 @@ export default function VenuesHubPage() {
             Find the Right Setting for Your Event
           </WindRevealHeading>
           <p className={styles.heroSubtitle}>
-            Whether you envision a grand royal ballroom, a mist-shrouded cliffside lawn, or a serene riverbank amphitheater, our team engineers décor and logistics tailored to every venue profile.
+            Whether a venue is already booked or still being chosen, 11:11 Decor helps plan the layout and décor to suit the space — indoor, outdoor, or a mix of both.
           </p>
         </div>
       </section>

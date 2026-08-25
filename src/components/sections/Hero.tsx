@@ -74,7 +74,7 @@ export function Hero() {
             boxShadow: '0 4px 15px rgba(0,0,0,0.4)',
           }}
         >
-          Luxury Event Styling & Catering
+          11:11 Decor — Event Management & Décor Studio
         </span>
 
         <div style={{ maxWidth: '1000px', marginInline: 'auto', marginBottom: '1.5rem' }}>
@@ -86,7 +86,7 @@ export function Hero() {
               textShadow: '0 4px 25px rgba(0, 0, 0, 0.85)',
             }}
           >
-            The Best Events Start Here
+            Celebrations planned with intention, decorated with detail.
           </WindRevealHeading>
         </div>
 
@@ -101,7 +101,7 @@ export function Hero() {
             textShadow: '0 2px 12px rgba(0, 0, 0, 0.85)',
           }}
         >
-          1111 Decor crafts breathtaking bespoke atmospheres, luxury floral architecture, and high-end gastronomy for unforgettable galas and weddings.
+          11:11 Decor designs and manages weddings, celebrations, and corporate events — from the first concept conversation to the last flower placed.
         </p>
 
         <div
@@ -115,7 +115,7 @@ export function Hero() {
           }}
         >
           <Link
-            href="/contact"
+            href="/contact/"
             style={{
               padding: '1rem 2.25rem',
               backgroundColor: '#c9a96e',
@@ -131,11 +131,11 @@ export function Hero() {
               transition: 'transform 0.3s ease, background-color 0.3s ease',
             }}
           >
-            Contact Us Now
+             Plan Your Event
           </Link>
 
           <Link
-            href="/about-us"
+            href="/portfolio/"
             style={{
               padding: '1rem 2.25rem',
               backgroundColor: 'rgba(255, 255, 255, 0.12)',
@@ -152,7 +152,7 @@ export function Hero() {
               transition: 'background-color 0.3s ease, border-color 0.3s ease',
             }}
           >
-            Learn More
+             View Our Work
           </Link>
         </div>
       </div>

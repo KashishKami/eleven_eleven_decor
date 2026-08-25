@@ -26,7 +26,7 @@ test.describe('Primary Celebrations Event Pages (W-402)', () => {
 
     const heading = page.getByRole('heading', { level: 1 })
     await expect(heading).toBeVisible()
-    await expect(heading).toContainText(/Engagement & Pre-Wedding Celebrations/i)
+    await expect(heading).toContainText(/Engagement Event Planning & Decoration/i)
   })
 
   test('renders Birthday Event page', async ({ page }) => {
@@ -40,7 +40,7 @@ test.describe('Primary Celebrations Event Pages (W-402)', () => {
   test('contains contact CTA linking to /contact/', async ({ page }) => {
     await page.goto('/events/wedding-events/')
 
-    const cta = page.getByRole('link', { name: /Reserve Now|Plan Your Event|Contact/i }).first()
+    const cta = page.getByRole('link', { name: /Reserve Now|Plan Your Event|Plan Your Wedding|Contact/i }).first()
     await expect(cta).toBeVisible()
   })
 })

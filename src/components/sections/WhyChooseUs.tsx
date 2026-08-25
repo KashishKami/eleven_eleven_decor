@@ -12,27 +12,39 @@ if (typeof window !== 'undefined') {
 const FEATURES = [
   {
     number: '01',
-    title: 'CUISINE EXCELLENCE',
+    title: 'CREATIVE CONCEPTS',
     description:
-      'Michelin-trained executive chefs crafting bespoke culinary journeys with farm-to-table organic ingredients.',
+      'Every event begins with a bespoke vision. We craft original décor concepts, mood boards, and 3D spatial plans tailored precisely to your celebration.',
   },
   {
     number: '02',
-    title: 'SPATIAL ARTISTRY',
+    title: 'PERSONALISED DÉCOR',
     description:
-      'Architectural floral installations and custom lighting design transforming venues into immersive dreamscapes.',
+      'From custom mandap architecture to bespoke floral installations and hand-selected furnishings — no two 11:11 events ever look the same.',
   },
   {
     number: '03',
-    title: 'WHITE-GLOVE SERVICE',
+    title: 'DETAILED PLANNING',
     description:
-      'Discreet, impeccable hospitality directors ensuring every guest experiences warmth and royal care.',
+      'Comprehensive master timelines, vendor briefings, and production schedules ensure every detail is mapped, assigned, and executed without compromise.',
   },
   {
     number: '04',
-    title: 'TAILORED PERFECTION',
+    title: 'PROFESSIONAL COORDINATION',
     description:
-      'Uncompromising attention to detail from custom table linens to curated multi-sensory entertainment.',
+      'A single point of contact for all vendors — caterers, photographers, sound, lighting — so you never have to chase a call or manage a conflict.',
+  },
+  {
+    number: '05',
+    title: 'SEAMLESS EXECUTION',
+    description:
+      'Our on-site production directors manage live event flow, handle the unexpected, and keep everything running on schedule from setup to farewell.',
+  },
+  {
+    number: '06',
+    title: 'CLIENT-FOCUSED APPROACH',
+    description:
+      'We listen first. Your vision, priorities, and comfort shape every decision — we are partners in your celebration, not just service providers.',
   },
 ]
 
@@ -72,9 +84,9 @@ export function WhyChooseUs() {
       id="why-choose-us"
       ref={sectionRef}
       style={{
-        backgroundColor: '#111111',
-        padding: '7rem 1.5rem',
-        color: '#ffffff',
+        backgroundColor: '#faf6f0',
+        padding: 'clamp(5rem, 8vw, 7.5rem) 1.5rem',
+        color: '#1a1a1a',
         position: 'relative',
       }}
     >
@@ -85,28 +97,28 @@ export function WhyChooseUs() {
         }}
       >
         {/* Section Header with Wind Reveal Heading */}
-        <div style={{ textAlign: 'center', marginBottom: '4.5rem' }}>
+        <div style={{ textAlign: 'center', marginBottom: 'clamp(3rem, 6vw, 4.5rem)' }}>
           <p
             style={{
-              color: '#c9a96e',
+              color: '#a8834a',
               fontFamily: 'var(--font-sans)',
-              fontSize: '0.875rem',
-              letterSpacing: '0.2em',
+              fontSize: '0.8125rem',
+              letterSpacing: '0.22em',
               textTransform: 'uppercase',
               marginBottom: '0.75rem',
-              fontWeight: 600,
+              fontWeight: 700,
             }}
           >
             THE 1111 DECOR STANDARD
           </p>
-          <div style={{ maxWidth: '800px', margin: '0 auto 1.25rem' }}>
+          <div style={{ maxWidth: '860px', margin: '0 auto 1.25rem' }}>
             <WindRevealHeading
               as="h2"
               style={{
                 fontFamily: 'var(--font-display)',
                 fontSize: 'clamp(2.25rem, 5vw, 3.5rem)',
-                color: '#ffffff',
-                letterSpacing: '0.04em',
+                color: '#1a1a1a',
+                letterSpacing: '0.03em',
                 fontWeight: 500,
                 lineHeight: 1.2,
               }}
@@ -116,22 +128,22 @@ export function WhyChooseUs() {
           </div>
           <p
             style={{
-              color: '#e0d8cc',
+              color: '#5a544c',
               fontSize: '1.05rem',
-              maxWidth: '600px',
+              maxWidth: '620px',
               margin: '0 auto',
-              lineHeight: 1.6,
+              lineHeight: 1.65,
             }}
           >
-            We merge culinary mastery with spatial design, transforming extraordinary visions into unforgettable luxury celebrations.
+            Six reasons our clients come back — and why their guests remember the night for years.
           </p>
         </div>
 
-        {/* Feature Grid */}
+        {/* Feature Grid (Light theme cards) */}
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
             gap: '2rem',
           }}
         >
@@ -142,21 +154,21 @@ export function WhyChooseUs() {
                 cardsRef.current[idx] = el
               }}
               style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                backdropFilter: 'blur(12px)',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
+                backgroundColor: '#ffffff',
+                border: '1px solid rgba(201, 169, 110, 0.3)',
                 borderRadius: '16px',
                 padding: '2.5rem 2rem',
-                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.4)',
-                transition: 'transform 0.3s ease, boxShadow 0.3s ease',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.05)',
+                transition: 'transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.35s ease',
               }}
+              className="why-card-hover"
             >
               <div
                 style={{
                   fontFamily: 'var(--font-display)',
                   fontSize: '2.5rem',
-                  color: '#c9a96e',
-                  fontWeight: 400,
+                  color: '#a8834a',
+                  fontWeight: 500,
                   marginBottom: '1.25rem',
                 }}
               >
@@ -165,9 +177,9 @@ export function WhyChooseUs() {
               <h3
                 style={{
                   fontFamily: 'var(--font-display)',
-                  fontSize: '1.25rem',
-                  color: '#ffffff',
-                  letterSpacing: '0.06em',
+                  fontSize: '1.3rem',
+                  color: '#1a1a1a',
+                  letterSpacing: '0.04em',
                   marginBottom: '0.75rem',
                   fontWeight: 600,
                 }}
@@ -176,9 +188,10 @@ export function WhyChooseUs() {
               </h3>
               <p
                 style={{
-                  color: '#cccccc',
+                  color: '#554a42',
                   fontSize: '0.925rem',
-                  lineHeight: 1.6,
+                  lineHeight: 1.65,
+                  margin: 0,
                 }}
               >
                 {feature.description}
@@ -187,6 +200,14 @@ export function WhyChooseUs() {
           ))}
         </div>
       </div>
+
+      <style jsx global>{`
+        .why-card-hover:hover {
+          transform: translateY(-6px) !important;
+          box-shadow: 0 20px 40px rgba(201, 169, 110, 0.2) !important;
+          border-color: #c9a96e !important;
+        }
+      `}</style>
     </section>
   )
 }

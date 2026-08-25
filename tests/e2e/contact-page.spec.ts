@@ -25,7 +25,7 @@ test.describe('Contact & Lead Conversion Page (W-801)', () => {
     await expect(page.locator('a[href^="tel:"]').first()).toBeVisible()
     await expect(page.locator('a[href*="wa.me"]').first()).toBeVisible()
     await expect(page.locator('a[href^="mailto:"]').first()).toBeVisible()
-    await expect(page.getByText('9:00 AM', { exact: false }).first()).toBeVisible()
+    await expect(page.getByText('10:00 AM', { exact: false }).first()).toBeVisible()
 
     // 4. Assert map container is visible
     await expect(page.locator('[data-testid="contact-map-container"]')).toBeVisible()

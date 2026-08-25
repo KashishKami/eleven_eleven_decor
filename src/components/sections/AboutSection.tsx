@@ -15,7 +15,7 @@ export function AboutSection() {
         color: '#1a1a1a',
         position: 'relative',
         overflow: 'hidden',
-        paddingBlock: 'clamp(4.5rem, 8vw, 7rem)',
+        paddingBlock: 'clamp(5rem, 8vw, 7.5rem)',
       }}
     >
       <div className="container" style={{ maxWidth: '1240px', marginInline: 'auto' }}>
@@ -33,7 +33,7 @@ export function AboutSection() {
               textTransform: 'uppercase',
             }}
           >
-            ◇ WHO WE ARE ◇
+            ABOUT 11:11 DECOR
           </span>
           <div style={{ maxWidth: '920px', marginInline: 'auto' }}>
             <WindRevealHeading
@@ -45,10 +45,9 @@ export function AboutSection() {
                 letterSpacing: '0.02em',
                 lineHeight: 1.15,
                 fontWeight: 400,
-                textTransform: 'uppercase',
               }}
             >
-              PROFESSIONAL EVENT & CATERING DÉCOR IN 11:11 DECOR
+              Creating Experiences, Not Just Events
             </WindRevealHeading>
           </div>
         </div>
@@ -75,7 +74,7 @@ export function AboutSection() {
                 margin: 0,
               }}
             >
-              Every celebration is a unique opportunity to craft an atmosphere as extraordinary as it is unforgettable.
+              11:11 Decor is an event management and décor studio built around a simple idea: the details are the experience.
             </h3>
 
             <p
@@ -87,7 +86,7 @@ export function AboutSection() {
                 margin: 0,
               }}
             >
-              At 11:11 Decor, our team of dedicated event architects, floral artists, and production managers oversee every nuance—from bespoke theme ideation and spatial transformation to flawless on-site execution across luxury weddings, corporate galas, and private celebrations.
+              From the structural layout of a venue to the placement of a single centerpiece, every choice shapes how guests feel throughout an event. We combine event management with in-house décor design — giving clients a single, coordinated team that handles planning, aesthetics, and on-site production together.
             </p>
 
             {/* Stat Callout Badge */}
@@ -134,7 +133,7 @@ export function AboutSection() {
                     color: '#1a1a1a',
                   }}
                 >
-                  500<span style={{ color: 'var(--color-accent, #c9a96e)' }}>+</span>
+                  100<span style={{ color: 'var(--color-accent, #c9a96e)' }}>%</span>
                 </div>
                 <span
                   style={{
@@ -146,7 +145,7 @@ export function AboutSection() {
                     textTransform: 'uppercase',
                   }}
                 >
-                  Events Crafted Each Year
+                  Integrated Planning & Décor
                 </span>
               </div>
             </div>
@@ -154,7 +153,7 @@ export function AboutSection() {
             {/* Luxury Pill Button */}
             <div style={{ marginTop: '0.5rem' }}>
               <Link
-                href="/about-us"
+                href="/about-us/"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -174,7 +173,7 @@ export function AboutSection() {
                   transition: 'all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
                 }}
               >
-                <span>LEARN ABOUT US</span>
+                <span>Discover 11:11 Decor</span>
                 <span style={{ color: 'var(--color-accent, #c9a96e)', fontSize: '1.1rem' }}>→</span>
               </Link>
             </div>

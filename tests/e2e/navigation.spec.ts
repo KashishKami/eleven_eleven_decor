@@ -8,11 +8,12 @@ test.describe('Navigation & Layout Shell', () => {
     await expect(nav).toBeVisible()
 
     if (!isMobile) {
-      await expect(page.getByRole('link', { name: /home/i }).first()).toBeVisible()
-      await expect(page.getByRole('link', { name: /about/i }).first()).toBeVisible()
-      await expect(page.getByRole('link', { name: /menu/i }).first()).toBeVisible()
-      await expect(page.getByRole('link', { name: /events/i }).first()).toBeVisible()
-      await expect(page.getByRole('link', { name: /contact/i }).first()).toBeVisible()
+      await expect(page.getByRole('button', { name: /services/i }).first()).toBeVisible()
+      await expect(page.getByRole('button', { name: /events/i }).first()).toBeVisible()
+      await expect(page.getByRole('link', { name: /portfolio/i }).first()).toBeVisible()
+      await expect(page.getByRole('link', { name: /blog/i }).first()).toBeVisible()
+      await expect(page.getByRole('link', { name: /about us/i }).first()).toBeVisible()
+      await expect(page.getByRole('link', { name: /plan your event/i }).first()).toBeVisible()
     }
   })
 

@@ -57,7 +57,7 @@ export default function AboutUsPage() {
             <div>
               <span className={styles.labelDark}>PHILOSOPHY</span>
               <h2 className="heading-lg" style={{ color: '#1a1a1a', marginBlock: '0.5rem 1.25rem' }}>
-                OUR APPROACH
+                Our Approach
               </h2>
               <p className={styles.textContentLight} style={{ marginBottom: '1.25rem' }}>
                 We approach event production with an unwavering commitment to artistic harmony and operational excellence. Every venue is an open canvas where architectural lighting, lush floral installations, and refined tablescapes are woven into an unforgettable narrative.
@@ -85,7 +85,7 @@ export default function AboutUsPage() {
           <div className={styles.sectionHeader}>
             <span className={styles.labelGold}>INTEGRATED SYNERGY</span>
             <WindRevealHeading as="h2" className="heading-lg" style={{ color: '#ffffff' }}>
-              PLANNING & DÉCOR, TOGETHER
+              Planning & Décor, Together
             </WindRevealHeading>
           </div>
           <div className={styles.cardsGridDark}>
@@ -127,7 +127,7 @@ export default function AboutUsPage() {
             <div>
               <span className={styles.labelDark}>CRAFTSMANSHIP</span>
               <h2 className="heading-lg" style={{ color: '#1a1a1a', marginBlock: '0.5rem 1.25rem' }}>
-                ATTENTION TO DETAIL
+                Attention to Detail
               </h2>
               <p className={styles.textContentLight} style={{ marginBottom: '1.25rem' }}>
                 True luxury resides in the details that guests feel before they even notice them. From hand-selected velvet ribbons and custom stationery weight to micro-calibrated warm pin-spotting, we curate every touchpoint with surgical precision.
@@ -146,7 +146,7 @@ export default function AboutUsPage() {
           <div className={styles.sectionHeader}>
             <span className={styles.labelGold}>CALM & PRECISION</span>
             <WindRevealHeading as="h2" className="heading-lg" style={{ color: '#ffffff' }}>
-              ON EVENT DAY
+              On Event Day
             </WindRevealHeading>
           </div>
           <div className={styles.cardsGridDark}>
@@ -165,7 +165,7 @@ export default function AboutUsPage() {
             <div className={styles.cardDark}>
               <h3 className={styles.cardTitleGold}>Guest Care & Farewell</h3>
               <p className={styles.cardTextDark}>
-                From welcomingVIPs to managing coat checks and end-of-night transport, we ensure every guest experiences royal hospitality.
+                From welcoming VIPs to managing coat checks and end-of-night transport, we ensure every guest experiences royal hospitality.
               </p>
             </div>
           </div>

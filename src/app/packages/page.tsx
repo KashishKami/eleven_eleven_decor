@@ -49,7 +49,7 @@ export default function PackagesPage() {
             Planning Built Around Your Event
           </WindRevealHeading>
           <p className={styles.heroSubtitle}>
-            Whether seeking expert day-of coordination or a multi-day turnkey palace wedding, our transparent service tiers deliver unmatched elegance and peace of mind.
+            Every quote depends on event type, guest count, venue, décor scope, and production needs — the packages below are a starting point, not a fixed price.
           </p>
         </div>
       </section>

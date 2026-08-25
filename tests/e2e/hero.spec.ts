@@ -10,12 +10,12 @@ test.describe('Hero Section (W-201)', () => {
     const heading = heroSection.locator('h1')
     await expect(heading).toBeVisible()
     const headingText = await heading.textContent()
-    expect(headingText).toContain('Events')
+    expect(headingText).toContain('Celebrations')
 
-    const contactBtn = page.getByRole('link', { name: /contact us now/i })
-    await expect(contactBtn).toBeVisible()
+    const planBtn = heroSection.getByRole('link', { name: /plan your event/i })
+    await expect(planBtn).toBeVisible()
 
-    const learnBtn = page.getByRole('link', { name: /learn more/i })
-    await expect(learnBtn).toBeVisible()
+    const workBtn = heroSection.getByRole('link', { name: /view our work/i })
+    await expect(workBtn).toBeVisible()
   })
 })

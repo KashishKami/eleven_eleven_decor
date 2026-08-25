@@ -17,7 +17,7 @@ test.describe('Niche & Special Event Pages (W-403)', () => {
 
     const heading = page.getByRole('heading', { level: 1 })
     await expect(heading).toBeVisible()
-    await expect(heading).toContainText(/Private Parties & Milestones/i)
+    await expect(heading).toContainText(/Private Event Planning/i)
   })
 
   test('renders Destination Event Planning page with travel logistics', async ({ page }) => {

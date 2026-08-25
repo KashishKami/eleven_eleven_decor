@@ -48,10 +48,10 @@ export const CONTACT_INFO: ContactInfo = {
     href: 'https://wa.me/919876543210?text=Hello%2011:11%20Decor,%20I%20would%20like%20to%20inquire%20about%20event%20planning%20and%20decor%20services.',
   },
   email: {
-    display: 'contact@1111decor.com',
-    href: 'mailto:contact@1111decor.com',
+    display: 'hello@1111decor.com',
+    href: 'mailto:hello@1111decor.com',
   },
-  hours: 'Monday – Sunday: 9:00 AM – 8:00 PM IST',
+  hours: 'Mon – Sat, 10:00 AM – 7:00 PM IST',
   mapEmbedUrl:
     'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d110204.74637233604!2d77.962884!3d30.3164945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390929c356c888af%3A0x4c35b5638b4f7e0!2sDehradun%2C%20Uttarakhand!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin',
 }

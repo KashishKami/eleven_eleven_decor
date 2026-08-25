@@ -245,7 +245,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
   },
   {
     slug: 'engagement-events',
-    title: 'Engagement & Pre-Wedding Celebrations',
+    title: 'Engagement Event Planning & Decoration',
     subtitle: 'Roka Ceremonies, Ring Exchanges, Cocktail Nights & Sangeet',
     description:
       'Elegant engagement party planning, romantic ring exchange stages, and vibrant Sangeet celebration management.',
@@ -307,7 +307,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
   },
   {
     slug: 'private-events',
-    title: 'Private Parties & Milestones',
+    title: 'Private Event Planning',
     subtitle: 'Anniversaries, Housewarmings, Soirees & Baby Showers',
     description:
       'Intimate private party planning offering discreet luxury, customized catering, and refined home or venue transformation.',

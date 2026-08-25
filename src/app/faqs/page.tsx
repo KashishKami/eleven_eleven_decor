@@ -1,48 +1,93 @@
 import React from 'react'
 import type { Metadata } from 'next'
+import { HomeFAQ } from '@/components/sections/HomeFAQ'
 import { FooterCTA } from '@/components/sections/FooterCTA'
+import JsonLd from '@/components/seo/JsonLd'
 
 export const metadata: Metadata = {
-  title: 'FAQs | 1111 Decor',
-  description: 'Frequently asked questions about 1111 Decor event design and catering reservations.',
+  title: 'Frequently Asked Questions | 11:11 Decor',
+  description: 'Answers to common questions about luxury event planning, wedding decoration, corporate galas, and venue staging by 11:11 Decor.',
+  alternates: {
+    canonical: 'https://1111decor.com/faqs/',
+  },
 }
 
 export default function FaqsPage() {
+  const schemaData = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What types of events does 11:11 Decor manage?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'We manage and decorate weddings, corporate galas, milestone birthdays, engagements, private dinners, and destination celebrations across Uttarakhand.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Do you provide complete event planning, or only decoration?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'We provide both. You can book us for end-to-end event planning and management, decoration services only, or a fully integrated package covering both.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Can we hire 11:11 Decor for decoration only?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. If your venue, catering, and timeline are already set, our styling team can focus entirely on stage design, floral architecture, lighting, and ambient tablescapes.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Can we customize our event package?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Absolutely. Every event is unique. Our packages (Essential, Signature, Bespoke) serve as curated frameworks which we tailor to your specific venue, guest count, and creative vision.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How far in advance should we book?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'We recommend booking 4 to 8 months in advance for major weddings and corporate galas to secure premier dates, design custom fabrication sets, and reserve seasonal botanicals.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Do you manage corporate events as well as weddings?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. We regularly execute corporate annual galas, executive summits, product launches, and award ceremonies with surgical stagecraft and precise audio-visual coordination.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Do you work outside Dehradun / Uttarakhand?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'While our studio is based in Dehradun, we frequently produce destination weddings and corporate retreats across Mussoorie, Rishikesh, Haridwar, Jim Corbett, and beyond.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How do we request a quote?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'You can submit our quick inquiry form on the Contact page or message us directly on WhatsApp (+91 98765 43210) with your event date, estimated guest count, and preferred venue.',
+        },
+      },
+    ],
+  }
+
   return (
-    <div style={{ paddingTop: '80px' }}>
-      <div
-        style={{
-          backgroundColor: '#121212',
-          paddingBlock: '4rem 3rem',
-          textAlign: 'center',
-          borderBottom: '1px solid rgba(201, 169, 110, 0.2)',
-        }}
-      >
-        <span className="label">Help Center</span>
-        <h1 className="heading-xl" style={{ marginTop: '0.5rem', color: 'var(--color-secondary)' }}>
-          Frequently Asked Questions
-        </h1>
-      </div>
-      <div className="section-padding container" style={{ maxWidth: '800px' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <div style={{ backgroundColor: '#1b1b1b', padding: '1.5rem', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.08)' }}>
-            <h3 className="heading-sm" style={{ color: 'var(--color-accent)', marginBottom: '0.5rem' }}>
-              How far in advance should we reserve our event date?
-            </h3>
-            <p className="body-md">
-              We recommend booking 6 to 12 months in advance for weddings and major corporate galas to ensure custom spatial rendering and floral sourcing priority.
-            </p>
-          </div>
-          <div style={{ backgroundColor: '#1b1b1b', padding: '1.5rem', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.08)' }}>
-            <h3 className="heading-sm" style={{ color: 'var(--color-accent)', marginBottom: '0.5rem' }}>
-              Do you accommodate dietary requirements for custom menus?
-            </h3>
-            <p className="body-md">
-              Yes! Our culinary team crafts bespoke vegan, gluten-free, kosher, and halal dining menus tailored to your guest preferences.
-            </p>
-          </div>
-        </div>
-      </div>
+    <div style={{ paddingTop: '80px', backgroundColor: '#121212', minHeight: '100vh' }}>
+      <JsonLd data={schemaData} />
+      <HomeFAQ />
       <FooterCTA />
     </div>
   )

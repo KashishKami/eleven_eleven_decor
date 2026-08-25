@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 import { WorkProcess } from '@/components/sections/WorkProcess'
 import JsonLd from '@/components/seo/JsonLd'
+import { generateServiceSchema, generateFAQSchema } from '@/lib/schemaGenerators'
 import { SERVICES_DATA } from '@/data/services'
 import styles from './service-detail.module.css'
 
@@ -39,21 +40,19 @@ export default function ServiceDetailPage({ params }: PageProps) {
   const service = SERVICES_DATA.find((s) => s.slug === params.slug)
   if (!service) notFound()
 
-  const jsonLdData = {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
+  const serviceSchema = generateServiceSchema({
     name: service.title,
-    serviceType: service.heroH1,
-    provider: {
-      '@type': 'Organization',
-      name: '11:11 Decor',
-    },
     description: service.intro,
-  }
+    slug: service.slug,
+    image: service.image,
+  })
+
+  const faqSchema = generateFAQSchema(service.faqs)
 
   return (
     <main className={styles.detailContainer}>
-      <JsonLd data={jsonLdData} />
+      <JsonLd data={serviceSchema} />
+      <JsonLd data={faqSchema} />
 
       {/* Hero Section */}
       <section className={styles.heroSection}>

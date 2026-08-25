@@ -3,6 +3,8 @@ import { Cormorant_Garamond, DM_Sans } from 'next/font/google'
 import { SmoothScrollProvider } from '@/components/providers/SmoothScrollProvider'
 import { Navigation } from '@/components/layout/Navigation'
 import { Footer } from '@/components/layout/Footer'
+import JsonLd from '@/components/seo/JsonLd'
+import { generateOrganizationSchema } from '@/lib/schemaGenerators'
 import './globals.css'
 
 const fontDisplay = Cormorant_Garamond({
@@ -20,9 +22,9 @@ const fontBody = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: '1111 Decor | Luxury Catering & Event Design',
+  title: '11:11 Decor | Luxury Event Planning, Management & Décor',
   description:
-    '1111 Decor creates bespoke catering and luxury event experiences. Unforgettable weddings, corporate galas, and social celebrations.',
+    '11:11 Decor creates bespoke event planning, floral design, and luxury stage styling for unforgettable weddings, corporate galas, and social celebrations.',
 }
 
 export default function RootLayout({
@@ -32,6 +34,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${fontDisplay.variable} ${fontBody.variable}`}>
+      <head>
+        <JsonLd data={generateOrganizationSchema()} />
+      </head>
       <body>
         <SmoothScrollProvider>
           <Navigation />
@@ -42,3 +47,4 @@ export default function RootLayout({
     </html>
   )
 }
+

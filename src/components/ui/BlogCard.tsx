@@ -3,7 +3,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { BlogPost } from '@/data/blog'
+import type { BlogPost } from '@/types/blog'
 
 interface BlogCardProps {
   post: BlogPost
@@ -11,6 +11,9 @@ interface BlogCardProps {
 
 export function BlogCard({ post }: BlogCardProps) {
   if (!post) return null
+
+  const categorySlug = post.category ? post.category.toLowerCase().replace(/\s+/g, '-') : 'general'
+  const postUrl = `/blog/${categorySlug}/${post.slug}`
 
   return (
     <article
@@ -23,7 +26,7 @@ export function BlogCard({ post }: BlogCardProps) {
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
-        transition: 'transform 0.3s ease, boxShadow 0.3s ease',
+        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
       }}
     >
       <div
@@ -35,11 +38,12 @@ export function BlogCard({ post }: BlogCardProps) {
         }}
       >
         <Image
-          src={post.image}
+          src={post.image || 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1000&auto=format&fit=crop'}
           alt={post.title}
           fill
+          unoptimized
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          style={{ objectFit: 'cover' }}
+          style={{ objectFit: 'cover', transition: 'transform 0.5s ease' }}
         />
         <div
           style={{
@@ -58,7 +62,7 @@ export function BlogCard({ post }: BlogCardProps) {
             border: '1px solid rgba(201, 169, 110, 0.3)',
           }}
         >
-          {post.category}
+          {post.categoryName || post.category.replace(/-/g, ' ')}
         </div>
       </div>
 
@@ -106,7 +110,7 @@ export function BlogCard({ post }: BlogCardProps) {
         </p>
 
         <Link
-          href={`/blog/${post.slug}`}
+          href={postUrl}
           style={{
             color: '#c9a96e',
             fontSize: '0.875rem',

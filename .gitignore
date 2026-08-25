@@ -34,3 +34,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# php admin sensitive files
+php-admin/config.php
+php-admin/**/uploads/*
+!php-admin/**/uploads/.gitkeep

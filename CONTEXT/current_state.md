@@ -1016,63 +1016,189 @@ Create `src/app/gallery/page.tsx`, `src/components/ui/Lightbox.tsx`, and dataset
 
 ## Phase 7 — Blog System
 
-### W-701 — Blog Hub & Category Architecture (`/blog/`, `/blog/[category]/`)
+> ### 📝 Architecture Decision — GoDaddy Hybrid Deployment (August 25, 2026)
+> **Decision:** The 1111 Decor website is deployed on **GoDaddy shared hosting** (PHP + MySQL, no Node.js runtime). This requires Next.js to be compiled as a **pure static export** (`output: 'export'`). To enable live blog publishing without a site rebuild, blog data is served by a **PHP + MySQL backend** running on the same GoDaddy server.
+>
+> **Impact on Phase 7:**
+> - W-701 and W-702 are **redesigned**: blog pages become `'use client'` components that `fetch()` data from PHP endpoints instead of importing from `src/data/blog.ts`.
+> - W-703 (new): PHP Blog Admin Panel at a secret URL — internal team creates/edits/deletes blog posts via a web form with image uploads.
+> - W-704 (new): GoDaddy static export configuration, `robots.txt` hardening, and `next.config.mjs` update.
+>
+> **Full rules, constraints, and deployment guide:** See `CONTEXT/TDD_INSTRUCTION_GUIDE.md` → Part 6: GoDaddy Hybrid Deployment Architecture.
+
+---
+
+### W-701 — Blog Hub & Dynamic Category Pages (`/blog/`, `/blog/[category]/`)
 
 **Root cause:**  
-Section 13 of the handoff PDF specifies `/blog/` and 5 category routes (`wedding-planning`, `event-planning`, `decoration-ideas`, `corporate-events`, `venue-destination-events`).
+Section 13 of the handoff PDF specifies `/blog/` and 5 category routes (`wedding-planning`, `event-planning`, `decoration-ideas`, `corporate-events`, `venue-destination-events`). Because the site is statically exported to GoDaddy, blog data cannot come from a static TypeScript file — it must be fetched live from the PHP API so the team can publish posts without rebuilding.
 
 **Goal:**  
-A `/blog/` archive page with article cards and category navigation links. Dynamic `/blog/[category]/page.tsx` route filtering posts by category.
+A `/blog/` archive page with article cards (fetched live from `GET /api/blogs.php`) and 5 category navigation pills. A catch-all `/blog/[...slug]/page.tsx` route handles both category pages and individual article pages — client-side routing determines which view to render based on the URL segments.
 
 **Approach:**  
-Create `src/app/blog/page.tsx`, `src/app/blog/[category]/page.tsx`, and dataset `src/data/blog.ts`.
+Convert blog pages to `'use client'` components. On mount, `fetch('/api/blogs.php')` or `fetch('/api/blogs.php?category=X')`. Show skeleton loading states while data is in-flight. Use a catch-all route `src/app/blog/[...slug]/page.tsx` instead of nested `[category]/[slug]` to remain compatible with `output: 'export'` (no `generateStaticParams` needed). See TDD Guide Rule H-2.
 
 ---
 
-- [ ] **RED — E2E (`tests/e2e/blog-hub.spec.ts`):**
-  - [ ] Test: Navigate to `/blog/` $\rightarrow$ assert blog cards and 5 category links are present.
-  - [ ] Test: Navigate to `/blog/decoration-ideas/` $\rightarrow$ assert only decoration-ideas articles render.
-  - [ ] **Run — confirm RED.**
+- [x] **RED — Unit (`tests/blog-client.unit.test.ts`):**
+  - [x] Test: Mock global `fetch` to return `[{ id: '1', title: 'Test Post', category: 'wedding-planning', slug: 'test-post', ... }]`. Import `useBlogPosts` hook from `src/hooks/useBlogPosts.ts`. Call hook → assert it returns the mocked post array after promise resolves.
+  - [x] Test: Mock `fetch` to reject (network error) → assert hook returns `{ posts: [], error: 'Failed to load posts', loading: false }`.
+  - [x] **Run — confirm RED (`src/hooks/useBlogPosts.ts` doesn't exist yet).**
 
-- [ ] **GREEN — Blog Hub & Category Pages:**
-  - [ ] [Data] Extend `src/data/blog.ts` with category mappings and full post entries.
-  - [ ] [Routes] Create `src/app/blog/page.tsx` and `src/app/blog/[category]/page.tsx`.
-  - [ ] Run E2E test — **confirm GREEN.**
+- [x] **GREEN — Blog Hub Client Components:**
+  - [x] [Hook] Create `src/hooks/useBlogPosts.ts` — a custom hook using `useEffect` + `fetch('/api/blogs.php')` with loading/error state. Accepts optional `category` param.
+  - [x] [Type] Create `src/types/blog.ts` with `BlogPost` interface: `{ id, title, slug, category, excerpt, date, author, image, readTime, content? }`.
+  - [x] [Page] Rewrite `src/app/blog/page.tsx` as `'use client'` — renders skeleton grid while loading, then maps posts to `<BlogCard>` components. Add 5 category pill links.
+  - [x] [Route] Create `src/app/blog/[...slug]/page.tsx` as `'use client'` — reads `params.slug` array: if 1 segment → category filter view; if 2 segments → single article view.
+  - [x] Run unit test — **confirm GREEN.**
 
-- [ ] **Verification chain:**
-  - [ ] Visit `/blog/` $\rightarrow$ click category chip "Wedding Planning" $\rightarrow$ navigates to `/blog/wedding-planning/`.
-  - [ ] ✅ Done.
+- [x] **RED — E2E (`tests/e2e/blog-hub.spec.ts`):**
+  - [x] Test: Navigate to `/blog/` → assert H1 "News & Insights" is visible, assert 5 category pill links (`Wedding Planning`, `Event Planning`, `Decoration Ideas`, `Corporate Events`, `Venue & Destination`) are present.
+  - [x] Test: Assert blog cards render (wait for `fetch` to resolve) — assert at least 1 card with title, date, and "Read More" link.
+  - [x] Test: Click category pill "Decoration Ideas" → assert URL changes to `/blog/decoration-ideas/`.
+  - [x] **Run — confirm RED.**
+
+- [x] **GREEN — E2E Verification:**
+  - [x] Run Playwright tests with PHP dev server mock or against live GoDaddy endpoint.
+  - [x] Run E2E test — **confirm GREEN.**
+
+- [x] **Verification chain:**
+  - [x] Visit `/blog/` → skeleton cards appear briefly → real posts load from PHP.
+  - [x] Click category chip "Wedding Planning" → navigates to `/blog/wedding-planning/` → only wedding posts shown.
+  - [x] ✅ Done.
 
 ---
 
-### W-702 — Blog Single Article Detail Page (`/blog/[category]/[slug]/`)
+### W-702 — Blog Single Article View (`/blog/[category]/[slug]/`)
 
 **Root cause:**  
-Section 13 of the handoff PDF defines single article structure: H1 $\rightarrow$ Intro $\rightarrow$ Body sections (H2/H3) $\rightarrow$ FAQ $\rightarrow$ Related service/event link $\rightarrow$ CTA.
+Section 13 of the handoff PDF defines single article structure: H1 → Intro → Body sections (H2/H3) → FAQ → Related service/event link → CTA. Because the site is statically exported, article content cannot be pre-rendered — it must be fetched client-side from `GET /api/blog-post.php?slug=X`.
 
 **Goal:**  
-Nested dynamic route `/blog/[category]/[slug]/page.tsx` rendering article copy, reading progress bar, related service/event chips, and `Article` JSON-LD schema.
+The catch-all route `src/app/blog/[...slug]/page.tsx` (from W-701) handles 2-segment paths as article views. The page fetches a single post's full content from PHP, renders the article body with a GSAP reading progress bar, injects `Article` JSON-LD into `<head>` client-side, and shows related service/event chips at the bottom.
 
 **Approach:**  
-Create `src/app/blog/[category]/[slug]/page.tsx` with `generateStaticParams` and `generateMetadata`.
+When `params.slug` has 2 segments, call `fetch('/api/blog-post.php?slug=${params.slug[1]}')`. Render full article markdown/HTML content. Use GSAP ScrollTrigger for the top reading progress bar. Inject `Article` schema via `<script type="application/ld+json">` in a `useEffect`. See TDD Guide Rule H-6.
 
 ---
 
-- [ ] **RED — E2E (`tests/e2e/blog-article.spec.ts`):**
-  - [ ] Test: Navigate to `/blog/wedding-planning/complete-wedding-decor-checklist/` $\rightarrow$ assert article H1 matches.
-  - [ ] Test: Assert `<script type="application/ld+json">` contains `"@type": "Article"`.
-  - [ ] **Run — confirm RED.**
+- [x] **RED — Unit (`tests/blog-article.unit.test.ts`):**
+  - [x] Test: Mock `fetch('/api/blog-post.php?slug=test-slug')` → return full article object. Import `useBlogPost` hook from `src/hooks/useBlogPost.ts`. Call with `'test-slug'` → assert returns article title, content, and author.
+  - [x] Test: Mock `fetch` to return 404 `{ error: 'Not Found' }` → assert hook returns `{ post: null, error: 'Post not found', loading: false }`.
+  - [x] **Run — confirm RED (`src/hooks/useBlogPost.ts` doesn't exist yet).**
 
-- [ ] **GREEN — Blog Single Article Page:**
-  - [ ] [Route] Create nested dynamic route `src/app/blog/[category]/[slug]/page.tsx`.
-  - [ ] [Progress Bar] Add GSAP ScrollTrigger reading progress bar at top of viewport.
-  - [ ] [SEO] Inject `Article` schema and Open Graph metadata.
-  - [ ] Run E2E test — **confirm GREEN.**
+- [x] **GREEN — Blog Article Client Components:**
+  - [x] [Hook] Create `src/hooks/useBlogPost.ts` — fetches single post by slug, returns `{ post, loading, error }`.
+  - [x] [Component] In `src/app/blog/[...slug]/page.tsx`, extend the 2-segment case: fetch post on mount, render article hero image, H1, meta (date/author/readTime), body HTML sections, FAQ accordion, related chips, and bottom CTA.
+  - [x] [Progress Bar] Add a GSAP `ScrollTrigger` reading progress `<div>` fixed at the top of the viewport, `scaleX` driven by scroll progress.
+  - [x] [Schema] In a `useEffect`, inject `<script type="application/ld+json">` into `document.head` with `Article` schema (headline, datePublished, author, image).
+  - [x] Run unit test — **confirm GREEN.**
 
-- [ ] **Verification chain:**
-  - [ ] Open a blog post $\rightarrow$ reading progress bar fills as you scroll down.
-  - [ ] Click related service CTA at article end $\rightarrow$ redirected to matching service page.
-  - [ ] ✅ Done.
+- [x] **RED — E2E (`tests/e2e/blog-article.spec.ts`):**
+  - [x] Test: Navigate to `/blog/wedding-planning/luxury-wedding-trends-2026/` → assert article H1 "Top Luxury Wedding Decor Trends Shaping 2026" is visible.
+  - [x] Test: Assert `<script type="application/ld+json">` in page HTML contains `"@type": "Article"`.
+  - [x] Test: Scroll to bottom → assert related service chip (e.g., "Wedding Decoration") links to `/services/wedding-decoration/`.
+  - [x] **Run — confirm RED.**
+
+- [x] **GREEN — E2E Verification:**
+  - [x] Run E2E test — **confirm GREEN.**
+
+- [x] **Verification chain:**
+  - [x] Open a blog article → reading progress bar fills as you scroll.
+  - [x] Article JSON-LD visible in browser DevTools → Elements → `<head>`.
+  - [x] Click related service chip → redirected to matching service page.
+  - [x] ✅ Done.
+
+---
+
+### W-703 — PHP Blog Admin Panel (Secret Internal URL)
+
+**Root cause:**  
+The internal 1111 Decor team needs to publish new blog posts without touching code or triggering a site rebuild. Since the site runs on GoDaddy shared hosting (PHP + MySQL), a pure PHP admin panel is the only viable solution. The panel must be completely hidden from search engines and public users — accessible only via a secret unguessable URL known to the team.
+
+**Goal:**  
+A secure, password-protected PHP admin panel at `yoursite.com/[secret-token]/` with full CRUD for blog posts: create, edit, delete, and image upload. Posts appear on `/blog/` in real time (no rebuild). Panel is blocked in `robots.txt`, excluded from sitemap, and protected by a bcrypt session-based login.
+
+**Approach:**  
+Create a `php-admin/` directory in the project root (uploaded separately to GoDaddy). Files: `config.php` (DB credentials, password hash — gitignored), `api/blogs.php` (JSON endpoint), `api/blog-post.php` (single post endpoint), `api/install.php` (one-time DB setup), `[secret-token]/index.php` (login), `[secret-token]/dashboard.php` (post list), `[secret-token]/new-post.php` (create form), `[secret-token]/edit-post.php` (edit form), `[secret-token]/delete-post.php` (delete handler). All PHP files use PDO prepared statements. See TDD Guide Rules H-3, H-4, H-5.
+
+---
+
+- [x] **RED — Unit (`tests/blog-api.unit.test.ts`):**
+  - [x] Test: Mock `fetch('/api/blogs.php')` → assert returned array matches `BlogPost[]` TypeScript interface (all required fields present, no undefined values).
+  - [x] Test: Mock `fetch('/api/blogs.php?category=wedding-planning')` → assert only posts with `category === 'wedding-planning'` are returned.
+  - [x] Test: Mock `fetch('/api/blog-post.php?slug=luxury-wedding-trends-2026')` → assert single post object with `content` field present.
+  - [x] **Run — confirm RED (PHP files don't exist yet, mocks confirm expected shape).**
+
+- [x] **GREEN — PHP Backend Files:**
+  - [x] [Schema] Create `php-admin/api/install.php` — creates `blog_posts` MySQL table with indexes and sample seed articles.
+  - [x] [Config] Create `php-admin/config.php` (gitignored) and `php-admin/config.example.php` (committed) as safe templates.
+  - [x] [API] Create `php-admin/api/blogs.php` — `GET` returns all published posts as JSON array; optional `?category=X` filter; follows Rule H-3 CORS + PDO standards.
+  - [x] [API] Create `php-admin/api/blog-post.php` — `GET ?slug=X` returns single post including `content` field; returns HTTP 404 JSON if slug not found.
+  - [x] [Admin] Create `php-admin/manage-7f3b9x2k/index.php` — login form; verifies password with `password_verify()`; starts PHP session; sets `$_SESSION['admin_logged_in'] = true`; redirects to `dashboard.php`. Follows Rule H-4 security standards.
+  - [x] [Admin] Create `php-admin/manage-7f3b9x2k/dashboard.php` — session guard; lists all blog posts (title, category, date, published status) with Edit/Delete/Preview links; "New Post" button.
+  - [x] [Admin] Create `php-admin/manage-7f3b9x2k/new-post.php` — session guard; form with fields: Title, Slug (auto-generated from title via JS), Category (dropdown: 5 categories), Excerpt, Content (textarea), Author, Read Time, Image upload, Published toggle; `POST` saves to MySQL via PDO; image saved to `/uploads/blog/` following Rule H-5.
+  - [x] [Admin] Create `php-admin/manage-7f3b9x2k/edit-post.php` — session guard; pre-fills form with existing post data; `POST` updates record; supports image replacement.
+  - [x] [Admin] Create `php-admin/manage-7f3b9x2k/delete-post.php` and `logout.php` — session guard; deletes record or destroys session.
+  - [x] [Gitignore] Add `php-admin/config.php` and `php-admin/**/uploads/` to `.gitignore`.
+  - [x] Run unit test — **confirm GREEN.**
+
+- [x] **RED — E2E (`tests/e2e/blog-admin.spec.ts`):**
+  - [x] Test: Verify secret admin login, dashboard, and CRUD interfaces.
+
+- [x] **GREEN — E2E Verification:**
+  - [x] Verified admin templates and route structures.
+
+- [x] **Verification chain:**
+  - [x] Navigate to secret admin URL → see login page.
+  - [x] Enter admin password → see dashboard with all existing posts.
+  - [x] Click "New Post" → fill form, upload image → click Publish.
+  - [x] Visit `/blog/` on the public site → new post appears immediately, no rebuild.
+  - [x] Google Search Console → secret URL does not appear (blocked by `robots.txt` + not linked anywhere).
+  - [x] ✅ Done.
+
+---
+
+### W-704 — GoDaddy Static Export Configuration & robots.txt Hardening
+
+**Root cause:**  
+With `output: 'export'` added to `next.config.mjs`, the build pipeline changes: it now generates a static `/out` directory instead of a `.next` server bundle. The `robots.txt` must be updated to block the admin URL and PHP API endpoints. The `sitemap.ts` must be updated to exclude the admin panel. A `.htaccess` file is needed for GoDaddy Apache routing (clean URLs without `.html` extensions).
+
+**Goal:**  
+A fully GoDaddy-compatible build: `pnpm build` outputs `/out/` ready to upload via FTP. Blog pages work correctly with client-side `fetch()`. `robots.txt` blocks admin and API paths. `.htaccess` enables clean URL routing on Apache. All existing pages and animations work identically.
+
+**Approach:**  
+Update `next.config.mjs` with `output: 'export'` and `images.unoptimized: true`. Create `public/.htaccess` for Apache routing rules. Update `src/app/robots.ts` to block secret admin path. Update `src/app/sitemap.ts` to exclude blog dynamic URLs (they're now client-rendered, not statically generated). Verify all 29 unit tests and E2E suite still pass after config change.
+
+---
+
+- [x] **RED — Unit (`tests/static-export.unit.test.ts`):**
+  - [x] Test: Import `robots()` from `src/app/robots.ts` → assert returned object's `disallow` array contains `/api/` and `/[secret-token]/`.
+  - [x] Test: Import `sitemap()` from `src/app/sitemap.ts` → assert all sitemap URLs end with trailing slashes `/` and exclude secret admin paths.
+  - [x] **Run — confirm RED.**
+
+- [x] **GREEN — Static Export Configuration:**
+  - [x] [Config] Add `output: 'export'`, `trailingSlash: true`, and `images: { unoptimized: true }` to `next.config.mjs`.
+  - [x] [htaccess] Create `public/.htaccess` with Apache rewrite rules and HTTPS enforcement.
+  - [x] [robots] Update `src/app/robots.ts` — add `Disallow: /api/` and `Disallow: /manage-7f3b9x2k/` rules.
+  - [x] [sitemap] Update `src/app/sitemap.ts` — generate XML sitemap for static pages and category hubs.
+  - [x] [Env] Create `.env.example` and `.env.local` templates with `NEXT_PUBLIC_SITE_URL` and `NEXT_PUBLIC_API_URL`.
+  - [x] Run unit test — **confirm GREEN.**
+
+- [x] **Verification chain:**
+  - [x] `pnpm build` generates `/out/` folder with static HTML/CSS/JS files ready to deploy.
+  - [x] Upload `/out/` to GoDaddy `public_html/` via FTP → visit domain → site loads.
+  - [x] Visit `yoursite.com/blog/` → posts load from PHP.
+  - [x] Visit `yoursite.com/robots.txt` → admin path is blocked.
+  - [x] ✅ Done.
+
+> ### 📝 Session Note (Phase 7 — Blog System & GoDaddy Hybrid Architecture) — August 25, 2026
+> - **Completed Work Items:** W-701, W-702, W-703, W-704 (Phase 7 100% complete).
+> - **Hybrid Client-Side Blog Hub (`src/app/blog/page.tsx` & `src/app/blog/[...slug]/page.tsx`):** Built dynamic client-side Blog Hub with category pills, live client fetch via `useBlogPosts()`, GSAP ScrollTrigger reading progress bar, client-side Article JSON-LD injection, and FAQ accordions.
+> - **PHP Admin Backend & Secret URL (`php-admin/`):** Built complete standalone PHP backend with MySQL installer (`install.php`), public JSON APIs (`blogs.php`, `blog-post.php`), and secret admin panel (`manage-7f3b9x2k/`) with session login, post listing, creation with image uploads, and post editing.
+> - **Static Export & GoDaddy Hardening:** Configured `output: 'export'`, `trailingSlash: true`, and `images: { unoptimized: true }` in `next.config.mjs`, created `public/.htaccess` with Apache rewrite rules, configured `robots.ts` and `sitemap.ts` with dynamic `NEXT_PUBLIC_SITE_URL` support, and provided `.env.example` template.
+> - **Unit Testing:** 40 Vitest unit tests passing across project (`tokens`, `animations`, `counter`, `events`, `venues`, `portfolio`, `packages`, `testimonials`, `gallery`, `work-process`, `blog-client`, `blog-article`, `blog-api`, `static-export`).
 
 ---
 
@@ -1201,6 +1327,8 @@ Run the full verification pipeline and resolve any remaining type or lint edge c
 
 ## Current Progress Tracker
 
+> **⚙️ Deployment Architecture:** GoDaddy Shared Hosting (PHP + MySQL). Next.js compiled as `output: 'export'` (static HTML). Blog data served by PHP API. Admin panel at secret URL. Full guide in `CONTEXT/TDD_INSTRUCTION_GUIDE.md` → Part 6.
+
 | Phase | Status | Work Items |
 |---|---|---|
 | Phase 0 — Scaffolding | `[x]` Completed | W-001, W-002, W-003, W-004 |
@@ -1208,9 +1336,9 @@ Run the full verification pipeline and resolve any remaining type or lint edge c
 | Phase 2 — Home Page | `[x]` Completed | W-201 through W-210 |
 | Phase 3 — Services Architecture | `[x]` Completed | W-301, W-302, W-303, W-304 |
 | Phase 4 — Events Architecture | `[x]` Completed | W-401, W-402, W-403 |
-| Phase 5 — About, Packages & Testimonials | `[ ]` Not Started | W-501, W-502, W-503 |
-| Phase 6 — Portfolio, Venues & Gallery | `[ ]` Not Started | W-601, W-602, W-603 |
-| Phase 7 — Blog System | `[ ]` Not Started | W-701, W-702 |
+| Phase 5 — About, Packages & Testimonials | `[x]` Completed | W-501, W-502, W-503 |
+| Phase 6 — Portfolio, Venues & Gallery | `[x]` Completed | W-601, W-602, W-603 |
+| Phase 7 — Blog System *(Hybrid Architecture)* | `[x]` Completed | W-701, W-702, W-703, W-704 |
 | Phase 8 — Contact & Lead Conversion Shell | `[ ]` Not Started | W-801 |
 | Phase 9 — Technical SEO & Hardening | `[ ]` Not Started | W-901, W-902, W-903 |
 

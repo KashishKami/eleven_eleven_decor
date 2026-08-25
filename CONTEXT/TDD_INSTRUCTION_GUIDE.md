@@ -344,3 +344,277 @@ Before submitting any work item checklist for review, verify:
 - [ ] For any employee creation: dual-system provisioning (Postgres + RC) included.
 - [ ] For any break end: duration computation included.
 - [ ] For any cross-system identity lookup: rc_user_id → employee_id resolution included.
+- [ ] **[Hybrid]** For any GoDaddy-deployed feature: confirm `output: 'export'` compatibility (no server-side Next.js code in affected page).
+- [ ] **[Hybrid]** For any PHP API endpoint: confirm CORS header `Access-Control-Allow-Origin` is set for the public domain.
+- [ ] **[Hybrid]** For any admin panel route: confirm it is excluded from `sitemap.xml` and blocked in `robots.txt`.
+
+---
+
+## Part 6: GoDaddy Hybrid Deployment Architecture
+
+> **Context:** The 1111 Decor website is deployed on GoDaddy shared hosting, which supports only static files + PHP + MySQL. Next.js 14 is compiled with `output: 'export'` to generate a static HTML/CSS/JS bundle. Dynamic data for the Blog System is served by a lightweight PHP backend running on the same GoDaddy server. This section defines the rules, tiers, and constraints for all work items that touch the hybrid layer.
+
+---
+
+### Rule H-1: The Static/Dynamic Boundary
+
+Every page is either **fully static** (pre-rendered at build time, reads from TypeScript data files) or **hybrid dynamic** (static HTML shell + client-side `fetch()` to a PHP endpoint). There is no middle ground.
+
+| Page Type | Data Source | Rebuild Required to Update? |
+|---|---|---|
+| All non-blog pages (Home, Services, Events, Gallery, etc.) | `src/data/*.ts` TypeScript files | ✅ Yes — edit the `.ts` file and rebuild |
+| Blog Hub `/blog/` | `GET /api/blogs.php` via client fetch | ❌ No — PHP reads from MySQL in real time |
+| Blog Category `/blog/[category]/` | `GET /api/blogs.php?category=X` via client fetch | ❌ No |
+| Blog Article `/blog/[category]/[slug]/` | `GET /api/blog-post.php?slug=X` via client fetch | ❌ No |
+| Admin Panel `/[secret-token]/` | PHP session + MySQL | ❌ No — standalone PHP app |
+
+**Rule:** Never mix these. A page that uses `fetch()` to a PHP endpoint must be a `'use client'` component and must never `import` from `src/data/*.ts` for the same data.
+
+---
+
+### Rule H-2: `output: 'export'` Compatibility
+
+With `output: 'export'` enabled, the following Next.js features are **forbidden** in any page:
+
+```
+❌ export async function generateStaticParams() — for dynamic blog routes
+   REASON: Blog slugs come from MySQL (runtime), not from a static TS array.
+   SOLUTION: Use catch-all route src/app/blog/[...slug]/page.tsx that fetches
+             the post client-side after the static HTML shell loads.
+
+❌ Server Components that fetch from DB or API
+   REASON: No server at runtime on GoDaddy.
+   SOLUTION: All data fetching in 'use client' components via useEffect + fetch().
+
+❌ next/image with external domains (image optimization)
+   REASON: Requires a running Next.js server.
+   SOLUTION: Use a plain <img> tag for blog images, or set
+             unoptimized: true in next.config.mjs.
+
+❌ API Routes (src/app/api/*)
+   REASON: These are Node.js server-side routes.
+   SOLUTION: Replaced 100% by PHP files in php-admin/api/.
+```
+
+---
+
+### Rule H-3: PHP API Endpoint Standards
+
+Every PHP file in `php-admin/api/` must follow this structure:
+
+```php
+<?php
+// 1. CORS — always first, before any output
+header('Access-Control-Allow-Origin: https://yoursite.com');
+header('Content-Type: application/json; charset=utf-8');
+
+// 2. Method guard
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit; }
+
+// 3. Load config (DB credentials from environment, never hardcoded)
+require_once __DIR__ . '/../config.php';
+
+// 4. Connect to MySQL — die with JSON error if fails
+$pdo = new PDO("mysql:host=$DB_HOST;dbname=$DB_NAME;charset=utf8mb4", $DB_USER, $DB_PASS);
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+// 5. Business logic — parameterized queries only (never string interpolation)
+// 6. Return JSON — always use json_encode() with UTF-8 flags
+echo json_encode($result, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+```
+
+**Absolute Rules:**
+- ❌ Never interpolate user input directly into SQL — always use PDO prepared statements.
+- ❌ Never output anything before the `header()` calls (no BOM, no blank lines).
+- ❌ Never store DB credentials in the PHP file — always in `config.php` (excluded from Git via `.gitignore`).
+- ✅ Always return a JSON error with a meaningful `error` key and appropriate HTTP status code on failure.
+
+---
+
+### Rule H-4: Admin Panel Security Standards
+
+The admin panel at `/[secret-token]/` must:
+
+1. **Secret URL token** — minimum 16 random alphanumeric characters (e.g., `xk9m2b4p8f3n7r1q`). Generated once, never changed.
+2. **PHP session-based login** — `session_start()` on every protected page; redirect to login if `$_SESSION['admin_logged_in'] !== true`.
+3. **Bcrypt password** — never store plain-text passwords. Use `password_hash($pass, PASSWORD_BCRYPT)` to generate, `password_verify()` to check.
+4. **robots.txt blocked** — `Disallow: /[secret-token]/` and `Disallow: /api/` in `robots.txt`.
+5. **sitemap.xml excluded** — admin URL must never appear in any sitemap generator output.
+6. **X-Frame-Options** — emit `header('X-Frame-Options: DENY')` on all admin pages to prevent clickjacking.
+7. **Session timeout** — sessions expire after 2 hours of inactivity: `ini_set('session.gc_maxlifetime', 7200)`.
+
+---
+
+### Rule H-5: Image Upload Standards
+
+Blog post images are uploaded directly to GoDaddy via the admin panel.
+
+```
+Allowed types:  image/jpeg, image/png, image/webp only
+Max file size:  5MB per image
+Storage path:   /uploads/blog/YYYY/MM/filename-slug.webp
+Naming:         Sanitize filename — lowercase, hyphens only, no spaces, no special chars
+Reference:      Store relative path /uploads/blog/... in MySQL, not absolute path
+```
+
+**PHP validation rules (all required):**
+```php
+$allowed = ['image/jpeg', 'image/png', 'image/webp'];
+if (!in_array($_FILES['image']['type'], $allowed)) { /* reject */ }
+if ($_FILES['image']['size'] > 5 * 1024 * 1024) { /* reject */ }
+// Use move_uploaded_file() — never copy() for uploads
+// Regenerate filename with uniqid() to prevent overwrites
+```
+
+---
+
+### Rule H-6: Testing the Hybrid Layer
+
+Since PHP endpoints cannot be tested by Vitest (Node.js), the testing strategy for hybrid work items is:
+
+| Layer | Test Tool | What Is Tested |
+|---|---|---|
+| Next.js blog page (client fetch logic) | Vitest unit test | Mocked `fetch()` returns correct data shape, component renders posts |
+| PHP API response shape | Playwright E2E | Navigate to blog page → assert posts render from live PHP endpoint |
+| PHP admin form | Playwright E2E | Fill form → submit → assert success message, assert post appears on `/blog/` |
+| MySQL schema | Manual (phpMyAdmin) | Run `install.php` once → verify tables created |
+
+**For every hybrid work item, the RED step must include both:**
+1. A Vitest unit test for the Next.js client component (assert `fetch` is called with correct URL, assert loading/error states).
+2. A Playwright E2E test that hits the actual PHP endpoint and asserts real rendered output.
+
+---
+
+### GoDaddy Deployment Guide (One-Time Setup)
+
+This is the complete, step-by-step guide for deploying the 1111 Decor website to GoDaddy shared hosting for the first time.
+
+#### Prerequisites
+- GoDaddy shared hosting account with cPanel access
+- MySQL database available (included in all GoDaddy shared plans)
+- FTP credentials (from cPanel → FTP Accounts)
+- FileZilla (free FTP client) or cPanel File Manager
+
+---
+
+#### Step 1 — Build the Next.js Static Export (Local Machine)
+
+```bash
+# In the project root on your local machine:
+pnpm build
+```
+
+This generates an `/out` folder containing all static HTML, CSS, and JS files.
+
+> ⚠️ Verify `next.config.mjs` has `output: 'export'` before building.
+
+---
+
+#### Step 2 — Create the MySQL Database (GoDaddy cPanel)
+
+1. Log in to GoDaddy → **My Products** → click **cPanel** next to your hosting.
+2. In cPanel, go to **MySQL Databases** (under Databases section).
+3. **Create a Database:** Type a name e.g. `elevendecor_blog` → click **Create Database**.
+4. **Create a User:** Scroll down, type a username e.g. `elevendecor_user` and a strong password → click **Create User**.
+5. **Add User to Database:** Select the user and the database → click **Add** → check **All Privileges** → click **Make Changes**.
+6. **Note down:** Database name, username, password, and hostname (usually `localhost`).
+
+---
+
+#### Step 3 — Configure PHP Admin Credentials (Local Machine)
+
+1. In the project, open `php-admin/config.php`.
+2. Fill in the DB credentials from Step 2:
+   ```php
+   <?php
+   define('DB_HOST', 'localhost');
+   define('DB_NAME', 'elevendecor_blog');   // your DB name
+   define('DB_USER', 'elevendecor_user');   // your DB user
+   define('DB_PASS', 'YourStrongPassword'); // your DB password
+   define('ADMIN_PASSWORD_HASH', password_hash('YourAdminPassword', PASSWORD_BCRYPT));
+   ```
+3. Choose a strong admin password and replace `'YourAdminPassword'` with it.
+4. **Do not commit `config.php` to Git.** It is in `.gitignore`.
+
+---
+
+#### Step 4 — Upload Files to GoDaddy (FTP or File Manager)
+
+Upload these two things to the GoDaddy `public_html/` folder:
+
+| What to Upload | From Local | To GoDaddy |
+|---|---|---|
+| Next.js static build | `/out/*` (all contents) | `public_html/` (root) |
+| PHP admin files | `/php-admin/*` | `public_html/` (same root) |
+
+**Using FileZilla:**
+1. Open FileZilla → File → Site Manager → New Site.
+2. Host: your domain or GoDaddy FTP server address.
+3. Protocol: FTP or SFTP. Enter username/password from cPanel FTP Accounts.
+4. Connect → drag `/out` folder contents into `public_html/`.
+5. Drag `/php-admin` folder contents into `public_html/`.
+
+> ✅ After upload, `public_html/` should contain: `index.html`, `_next/`, `api/`, `[secret-token]/`, `uploads/`.
+
+---
+
+#### Step 5 — Run the Database Installer
+
+1. In your browser, visit: `https://yoursite.com/api/install.php`
+2. You should see: `{"success": true, "message": "Database tables created successfully."}`
+3. **Immediately delete `install.php`** from GoDaddy via cPanel File Manager or FTP.
+   - Navigate to `public_html/api/` → right-click `install.php` → Delete.
+
+> ⚠️ Never leave `install.php` on the server after first run. Anyone who visits it could reset your database.
+
+---
+
+#### Step 6 — Verify the Admin Panel
+
+1. Visit `https://yoursite.com/[your-secret-token]/` in your browser.
+2. You should see the admin login page.
+3. Enter the admin password you set in `config.php` Step 3.
+4. You should see the dashboard with "No blog posts yet."
+5. Click **"New Post"** → fill in Title, Category, Content, upload an image → click **Publish**.
+6. Visit `https://yoursite.com/blog/` → your new post should appear.
+
+---
+
+#### Step 7 — Verify robots.txt
+
+Visit `https://yoursite.com/robots.txt`. Confirm it contains:
+```
+User-agent: *
+Disallow: /[your-secret-token]/
+Disallow: /api/
+Allow: /
+
+Sitemap: https://yoursite.com/sitemap.xml
+```
+
+---
+
+#### Future Deployments (After Code Changes)
+
+Whenever the Next.js codebase changes:
+```bash
+# 1. Local build
+pnpm build
+
+# 2. Upload /out folder contents to public_html/ via FTP
+#    (overwrite existing files)
+```
+
+The PHP admin and MySQL data are **not affected** by Next.js rebuilds. Blog posts remain intact.
+
+---
+
+#### Troubleshooting Reference
+
+| Problem | Likely Cause | Fix |
+|---|---|---|
+| Blog page shows "Loading..." forever | PHP API CORS error or wrong URL | Check `CORS_ORIGIN` in `config.php`, check browser console for fetch errors |
+| Admin login fails | Wrong password or PHP session issue | Re-run `password_hash()` in `config.php`, check PHP version in cPanel (needs 8.0+) |
+| Images not uploading | `/uploads/blog/` folder permissions | In cPanel File Manager → right-click `/uploads/` → Permissions → set to 755 |
+| `install.php` returns DB error | Wrong DB credentials | Double-check DB name, user, password in `config.php` vs cPanel MySQL Databases |
+| Blog posts not showing after publish | `fetch()` URL mismatch | Ensure `NEXT_PUBLIC_API_URL` env var matches GoDaddy domain exactly |

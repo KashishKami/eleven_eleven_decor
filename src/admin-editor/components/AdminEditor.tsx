@@ -8,7 +8,7 @@ import { FaqBlock } from '../extensions/FaqBlock'
 import { TableOfContents } from '../extensions/TableOfContents'
 import { SLASH_COMMANDS, SlashCommandItem } from '../lib/slashCommands'
 import { serializeToHtml } from '../lib/serializer'
-import { buildImageAlt } from '../lib/imageHelpers'
+import { buildImageAlt, normalizeImageUrl } from '../lib/imageHelpers'
 
 interface AdminEditorProps {
   initialContent: string
@@ -24,10 +24,12 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
   const [showSlashMenu, setShowSlashMenu] = useState(false)
   const [slashQuery, setSlashQuery] = useState('')
   const [slashIndex, setSlashIndex] = useState(0)
+  const [slashPosition, setSlashPosition] = useState<{ top: number; left: number } | null>(null)
   const [showImageModal, setShowImageModal] = useState(false)
   const [uploadingImage, setUploadingImage] = useState(false)
   const [imageUrlInput, setImageUrlInput] = useState('')
   const [imageAltInput, setImageAltInput] = useState('')
+  const [uploadSuccessMsg, setUploadSuccessMsg] = useState<string>('')
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
   const handleEditorUpdate = useCallback(
@@ -66,16 +68,17 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
     // Delete the slash trigger text
     const { from } = ed.state.selection
     const textBefore = ed.state.doc.textBetween(Math.max(0, from - 20), from, '\n', '')
-    const slashMatch = textBefore.match(/\/([a-zA-Z0-9-]*)$/)
+    const slashMatch = textBefore.match(/(?:^|\s)\/([a-zA-Z0-9-]*)$/)
     if (slashMatch) {
-      const matchLen = slashMatch[0].length
+      const matchLen = slashMatch[0].trim().length
       ed.chain().focus().deleteRange({ from: from - matchLen, to: from }).run()
     }
 
     if (cmd.name === 'image') {
       const kwInput = document.getElementById('focus-keyword-input') as HTMLInputElement
-      const kw = kwInput ? kwInput.value : ''
+      const kw = kwInput ? kwInput.value.split(',')[0]?.trim() || '' : ''
       setImageAltInput(kw ? `${kw} - photo` : '')
+      setUploadSuccessMsg('')
       setShowImageModal(true)
     } else {
       cmd.command(ed)
@@ -85,6 +88,34 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
 
   const executeCommandRef = useRef(executeCommand)
   executeCommandRef.current = executeCommand
+
+  const updateSlashMenuState = useCallback((ed: Editor) => {
+    const { from } = ed.state.selection
+    const textBefore = ed.state.doc.textBetween(Math.max(0, from - 20), from, '\n', '')
+    const slashMatch = textBefore.match(/(?:^|\s)\/([a-zA-Z0-9-]*)$/)
+    if (slashMatch) {
+      setSlashQuery(slashMatch[1] || '')
+      try {
+        const coords = ed.view.coordsAtPos(from)
+        const contentArea = ed.view.dom.closest('.editor-content-area') as HTMLElement | null
+        if (coords && contentArea) {
+          const areaRect = contentArea.getBoundingClientRect()
+          const top = coords.bottom - areaRect.top + 4
+          const left = Math.min(
+            Math.max(0, coords.left - areaRect.left),
+            Math.max(0, areaRect.width - 290)
+          )
+          setSlashPosition({ top, left })
+        }
+      } catch {
+        setSlashPosition(null)
+      }
+      setShowSlashMenu(true)
+      setSlashIndex(0)
+    } else {
+      setShowSlashMenu(false)
+    }
+  }, [])
 
   const editor = useEditor({
     extensions: [
@@ -98,6 +129,10 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
       Image.configure({
         inline: true,
         allowBase64: true,
+        HTMLAttributes: {
+          referrerpolicy: 'no-referrer',
+          loading: 'lazy',
+        },
       }),
       HorizontalRule,
       FaqBlock,
@@ -105,6 +140,16 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
     ],
     content: initialContent,
     editorProps: {
+      handleClickOn: (view, pos, node) => {
+        if (node.type.name === 'image') {
+          setImageUrlInput(node.attrs.src || '')
+          setImageAltInput(node.attrs.alt || '')
+          setUploadSuccessMsg('✓ Editing existing image — update the Alt Text or URL below')
+          setShowImageModal(true)
+          return true
+        }
+        return false
+      },
       handleKeyDown: (view, event) => {
         if (!showSlashMenuRef.current || filteredCommandsRef.current.length === 0) {
           return false
@@ -152,18 +197,10 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
     },
     onUpdate: ({ editor: ed }) => {
       handleEditorUpdate(ed)
-
-      // Check slash command trigger
-      const { from } = ed.state.selection
-      const textBefore = ed.state.doc.textBetween(Math.max(0, from - 20), from, '\n', '')
-      const slashMatch = textBefore.match(/\/([a-zA-Z0-9-]*)$/)
-      if (slashMatch) {
-        setSlashQuery(slashMatch[1] || '')
-        setShowSlashMenu(true)
-        setSlashIndex(0)
-      } else {
-        setShowSlashMenu(false)
-      }
+      updateSlashMenuState(ed)
+    },
+    onSelectionUpdate: ({ editor: ed }) => {
+      updateSlashMenuState(ed)
     },
   })
 
@@ -182,9 +219,8 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
     const file = files[0]
     if (!file) return
     const kwInput = document.getElementById('focus-keyword-input') as HTMLInputElement
-    const kw = kwInput ? kwInput.value : ''
+    const kw = kwInput ? kwInput.value.split(',')[0]?.trim() || '' : ''
     const defaultAlt = buildImageAlt(kw, file.name)
-    setImageAltInput(defaultAlt)
 
     setUploadingImage(true)
     const formData = new FormData()
@@ -196,14 +232,10 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
         body: formData,
       })
       const data = await res.json()
-      if (data.url && editor) {
-        editor
-          .chain()
-          .focus()
-          .setImage({ src: data.url, alt: defaultAlt })
-          .run()
-        setShowImageModal(false)
-        setImageUrlInput('')
+      if (data.url) {
+        setImageUrlInput(data.url)
+        setImageAltInput(defaultAlt)
+        setUploadSuccessMsg(`✓ Uploaded "${file.name}"! You can now customize the Alt Text below before inserting.`)
       } else {
         alert(data.error || 'Upload failed')
       }
@@ -214,15 +246,22 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
     }
   }
 
-  const handleInsertByUrl = () => {
-    if (!imageUrlInput.trim() || !editor) return
+  const handleInsertImage = () => {
+    const rawUrl = normalizeImageUrl(imageUrlInput)
+    if (!rawUrl || !editor) return
+
     editor
       .chain()
       .focus()
-      .setImage({ src: imageUrlInput.trim(), alt: imageAltInput.trim() || 'Blog illustration' })
+      .setImage({
+        src: rawUrl,
+        alt: imageAltInput.trim() || 'Blog illustration',
+      })
       .run()
     setShowImageModal(false)
     setImageUrlInput('')
+    setImageAltInput('')
+    setUploadSuccessMsg('')
   }
 
   if (!editor) return null
@@ -275,31 +314,18 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
           className="tb-btn"
           onClick={() => {
             const kwInput = document.getElementById('focus-keyword-input') as HTMLInputElement
-            const kw = kwInput ? kwInput.value : ''
+            const kw = kwInput ? kwInput.value.split(',')[0]?.trim() || '' : ''
             setImageAltInput(kw ? `${kw} - photo` : '')
+            setUploadSuccessMsg('')
             setShowImageModal(true)
           }}
-          title="Insert Image"
         >
           🖼️ Image
         </button>
         <button
           type="button"
           className="tb-btn"
-          onClick={() =>
-            editor
-              .chain()
-              .focus()
-              .insertContent({
-                type: 'faqBlock',
-                attrs: {
-                  question: 'Frequently Asked Question?',
-                  answer: 'Detailed response and explanation here...',
-                },
-              })
-              .run()
-          }
-          title="Insert FAQ Accordion"
+          onClick={() => editor.chain().focus().insertContent({ type: 'faqBlock', attrs: { question: 'Frequently Asked Question?', answer: 'Detailed response and explanation here...' } }).run()}
         >
           ❓ FAQ
         </button>
@@ -307,7 +333,6 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
           type="button"
           className="tb-btn"
           onClick={() => editor.chain().focus().insertContent({ type: 'tableOfContents' }).run()}
-          title="Insert Table of Contents"
         >
           📑 TOC
         </button>
@@ -315,9 +340,8 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
           type="button"
           className="tb-btn"
           onClick={() => editor.chain().focus().setHorizontalRule().run()}
-          title="Divider Line"
         >
-          ➖
+          —
         </button>
       </div>
 
@@ -327,7 +351,17 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
 
         {/* Slash Command Palette Dropdown */}
         {showSlashMenu && (
-          <div className="slash-menu">
+          <div
+            className="slash-menu"
+            style={
+              slashPosition
+                ? {
+                    top: `${slashPosition.top}px`,
+                    left: `${slashPosition.left}px`,
+                  }
+                : undefined
+            }
+          >
             <div className="slash-menu-header">Insert Block (Type to filter)</div>
             <div className="slash-menu-list">
               {filteredCommands.map((cmd, idx) => (
@@ -359,6 +393,22 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
           <div className="image-modal" onClick={(e) => e.stopPropagation()}>
             <h3 className="modal-title">Insert Article Image</h3>
 
+            {uploadSuccessMsg && (
+              <div
+                style={{
+                  background: 'rgba(16, 185, 129, 0.15)',
+                  border: '1px solid #10b981',
+                  color: '#86efac',
+                  padding: '0.6rem 0.8rem',
+                  borderRadius: '6px',
+                  fontSize: '0.85rem',
+                  marginBottom: '1rem',
+                }}
+              >
+                {uploadSuccessMsg}
+              </div>
+            )}
+
             <div className="modal-section">
               <label className="modal-label">Upload File (JPG, PNG, WebP ≤ 5MB):</label>
               <input
@@ -369,21 +419,56 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
                 disabled={uploadingImage}
                 style={{ color: '#fff' }}
               />
-              {uploadingImage && <p style={{ color: '#c9a96e', marginTop: '0.5rem' }}>Uploading...</p>}
+              {uploadingImage && <p style={{ color: '#c9a96e', marginTop: '0.5rem' }}>Uploading to server...</p>}
             </div>
 
             <div className="modal-divider">OR</div>
 
             <div className="modal-section">
-              <label className="modal-label">Image URL:</label>
+              <label className="modal-label">Image URL (Direct link or Unsplash page link):</label>
               <input
                 type="text"
                 className="modal-input"
-                placeholder="https://images.unsplash.com/..."
+                placeholder="Paste any photo URL or Unsplash link (e.g. https://unsplash.com/photos/...)"
                 value={imageUrlInput}
                 onChange={(e) => setImageUrlInput(e.target.value)}
+                onBlur={(e) => setImageUrlInput(normalizeImageUrl(e.target.value))}
               />
             </div>
+
+            {imageUrlInput.trim() && (
+              <div style={{ marginBottom: '1.2rem' }}>
+                <label className="modal-label">Image Preview:</label>
+                <div
+                  style={{
+                    maxHeight: '180px',
+                    borderRadius: '6px',
+                    overflow: 'hidden',
+                    background: '#111',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={normalizeImageUrl(imageUrlInput.trim())}
+                    alt="Preview"
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement
+                      target.style.display = 'none'
+                    }}
+                    onLoad={(e) => {
+                      const target = e.target as HTMLImageElement
+                      target.style.display = 'block'
+                    }}
+                    style={{ maxWidth: '100%', maxHeight: '180px', objectFit: 'contain' }}
+                  />
+                </div>
+              </div>
+            )}
 
             <div className="modal-section">
               <label className="modal-label">SEO Alt Text (Recommended for Rank Math 100%):</label>
@@ -400,10 +485,10 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
               <button
                 type="button"
                 className="btn-primary"
-                onClick={handleInsertByUrl}
+                onClick={handleInsertImage}
                 disabled={!imageUrlInput.trim()}
               >
-                Insert Image
+                Insert Image into Article
               </button>
               <button type="button" className="btn-secondary" onClick={() => setShowImageModal(false)}>
                 Cancel

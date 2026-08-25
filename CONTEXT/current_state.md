@@ -1390,47 +1390,56 @@ Extend the existing `@tiptap/extension-image` with a custom `ImageBlock` Tiptap 
 
 ---
 
-- [ ] **RED — Unit (`tests/image-block.unit.test.ts`):**
-  - [ ] Test: Import `buildImageAlt(focusKeyword: string, filename: string): string` from `src/admin-editor/lib/imageHelpers.ts`. Call with `('wedding decoration', 'venue-photo.jpg')` → assert returned string is `'wedding decoration - venue photo'` (keyword first, sanitized filename appended, hyphens replaced with spaces, extension stripped).
-  - [ ] Test: Call `buildImageAlt('', 'my-photo.jpg')` → assert returned string is `'my photo'` (no keyword prefix when empty).
-  - [ ] Test: Import `sanitizeFilename(name: string): string` from `src/admin-editor/lib/imageHelpers.ts`. Call with `'My Wedding Photo 2026!.jpg'` → assert returns `'my-wedding-photo-2026.jpg'` (lowercase, spaces to hyphens, special chars stripped, extension preserved).
-  - [ ] **Run — confirm RED.**
+- [x] **RED — Unit (`tests/image-block.unit.test.ts`):**
+  - [x] Test: Import `buildImageAlt(focusKeyword: string, filename: string): string` from `src/admin-editor/lib/imageHelpers.ts`. Call with `('wedding decoration', 'venue-photo.jpg')` → assert returned string is `'wedding decoration - venue photo'` (keyword first, sanitized filename appended, hyphens replaced with spaces, extension stripped).
+  - [x] Test: Call `buildImageAlt('', 'my-photo.jpg')` → assert returned string is `'my photo'` (no keyword prefix when empty).
+  - [x] Test: Import `sanitizeFilename(name: string): string` from `src/admin-editor/lib/imageHelpers.ts`. Call with `'My Wedding Photo 2026!.jpg'` → assert returns `'my-wedding-photo-2026.jpg'` (lowercase, spaces to hyphens, special chars stripped, extension preserved).
+  - [x] **Run — confirm RED.**
 
-- [ ] **GREEN — Image Block & Upload Helper:**
-  - [ ] [PHP] Create `php-admin/api/upload-image.php` — session-guarded POST endpoint. Validates file type (`image/jpeg`, `image/png`, `image/webp` only), size (≤ 5 MB), sanitizes filename with `uniqid()` prefix, stores at `/uploads/blog/YYYY/MM/filename.ext`, returns `{ "url": "/uploads/blog/YYYY/MM/filename.ext" }`. Follows Rule H-3 (CORS header, PDO not needed — no DB write) and Rule H-5 fully.
-  - [ ] [Helper] Create `src/admin-editor/lib/imageHelpers.ts` exporting `buildImageAlt` and `sanitizeFilename`.
-  - [ ] [Extension] Create `src/admin-editor/extensions/ImageBlock.ts` — extends `@tiptap/extension-image` with additional attributes `caption` and `title`. NodeView (`ImageBlockView.tsx`) renders image with an edit icon overlay; clicking opens an inline panel with `<input>` fields for `alt`, `title`, and `caption`. On save, updates the Tiptap node attributes.
-  - [ ] [Slash] Add `image` entry to `SLASH_COMMANDS` (already listed in W-751 RED); when selected, trigger a `<ImageUploadModal />` component that accepts a local file OR a URL, uploads via `fetch('/api/upload-image.php')`, and inserts the `ImageBlock` node with `buildImageAlt(focusKeyword, filename)` as the initial alt value.
-  - [ ] Run unit test — **confirm GREEN.**
+- [x] **GREEN — Image Block & Upload Helper:**
+  - [x] [PHP] Create `php-admin/api/upload-image.php` — session-guarded POST endpoint. Validates file type (`image/jpeg`, `image/png`, `image/webp` only), size (≤ 5 MB), sanitizes filename with `uniqid()` prefix, stores at `/uploads/blog/YYYY/MM/filename.ext`, returns `{ "url": "/uploads/blog/YYYY/MM/filename.ext" }`. Follows Rule H-3 (CORS header, PDO not needed — no DB write) and Rule H-5 fully.
+  - [x] [Helper] Create `src/admin-editor/lib/imageHelpers.ts` exporting `buildImageAlt` and `sanitizeFilename`.
+  - [x] [Extension] Create `src/admin-editor/extensions/ImageBlock.ts` — extends `@tiptap/extension-image` with additional attributes `caption` and `title`. NodeView (`ImageBlockView.tsx`) renders image with an edit icon overlay; clicking opens an inline panel with `<input>` fields for `alt`, `title`, and `caption`. On save, updates the Tiptap node attributes.
+  - [x] [Slash] Add `image` entry to `SLASH_COMMANDS` (already listed in W-751 RED); when selected, trigger a `<ImageUploadModal />` component that accepts a local file OR a URL, uploads via `fetch('/api/upload-image.php')`, and inserts the `ImageBlock` node with `buildImageAlt(focusKeyword, filename)` as the initial alt value.
+  - [x] Run unit test — **confirm GREEN.**
 
-- [ ] **RED — E2E (`tests/e2e/image-block.spec.ts`):**
-  - [ ] Test: In the editor, type `/image` → assert the "Image" option appears in the slash command palette.
-  - [ ] Test: Select "Image" → assert a file-picker modal or URL input dialog opens.
-  - [ ] Test: Upload a valid JPEG (< 5 MB) via the modal → assert the image appears in the editor body as an `<img>` element with a non-empty `alt` attribute.
-  - [ ] Test: Click the inserted image → assert the inline alt/title/caption edit panel appears.
-  - [ ] Test: Edit the `alt` field to include the focus keyword → assert the `imageAltContainsKeyword` SEO check in `SeoScorePanel` updates to ✅ within 400 ms.
-  - [ ] **Run — confirm RED.**
+- [x] **RED — E2E (`tests/e2e/image-block.spec.ts`):**
+  - [x] Test: In the editor, type `/image` → assert the "Image" option appears in the slash command palette.
+  - [x] Test: Select "Image" → assert a file-picker modal or URL input dialog opens.
+  - [x] Test: Upload a valid JPEG (< 5 MB) via the modal → assert the image appears in the editor body as an `<img>` element with a non-empty `alt` attribute.
+  - [x] Test: Click the inserted image → assert the inline alt/title/caption edit panel appears.
+  - [x] Test: Edit the `alt` field to include the focus keyword → assert the `imageAltContainsKeyword` SEO check in `SeoScorePanel` updates to ✅ within 400 ms.
+  - [x] **Run — confirm RED.**
 
-- [ ] **GREEN — E2E Verification:**
-  - [ ] Run `pnpm build:editor` → run E2E test against local PHP dev server — **confirm GREEN.**
+- [x] **GREEN — E2E Verification:**
+  - [x] Run `pnpm build:editor` → run E2E test against local PHP dev server — **confirm GREEN.**
 
-- [ ] **Verification chain:**
-  - [ ] Open "New Post" → set focus keyword "corporate events".
-  - [ ] Type `/image` → select "Image" → upload a photo.
-  - [ ] Photo inserts into article body with alt pre-populated as "corporate events - [filename]".
-  - [ ] SEO panel shows `imageAltContainsKeyword` ✅ immediately.
-  - [ ] Click the image → edit alt text → confirm alt updates in the rendered DOM.
-  - [ ] Publish post → visit public article → `<img alt="corporate events - [filename]">` is present in page source.
-  - [ ] ✅ Done.
+- [x] **Verification chain:**
+  - [x] Open "New Post" → set focus keyword "corporate events".
+  - [x] Type `/image` → select "Image" → upload a photo.
+  - [x] Photo inserts into article body with alt pre-populated as "corporate events - [filename]".
+  - [x] SEO panel shows `imageAltContainsKeyword` ✅ immediately.
+  - [x] Click the image → edit alt text → confirm alt updates in the rendered DOM.
+  - [x] Publish post → visit public article → `<img alt="corporate events - [filename]">` is present in page source.
+  - [x] ✅ Done.
 
 ---
 
 > ### 📝 Phase 7.5 Progress Tracker
 > | Work Item | Status | Description |
 > |---|---|---|
-> | W-751 — Block Editor Core & Slash Commands | `[ ]` Not Started | Tiptap editor, slash palette, FAQ Block, TOC, PHP form wiring |
-> | W-752 — Rank Math SEO Analyzer Panel | `[ ]` Not Started | `seoAnalyzer.ts`, 15-check scoring, `SeoScorePanel` component |
-> | W-753 — Image Block & Auto-Alt Helper | `[ ]` Not Started | `upload-image.php`, `ImageBlock` NodeView, focus-keyword alt injection |
+> | W-751 — Block Editor Core & Slash Commands | `[x]` Completed | Tiptap editor, slash palette, FAQ Block, TOC, PHP form wiring |
+> | W-752 — Rank Math SEO Analyzer Panel | `[x]` Completed | `seoAnalyzer.ts`, 15-check scoring, `SeoScorePanel` component |
+> | W-753 — Image Block & Auto-Alt Helper | `[x]` Completed | `upload-image.php`, `ImageBlock` NodeView, focus-keyword alt injection |
+>
+> ### 📝 Session Note (Gutenberg 3-Column Studio & Seamless Canvas) — August 25, 2026
+> - **Gutenberg 3-Column Studio Architecture:** Configured `new-post.php` and `edit-post.php` into a concurrent 3-column layout:
+>   1. **Left Sidebar (Always Visible):** Document settings (Status/Publish, URL Slug, Category, Author, Read Time, Featured Image & SEO Alt Text, Related Service link & label).
+>   2. **Center Canvas (Always Visible):** Seamless, frameless document canvas with auto-expanding display Title and Excerpt subtitle, directly leading into the editor.
+>   3. **Right Sidebar (Always Visible):** Live Rank Math SEO panel (Gauge, Multi-Focus Keyword chips, and 15 checks with Reality vs. Expectation diagnostics).
+> - **Completely Frameless Canvas:** Removed the enclosing gray container box (`background: transparent; border: none; padding: 0;`), allowing the block editor to sit seamlessly on the same `#121212` background as the title and excerpt. Slash `/` commands float directly on the natural canvas.
+> - **Live Reality vs. Expectation SEO Diagnostics:** Upgraded `seoAnalyzer.ts` and `SeoScorePanel.tsx` with contextual diagnostic feedback on every check (e.g. `142 / 600 words (458 more needed)`, `39 / 50–60 chars (11 more recommended)`, `231 / 120–160 chars (71 chars over limit)`, `1 of 2 images missing alt text`, etc.).
+> - **Full Quality Suite:** 67 / 67 Vitest unit tests passing, 0 TypeScript errors (`tsc --noEmit`), 0 ESLint warnings (`next lint`), and 62 / 62 pages generated in Next.js production build (`next build`).
 
 ---
 

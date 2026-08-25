@@ -1,10 +1,10 @@
 /* 1111 Decor — Admin Block Editor & Rank Math Panel Styles */
 
 .admin-editor-wrapper {
-  background: #1e1e1e;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  overflow: hidden;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
   position: relative;
 }
 
@@ -13,15 +13,22 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.6rem 0.8rem;
-  background: #282828;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.45rem 0.65rem;
+  background: rgba(28, 28, 28, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  position: sticky;
+  top: 65px;
+  z-index: 20;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .tb-btn {
-  background: #333333;
+  background: #282828;
   color: #f5f0e8;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 4px;
   padding: 0.35rem 0.65rem;
   font-size: 0.85rem;
@@ -34,7 +41,7 @@
 }
 
 .tb-btn:hover {
-  background: #444444;
+  background: #383838;
   border-color: #c9a96e;
   color: #c9a96e;
 }
@@ -53,11 +60,11 @@
 }
 
 .editor-content-area {
-  padding: 1.25rem;
-  min-height: 340px;
-  color: #ffffff;
-  font-size: 1rem;
-  line-height: 1.6;
+  padding: 0;
+  min-height: 400px;
+  color: #e5e5e5;
+  font-size: 1.1rem;
+  line-height: 1.8;
   position: relative;
 }
 
@@ -335,13 +342,29 @@
   cursor: pointer;
 }
 
+/* Custom Sleek Dark Scrollbars */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c9a96e;
+}
+
 /* Rank Math SEO Panel */
 .seo-panel {
-  background: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin-bottom: 0;
 }
 
 .seo-panel-header {
@@ -354,9 +377,11 @@
 }
 
 .seo-panel-title {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
+  font-weight: 700;
   color: #c9a96e;
-  font-family: Georgia, serif;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .seo-badge {
@@ -401,6 +426,73 @@
   text-transform: uppercase;
 }
 
+.seo-keyword-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.6rem;
+}
+
+.seo-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.6rem;
+  background: #252525;
+  border: 1px solid rgba(201, 169, 110, 0.4);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: #f5f0e8;
+}
+
+.seo-chip.primary {
+  background: rgba(201, 169, 110, 0.15);
+  border-color: #c9a96e;
+  font-weight: 600;
+}
+
+.seo-chip-text {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.seo-chip-badge {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  background: #c9a96e;
+  color: #111111;
+  padding: 0.1rem 0.35rem;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.seo-chip-remove {
+  background: transparent;
+  border: none;
+  color: #a3a3a3;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s;
+}
+
+.seo-chip-remove:hover {
+  color: #ef4444;
+}
+
+.seo-keyword-hint {
+  font-size: 0.72rem;
+  color: #888888;
+  margin-top: 0.4rem;
+  line-height: 1.4;
+}
+
 .seo-input {
   width: 100%;
   padding: 0.75rem;
@@ -426,12 +518,12 @@
 
 .seo-check-row {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.45rem 0.6rem;
+  flex-direction: column;
+  padding: 0.6rem 0.75rem;
   background: #222222;
   border-radius: 6px;
   font-size: 0.82rem;
+  transition: all 0.2s ease;
 }
 
 .seo-check-row.passed {
@@ -440,19 +532,42 @@
 
 .seo-check-row.failed {
   border-left: 3px solid #ef4444;
-  opacity: 0.85;
+}
+
+.seo-check-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .seo-check-icon {
-  margin-right: 0.5rem;
+  margin-right: 0.45rem;
+  font-size: 0.85rem;
 }
 
 .seo-check-label {
   flex: 1;
   color: #e5e5e5;
+  font-weight: 500;
 }
 
 .seo-check-points {
   font-size: 0.72rem;
-  color: #777777;
+  color: #888888;
+}
+
+.seo-check-diagnostic {
+  font-size: 0.75rem;
+  margin-top: 0.3rem;
+  padding-left: 1.4rem;
+  line-height: 1.35;
+}
+
+.seo-check-row.passed .seo-check-diagnostic {
+  color: #86efac;
+}
+
+.seo-check-row.failed .seo-check-diagnostic {
+  color: #fca5a5;
 }

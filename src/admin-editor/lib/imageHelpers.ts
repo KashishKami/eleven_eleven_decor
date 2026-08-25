@@ -27,3 +27,26 @@ export function buildImageAlt(focusKeyword: string, filename: string): string {
   }
   return cleanName
 }
+
+export function normalizeImageUrl(url: string): string {
+  let clean = (url || '').trim()
+  if (!clean) return ''
+
+  if (
+    !clean.startsWith('http://') &&
+    !clean.startsWith('https://') &&
+    !clean.startsWith('/') &&
+    !clean.startsWith('data:')
+  ) {
+    clean = 'https://' + clean
+  }
+
+  // Detect Unsplash webpage URLs and convert to direct image CDN links
+  const unsplashMatch = clean.match(/unsplash\.com\/photos\/(?:[a-zA-Z0-9_-]*-+)?([a-zA-Z0-9_-]+)/i)
+  if (unsplashMatch && unsplashMatch[1]) {
+    const photoId = unsplashMatch[1].replace(/^-+/, '')
+    return `https://images.unsplash.com/photo-${photoId}?auto=format&fit=crop&w=1200&q=80`
+  }
+
+  return clean
+}

@@ -44,4 +44,24 @@ describe('Blog API Schema & Data Contracts (W-703)', () => {
       }
     }
   })
+
+  it('serves live posts from data store via GET /api/blogs.php handler', async () => {
+    const { GET } = await import('@/app/api/blogs.php/route')
+    const req = new Request('http://localhost:3000/api/blogs.php')
+    const res = await GET(req)
+    expect(res.status).toBe(200)
+    const json = await res.json()
+    expect(Array.isArray(json)).toBe(true)
+    expect(json.length).toBeGreaterThanOrEqual(1)
+  })
+
+  it('serves single post by slug via GET /api/blog-post.php handler', async () => {
+    const { GET } = await import('@/app/api/blog-post.php/route')
+    const req = new Request('http://localhost:3000/api/blog-post.php?slug=complete-wedding-decor-checklist')
+    const res = await GET(req)
+    expect(res.status).toBe(200)
+    const json = await res.json()
+    expect(json.slug).toBe('complete-wedding-decor-checklist')
+    expect(json.title).toBeDefined()
+  })
 })

@@ -21,20 +21,38 @@ export const SeoScorePanel: React.FC<SeoScorePanelProps> = ({
   getWordCount,
   getImages,
 }) => {
-  const [focusKeyword, setFocusKeyword] = useState<string>(initialKeyword)
+  // Parse initial keywords into array
+  const parseKeywords = (kwStr: string): string[] => {
+    return kwStr
+      .split(',')
+      .map((k) => k.trim())
+      .filter(Boolean)
+  }
+
+  const [keywords, setKeywords] = useState<string[]>(() => parseKeywords(initialKeyword))
+  const [keywordInput, setKeywordInput] = useState<string>('')
+  
   const [result, setResult] = useState<SeoResult>(() =>
     analyzeSeo({
-      focusKeyword: initialKeyword,
+      focusKeywords: parseKeywords(initialKeyword),
       title: getTitle(),
       slug: getSlug(),
       metaDescription: getMetaDescription(),
       content: getContentHtml(),
       wordCount: getWordCount(),
       images: getImages(),
-      internalLinks: 1,
-      externalLinks: 1,
+      internalLinks: 0,
+      externalLinks: 0,
     })
   )
+
+  // Synchronize keywords with the PHP form's hidden/visible input
+  useEffect(() => {
+    const formInput = document.getElementById('focus-keyword-input') as HTMLInputElement
+    if (formInput) {
+      formInput.value = keywords.join(', ')
+    }
+  }, [keywords])
 
   const runAnalysis = useCallback(() => {
     const title = getTitle()
@@ -44,30 +62,77 @@ export const SeoScorePanel: React.FC<SeoScorePanelProps> = ({
     const wordCount = getWordCount()
     const images = getImages()
 
-    // Detect links in content
-    const internalLinks = (content.match(/href="(\/|https?:\/\/.*1111)/gi) || []).length
-    const externalLinks = (content.match(/href="https?:\/\/(?!.*1111)/gi) || []).length
+    // Detect internal and external links in content
+    const linkMatches = content.match(/<a\s+[^>]*href=["']([^"']+)["'][^>]*>/gi) || []
+    let internalLinks = 0
+    let externalLinks = 0
+
+    linkMatches.forEach((linkTag) => {
+      const hrefMatch = linkTag.match(/href=["']([^"']+)["']/i)
+      const href = hrefMatch ? hrefMatch[1]?.trim() || '' : ''
+      if (!href || href.startsWith('mailto:') || href.startsWith('tel:')) {
+        return
+      }
+
+      if (
+        href.startsWith('/') ||
+        href.startsWith('#') ||
+        href.startsWith('./') ||
+        href.startsWith('../') ||
+        href.includes('localhost') ||
+        href.includes('127.0.0.1') ||
+        href.includes('1111') ||
+        href.includes('elevenelevendecor')
+      ) {
+        internalLinks++
+      } else if (href.startsWith('http://') || href.startsWith('https://')) {
+        externalLinks++
+      }
+    })
 
     const res = analyzeSeo({
-      focusKeyword,
+      focusKeywords: keywords,
       title,
       slug,
       metaDescription,
       content,
       wordCount,
       images,
-      internalLinks: Math.max(internalLinks, 1),
-      externalLinks: Math.max(externalLinks, 1),
+      internalLinks,
+      externalLinks,
     })
 
     setResult(res)
-  }, [focusKeyword, getTitle, getSlug, getMetaDescription, getContentHtml, getWordCount, getImages])
+  }, [keywords, getTitle, getSlug, getMetaDescription, getContentHtml, getWordCount, getImages])
 
   useEffect(() => {
     runAnalysis()
     const interval = setInterval(runAnalysis, 400)
     return () => clearInterval(interval)
   }, [runAnalysis])
+
+  const handleAddKeyword = (e: React.KeyboardEvent<HTMLInputElement> | React.FocusEvent<HTMLInputElement>) => {
+    if ('key' in e && e.key !== 'Enter' && e.key !== ',') {
+      return
+    }
+    e.preventDefault()
+    const val = keywordInput.trim().replace(/^,+|,+$/g, '')
+    if (!val) return
+
+    const newKws = val
+      .split(',')
+      .map((k) => k.trim())
+      .filter((k) => k.length > 0 && !keywords.includes(k))
+
+    if (newKws.length > 0) {
+      setKeywords((prev) => [...prev, ...newKws])
+    }
+    setKeywordInput('')
+  }
+
+  const handleRemoveKeyword = (kwToRemove: string) => {
+    setKeywords((prev) => prev.filter((k) => k !== kwToRemove))
+  }
 
   const { score, scoreColor, checks } = result
   const radius = 40
@@ -155,29 +220,65 @@ export const SeoScorePanel: React.FC<SeoScorePanelProps> = ({
         </div>
       </div>
 
+      {/* Multi-Keyword Input & Chips */}
       <div className="seo-keyword-section">
-        <label className="seo-label" htmlFor="focus-keyword-input">
-          Focus Keyword *
+        <label className="seo-label" htmlFor="seo-keyword-input-field">
+          Focus Keywords (Add multiple with Enter or comma) *
         </label>
+
+        {keywords.length > 0 && (
+          <div className="seo-keyword-chips">
+            {keywords.map((kw, idx) => (
+              <span key={kw} className={`seo-chip ${idx === 0 ? 'primary' : 'secondary'}`}>
+                <span className="seo-chip-text">{kw}</span>
+                {idx === 0 && <span className="seo-chip-badge">Primary</span>}
+                <button
+                  type="button"
+                  className="seo-chip-remove"
+                  onClick={() => handleRemoveKeyword(kw)}
+                  title={`Remove ${kw}`}
+                >
+                  &times;
+                </button>
+              </span>
+            ))}
+          </div>
+        )}
+
         <input
-          id="focus-keyword-input"
+          id="seo-keyword-input-field"
           type="text"
           className="seo-input"
-          placeholder="e.g. wedding decoration"
-          value={focusKeyword}
-          onChange={(e) => setFocusKeyword(e.target.value)}
+          placeholder="Type keyword and press Enter (e.g. wedding decoration)"
+          value={keywordInput}
+          onChange={(e) => setKeywordInput(e.target.value)}
+          onKeyDown={handleAddKeyword}
+          onBlur={handleAddKeyword}
         />
+        <div className="seo-keyword-hint">
+          {keywords.length === 0
+            ? 'No focus keyword set. Add at least one to calculate SEO rank.'
+            : `${keywords.length} keyword${keywords.length > 1 ? 's' : ''} active. Primary keyword drives density and URL checks.`}
+        </div>
       </div>
 
       <div className="seo-checks-list">
         <h4 className="seo-checks-title">Optimization Checklist</h4>
         {checkItems.map((item) => {
           const isPassed = checks[item.key]
+          const diagnosticNote = result.diagnostics ? result.diagnostics[item.key] : ''
           return (
             <div key={item.key} className={`seo-check-row ${isPassed ? 'passed' : 'failed'}`}>
-              <span className="seo-check-icon">{isPassed ? '✅' : '❌'}</span>
-              <span className="seo-check-label">{item.label}</span>
-              <span className="seo-check-points">{item.points}</span>
+              <div className="seo-check-main">
+                <span className="seo-check-icon">{isPassed ? '✅' : '❌'}</span>
+                <span className="seo-check-label">{item.label}</span>
+                <span className="seo-check-points">{item.points}</span>
+              </div>
+              {diagnosticNote && (
+                <div className="seo-check-diagnostic">
+                  {diagnosticNote}
+                </div>
+              )}
             </div>
           )
         })}

@@ -4,7 +4,8 @@ export interface SeoImage {
 }
 
 export interface SeoInput {
-  focusKeyword: string
+  focusKeyword?: string
+  focusKeywords?: string[] | string
   title: string
   slug: string
   metaDescription: string
@@ -34,8 +35,28 @@ export interface SeoChecks {
   titleLengthOk: boolean
 }
 
+export interface SeoDiagnostics {
+  focusKeywordSet: string
+  keywordInTitle: string
+  titleLengthOk: string
+  keywordInUrl: string
+  keywordInFirstParagraph: string
+  keywordInSubheadings: string
+  contentLength: string
+  h1Present: string
+  metaDescriptionPresent: string
+  metaDescriptionLength: string
+  keywordInMetaDescription: string
+  imageAltContainsKeyword: string
+  imageAltPresent: string
+  keywordDensityOk: string
+  hasInternalLinks: string
+  hasExternalLinks: string
+}
+
 export interface SeoResult {
   score: number
   scoreColor: 'red' | 'orange' | 'green'
   checks: SeoChecks
+  diagnostics: SeoDiagnostics
 }

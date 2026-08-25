@@ -23,7 +23,9 @@ function initAdminEditor() {
   // 2. Mount Rank Math SEO Panel
   const seoRoot = document.getElementById('seo-panel-root')
   if (seoRoot) {
-    const initialKeyword = seoRoot.getAttribute('data-keyword') || ''
+    const formKeywordEl = document.getElementById('focus-keyword-input') as HTMLInputElement
+    const initialKeyword =
+      seoRoot.getAttribute('data-keyword') || (formKeywordEl ? formKeywordEl.value : '') || ''
 
     const getTitle = () => {
       const el = document.getElementById('title') as HTMLInputElement
@@ -48,13 +50,30 @@ function initAdminEditor() {
     const getWordCount = () => {
       const html = getContentHtml()
       const text = html.replace(/<[^>]+>/g, ' ').trim()
-      return text ? text.split(/\s+/).length : 0
+      return text ? text.split(/\s+/).filter(Boolean).length : 0
     }
 
     const getImages = () => {
-      const html = getContentHtml()
       const imgs: Array<{ alt: string; url?: string }> = []
-      const imgRegex = /<img[^>]+src=["']([^"']+)["'][^>]*>/gi
+
+      // 1. Check Feature Main Image in form
+      const featUrlEl = document.getElementById('image_url') as HTMLInputElement
+      const featAltEl = document.getElementById('image_alt') as HTMLInputElement
+      const featFileEl = document.getElementById('image_file') as HTMLInputElement
+      const hasFeatFile = featFileEl && featFileEl.files && featFileEl.files.length > 0
+      const featUrlVal = featUrlEl ? featUrlEl.value.trim() : ''
+      const featAltVal = featAltEl ? featAltEl.value.trim() : ''
+
+      if (featUrlVal || hasFeatFile || featAltVal) {
+        imgs.push({
+          url: featUrlVal || 'featured-main-image',
+          alt: featAltVal,
+        })
+      }
+
+      // 2. Check Inline Images inside Editor Content
+      const html = getContentHtml()
+      const imgRegex = /<img\s+[^>]*src=["']([^"']+)["'][^>]*>/gi
       let match: RegExpExecArray | null
       while ((match = imgRegex.exec(html)) !== null) {
         const fullTag = match[0]
@@ -62,6 +81,7 @@ function initAdminEditor() {
         const alt = altMatch ? altMatch[1] || '' : ''
         imgs.push({ url: match[1], alt })
       }
+
       return imgs
     }
 

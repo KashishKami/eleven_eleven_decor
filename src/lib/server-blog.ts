@@ -3,6 +3,24 @@ import path from 'path'
 import type { BlogPost } from '@/types/blog'
 import { BLOG_DATA } from '@/data/blog'
 
+interface RawPhpPost {
+  id: string | number
+  slug: string
+  title: string
+  excerpt?: string
+  content?: string
+  category: string
+  category_name?: string
+  created_at?: string
+  author?: string
+  image?: string
+  read_time?: string
+  published?: boolean | number
+  faqs?: Array<{ question: string; answer: string }>
+  related_service_slug?: string
+  related_service_name?: string
+}
+
 /**
  * Server-only helper to read all stored blog posts from the PHP data store
  * or fallback to static seed data.
@@ -14,7 +32,7 @@ export function getStoredBlogPosts(): BlogPost[] {
       const data = fs.readFileSync(jsonPath, 'utf-8')
       const posts = JSON.parse(data)
       if (Array.isArray(posts) && posts.length > 0) {
-        return posts.map((p: any) => ({
+        return posts.map((p: RawPhpPost) => ({
           id: String(p.id),
           slug: p.slug,
           title: p.title,

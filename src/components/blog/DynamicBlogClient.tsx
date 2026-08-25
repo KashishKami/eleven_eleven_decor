@@ -22,9 +22,19 @@ function resolveImageUrl(src?: string): string {
   if (!src) return 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1000&auto=format&fit=crop'
   if (src.startsWith('http://') || src.startsWith('https://')) return src
   if (src.startsWith('/')) {
-    return API_BASE ? `${API_BASE}${src}` : src
+    const base = API_BASE || (typeof window !== 'undefined' && window.location.port === '3000' ? 'http://localhost:8080' : '')
+    return base ? `${base}${src}` : src
   }
   return src
+}
+
+function transformContentImages(html?: string): string {
+  if (!html) return ''
+  const base = API_BASE || (typeof window !== 'undefined' && window.location.port === '3000' ? 'http://localhost:8080' : '')
+  if (!base) return html
+  return html.replace(/src=["'](\/(?:manage-[^"']*|uploads\/[^"']*))["']/gi, (match, path) => {
+    return `src="${base}${path}"`
+  })
 }
 
 export function DynamicBlogClient({ slugArray }: { slugArray: string[] }) {
@@ -453,7 +463,7 @@ function BlogArticleView({ articleSlug }: { articleSlug: string }) {
         {post.content ? (
           <div
             className="article-editorial-content"
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ __html: transformContentImages(post.content) }}
           />
         ) : (
           <div className="article-editorial-content">

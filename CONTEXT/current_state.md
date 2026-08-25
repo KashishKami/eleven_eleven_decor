@@ -1202,6 +1202,238 @@ Update `next.config.mjs` with `output: 'export'` and `images.unoptimized: true`.
 
 ---
 
+## Phase 7.5 — Gutenberg-Style Block Editor & Rank Math SEO Analyzer (Admin Panel)
+
+> ### 📝 Architecture Decision — Block Editor & SEO Scoring (August 25, 2026)
+> **Decision:** The existing PHP admin panel (`php-admin/manage-7f3b9x2k/`) uses a raw `<textarea>` for blog content. This is being replaced with a **Tiptap-powered Gutenberg-style block editor** embedded inside the admin pages via a Next.js-compiled JS bundle. Blog content is serialized to clean HTML and stored in MySQL exactly as before — no schema change needed.
+>
+> **Rank Math SEO Analyzer:** A client-side TypeScript utility (`src/lib/seoAnalyzer.ts`) replicates Rank Math's published scoring algorithm (https://rankmath.com/kb/score-100-in-tests/) as pure string analysis — no external API required. It runs live as the author types, outputting a 0–100 score with color-coded pass/fail checks. The score panel is injected into both `new-post.php` and `edit-post.php` via the same compiled JS bundle.
+>
+> **Impact on existing work:**
+> - `php-admin/manage-7f3b9x2k/new-post.php` and `edit-post.php` — replace `<textarea name="content">` with a `<div id="editor-root">` mount point.
+> - A new Next.js entry point `src/admin-editor/index.tsx` is compiled with `pnpm build:editor` and output to `php-admin/manage-7f3b9x2k/editor.bundle.js`.
+> - MySQL `blog_posts.content` column stores the **HTML string** output from Tiptap — backward-compatible with the existing `blogs.php` API consumer (public blog page already renders raw HTML via `dangerouslySetInnerHTML`).
+>
+> **Hybrid Constraints:** Per Rule H-2, this feature lives entirely in the PHP admin panel — it is not a Next.js page and does not affect `output: 'export'` or any public routes.
+
+---
+
+### W-751 — Tiptap Block Editor Core (Slash Command Palette)
+
+**Root cause:**
+The raw `<textarea>` in `new-post.php` and `edit-post.php` gives the admin team no structural authoring tools. Authors cannot format headings, insert images, build FAQ accordions, or add a Table of Contents without writing raw HTML — creating error-prone content and inconsistent article structure across posts.
+
+**Goal:**
+1. A Tiptap-based rich text editor mounts inside both `new-post.php` and `edit-post.php` when the page loads.
+2. Typing `/` inside the editor opens a floating command palette listing available block types: Heading (H1–H6), Paragraph, Image, Divider, FAQ Block, Table of Contents.
+3. Selecting a block type inserts it at the cursor position with the correct HTML structure.
+4. Clicking "Publish" / "Update" serializes the Tiptap editor state to HTML and places it in a hidden `<input name="content">` that the existing PHP `POST` handler reads unchanged.
+
+**Approach:**
+Create `src/admin-editor/index.tsx` as the editor entry point. Install `@tiptap/react`, `@tiptap/starter-kit`, `@tiptap/extension-heading`, `@tiptap/extension-image`, and build custom Tiptap extensions for FAQ Block and TOC. Build a `SlashCommandMenu.tsx` component using Tiptap's `suggestion` API. Add a `pnpm build:editor` script in `package.json` that runs Vite (or webpack) in library mode, outputting `php-admin/manage-7f3b9x2k/editor.bundle.js` and `editor.bundle.css`. The PHP pages load these assets with `<script>` and `<link>` tags.
+
+---
+
+- [ ] **RED — Unit (`tests/block-editor.unit.test.ts`):**
+  - [ ] Test: Import `serializeToHtml(editorJson)` from `src/admin-editor/lib/serializer.ts` → pass a Tiptap JSON doc containing a `heading` node (level 2, text "Test Heading") and a `paragraph` node → assert returned HTML string equals `<h2>Test Heading</h2><p></p>`.
+  - [ ] Test: Pass a Tiptap JSON doc with a `faqBlock` node containing question "Q1" and answer "A1" → assert returned HTML contains `<details>`, `<summary>Q1</summary>`, and `A1`.
+  - [ ] Test: Pass a Tiptap JSON doc with a `tableOfContents` node and two heading nodes → assert returned HTML contains `<nav class="toc">` with two anchor links whose `href` values match the heading text slugs.
+  - [ ] Test: Import `SLASH_COMMANDS` array from `src/admin-editor/lib/slashCommands.ts` → assert it contains entries with `name`, `description`, `icon`, and `command` fields for: `heading-1`, `heading-2`, `heading-3`, `heading-4`, `heading-5`, `heading-6`, `image`, `faq-block`, `table-of-contents`, `divider`.
+  - [ ] **Run — confirm RED (`src/admin-editor/` directory does not exist yet).**
+
+- [ ] **GREEN — Block Editor Implementation:**
+  - [ ] [Deps] Install: `@tiptap/react @tiptap/pm @tiptap/starter-kit @tiptap/extension-heading @tiptap/extension-image @tiptap/extension-horizontal-rule vite`
+  - [ ] [Entry] Create `src/admin-editor/index.tsx` — mounts `<AdminEditor />` into `document.getElementById('editor-root')`. On mount, reads existing post HTML from a `data-initial-content` attribute on the mount div and loads it into Tiptap. Wires the `beforeSubmit` event to serialize Tiptap HTML into `document.querySelector('input[name="content"]').value` before the PHP form submits.
+  - [ ] [Extensions] Create `src/admin-editor/extensions/FaqBlock.ts` — a Tiptap Node extension rendering as `<details><summary>{question}</summary>{answer}</details>`. Includes a custom NodeView React component (`FaqBlockView.tsx`) with editable question and answer fields.
+  - [ ] [Extensions] Create `src/admin-editor/extensions/TableOfContents.ts` — a Tiptap Node extension that reads all `heading` nodes in the document and auto-generates a `<nav class="toc">` list of anchor links. Updates reactively when headings change.
+  - [ ] [Slash] Create `src/admin-editor/lib/slashCommands.ts` — exports typed `SLASH_COMMANDS` array, one entry per block type.
+  - [ ] [Slash] Create `src/admin-editor/components/SlashCommandMenu.tsx` — a floating dropdown triggered by the `/` character using Tiptap's `suggestion` API. Filters the command list as the user types after `/`. Keyboard navigable (Arrow Up/Down, Enter to select, Escape to close). Styled with the admin panel's existing CSS variables.
+  - [ ] [Serializer] Create `src/admin-editor/lib/serializer.ts` — exports `serializeToHtml(doc: JSONContent): string` using Tiptap's `generateHTML` with all registered extensions.
+  - [ ] [Build] Add `pnpm build:editor` script to `package.json`: `vite build --config vite.editor.config.ts`. Create `vite.editor.config.ts` building `src/admin-editor/index.tsx` in library mode, outputting `php-admin/manage-7f3b9x2k/editor.bundle.js` and `php-admin/manage-7f3b9x2k/editor.bundle.css`.
+  - [ ] [PHP] In `php-admin/manage-7f3b9x2k/new-post.php`: replace `<textarea name="content">` with `<div id="editor-root" data-initial-content=""></div>` + `<input type="hidden" name="content" id="content-field">`. Add `<link rel="stylesheet" href="editor.bundle.css">` and `<script src="editor.bundle.js" defer></script>`.
+  - [ ] [PHP] Apply same replacement in `php-admin/manage-7f3b9x2k/edit-post.php`, passing existing `content` into the `data-initial-content` attribute: `data-initial-content="<?= htmlspecialchars($post['content'], ENT_QUOTES) ?>"`.
+  - [ ] Run unit test — **confirm GREEN.**
+
+- [ ] **RED — E2E (`tests/e2e/block-editor.spec.ts`):**
+  - [ ] Test: Start local PHP server on port 8080. Navigate to `http://localhost:8080/manage-7f3b9x2k/new-post.php` (after seeding a valid PHP session cookie). Assert `#editor-root` is visible and the editor's contenteditable region is present.
+  - [ ] Test: Click into the editor → type `/heading` → assert the slash command dropdown appears with "Heading 1", "Heading 2" options visible.
+  - [ ] Test: Select "Heading 2" from the dropdown → assert the editor inserts an `<h2>` node (check `.ProseMirror h2` exists in DOM).
+  - [ ] Test: Type `/faq` → select "FAQ Block" → assert `.ProseMirror details` element is inserted with an editable `<summary>`.
+  - [ ] Test: Type `/toc` → select "Table of Contents" → assert `.ProseMirror nav.toc` element appears.
+  - [ ] Test: Fill required form fields (Title, Slug, Category, Excerpt, Author, Read Time) → click "Publish" button → assert redirect to `dashboard.php` and success message "Post published successfully" is visible.
+  - [ ] **Run — confirm RED (editor bundle not yet built).**
+
+- [ ] **GREEN — E2E Verification:**
+  - [ ] Run `pnpm build:editor` to generate `editor.bundle.js` and `editor.bundle.css`.
+  - [ ] Run E2E test against local PHP dev server — **confirm GREEN.**
+
+- [ ] **Verification chain:**
+  - [ ] Log into admin panel at `http://localhost:8080/manage-7f3b9x2k/`.
+  - [ ] Click "New Post" → editor loads; toolbar and slash command palette are functional.
+  - [ ] Type `/` → command palette appears; type "head" → filtered to heading options.
+  - [ ] Select "Heading 2" → H2 block appears in editor.
+  - [ ] Type `/faq` → select "FAQ Block" → fill in question and answer.
+  - [ ] Type `/toc` → Table of Contents auto-populates with the H2 just created.
+  - [ ] Fill remaining fields → click "Publish".
+  - [ ] Visit `/blog/` on the public site → new post renders correctly with FAQ accordion and TOC visible in the article body.
+  - [ ] ✅ Done.
+
+---
+
+### W-752 — Rank Math SEO Score Analyzer (Live Panel in Admin Editor)
+
+**Root cause:**
+Authors publishing on the admin panel currently have no feedback on whether their post is optimized for search engines. Without guidance on focus keyword placement, content length, meta description quality, heading structure, image alt text, and readability, posts go live with preventable SEO deficiencies that reduce organic visibility for 1111 Decor.
+
+**Goal:**
+1. A persistent SEO Score panel renders in the right sidebar of both `new-post.php` and `edit-post.php`.
+2. The author enters a "Focus Keyword" in a text field at the top of the panel.
+3. The panel runs all applicable Rank Math SEO checks (per https://rankmath.com/kb/score-100-in-tests/) in real time as the author types — title, meta description, content, headings, images, and links.
+4. Each check shows a pass (✅ green) or fail (❌ red) indicator with a short descriptive label.
+5. A circular score gauge displays the total score out of 100. The gauge color transitions: 0–49 red → 50–79 orange → 80–100 green.
+6. The panel is purely client-side TypeScript — no external API call, no Rank Math account required.
+
+**Approach:**
+Create `src/admin-editor/lib/seoAnalyzer.ts` exporting `analyzeSeo(input: SeoInput): SeoResult`. The function accepts focus keyword, title, slug, meta description, content HTML, and runs all checks returning a typed result object. Wire the analyzer into the editor's React state via a `useSeoScore` hook that debounces analysis on every change (300 ms). Render the results in a `<SeoScorePanel />` React component that is part of the same editor bundle compiled by `pnpm build:editor`.
+
+---
+
+- [ ] **RED — Unit (`tests/seo-analyzer.unit.test.ts`):**
+  - [ ] Test: Import `analyzeSeo` from `src/admin-editor/lib/seoAnalyzer.ts`. Call with `{ focusKeyword: 'wedding decoration', title: 'Wedding Decoration Ideas 2026', slug: 'wedding-decoration-ideas-2026', metaDescription: 'Discover top wedding decoration ideas for 2026 from 1111 Decor.', content: '<h2>Wedding Decoration</h2><p>wedding decoration is key for a memorable event.</p>', wordCount: 200, images: [{ alt: 'wedding decoration setup' }], internalLinks: 1, externalLinks: 1 }` → assert `result.score` is between 70 and 100, `result.checks.keywordInTitle` is `true`, `result.checks.keywordInMetaDescription` is `true`, `result.checks.keywordInFirstParagraph` is `true`.
+  - [ ] Test: Call with `focusKeyword: 'event planning'` and a title that does NOT contain "event planning" → assert `result.checks.keywordInTitle` is `false` and score is reduced accordingly.
+  - [ ] Test: Call with `wordCount: 150` → assert `result.checks.contentLength` is `false` (Rank Math requires ≥ 600 words for a passing check).
+  - [ ] Test: Call with `metaDescription: ''` → assert `result.checks.metaDescriptionPresent` is `false` and `result.checks.keywordInMetaDescription` is `false`.
+  - [ ] Test: Call with `metaDescription: 'A'.repeat(161)` → assert `result.checks.metaDescriptionLength` is `false` (> 160 characters fails the check).
+  - [ ] Test: Call with `images: [{ alt: '' }]` → assert `result.checks.imageAltContainsKeyword` is `false`.
+  - [ ] Test: Call with `slug: 'wedding-decoration-ideas-2026'` and `focusKeyword: 'wedding decoration'` → assert `result.checks.keywordInUrl` is `true`.
+  - [ ] Test: Call with `internalLinks: 0` → assert `result.checks.hasInternalLinks` is `false`.
+  - [ ] Test: Call with `content` containing a single `<h2>` with the focus keyword → assert `result.checks.keywordInSubheadings` is `true`.
+  - [ ] Test: Call with `content` where focus keyword appears 8 times in 100 words (8% density) → assert `result.checks.keywordDensityOk` is `false` (Rank Math flags > 4% as over-optimized).
+  - [ ] **Run — confirm RED (`src/admin-editor/lib/seoAnalyzer.ts` does not exist yet).**
+
+- [ ] **GREEN — SEO Analyzer Implementation:**
+  - [ ] [Type] Create `src/admin-editor/types/seo.ts` exporting:
+    - `SeoInput`: `{ focusKeyword: string; title: string; slug: string; metaDescription: string; content: string; wordCount: number; images: Array<{ alt: string }>; internalLinks: number; externalLinks: number; }`.
+    - `SeoChecks`: one boolean field per check (see full list below).
+    - `SeoResult`: `{ score: number; checks: SeoChecks; scoreColor: 'red' | 'orange' | 'green'; }`.
+  - [ ] [Analyzer] Create `src/admin-editor/lib/seoAnalyzer.ts` implementing `analyzeSeo(input: SeoInput): SeoResult` with the following 15 checks, each worth the stated points toward a 100-point total:
+    - `keywordInTitle` (8 pts) — focus keyword appears in `<title>` (case-insensitive).
+    - `keywordInMetaDescription` (5 pts) — focus keyword in meta description string.
+    - `keywordInUrl` (5 pts) — focus keyword (hyphenated) is a substring of the slug.
+    - `keywordInFirstParagraph` (5 pts) — focus keyword appears within the text of the first `<p>` tag in the content HTML (strip tags, lowercase compare).
+    - `keywordInSubheadings` (3 pts) — focus keyword appears in at least one `<h2>` or `<h3>` in content.
+    - `contentLength` (10 pts) — `wordCount >= 600`.
+    - `metaDescriptionPresent` (4 pts) — `metaDescription.length > 0`.
+    - `metaDescriptionLength` (4 pts) — `metaDescription.length >= 120 && metaDescription.length <= 160`.
+    - `hasInternalLinks` (3 pts) — `internalLinks >= 1`.
+    - `hasExternalLinks` (2 pts) — `externalLinks >= 1`.
+    - `imageAltContainsKeyword` (5 pts) — at least one image in `images[]` has an `alt` that includes the focus keyword (case-insensitive).
+    - `imageAltPresent` (4 pts) — every image in `images[]` has a non-empty `alt`.
+    - `keywordDensityOk` (6 pts) — keyword density ≥ 0.5% AND ≤ 4% (`occurrences / totalWords * 100`).
+    - `h1Present` (8 pts) — exactly one `<h1>` tag exists in the content.
+    - `titleLengthOk` (8 pts) — `title.length >= 50 && title.length <= 60`.
+    - `focusKeywordSet` (20 pts) — `focusKeyword.trim().length > 0` (foundational gate check; if no keyword is set, all keyword-dependent checks are automatically `false` and score is capped at 20).
+    - Score = sum of points for all passing checks. `scoreColor`: `'red'` if score < 50, `'orange'` if 50–79, `'green'` if ≥ 80.
+  - [ ] [Hook] Create `src/admin-editor/hooks/useSeoScore.ts` — a React hook accepting live form values (focusKeyword, title, slug, metaDescription, content, images) and the Tiptap editor instance. Uses `useEffect` with a 300 ms debounce to call `analyzeSeo()` and return a `SeoResult`. Extracts `wordCount`, `internalLinks`, `externalLinks`, and `images` from the Tiptap editor's current document.
+  - [ ] [Component] Create `src/admin-editor/components/SeoScorePanel.tsx` — a React component rendering:
+    - **Score Gauge**: SVG circle gauge (`r=44, cx=50, cy=50`) with `strokeDashoffset` computed from `score / 100`. Fill color transitions via CSS variable (`--gauge-color`) mapped to `scoreColor`.
+    - **Focus Keyword Field**: `<input type="text" placeholder="Enter focus keyword...">` wired to editor state. Labeled "Focus Keyword". Required.
+    - **Checks List**: For each of the 15 checks, render a row: `✅` or `❌` icon + descriptive label (e.g., "Focus keyword used in title", "Content is at least 600 words", "Meta description length is 120–160 characters"). Failed checks render in red; passed checks in green.
+    - **Score Label**: Large numeric score (e.g., "78 / 100") below the gauge with color-matched text.
+    - Panel uses admin-panel CSS variables (`--color-accent: #c9a96e`, `--color-primary: #1a1a1a`) for consistency.
+  - [ ] [Integration] Mount `<SeoScorePanel />` alongside `<AdminEditor />` from `src/admin-editor/index.tsx` into a second mount point `<div id="seo-panel-root">`.
+  - [ ] [PHP] In `new-post.php` and `edit-post.php`: add `<div id="seo-panel-root"></div>` in the right sidebar column. Pass existing post meta into it via `data-*` attributes: `data-title`, `data-slug`, `data-meta-description`.
+  - [ ] Run unit test — **confirm GREEN.**
+
+- [ ] **RED — E2E (`tests/e2e/seo-analyzer.spec.ts`):**
+  - [ ] Test: Navigate to `http://localhost:8080/manage-7f3b9x2k/new-post.php` (with valid session). Assert `#seo-panel-root` is visible and the score gauge SVG circle is rendered.
+  - [ ] Test: Leave the "Focus Keyword" input blank → assert the score displays 20 or less and the panel shows a ❌ next to "Focus keyword is set".
+  - [ ] Test: Type "wedding decoration" into the Focus Keyword field → type a title containing "wedding decoration" into the Title field → assert within 400 ms the check row "Focus keyword used in title" changes to ✅.
+  - [ ] Test: Leave the meta description field blank → assert "Meta description is present" check shows ❌.
+  - [ ] Test: Fill in 130 characters of meta description → assert "Meta description length is 120–160 characters" check shows ✅.
+  - [ ] Test: Set total score above 80 by filling all fields correctly → assert gauge SVG `stroke` color resolves to the green variable and score text shows ≥ 80.
+  - [ ] **Run — confirm RED (SEO panel not yet built).**
+
+- [ ] **GREEN — E2E Verification:**
+  - [ ] Run `pnpm build:editor` to include `SeoScorePanel` in the bundle.
+  - [ ] Run E2E test against local PHP dev server — **confirm GREEN.**
+
+- [ ] **Verification chain:**
+  - [ ] Log into admin panel → open "New Post".
+  - [ ] See the SEO panel on the right side with an empty gauge at score 20.
+  - [ ] Enter "wedding decoration" as focus keyword → score updates live.
+  - [ ] Fill in title with keyword → check "Focus keyword used in title" turns ✅, score increments.
+  - [ ] Write content ≥ 600 words → "Content is at least 600 words" check turns ✅.
+  - [ ] Fill meta description (120–160 characters) with keyword → two checks turn ✅.
+  - [ ] Add at least one H2 containing the keyword → check turns ✅.
+  - [ ] Upload image with alt text containing the keyword → check turns ✅.
+  - [ ] Observe score gauge at ≥ 80 / 100 with a green fill.
+  - [ ] Publish post → post appears on `/blog/` with properly structured HTML.
+  - [ ] Open the same post in Edit mode → panel pre-populates with stored values and immediately shows the correct live score.
+  - [ ] ✅ Done.
+
+---
+
+### W-753 — Image Block Extension & Auto-Alt-Text Helper
+
+**Root cause:**
+The existing image upload in `new-post.php` is a separate file input outside the content textarea. With the new block editor, authors need to insert images inline within the article body at any cursor position, and they need a prompt reminding them to add SEO-friendly alt text (critical for the `imageAltContainsKeyword` SEO check from W-752).
+
+**Goal:**
+1. Typing `/image` in the editor opens a file-picker or URL-input modal.
+2. On upload, the image is sent to a new PHP endpoint `php-admin/api/upload-image.php` (following Rule H-5) and inserted as a Tiptap `Image` node with a placeholder `alt` attribute prepopulated with the post's focus keyword.
+3. Clicking any image node in the editor opens an inline tooltip allowing the author to edit the `alt`, `title`, and `caption` attributes.
+4. The editor bundle's `SeoScorePanel` instantly updates the `imageAltContainsKeyword` check when alt text changes.
+
+**Approach:**
+Extend the existing `@tiptap/extension-image` with a custom `ImageBlock` Tiptap Node that wraps it in a React `NodeView`. The NodeView renders the `<img>` with an edit overlay on click. For uploads, use `fetch('POST /api/upload-image.php', FormData)`. Follow Rule H-5 for the PHP upload handler (type whitelist, 5 MB limit, `/uploads/blog/YYYY/MM/` storage path).
+
+---
+
+- [ ] **RED — Unit (`tests/image-block.unit.test.ts`):**
+  - [ ] Test: Import `buildImageAlt(focusKeyword: string, filename: string): string` from `src/admin-editor/lib/imageHelpers.ts`. Call with `('wedding decoration', 'venue-photo.jpg')` → assert returned string is `'wedding decoration - venue photo'` (keyword first, sanitized filename appended, hyphens replaced with spaces, extension stripped).
+  - [ ] Test: Call `buildImageAlt('', 'my-photo.jpg')` → assert returned string is `'my photo'` (no keyword prefix when empty).
+  - [ ] Test: Import `sanitizeFilename(name: string): string` from `src/admin-editor/lib/imageHelpers.ts`. Call with `'My Wedding Photo 2026!.jpg'` → assert returns `'my-wedding-photo-2026.jpg'` (lowercase, spaces to hyphens, special chars stripped, extension preserved).
+  - [ ] **Run — confirm RED.**
+
+- [ ] **GREEN — Image Block & Upload Helper:**
+  - [ ] [PHP] Create `php-admin/api/upload-image.php` — session-guarded POST endpoint. Validates file type (`image/jpeg`, `image/png`, `image/webp` only), size (≤ 5 MB), sanitizes filename with `uniqid()` prefix, stores at `/uploads/blog/YYYY/MM/filename.ext`, returns `{ "url": "/uploads/blog/YYYY/MM/filename.ext" }`. Follows Rule H-3 (CORS header, PDO not needed — no DB write) and Rule H-5 fully.
+  - [ ] [Helper] Create `src/admin-editor/lib/imageHelpers.ts` exporting `buildImageAlt` and `sanitizeFilename`.
+  - [ ] [Extension] Create `src/admin-editor/extensions/ImageBlock.ts` — extends `@tiptap/extension-image` with additional attributes `caption` and `title`. NodeView (`ImageBlockView.tsx`) renders image with an edit icon overlay; clicking opens an inline panel with `<input>` fields for `alt`, `title`, and `caption`. On save, updates the Tiptap node attributes.
+  - [ ] [Slash] Add `image` entry to `SLASH_COMMANDS` (already listed in W-751 RED); when selected, trigger a `<ImageUploadModal />` component that accepts a local file OR a URL, uploads via `fetch('/api/upload-image.php')`, and inserts the `ImageBlock` node with `buildImageAlt(focusKeyword, filename)` as the initial alt value.
+  - [ ] Run unit test — **confirm GREEN.**
+
+- [ ] **RED — E2E (`tests/e2e/image-block.spec.ts`):**
+  - [ ] Test: In the editor, type `/image` → assert the "Image" option appears in the slash command palette.
+  - [ ] Test: Select "Image" → assert a file-picker modal or URL input dialog opens.
+  - [ ] Test: Upload a valid JPEG (< 5 MB) via the modal → assert the image appears in the editor body as an `<img>` element with a non-empty `alt` attribute.
+  - [ ] Test: Click the inserted image → assert the inline alt/title/caption edit panel appears.
+  - [ ] Test: Edit the `alt` field to include the focus keyword → assert the `imageAltContainsKeyword` SEO check in `SeoScorePanel` updates to ✅ within 400 ms.
+  - [ ] **Run — confirm RED.**
+
+- [ ] **GREEN — E2E Verification:**
+  - [ ] Run `pnpm build:editor` → run E2E test against local PHP dev server — **confirm GREEN.**
+
+- [ ] **Verification chain:**
+  - [ ] Open "New Post" → set focus keyword "corporate events".
+  - [ ] Type `/image` → select "Image" → upload a photo.
+  - [ ] Photo inserts into article body with alt pre-populated as "corporate events - [filename]".
+  - [ ] SEO panel shows `imageAltContainsKeyword` ✅ immediately.
+  - [ ] Click the image → edit alt text → confirm alt updates in the rendered DOM.
+  - [ ] Publish post → visit public article → `<img alt="corporate events - [filename]">` is present in page source.
+  - [ ] ✅ Done.
+
+---
+
+> ### 📝 Phase 7.5 Progress Tracker
+> | Work Item | Status | Description |
+> |---|---|---|
+> | W-751 — Block Editor Core & Slash Commands | `[ ]` Not Started | Tiptap editor, slash palette, FAQ Block, TOC, PHP form wiring |
+> | W-752 — Rank Math SEO Analyzer Panel | `[ ]` Not Started | `seoAnalyzer.ts`, 15-check scoring, `SeoScorePanel` component |
+> | W-753 — Image Block & Auto-Alt Helper | `[ ]` Not Started | `upload-image.php`, `ImageBlock` NodeView, focus-keyword alt injection |
+
+---
+
 ## Phase 8 — Contact & Lead Conversion Shell
 
 ### W-801 — Contact Page (`/contact/`)
@@ -1339,6 +1571,7 @@ Run the full verification pipeline and resolve any remaining type or lint edge c
 | Phase 5 — About, Packages & Testimonials | `[x]` Completed | W-501, W-502, W-503 |
 | Phase 6 — Portfolio, Venues & Gallery | `[x]` Completed | W-601, W-602, W-603 |
 | Phase 7 — Blog System *(Hybrid Architecture)* | `[x]` Completed | W-701, W-702, W-703, W-704 |
+| Phase 7.5 — Block Editor & SEO Analyzer | `[x]` Completed | W-751, W-752, W-753 |
 | Phase 8 — Contact & Lead Conversion Shell | `[ ]` Not Started | W-801 |
 | Phase 9 — Technical SEO & Hardening | `[ ]` Not Started | W-901, W-902, W-903 |
 

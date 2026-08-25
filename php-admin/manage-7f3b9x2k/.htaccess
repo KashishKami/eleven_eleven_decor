@@ -1,0 +1,29 @@
+# 11:11 Decor — Apache Configuration for GoDaddy Shared Hosting
+Options -MultiViews
+RewriteEngine On
+
+# Force HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Block direct access to hidden files and php-admin config
+<FilesMatch "(^\.|\.json$|config\.php)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Serve existing files/directories directly
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Clean URLs for Next.js static HTML export
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html [L,QSA]
+
+# Handle subdirectory index.html files
+RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
+RewriteRule ^(.*)/?$ /$1/index.html [L,QSA]
+
+# Custom 404 page
+ErrorDocument 404 /404.html

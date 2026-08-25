@@ -12,18 +12,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 require_once __DIR__ . '/../config.php';
 
 try {
-    $pdo = new PDO(
-        "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4",
-        DB_USER,
-        DB_PASS,
-        [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        ]
-    );
-
-    $stmt = $pdo->query("SELECT id, title, slug, category, category_name, author, image, published, DATE_FORMAT(created_at, '%b %d, %Y') AS date_formatted FROM blog_posts ORDER BY created_at DESC");
-    $posts = $stmt->fetchAll();
+    $posts = BlogStore::all(false);
 } catch (Exception $e) {
     $error = "Failed to load posts: " . $e->getMessage();
     $posts = [];
@@ -143,6 +132,10 @@ try {
 </head>
 <body>
     <div class="container">
+<?php
+$is_local = isset($_SERVER['HTTP_HOST']) && (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false || strpos($_SERVER['HTTP_HOST'], '127.0.0.1') !== false);
+$live_site_url = $is_local ? 'http://localhost:3000/blog' : '/blog';
+?>
         <header>
             <div>
                 <div class="brand">11:11 DECOR</div>
@@ -150,7 +143,7 @@ try {
             </div>
             <div class="header-actions">
                 <a href="new-post.php" class="btn-primary">+ Create New Post</a>
-                <a href="/blog" target="_blank" class="btn-secondary">View Live Site &nearr;</a>
+                <a href="<?= $live_site_url ?>" target="_blank" class="btn-secondary">View Live Site &nearr;</a>
                 <a href="logout.php" class="btn-secondary">Log Out</a>
             </div>
         </header>
@@ -190,7 +183,7 @@ try {
                             <td>
                                 <span style="color: #c9a96e;"><?= htmlspecialchars($post['category_name'] ?: $post['category']) ?></span>
                             </td>
-                            <td style="color: #8a8275;"><?= htmlspecialchars($post['date_formatted']) ?></td>
+                            <td style="color: #8a8275;"><?= !empty($post['created_at']) ? date('M d, Y', strtotime($post['created_at'])) : 'Recent' ?></td>
                             <td>
                                 <?php if ($post['published']): ?>
                                     <span class="badge badge-published">Published</span>

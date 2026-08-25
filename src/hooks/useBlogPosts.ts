@@ -33,7 +33,7 @@ export async function fetchBlogPosts(category?: string): Promise<FetchBlogPostsR
 }
 
 /**
- * React hook to fetch blog posts on mount with fallback to seed data when local API is unconfigured
+ * React hook to fetch blog posts on mount with fallback to seed data
  */
 export function useBlogPosts(category?: string) {
   const [posts, setPosts] = useState<BlogPost[]>([])
@@ -47,25 +47,30 @@ export function useBlogPosts(category?: string) {
     fetchBlogPosts(category)
       .then((res) => {
         if (!isMounted) return
-        if (res.posts.length > 0) {
+        if (res.posts && res.posts.length > 0) {
           setPosts(res.posts)
           setError(null)
-        } else if (res.error) {
-          // Fallback to static seed data filtered by category if PHP endpoint is unavailable during static dev
+        } else {
+          // Fallback to static seed articles so the website always displays articles
           const filteredSeed = category
-            ? BLOG_DATA.filter((p) => p.category.toLowerCase().replace(/\s+/g, '-') === category.toLowerCase() || p.category.toLowerCase() === category.toLowerCase())
+            ? BLOG_DATA.filter(
+                (p) =>
+                  p.category.toLowerCase().replace(/\s+/g, '-') === category.toLowerCase() ||
+                  p.category.toLowerCase() === category.toLowerCase()
+              )
             : BLOG_DATA
           setPosts(filteredSeed)
-          setError(null)
-        } else {
-          setPosts([])
           setError(null)
         }
       })
       .catch(() => {
         if (!isMounted) return
         const filteredSeed = category
-          ? BLOG_DATA.filter((p) => p.category.toLowerCase().replace(/\s+/g, '-') === category.toLowerCase() || p.category.toLowerCase() === category.toLowerCase())
+          ? BLOG_DATA.filter(
+              (p) =>
+                p.category.toLowerCase().replace(/\s+/g, '-') === category.toLowerCase() ||
+                p.category.toLowerCase() === category.toLowerCase()
+            )
           : BLOG_DATA
         setPosts(filteredSeed)
         setError(null)

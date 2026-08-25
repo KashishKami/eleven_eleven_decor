@@ -15,17 +15,9 @@ $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 if ($id > 0) {
     try {
-        $pdo = new PDO(
-            "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4",
-            DB_USER,
-            DB_PASS,
-            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
-        );
-
-        $stmt = $pdo->prepare("DELETE FROM blog_posts WHERE id = :id");
-        $stmt->execute([':id' => $id]);
+        BlogStore::delete($id);
     } catch (Exception $e) {
-        // Silently redirect on error
+        // Silently redirect
     }
 }
 

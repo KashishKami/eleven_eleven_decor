@@ -27,26 +27,14 @@ $categories = [
 ];
 
 try {
-    $pdo = new PDO(
-        "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4",
-        DB_USER,
-        DB_PASS,
-        [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        ]
-    );
-
-    $stmt = $pdo->prepare("SELECT * FROM blog_posts WHERE id = :id LIMIT 1");
-    $stmt->execute([':id' => $id]);
-    $post = $stmt->fetch();
+    $post = BlogStore::findById($id);
 
     if (!$post) {
         header('Location: dashboard.php');
         exit;
     }
 } catch (Exception $e) {
-    die("Database error: " . $e->getMessage());
+    die("Error loading post: " . $e->getMessage());
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -98,28 +86,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($error)) {
         try {
-            $updateStmt = $pdo->prepare("UPDATE blog_posts SET title = :title, slug = :slug, category = :category, category_name = :category_name, excerpt = :excerpt, content = :content, author = :author, image = :image, read_time = :read_time, published = :published, related_service_slug = :related_service_slug, related_service_name = :related_service_name WHERE id = :id");
-
-            $updateStmt->execute([
-                ':title' => $title,
-                ':slug' => $slug,
-                ':category' => $category,
-                ':category_name' => $category_name,
-                ':excerpt' => $excerpt,
-                ':content' => $content,
-                ':author' => $author,
-                ':image' => $image_url,
-                ':read_time' => $read_time,
-                ':published' => $published,
-                ':related_service_slug' => $related_service_slug,
-                ':related_service_name' => $related_service_name,
-                ':id' => $id,
+            BlogStore::save([
+                'id' => $id,
+                'title' => $title,
+                'slug' => $slug,
+                'category' => $category,
+                'category_name' => $category_name,
+                'excerpt' => $excerpt,
+                'content' => $content,
+                'author' => $author,
+                'image' => $image_url,
+                'read_time' => $read_time,
+                'published' => $published,
+                'related_service_slug' => $related_service_slug,
+                'related_service_name' => $related_service_name,
             ]);
 
             header('Location: dashboard.php?updated=1');
             exit;
-        } catch (PDOException $e) {
-            $error = 'Database update error: ' . $e->getMessage();
+        } catch (Exception $e) {
+            $error = 'Error updating article: ' . $e->getMessage();
         }
     }
 }

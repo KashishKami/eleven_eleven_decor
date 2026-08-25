@@ -8,49 +8,83 @@ export function FooterCTA() {
   return (
     <section
       id="footer-cta"
-      className="section-padding"
       style={{
         backgroundColor: '#121212',
         backgroundImage:
-          'radial-gradient(circle at 50% 50%, rgba(201, 169, 110, 0.12) 0%, rgba(18, 18, 18, 1) 70%)',
-        borderTop: '1px solid rgba(201, 169, 110, 0.2)',
+          'radial-gradient(ellipse at 50% 30%, rgba(201, 169, 110, 0.16) 0%, rgba(18, 18, 18, 1) 75%)',
+        borderTop: '1px solid rgba(201, 169, 110, 0.25)',
+        padding: '7rem 1.5rem',
         textAlign: 'center',
+        position: 'relative',
+        overflow: 'hidden',
+        width: '100%',
       }}
     >
-      <div className="container" style={{ maxWidth: '800px' }}>
-        <span className="label" style={{ display: 'block', marginBottom: '1rem' }}>
-          Reserve Your Date
+      <div style={{ maxWidth: '840px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
+        <span
+          className="label"
+          style={{
+            display: 'inline-block',
+            color: '#c9a96e',
+            marginBottom: '1.25rem',
+            fontFamily: 'var(--font-body)',
+            fontWeight: 700,
+            fontSize: '0.8125rem',
+            letterSpacing: '0.22em',
+            textTransform: 'uppercase',
+          }}
+        >
+          RESERVE YOUR CELEBRATION
         </span>
-        <div style={{ marginBottom: '1.5rem' }}>
+
+        <div style={{ maxWidth: '800px', margin: '0 auto 1.5rem' }}>
           <WindRevealHeading
             as="h2"
-            className="heading-xl"
-            style={{ color: 'var(--color-secondary)' }}
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(2.5rem, 5.5vw, 4.25rem)',
+              color: '#f5f0e8',
+              fontWeight: 500,
+              lineHeight: 1.15,
+              letterSpacing: '0.02em',
+            }}
           >
-            Unforgettable Catering For Any Occasion!
+            Unforgettable Decor & Staging For Any Occasion
           </WindRevealHeading>
         </div>
-        <p className="body-lg" style={{ marginBottom: '2.5rem', color: '#d0c8b8' }}>
-          Let our creative team transform your next gala, wedding, or VIP summit into a masterwork of design and gastronomy.
+
+        <p
+          style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: '1.15rem',
+            lineHeight: 1.75,
+            color: '#d0c8b8',
+            maxWidth: '680px',
+            margin: '0 auto 2.75rem',
+          }}
+        >
+          Let our master creators transform your next wedding, milestone celebration, or executive gala into a bespoke work of architectural elegance.
         </p>
+
         <Link
           href="/contact"
           style={{
             display: 'inline-block',
-            padding: '1.125rem 2.75rem',
-            backgroundColor: 'var(--color-accent)',
-            color: 'var(--color-primary)',
+            padding: '1.15rem 3rem',
+            backgroundColor: '#c9a96e',
+            color: '#111111',
             fontFamily: 'var(--font-body)',
-            fontSize: '1rem',
+            fontSize: '0.95rem',
             fontWeight: 700,
-            letterSpacing: '0.08em',
+            letterSpacing: '0.1em',
             textTransform: 'uppercase',
-            borderRadius: '4px',
-            boxShadow: '0 10px 30px rgba(201, 169, 110, 0.3)',
-            transition: 'transform 0.3s ease, background-color 0.3s ease',
+            borderRadius: '40px',
+            boxShadow: '0 12px 35px rgba(201, 169, 110, 0.35)',
+            textDecoration: 'none',
+            transition: 'all 0.3s ease',
           }}
         >
-          Reserve Now
+          Reserve Now &rarr;
         </Link>
       </div>
     </section>

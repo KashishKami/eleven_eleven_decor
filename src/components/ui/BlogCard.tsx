@@ -9,11 +9,22 @@ interface BlogCardProps {
   post: BlogPost
 }
 
+const API_BASE = (process.env.NEXT_PUBLIC_API_URL || '').replace(/\/$/, '')
+
+function resolveImageUrl(src?: string): string {
+  if (!src) return 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1000&auto=format&fit=crop'
+  if (src.startsWith('http://') || src.startsWith('https://')) return src
+  if (src.startsWith('/')) {
+    return API_BASE ? `${API_BASE}${src}` : src
+  }
+  return src
+}
+
 export function BlogCard({ post }: BlogCardProps) {
   if (!post) return null
 
   const categorySlug = post.category ? post.category.toLowerCase().replace(/\s+/g, '-') : 'general'
-  const postUrl = `/blog/${categorySlug}/${post.slug}`
+  const postUrl = `/blog/${categorySlug}/${post.slug}/`
 
   return (
     <article
@@ -38,28 +49,30 @@ export function BlogCard({ post }: BlogCardProps) {
         }}
       >
         <Image
-          src={post.image || 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1000&auto=format&fit=crop'}
+          src={resolveImageUrl(post.image)}
           alt={post.title}
           fill
           unoptimized
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          style={{ objectFit: 'cover', transition: 'transform 0.5s ease' }}
+          style={{
+            objectFit: 'cover',
+            transition: 'transform 0.5s ease',
+          }}
         />
         <div
           style={{
             position: 'absolute',
             top: '1rem',
             left: '1rem',
-            backgroundColor: 'rgba(255, 255, 255, 0.92)',
+            backgroundColor: 'rgba(26, 26, 26, 0.85)',
             backdropFilter: 'blur(8px)',
             color: '#c9a96e',
-            fontWeight: 600,
             fontSize: '0.75rem',
-            letterSpacing: '0.12em',
+            fontWeight: 700,
+            letterSpacing: '0.1em',
             textTransform: 'uppercase',
             padding: '0.35rem 0.85rem',
             borderRadius: '20px',
-            border: '1px solid rgba(201, 169, 110, 0.3)',
           }}
         >
           {post.categoryName || post.category.replace(/-/g, ' ')}
@@ -72,58 +85,79 @@ export function BlogCard({ post }: BlogCardProps) {
           display: 'flex',
           flexDirection: 'column',
           flexGrow: 1,
+          justifyContent: 'space-between',
         }}
       >
-        <div
-          style={{
-            color: '#8a8275',
-            fontSize: '0.8rem',
-            marginBottom: '0.75rem',
-          }}
-        >
-          {post.date} &bull; {post.readTime}
+        <div>
+          <div
+            style={{
+              color: '#8a8275',
+              fontSize: '0.8rem',
+              fontWeight: 500,
+              marginBottom: '0.75rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+            }}
+          >
+            <span>{post.date}</span>
+            <span>&bull;</span>
+            <span>{post.readTime}</span>
+          </div>
+
+          <h3
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: '1.4rem',
+              color: '#1a1a1a',
+              lineHeight: 1.3,
+              marginBottom: '0.75rem',
+              fontWeight: 600,
+            }}
+          >
+            <Link
+              href={postUrl}
+              style={{
+                color: 'inherit',
+                textDecoration: 'none',
+              }}
+            >
+              {post.title}
+            </Link>
+          </h3>
+
+          <p
+            style={{
+              color: '#5a544c',
+              fontSize: '0.925rem',
+              lineHeight: 1.6,
+              marginBottom: '1.5rem',
+              display: '-webkit-box',
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+            }}
+          >
+            {post.excerpt}
+          </p>
         </div>
-
-        <h3
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: '1.35rem',
-            color: '#1a1a1a',
-            marginBottom: '0.75rem',
-            fontWeight: 600,
-            lineHeight: 1.3,
-          }}
-        >
-          {post.title}
-        </h3>
-
-        <p
-          style={{
-            color: '#5a544c',
-            fontSize: '0.9rem',
-            lineHeight: 1.6,
-            marginBottom: '1.5rem',
-            flexGrow: 1,
-          }}
-        >
-          {post.excerpt}
-        </p>
 
         <Link
           href={postUrl}
           style={{
             color: '#c9a96e',
             fontSize: '0.875rem',
-            fontWeight: 600,
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
+            fontWeight: 700,
+            letterSpacing: '0.05em',
             textDecoration: 'none',
             display: 'inline-flex',
             alignItems: 'center',
             gap: '0.35rem',
+            marginTop: 'auto',
           }}
         >
-          Read Article &rarr;
+          <span>Read Article</span>
+          <span style={{ fontSize: '1.1rem', lineHeight: 1 }}>&rarr;</span>
         </Link>
       </div>
     </article>

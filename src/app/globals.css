@@ -62,109 +62,96 @@ img {
   display: block;
 }
 
-button {
-  font-family: inherit;
-  cursor: pointer;
-  border: none;
-  background: none;
+/* Typography Hierarchy Utilities */
+.heading-hero {
+  font-family: var(--font-display);
+  font-size: clamp(3.25rem, 6.5vw, 5rem);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: 0.02em;
 }
 
-/* Typography Utility Classes */
 .heading-xl {
-  font-family: var(--font-display), serif;
-  font-size: clamp(2.25rem, 5.5vw, 5.5rem);
-  font-weight: 400;
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 5.5vw, 4.25rem);
+  font-weight: 500;
   line-height: 1.1;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.02em;
 }
 
 .heading-lg {
-  font-family: var(--font-display), serif;
-  font-size: clamp(1.875rem, 3.8vw, 3.5rem);
-  font-weight: 400;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  font-weight: 500;
   line-height: 1.2;
+  letter-spacing: 0.02em;
 }
 
 .heading-md {
-  font-family: var(--font-display), serif;
-  font-size: clamp(1.375rem, 2.4vw, 2.25rem);
-  font-weight: 400;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+  font-weight: 500;
   line-height: 1.3;
+  letter-spacing: 0.02em;
 }
 
 .heading-sm {
-  font-family: var(--font-display), serif;
-  font-size: clamp(1.125rem, 1.6vw, 1.625rem);
-  font-weight: 500;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
   line-height: 1.4;
+  letter-spacing: 0.03em;
 }
 
-.card-title {
-  font-family: var(--font-display), serif;
-  font-size: clamp(1.25rem, 1.8vw, 1.75rem);
-  font-weight: 500;
-  line-height: 1.25;
+.body-large {
+  font-family: var(--font-body);
+  font-size: clamp(1.05rem, 1.3vw, 1.2rem);
+  line-height: 1.7;
+  letter-spacing: 0.01em;
 }
 
-.card-subtitle {
-  font-family: var(--font-body), sans-serif;
-  font-size: clamp(0.8125rem, 1vw, 0.9375rem);
-  color: var(--color-text-muted);
-  line-height: 1.4;
+.body-regular {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+}
+
+.body-small {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  line-height: 1.55;
+  letter-spacing: 0.01em;
 }
 
 .label {
-  font-family: var(--font-body), sans-serif;
-  font-size: clamp(0.75rem, 0.9vw, 0.875rem);
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
   font-weight: 600;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--color-accent);
 }
 
-.body-lg {
-  font-family: var(--font-body), sans-serif;
-  font-size: clamp(1rem, 1.2vw, 1.125rem);
-  line-height: 1.6;
-  color: var(--color-text-muted);
-}
-
-.body-md {
-  font-family: var(--font-body), sans-serif;
-  font-size: clamp(0.875rem, 1vw, 1rem);
-  line-height: 1.55;
-  color: var(--color-text-muted);
-}
-
-.body-sm {
-  font-family: var(--font-body), sans-serif;
-  font-size: clamp(0.75rem, 0.85vw, 0.875rem);
-  line-height: 1.5;
-  color: var(--color-text-muted);
-}
-
-/* Responsive Layout Utilities */
+/* Layout Utilities */
 .container {
   width: 100%;
   max-width: var(--container-max-width);
-  margin-inline: auto;
-  padding-inline: var(--container-padding);
-}
-
-.section-padding {
-  padding-block: clamp(3.5rem, 8vw, 7.5rem);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
 }
 
 .grid-responsive-4 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-  gap: clamp(1rem, 2.5vw, 2rem);
+  gap: clamp(1.5rem, 3vw, 2.5rem);
 }
 
 .grid-responsive-3 {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
-  gap: clamp(1.25rem, 3vw, 2.5rem);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: clamp(1.5rem, 3.5vw, 2.75rem);
 }
 
 .grid-responsive-2 {
@@ -195,6 +182,81 @@ button {
 
 .card-event {
   aspect-ratio: var(--card-event-aspect);
+}
+
+/* Editorial Blog Article Typography */
+.article-editorial-content {
+  font-family: var(--font-body), sans-serif;
+  color: #3b352e;
+  font-size: 1.125rem;
+  line-height: 1.85;
+}
+
+.article-editorial-content h2 {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.85rem, 4vw, 2.45rem);
+  font-weight: 500;
+  color: #1a1a1a;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+  margin-top: 3rem;
+  margin-bottom: 1.15rem;
+}
+
+.article-editorial-content h3 {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.4rem, 3vw, 1.85rem);
+  font-weight: 500;
+  color: #1a1a1a;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+  margin-top: 2.25rem;
+  margin-bottom: 0.85rem;
+}
+
+.article-editorial-content h4 {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #c9a96e;
+  letter-spacing: 0.04em;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.article-editorial-content p {
+  margin-bottom: 1.65rem;
+  color: #4a443c;
+}
+
+.article-editorial-content ul,
+.article-editorial-content ol {
+  padding-left: 1.75rem;
+  margin-bottom: 1.75rem;
+}
+
+.article-editorial-content li {
+  margin-bottom: 0.65rem;
+  color: #4a443c;
+}
+
+.article-editorial-content strong {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.article-editorial-content blockquote {
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-size: 1.4rem;
+  line-height: 1.6;
+  color: #a8834a;
+  border-left: 3px solid #c9a96e;
+  padding-left: 1.5rem;
+  margin: 2.5rem 0;
+  background: rgba(201, 169, 110, 0.05);
+  padding: 1.25rem 1.75rem;
+  border-radius: 0 12px 12px 0;
 }
 
 @media (max-width: 480px) {

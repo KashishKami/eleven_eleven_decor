@@ -56,7 +56,7 @@ export const BLOG_DATA: BlogPost[] = [
     `,
     category: 'event-planning',
     categoryName: 'Event Planning',
-    date: 'August 04, 2026',
+    date: 'August 05, 2026',
     author: '1111 Decor Operations',
     image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=1000&auto=format&fit=crop',
     readTime: '5 min read',

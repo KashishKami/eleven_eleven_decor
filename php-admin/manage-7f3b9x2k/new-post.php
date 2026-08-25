@@ -76,16 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($error)) {
         try {
-            $pdo = new PDO(
-                "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4",
-                DB_USER,
-                DB_PASS,
-                [
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                ]
-            );
-
             // Handle optional FAQ items
             $faqs = [];
             if (!empty($_POST['faq_q']) && is_array($_POST['faq_q'])) {
@@ -96,34 +86,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
             }
-            $faqs_json = !empty($faqs) ? json_encode($faqs, JSON_UNESCAPED_UNICODE) : null;
 
-            $stmt = $pdo->prepare("INSERT INTO blog_posts (title, slug, category, category_name, excerpt, content, author, image, read_time, published, related_service_slug, related_service_name, faqs_json) VALUES (:title, :slug, :category, :category_name, :excerpt, :content, :author, :image, :read_time, :published, :related_service_slug, :related_service_name, :faqs_json)");
-
-            $stmt->execute([
-                ':title' => $title,
-                ':slug' => $slug,
-                ':category' => $category,
-                ':category_name' => $category_name,
-                ':excerpt' => $excerpt,
-                ':content' => $content,
-                ':author' => $author,
-                ':image' => $image_url,
-                ':read_time' => $read_time,
-                ':published' => $published,
-                ':related_service_slug' => $related_service_slug,
-                ':related_service_name' => $related_service_name,
-                ':faqs_json' => $faqs_json,
+            BlogStore::save([
+                'title' => $title,
+                'slug' => $slug,
+                'category' => $category,
+                'category_name' => $category_name,
+                'excerpt' => $excerpt,
+                'content' => $content,
+                'author' => $author,
+                'image' => $image_url,
+                'read_time' => $read_time,
+                'published' => $published,
+                'related_service_slug' => $related_service_slug,
+                'related_service_name' => $related_service_name,
+                'faqs' => $faqs,
             ]);
 
             header('Location: dashboard.php?created=1');
             exit;
-        } catch (PDOException $e) {
-            if ($e->errorInfo[1] == 1062) {
-                $error = 'An article with this slug already exists. Please choose a unique slug.';
-            } else {
-                $error = 'Database error: ' . $e->getMessage();
-            }
+        } catch (Exception $e) {
+            $error = 'Error saving article: ' . $e->getMessage();
         }
     }
 }

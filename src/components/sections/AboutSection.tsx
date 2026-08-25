@@ -12,81 +12,114 @@ export function AboutSection() {
       className="section-padding"
       style={{
         backgroundColor: '#faf6f0',
-        color: '#2c221e',
+        color: '#1a1a1a',
         position: 'relative',
         overflow: 'hidden',
+        paddingBlock: 'clamp(4.5rem, 8vw, 7rem)',
       }}
     >
-      <div className="container">
+      <div className="container" style={{ maxWidth: '1240px', marginInline: 'auto' }}>
         {/* Header Label & Wind Reveal Title */}
-        <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+        <div style={{ textAlign: 'center', marginBottom: 'clamp(2.5rem, 5vw, 4rem)' }}>
           <span
             className="label"
             style={{
-              color: '#3c3127',
+              color: 'var(--color-accent-dark, #a8834a)',
               fontSize: '0.8125rem',
-              letterSpacing: '0.2em',
+              letterSpacing: '0.22em',
+              fontWeight: 700,
               display: 'inline-block',
               marginBottom: '0.75rem',
+              textTransform: 'uppercase',
             }}
           >
-            ◇ WHO WE ARE
+            ◇ WHO WE ARE ◇
           </span>
-          <div style={{ maxWidth: '900px', marginInline: 'auto' }}>
+          <div style={{ maxWidth: '920px', marginInline: 'auto' }}>
             <WindRevealHeading
               as="h2"
               className="heading-lg"
               style={{
-                color: '#2c221e',
-                fontSize: 'clamp(2.125rem, 4.5vw, 3.85rem)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.03em',
+                color: '#1a1a1a',
+                fontSize: 'clamp(2.2rem, 4.5vw, 3.6rem)',
+                letterSpacing: '0.02em',
                 lineHeight: 1.15,
+                fontWeight: 400,
+                textTransform: 'uppercase',
               }}
             >
-              PROFESSIONAL CATERING TEAMS IN 1111 DECOR
+              PROFESSIONAL EVENT & CATERING DÉCOR IN 11:11 DECOR
             </WindRevealHeading>
           </div>
         </div>
 
         {/* Content Layout */}
-        <div className="grid-responsive-2" style={{ alignItems: 'flex-start', gap: '3.5rem' }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: 'clamp(2.5rem, 5vw, 4.5rem)',
+            alignItems: 'center',
+          }}
+        >
           {/* Left Column: Narrative & Stats */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
             <h3
-              className="heading-md"
               style={{
-                color: '#2c221e',
-                textTransform: 'uppercase',
-                lineHeight: 1.25,
+                fontFamily: 'var(--font-display, Cormorant Garamond, serif)',
+                fontSize: 'clamp(1.4rem, 2.2vw, 1.85rem)',
+                color: '#1a1a1a',
+                lineHeight: 1.35,
                 fontWeight: 400,
+                letterSpacing: '0.01em',
+                margin: 0,
               }}
             >
-              EVERY EVENT IS A UNIQUE OPPORTUNITY TO CRAFT A CULINARY EXPERIENCE AS EXTRAORDINARY AS DELICIOUS.
+              Every celebration is a unique opportunity to craft an atmosphere as extraordinary as it is unforgettable.
             </h3>
 
-            <p className="body-md" style={{ color: '#554a42', lineHeight: 1.65 }}>
-              A meeting or celebration is a unique and unforgettable event!! In 1111 Decor we have a team of event planners, we take care of the design, creative and innovative work, planning, coordination and organization of all kinds of social and corporate events.
+            <p
+              style={{
+                fontFamily: 'var(--font-body, DM Sans, sans-serif)',
+                fontSize: '1rem',
+                color: '#554a42',
+                lineHeight: 1.75,
+                margin: 0,
+              }}
+            >
+              At 11:11 Decor, our team of dedicated event architects, floral artists, and production managers oversee every nuance—from bespoke theme ideation and spatial transformation to flawless on-site execution across luxury weddings, corporate galas, and private celebrations.
             </p>
 
             {/* Stat Callout Badge */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1.5rem',
+                padding: '1.25rem 1.5rem',
+                backgroundColor: '#ffffff',
+                borderRadius: '16px',
+                border: '1px solid rgba(201, 169, 110, 0.3)',
+                boxShadow: '0 10px 30px rgba(44, 34, 30, 0.06)',
+                width: 'fit-content',
+              }}
+            >
               <div
                 style={{
                   position: 'relative',
-                  width: '120px',
-                  height: '80px',
-                  borderRadius: '12px',
+                  width: '90px',
+                  height: '65px',
+                  borderRadius: '10px',
                   overflow: 'hidden',
                   flexShrink: 0,
-                  boxShadow: '0 8px 20px rgba(0,0,0,0.12)',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                 }}
               >
                 <Image
-                  src="https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=600&auto=format&fit=crop"
-                  alt="1111 Decor Catering Staff"
+                  src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600&auto=format&fit=crop"
+                  alt="11:11 Decor Event Curation"
                   fill
-                  sizes="120px"
+                  sizes="90px"
                   style={{ objectFit: 'cover' }}
                 />
               </div>
@@ -94,64 +127,138 @@ export function AboutSection() {
               <div>
                 <div
                   style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '2.75rem',
+                    fontFamily: 'var(--font-display, Cormorant Garamond, serif)',
+                    fontSize: '2.4rem',
                     fontWeight: 400,
                     lineHeight: 1,
-                    color: '#2c221e',
+                    color: '#1a1a1a',
                   }}
                 >
-                  4.9K<sup>+</sup>
+                  500<span style={{ color: 'var(--color-accent, #c9a96e)' }}>+</span>
                 </div>
-                <span className="body-sm" style={{ color: '#6b5e54', fontWeight: 500 }}>
-                  events each year
+                <span
+                  style={{
+                    fontFamily: 'var(--font-body, DM Sans, sans-serif)',
+                    fontSize: '0.85rem',
+                    color: '#6b5e54',
+                    fontWeight: 600,
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  Events Crafted Each Year
                 </span>
               </div>
             </div>
 
-            {/* Dark Brown Pill Button */}
-            <div>
+            {/* Luxury Pill Button */}
+            <div style={{ marginTop: '0.5rem' }}>
               <Link
                 href="/about-us"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '0.625rem',
-                  backgroundColor: '#3c3127',
+                  gap: '0.75rem',
+                  backgroundColor: '#1a1a1a',
                   color: '#ffffff',
-                  padding: '0.875rem 2.25rem',
-                  borderRadius: '40px',
-                  fontFamily: 'var(--font-body)',
+                  padding: '0.95rem 2.5rem',
+                  borderRadius: '50px',
+                  fontFamily: 'var(--font-body, DM Sans, sans-serif)',
                   fontSize: '0.8125rem',
                   fontWeight: 700,
-                  letterSpacing: '0.1em',
+                  letterSpacing: '0.12em',
                   textTransform: 'uppercase',
-                  boxShadow: '0 6px 20px rgba(60, 49, 39, 0.25)',
-                  transition: 'transform 0.3s ease, background-color 0.3s ease',
+                  border: '1px solid rgba(201, 169, 110, 0.4)',
+                  boxShadow: '0 8px 24px rgba(26, 26, 26, 0.18)',
+                  textDecoration: 'none',
+                  transition: 'all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
                 }}
               >
-                LEARN ABOUT US →
+                <span>LEARN ABOUT US</span>
+                <span style={{ color: 'var(--color-accent, #c9a96e)', fontSize: '1.1rem' }}>→</span>
               </Link>
             </div>
           </div>
 
-          {/* Right Column: Tall Rounded Venue Image */}
+          {/* Right Column: Layered Editorial Imagery */}
           <div
             style={{
               position: 'relative',
-              height: '520px',
-              borderRadius: '24px',
-              overflow: 'hidden',
-              boxShadow: '0 20px 40px rgba(44, 34, 30, 0.15)',
+              width: '100%',
+              minHeight: '480px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
-            <Image
-              src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop"
-              alt="1111 Decor Luxury Garden Wedding Setting"
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              style={{ objectFit: 'cover' }}
-            />
+            {/* Main Tall Editorial Photo */}
+            <div
+              style={{
+                position: 'relative',
+                width: '100%',
+                maxWidth: '460px',
+                height: '520px',
+                borderRadius: '24px',
+                overflow: 'hidden',
+                border: '1px solid rgba(201, 169, 110, 0.35)',
+                boxShadow: '0 25px 60px rgba(44, 34, 30, 0.16)',
+              }}
+            >
+              <Image
+                src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop"
+                alt="11:11 Decor Luxury Garden Wedding Setting"
+                fill
+                sizes="(max-width: 768px) 100vw, 460px"
+                style={{ objectFit: 'cover' }}
+              />
+            </div>
+
+            {/* Overlapping Floating Secondary Photo */}
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '-24px',
+                left: 'clamp(-10px, -2vw, 10px)',
+                width: 'clamp(160px, 35vw, 210px)',
+                height: 'clamp(140px, 30vw, 180px)',
+                borderRadius: '16px',
+                overflow: 'hidden',
+                border: '3px solid #faf6f0',
+                boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
+                zIndex: 2,
+              }}
+            >
+              <Image
+                src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=600&auto=format&fit=crop"
+                alt="11:11 Decor Table and Floral Styling"
+                fill
+                sizes="210px"
+                style={{ objectFit: 'cover' }}
+              />
+            </div>
+
+            {/* Luxury Brand Floating Seal */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '20px',
+                right: 'clamp(0px, 2vw, 20px)',
+                backgroundColor: 'rgba(26, 26, 26, 0.88)',
+                backdropFilter: 'blur(8px)',
+                padding: '0.6rem 1.1rem',
+                borderRadius: '30px',
+                border: '1px solid rgba(201, 169, 110, 0.4)',
+                color: 'var(--color-accent, #c9a96e)',
+                fontFamily: 'var(--font-display, Cormorant Garamond, serif)',
+                fontSize: '0.85rem',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                boxShadow: '0 10px 25px rgba(0,0,0,0.25)',
+                zIndex: 2,
+              }}
+            >
+              ✨ Bespoke Artistry
+            </div>
           </div>
         </div>
       </div>

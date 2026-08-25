@@ -48,6 +48,7 @@ test.describe('Phase 7.5: Gutenberg Block Editor & Rank Math SEO Analyzer', () =
 
     const h2Button = page.locator('.tb-btn:has-text("H2")')
     await h2Button.click()
+    await page.locator('.ProseMirror').focus()
     await page.keyboard.press('Enter')
 
     // 9. Test Slash command menu trigger

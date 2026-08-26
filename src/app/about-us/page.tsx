@@ -68,7 +68,7 @@ export default function AboutUsPage() {
             </div>
             <div className={styles.imageBox}>
               <Image
-                src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1000&auto=format&fit=crop"
+                src="/about-approach.jpg"
                 alt="1111 Decor Event Design"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -117,7 +117,7 @@ export default function AboutUsPage() {
           <div className={styles.splitGrid}>
             <div className={styles.imageBox}>
               <Image
-                src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1000&auto=format&fit=crop"
+                src="/about-detail.jpg"
                 alt="1111 Decor Attention to Detail"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"

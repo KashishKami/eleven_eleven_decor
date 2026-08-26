@@ -39,3 +39,7 @@ next-env.d.ts
 php-admin/config.php
 php-admin/**/uploads/*
 !php-admin/**/uploads/.gitkeep
+
+
+Logos/
+1111_Decor_images/

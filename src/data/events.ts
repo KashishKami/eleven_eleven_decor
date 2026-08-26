@@ -28,8 +28,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     subtitle: 'Royal Mandaps, Seamless Run-of-Show & Full Celebration Design',
     description:
       'Comprehensive wedding planning, design, and management services across pre-wedding rituals, grand reception evenings, and multi-day festivities.',
-    heroImage:
-      'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=80',
+    heroImage: '/events/weddings-hero.jpg',
     intro:
       'At 11:11 Decor, we craft bespoke wedding experiences where timeless elegance meets surgical operational execution. From intricate mandap floral installations to multi-venue guest management, our team oversees every single detail so you can savor your dream day.',
     planningServices: [
@@ -108,8 +107,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     subtitle: 'Brand Galas, Award Nights, Product Launches & Executive Summits',
     description:
       'High-impact corporate event production delivering impeccable brand alignment, seamless AV technology, and polished executive hospitality.',
-    heroImage:
-      'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1600&q=80',
+    heroImage: '/events/corporate-hero.jpg',
     intro:
       '11:11 Decor partners with leading corporate brands and enterprises to execute flawless galas, annual conferences, award ceremonies, and product unveilings. We translate corporate values into unforgettable live experiences.',
     planningServices: [
@@ -183,8 +181,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     subtitle: 'Milestone Celebrations, Themed Soirees & Immersive Decor',
     description:
       'Custom birthday party planning for 1st birthdays, sweet sixteens, 30th milestones, and 50th golden jubilees with signature styling.',
-    heroImage:
-      'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1600&q=80',
+    heroImage: '/events/birthdays-hero.jpg',
     intro:
       'Whether celebrating a child’s magical 1st birthday or honoring a 50th milestone jubilee, 11:11 Decor brings creativity, flair, and effortless execution to private birthday celebrations.',
     planningServices: [
@@ -249,8 +246,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     subtitle: 'Roka Ceremonies, Ring Exchanges, Cocktail Nights & Sangeet',
     description:
       'Elegant engagement party planning, romantic ring exchange stages, and vibrant Sangeet celebration management.',
-    heroImage:
-      'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1600&q=80',
+    heroImage: '/events/engagements-hero.jpg',
     intro:
       'Mark the beginning of your wedding journey with an intimate Roka, glamorous engagement ring ceremony, or energetic Sangeet night designed and managed by 11:11 Decor.',
     planningServices: [
@@ -311,8 +307,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     subtitle: 'Anniversaries, Housewarmings, Soirees & Baby Showers',
     description:
       'Intimate private party planning offering discreet luxury, customized catering, and refined home or venue transformation.',
-    heroImage:
-      'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=1600&q=80',
+    heroImage: '/events/parties-hero.jpg',
     intro:
       'From silver wedding anniversaries to warm home Griha Pravesh gatherings and baby showers, 11:11 Decor elevates private home and venue celebrations into exquisite, stress-free occasions.',
     planningServices: [
@@ -377,8 +372,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     subtitle: 'Mussoorie, Rishikesh, Rajasthan & Global Celebrations',
     description:
       'Turnkey destination wedding and event management handling travel, guest hospitality, local sourcing, and multi-day production.',
-    heroImage:
-      'https://images.unsplash.com/photo-1544078751-58fee2d8a03b?auto=format&fit=crop&w=1600&q=80',
+    heroImage: '/events/destinations-hero.jpg',
     intro:
       'Planning an event away from home requires seasoned remote logistics management. 11:11 Decor specializes in destination weddings and retreats in Mussoorie, Rishikesh, Jim Corbett, Jaipur, Udaipur, and beyond.',
     planningServices: [

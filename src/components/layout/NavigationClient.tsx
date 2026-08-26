@@ -274,20 +274,18 @@ export function NavigationClient() {
         }}
       >
         {/* ── Brand Logo ── */}
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', flexShrink: 0 }}>
-          <span
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo.png"
+            alt="11:11 Decor — Event Management & Décor Studio"
             style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '1.35rem',
-              fontWeight: 600,
-              color: '#ffffff',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              textShadow: '0 2px 12px rgba(0,0,0,0.8)',
+              height: '90px',
+              width: 'auto',
+              objectFit: 'contain',
+              display: 'block',
             }}
-          >
-            11:11 <span style={{ color: '#c9a96e' }}>Decor</span>
-          </span>
+          />
         </Link>
 
         {/* ── Desktop Nav ── */}

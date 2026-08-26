@@ -52,7 +52,7 @@ export function Hero() {
         justifyContent: 'center',
         overflow: 'hidden',
         backgroundImage:
-          'linear-gradient(rgba(20, 20, 20, 0.65), rgba(20, 20, 20, 0.85)), url("https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2000&auto=format&fit=crop")',
+          'linear-gradient(rgba(20, 20, 20, 0.65), rgba(20, 20, 20, 0.85)), url("/hero-banner.jpg")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         color: 'var(--color-secondary)',

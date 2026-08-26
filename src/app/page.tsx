@@ -19,11 +19,11 @@ export default function Home() {
       {/* 1. Hero */}
       <Hero />
 
-      {/* 2. What We Create (Event Categories) */}
-      <EventCategories />
-
-      {/* 3. About 11:11 Decor */}
+      {/* 2. About 11:11 Decor */}
       <AboutSection />
+
+      {/* 3. What We Create (Event Categories) */}
+      <EventCategories />
 
       {/* 4. Services Grid (All 10 Services) */}
       <HomeServices />

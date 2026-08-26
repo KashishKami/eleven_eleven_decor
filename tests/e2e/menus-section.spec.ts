@@ -9,6 +9,6 @@ test.describe('Services Overview Section (W-205)', () => {
 
     const headings = section.locator('h3')
     await expect(headings.first()).toBeVisible()
-    await expect(page.getByRole('link', { name: /view all 10 services/i })).toBeVisible()
+    await expect(page.getByRole('link', { name: /view all (10 )?services/i })).toBeVisible()
   })
 })

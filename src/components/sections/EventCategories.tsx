@@ -290,7 +290,10 @@ export function EventCategories() {
             height: 'clamp(510px, 73vh, 650px)',
             maxWidth: 'calc(100vw - 2rem)',
             maxHeight: 'calc(100vh - 2.5rem)',
-            background: 'linear-gradient(180deg, #918b7b 0%, #857f70 48%, #9d9782 100%)',
+            background:
+              'linear-gradient(180deg, rgba(208, 201, 190, 0.68) 0%, rgba(198, 191, 180, 0.72) 50%, rgba(190, 183, 172, 0.76) 100%)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
             borderRadius: '12px',
             padding: 'clamp(2rem, 3.8vh, 2.75rem) clamp(1.5rem, 2vw, 2rem) clamp(2rem, 3.8vh, 2.75rem)',
             display: 'flex',
@@ -298,8 +301,8 @@ export function EventCategories() {
             alignItems: 'center',
             justifyContent: 'space-between',
             textAlign: 'center',
-            border: 'none',
-            boxShadow: '0 20px 45px rgba(0, 0, 0, 0.38)',
+            border: '1px solid rgba(255, 255, 255, 0.22)',
+            boxShadow: '0 20px 45px rgba(0, 0, 0, 0.32)',
             boxSizing: 'border-box',
           }}
         >

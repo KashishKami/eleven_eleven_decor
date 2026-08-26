@@ -296,11 +296,11 @@ export function EventCategories() {
             backdropFilter: 'blur(16px)',
             WebkitBackdropFilter: 'blur(16px)',
             borderRadius: '16px',
-            padding: '1.5rem 1.5rem 1.75rem',
+            padding: 'clamp(3.5rem, 6vh, 4.75rem) 1.5rem clamp(2.5rem, 4vh, 3.5rem)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'space-between',
+            justifyContent: 'center',
             textAlign: 'center',
             border: '1px solid rgba(255, 255, 255, 0.28)',
             boxShadow: '0 25px 50px rgba(0, 0, 0, 0.38)',
@@ -312,8 +312,8 @@ export function EventCategories() {
             ref={circleWindowRef}
             style={{
               position: 'relative',
-              width: 'clamp(180px, 14.5vw, 225px)',
-              height: 'clamp(210px, 26vh, 270px)',
+              width: 'clamp(215px, 17.5vw, 265px)',
+              height: 'clamp(255px, 30vh, 315px)',
               borderRadius: '50%',
               overflow: 'hidden',
               margin: '0 auto',
@@ -339,7 +339,7 @@ export function EventCategories() {
                   alt={cat.name}
                   fill
                   priority={idx === 0}
-                  sizes="(max-width: 768px) 50vw, 260px"
+                  sizes="(max-width: 768px) 50vw, 300px"
                   style={{ objectFit: 'cover' }}
                 />
               </div>
@@ -356,7 +356,7 @@ export function EventCategories() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              marginTop: 'clamp(1rem, 2vh, 1.5rem)',
+              marginTop: 'clamp(1.25rem, 2.5vh, 1.85rem)',
             }}
           >
             {CATEGORIES.map((cat, idx) => (

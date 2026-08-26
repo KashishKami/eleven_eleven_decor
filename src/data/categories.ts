@@ -35,7 +35,7 @@ export const CATEGORIES: Category[] = [
     title: 'BIRTHDAY CELEBRATIONS',
     description:
       'Milestone birthdays and intimate parties, themed and decorated to match the celebration in mind.',
-    bgImage: '/events/birthdays-bg.jpg',
+    bgImage: '/events/birthdays-bg.png',
     cardImage: '/events/birthdays-card.jpg',
     link: '/events/birthday-events/',
   },

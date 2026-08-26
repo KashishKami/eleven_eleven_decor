@@ -189,7 +189,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     subtitle: 'Ring ceremonies and engagement functions',
     description:
       'Ring ceremonies and engagement functions styled with décor that photographs as beautifully as it feels.',
-    heroImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
+    heroImage: '/events/engagements-card.jpg',
     intro:
       'An engagement sets the tone for everything that follows. 11:11 Decor plans and decorates ring ceremonies and engagement functions with décor that photographs as well as it feels in person.',
     planningServices: [

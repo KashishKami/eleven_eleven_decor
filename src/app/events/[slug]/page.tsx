@@ -5,8 +5,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { EVENT_CATEGORIES } from '@/data/events'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
-import { FooterCTA } from '@/components/sections/FooterCTA'
+import { WorkProcess } from '@/components/sections/WorkProcess'
 import JsonLd from '@/components/seo/JsonLd'
+import { generateServiceSchema, generateBreadcrumbSchema } from '@/lib/schemaGenerators'
 import styles from './event-detail.module.css'
 
 interface Props {
@@ -28,18 +29,64 @@ export function generateMetadata({ params }: Props): Metadata {
   }
 
   return {
-    title: event.metaTitle,
-    description: event.metaDescription,
+    title: `${event.title} | 11:11 Decor`,
+    description: event.description,
     openGraph: {
-      title: event.metaTitle,
-      description: event.metaDescription,
+      title: `${event.title} | 11:11 Decor`,
+      description: event.description,
       url: `https://1111decor.com/events/${event.slug}/`,
-      images: [{ url: event.heroImage }],
+      images: [
+        {
+          url: event.heroImage,
+          width: 1200,
+          height: 630,
+          alt: event.title,
+        },
+      ],
     },
     alternates: {
       canonical: `https://1111decor.com/events/${event.slug}/`,
     },
   }
+}
+
+function renderLinkedText(text: string) {
+  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g
+  const parts: React.ReactNode[] = []
+  let lastIndex = 0
+  let match: RegExpExecArray | null
+
+  while ((match = linkRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index))
+    }
+    const label = match[1]
+    const href = match[2]
+    if (label && href) {
+      parts.push(
+        <Link
+          key={match.index}
+          href={href}
+          style={{
+            color: '#c9a96e',
+            textDecoration: 'underline',
+            textUnderlineOffset: '3px',
+            fontWeight: 600,
+            transition: 'color 0.2s ease',
+          }}
+        >
+          {label}
+        </Link>
+      )
+    }
+    lastIndex = match.index + match[0].length
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex))
+  }
+
+  return parts.length > 0 ? parts : text
 }
 
 export default function EventDetailPage({ params }: Props) {
@@ -48,241 +95,164 @@ export default function EventDetailPage({ params }: Props) {
     notFound()
   }
 
-  const schemaData = {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    name: event.title,
-    description: event.description,
-    provider: {
-      '@type': 'Organization',
-      name: '11:11 Decor',
-      url: 'https://1111decor.com/',
-    },
-  }
-
-  const ctaMap: Record<string, string> = {
-    'wedding-events': 'Plan Your Wedding',
-    'corporate-events': 'Plan Your Corporate Event',
-    'birthday-events': 'Plan Your Birthday Event',
-    'engagement-events': 'Plan Your Engagement',
-    'private-events': 'Plan Your Private Event',
-    'destination-events': 'Plan Your Destination Event',
-  }
-
-  const breadcrumbsData = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://1111decor.com/' },
-      { '@type': 'ListItem', position: 2, name: 'Events', item: 'https://1111decor.com/events/' },
-      { '@type': 'ListItem', position: 3, name: event.title, item: `https://1111decor.com/events/${event.slug}/` },
-    ],
-  }
-
-  const eventCtaText = ctaMap[event.slug] || 'Plan Your Event'
+  const breadcrumbs = [
+    { name: 'Home', url: '/' },
+    { name: 'Events', url: '/events/' },
+    { name: event.title, url: `/events/${event.slug}/` },
+  ]
 
   return (
-    <div className={styles.detailContainer}>
-      <JsonLd data={schemaData} />
-      <JsonLd data={breadcrumbsData} />
+    <main className={styles.detailContainer}>
+      <JsonLd
+        data={generateServiceSchema({
+          name: event.title,
+          description: event.description,
+          slug: `events/${event.slug}`,
+          image: event.heroImage,
+        })}
+      />
+      <JsonLd data={generateBreadcrumbSchema(breadcrumbs)} />
 
-      {/* SECTION 1: Dark Hero Banner */}
-      <div className={styles.heroSection}>
-        <Image src={event.heroImage} alt={event.title} fill className={styles.heroImage} priority />
-        <div className={styles.heroContent}>
-          <span className={styles.labelBlockGold}>11:11 DECOR OCCASION</span>
-          <WindRevealHeading as="h1" className="heading-xl" style={{ color: '#ffffff' }}>
+      {/* Hero Section */}
+      <section className={styles.heroSection}>
+        <div className="container">
+          <span className={styles.label}>11:11 DECOR OCCASION</span>
+          <WindRevealHeading as="h1" className={styles.heroHeading}>
             {event.title}
           </WindRevealHeading>
-          <p className={styles.heroSubtitle}>{event.subtitle}</p>
-        </div>
-      </div>
-
-      {/* SECTION 2: Light Theme Intro Overview */}
-      <section className={styles.introSectionLight}>
-        <div className={styles.container}>
-          <p className={styles.introTextLight}>{event.intro}</p>
+          <p className={styles.heroIntro}>{event.intro}</p>
         </div>
       </section>
 
-      {/* SECTION 3: Dark Theme Planning & Management Services */}
-      <section className={styles.servicesSectionDark}>
-        <div className={styles.container}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.labelBlockGold}>EXPERT SERVICES</span>
-            <WindRevealHeading as="h2" className="heading-lg" style={{ color: '#ffffff' }}>
-              {`${event.title.split(' ')[0]} Planning Services`}
-            </WindRevealHeading>
+      {/* Hero Banner Image */}
+      <section className={styles.bannerSection}>
+        <div className="container">
+          <div className={styles.bannerWrapper}>
+            <Image
+              src={event.heroImage}
+              alt={event.title}
+              fill
+              priority
+              sizes="(max-width: 1200px) 100vw, 1200px"
+              className={styles.bannerImage}
+            />
           </div>
-          <div className={styles.servicesGrid}>
-            {event.planningServices.map((service, idx) => (
-              <div key={idx} className={styles.featureCardDark}>
-                <span className={styles.featureIconGold}>✦</span>
-                <span className={styles.featureTextDark}>{service}</span>
+        </div>
+      </section>
+
+      {/* Two Column Structured Content Grid Matching PDF Section Headings */}
+      <section className={styles.contentSection}>
+        <div className="container">
+          <div className={styles.contentGrid}>
+            {/* Left Column: Event Planning Services & Decoration Options */}
+            <div className={styles.infoBox}>
+              {/* Section: Event Planning Services */}
+              <div className={styles.infoBlock}>
+                <h2 className={styles.sectionHeading}>Event Planning Services</h2>
+                <ul className={styles.provideList}>
+                  {event.planningServices.map((item, idx) => (
+                    <li key={`plan-${idx}`} className={styles.provideItem}>
+                      <span className={styles.checkIcon}>✦</span>
+                      <span>{renderLinkedText(item)}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* SECTION 4: Light Theme Signature Decoration Options */}
-      <section className={styles.decorSectionLight}>
-        <div className={styles.container}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.labelBlockDark}>DESIGN & STYLING</span>
-            <WindRevealHeading as="h2" className="heading-lg" style={{ color: '#1a1a1a' }}>
-              Signature Decoration Options
-            </WindRevealHeading>
-          </div>
-          <div className={styles.decorGrid}>
-            {event.decorationOptions.map((decor, idx) => (
-              <div key={idx} className={styles.decorCardLight}>
-                <p className={styles.decorTextLight}>{decor}</p>
+              {/* Section: Decoration Options */}
+              <div className={styles.infoBlock}>
+                <h2 className={styles.sectionHeading}>Decoration Options</h2>
+                <ul className={styles.provideList}>
+                  {event.decorationOptions.map((item, idx) => (
+                    <li key={`decor-${idx}`} className={styles.provideItem}>
+                      <span className={styles.checkIcon}>✦</span>
+                      <span>{renderLinkedText(item)}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 5: Dark Theme On-Site Event Management */}
-      <section className={styles.managementSectionDark}>
-        <div className={styles.container}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.labelBlockGold}>ON-SITE EXECUTION</span>
-            <WindRevealHeading as="h2" className="heading-lg" style={{ color: '#ffffff' }}>
-              What We Manage On Event Day
-            </WindRevealHeading>
-          </div>
-          <div className={styles.servicesGrid}>
-            {event.eventManagement.map((item, idx) => (
-              <div key={idx} className={styles.featureCardDark}>
-                <span className={styles.featureIconGold}>✔</span>
-                <span className={styles.featureTextDark}>{item}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 6: Light Theme What We Handle */}
-      {event.whatWeHandle && event.whatWeHandle.length > 0 && (
-        <section className={styles.decorSectionLight} style={{ borderTop: '1px solid rgba(201, 169, 110, 0.2)' }}>
-          <div className={styles.container}>
-            <div className={styles.sectionHeader}>
-              <span className={styles.labelBlockDark}>SCOPE OF WORK</span>
-              <WindRevealHeading as="h2" className="heading-lg" style={{ color: '#1a1a1a' }}>
-                What We Handle
-              </WindRevealHeading>
             </div>
-            <div className={styles.servicesGrid}>
-              {event.whatWeHandle.map((handleItem, idx) => (
-                <div
-                  key={idx}
-                  className={styles.decorCardLight}
-                  style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}
-                >
-                  <span style={{ color: '#c9a96e', fontSize: '1.2rem', fontWeight: 700 }}>✦</span>
-                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', color: '#2c2620', fontWeight: 500 }}>
-                    {handleItem}
-                  </span>
-                </div>
-              ))}
+
+            {/* Right Column: Event Management, What We Handle & Why Choose */}
+            <div className={styles.infoBox}>
+              {/* Section: Event Management */}
+              <div className={styles.infoBlock}>
+                <h2 className={styles.sectionHeading}>Event Management</h2>
+                <ul className={styles.provideList}>
+                  {event.eventManagement.map((item, idx) => (
+                    <li key={`mgmt-${idx}`} className={styles.provideItem}>
+                      <span className={styles.checkIcon} style={{ color: '#c9a96e' }}>✔</span>
+                      <span>{renderLinkedText(item)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Section: What We Handle */}
+              <div className={styles.infoBlock}>
+                <h2 className={styles.sectionHeading}>What We Handle</h2>
+                <ul className={styles.provideList}>
+                  {event.whatWeHandle.map((item, idx) => (
+                    <li key={`handle-${idx}`} className={styles.provideItem}>
+                      <span className={styles.checkIcon}>✦</span>
+                      <span>{renderLinkedText(item)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Section: Why Choose 11:11 Decor */}
+              <div className={styles.infoBlock}>
+                <h2 className={styles.sectionHeading}>Why Choose 11:11 Decor</h2>
+                {event.whyChooseUs.map((reason, idx) => (
+                  <p key={`why-${idx}`} className={styles.infoText}>
+                    {renderLinkedText(reason)}
+                  </p>
+                ))}
+              </div>
             </div>
           </div>
-        </section>
-      )}
-
-      {/* SECTION 7: Dark Theme Why Choose 11:11 Decor */}
-      {event.whyChooseUs && event.whyChooseUs.length > 0 && (
-        <section className={styles.servicesSectionDark} style={{ borderTop: '1px solid rgba(201, 169, 110, 0.2)' }}>
-          <div className={styles.container}>
-            <div className={styles.sectionHeader}>
-              <span className={styles.labelBlockGold}>WHY 11:11 DECOR</span>
-              <WindRevealHeading as="h2" className="heading-lg" style={{ color: '#ffffff' }}>
-                Why Choose 11:11 Decor
-              </WindRevealHeading>
-            </div>
-            <div className={styles.servicesGrid}>
-              {event.whyChooseUs.map((reason, idx) => (
-                <div key={idx} className={styles.featureCardDark}>
-                  <span className={styles.featureIconGold}>★</span>
-                  <span className={styles.featureTextDark}>{reason}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* SECTION 8: Light Theme 4-Step Process Workflow */}
-      <section className={styles.processSectionLight}>
-        <div className={styles.container}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.labelBlockDark}>OUR WORKFLOW</span>
-            <WindRevealHeading as="h2" className="heading-lg" style={{ color: '#1a1a1a' }}>
-              Our Planning Process
-            </WindRevealHeading>
-          </div>
-          <div className={styles.processGridLight}>
-            {event.processSteps.map((step, idx) => (
-              <div key={idx} className={styles.processCardLight}>
-                <div className={styles.processStepNumGold}>0{idx + 1}</div>
-                <h3 className={styles.processTitleLight}>{step.title}</h3>
-                <p className={styles.processDescLight}>{step.description}</p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* SECTION 9: Dark Theme FAQs */}
-      <section className={styles.faqSectionDark}>
-        <div className={styles.container}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.labelBlockGold}>COMMON QUESTIONS</span>
-            <WindRevealHeading as="h2" className="heading-lg" style={{ color: '#ffffff' }}>
-              Frequently Asked Questions
-            </WindRevealHeading>
+      {/* Our Process: 4-Step Workflow Reused */}
+      <WorkProcess />
+
+      {/* FAQs Section */}
+      <section className={styles.faqSection}>
+        <div className="container">
+          <div className={styles.faqHeader}>
+            <span className={styles.label}>OCCASION FAQs</span>
+            <h2 className={styles.faqTitle}>Frequently Asked Questions</h2>
           </div>
-          <div className={styles.faqGridDark}>
+          <div className={styles.faqList}>
             {event.faqs.map((faq, idx) => (
-              <div key={idx} className={styles.faqCardDark}>
-                <h3 className={styles.faqQuestionGold}>{faq.question}</h3>
-                <p className={styles.faqAnswerDark}>{faq.answer}</p>
-              </div>
+              <details key={idx} className={styles.faqItem}>
+                <summary className={styles.faqQuestion}>
+                  <span>{faq.question}</span>
+                  <span className={styles.faqPlus}>+</span>
+                </summary>
+                <p className={styles.faqAnswer}>{faq.answer}</p>
+              </details>
             ))}
           </div>
+        </div>
+      </section>
 
-          {/* Event Specific CTA Button */}
-          <div style={{ textAlign: 'center', marginTop: '3.5rem' }}>
-            <Link
-              href="/contact/"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.75rem',
-                padding: '1rem 2.75rem',
-                backgroundColor: '#c9a96e',
-                color: '#111111',
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.9rem',
-                fontWeight: 700,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                borderRadius: '4px',
-                textDecoration: 'none',
-                boxShadow: '0 6px 22px rgba(201, 169, 110, 0.45)',
-                transition: 'all 0.3s ease',
-              }}
-            >
-              <span>{eventCtaText}</span>
-              <span>&rarr;</span>
+      {/* Bottom CTA Banner */}
+      <section className={styles.ctaBannerSection}>
+        <div className="container">
+          <div className={styles.ctaCard}>
+            <h2 className={styles.ctaTitle}>Ready to plan your {event.title}?</h2>
+            <p className={styles.ctaText}>
+              Reach out today to discuss your vision, check date availability, and receive a customized quote.
+            </p>
+            <Link href="/contact/" className={styles.ctaButton}>
+              Plan Your Event →
             </Link>
           </div>
         </div>
       </section>
-
-      <FooterCTA />
-    </div>
+    </main>
   )
 }

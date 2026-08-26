@@ -7,6 +7,6 @@ test.describe('Work Process Section (W-206)', () => {
     const section = page.locator('#work-process')
     await expect(section).toBeVisible()
 
-    await expect(page.getByRole('heading', { name: /Tell us about your event/i }).first()).toBeVisible()
+    await expect(page.getByRole('heading', { name: /Consultation/i }).first()).toBeVisible()
   })
 })

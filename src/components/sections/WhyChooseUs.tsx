@@ -14,37 +14,37 @@ const FEATURES = [
     number: '01',
     title: 'CREATIVE CONCEPTS',
     description:
-      'Every event begins with a bespoke vision. We craft original décor concepts, mood boards, and 3D spatial plans tailored precisely to your celebration.',
+      'Every event starts with a concept built around your story, not a repeated template.',
   },
   {
     number: '02',
-    title: 'PERSONALISED DÉCOR',
+    title: 'PERSONALIZED DÉCOR',
     description:
-      'From custom mandap architecture to bespoke floral installations and hand-selected furnishings — no two 11:11 events ever look the same.',
+      'Colour palettes, florals, and staging are chosen to match your event, venue, and guests.',
   },
   {
     number: '03',
     title: 'DETAILED PLANNING',
     description:
-      'Comprehensive master timelines, vendor briefings, and production schedules ensure every detail is mapped, assigned, and executed without compromise.',
+      'Timelines, vendors, and logistics are mapped early, so surprises stay outside the plan.',
   },
   {
     number: '04',
     title: 'PROFESSIONAL COORDINATION',
     description:
-      'A single point of contact for all vendors — caterers, photographers, sound, lighting — so you never have to chase a call or manage a conflict.',
+      'One point of contact manages vendors, venue, and schedule.',
   },
   {
     number: '05',
     title: 'SEAMLESS EXECUTION',
     description:
-      'Our on-site production directors manage live event flow, handle the unexpected, and keep everything running on schedule from setup to farewell.',
+      'On event day, our team runs the plan on-site so you can be a guest at your own celebration.',
   },
   {
     number: '06',
     title: 'CLIENT-FOCUSED APPROACH',
     description:
-      'We listen first. Your vision, priorities, and comfort shape every decision — we are partners in your celebration, not just service providers.',
+      'Every decision is checked against one question: does this serve the event you actually asked for.',
   },
 ]
 

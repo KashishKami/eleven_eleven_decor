@@ -46,19 +46,40 @@ export function Hero() {
       style={{
         position: 'relative',
         minHeight: '100vh',
-        marginTop: '-80px',
+        marginTop: '-96px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'hidden',
-        backgroundImage:
-          'linear-gradient(rgba(20, 20, 20, 0.65), rgba(20, 20, 20, 0.85)), url("/hero-banner.jpg")',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundColor: '#111111',
         color: 'var(--color-secondary)',
-        paddingTop: '80px',
+        paddingTop: '96px',
       }}
     >
+      {/* Blurry Background Image Layer */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: '-20px',
+          backgroundImage: 'url("/hero-banner.jpg")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          filter: 'blur(10px)',
+          transform: 'scale(1.08)',
+          zIndex: 1,
+        }}
+      />
+      {/* Dark Cinematic Vignette Overlay */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background:
+            'linear-gradient(180deg, rgba(14, 14, 14, 0.55) 0%, rgba(14, 14, 14, 0.80) 100%)',
+          zIndex: 1,
+        }}
+      />
+
       <div className="container" style={{ textAlign: 'center', zIndex: 2, paddingBlock: '4rem' }}>
         <span
           ref={labelRef}

@@ -86,7 +86,19 @@ export function AboutSection() {
                 margin: 0,
               }}
             >
-              From the structural layout of a venue to the placement of a single centerpiece, every choice shapes how guests feel throughout an event. We combine event management with in-house décor design — giving clients a single, coordinated team that handles planning, aesthetics, and on-site production together.
+              We plan and design weddings, celebrations, and corporate events from the first conversation through to the final walkthrough on event day. Every event starts with listening — to what you&apos;re celebrating, who it&apos;s for, and how you want it to feel.
+            </p>
+
+            <p
+              style={{
+                fontFamily: 'var(--font-body, DM Sans, sans-serif)',
+                fontSize: '0.95rem',
+                color: '#554a42',
+                lineHeight: 1.75,
+                margin: 0,
+              }}
+            >
+              From there, we shape a concept, translate it into décor and layout, and coordinate every moving part so the day runs the way it was designed to. We work closely with vendors, venues, and your own team to keep planning organized and stress-free, so the only thing you have to do on the day itself is be present in it.
             </p>
 
             {/* Stat Callout Badge */}

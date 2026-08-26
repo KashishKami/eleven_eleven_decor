@@ -8,13 +8,13 @@ import JsonLd from '@/components/seo/JsonLd'
 import styles from './about-us.module.css'
 
 export const metadata: Metadata = {
-  title: 'About Us | 1111 Decor',
+  title: 'About Us | 11:11 Decor',
   description:
-    'Discover the vision behind 11:11 Decor. We combine strategic event planning, bespoke floral staging, and flawless execution for unforgettable celebrations.',
+    '11:11 Decor is an event management and décor studio designing weddings, celebrations, and corporate events with intention and detail.',
   openGraph: {
-    title: 'About Us | 1111 Decor',
+    title: 'About Us | 11:11 Decor',
     description:
-      'Discover the vision behind 11:11 Decor. We combine strategic event planning, bespoke floral staging, and flawless execution for unforgettable celebrations.',
+      '11:11 Decor is an event management and décor studio designing weddings, celebrations, and corporate events with intention and detail.',
     url: 'https://1111decor.com/about-us/',
   },
   alternates: {
@@ -30,7 +30,7 @@ export default function AboutUsPage() {
     url: 'https://1111decor.com/',
     logo: 'https://1111decor.com/logo.png',
     description:
-      'Luxury event planning, design, and execution specializing in royal weddings, corporate galas, and private celebrations.',
+      '11:11 Decor is an event management and décor studio designing weddings, celebrations, and corporate events.',
   }
 
   return (
@@ -45,7 +45,7 @@ export default function AboutUsPage() {
             Creating Experiences, Not Just Events
           </WindRevealHeading>
           <p className={styles.heroSubtitle}>
-            At 11:11 Decor, we believe that an extraordinary celebration is more than a gathering—it is a living tapestry of atmosphere, emotion, and architectural beauty.
+            11:11 Decor is an event management and décor studio designing weddings, celebrations, and corporate events. We work across planning, décor, and on-site coordination — either as a full end-to-end service or as individual pieces of a larger event you&apos;re managing yourself.
           </p>
         </div>
       </section>
@@ -60,16 +60,16 @@ export default function AboutUsPage() {
                 Our Approach
               </h2>
               <p className={styles.textContentLight} style={{ marginBottom: '1.25rem' }}>
-                We approach event production with an unwavering commitment to artistic harmony and operational excellence. Every venue is an open canvas where architectural lighting, lush floral installations, and refined tablescapes are woven into an unforgettable narrative.
+                Every event begins with a conversation, not a template. We start by understanding the occasion, the people it&apos;s for, and the feeling you want guests to walk away with.
               </p>
               <p className={styles.textContentLight}>
-                Whether designing a multi-day wedding banquet or an intimate private soirée, we balance high-end aesthetics with flawless logistics so you can remain present for every precious moment.
+                That shapes the concept — the palette, the layout, the pacing of the day — before a single vendor is booked.
               </p>
             </div>
             <div className={styles.imageBox}>
               <Image
                 src="/about-approach.jpg"
-                alt="1111 Decor Event Design"
+                alt="11:11 Decor Event Design"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 style={{ objectFit: 'cover' }}
@@ -83,28 +83,28 @@ export default function AboutUsPage() {
       <section className={styles.togetherSectionDark}>
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
-            <span className={styles.labelGold}>INTEGRATED SYNERGY</span>
+            <span className={styles.labelGold}>INTEGRATED PROCESS</span>
             <WindRevealHeading as="h2" className="heading-lg" style={{ color: '#ffffff' }}>
-              Planning & Décor, Together
+              Planning &amp; Décor, Together
             </WindRevealHeading>
           </div>
           <div className={styles.cardsGridDark}>
             <div className={styles.cardDark}>
-              <h3 className={styles.cardTitleGold}>Unified Design Vision</h3>
+              <h3 className={styles.cardTitleGold}>Connected Thinking</h3>
               <p className={styles.cardTextDark}>
-                Unlike separate vendors working in silos, our in-house planners and floral designers collaborate from day one to ensure your visual aesthetic aligns perfectly with stage dimensions and guest flow.
+                Planning and décor are handled as one connected process rather than two separate services.
               </p>
             </div>
             <div className={styles.cardDark}>
-              <h3 className={styles.cardTitleGold}>Streamlined Logistics</h3>
+              <h3 className={styles.cardTitleGold}>Informed Layouts</h3>
               <p className={styles.cardTextDark}>
-                Combining timeline management, vendor contracts, and decor setup eliminates miscommunication, reducing stress and budget overhead.
+                The design concept informs the floor plan, and the floor plan informs vendor logistics.
               </p>
             </div>
             <div className={styles.cardDark}>
-              <h3 className={styles.cardTitleGold}>Flawless Execution</h3>
+              <h3 className={styles.cardTitleGold}>Harmonious Execution</h3>
               <p className={styles.cardTextDark}>
-                On event day, our master directors oversee sound checks, floral refreshes, and resort hospitality in lockstep.
+                Every element is built to work together on the day rather than assembled at the last minute.
               </p>
             </div>
           </div>
@@ -118,7 +118,7 @@ export default function AboutUsPage() {
             <div className={styles.imageBox}>
               <Image
                 src="/about-detail.jpg"
-                alt="1111 Decor Attention to Detail"
+                alt="11:11 Decor Attention to Detail"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 style={{ objectFit: 'cover' }}
@@ -130,10 +130,10 @@ export default function AboutUsPage() {
                 Attention to Detail
               </h2>
               <p className={styles.textContentLight} style={{ marginBottom: '1.25rem' }}>
-                True luxury resides in the details that guests feel before they even notice them. From hand-selected velvet ribbons and custom stationery weight to micro-calibrated warm pin-spotting, we curate every touchpoint with surgical precision.
+                The small decisions — spacing between tables, the order of the evening, where the light falls at golden hour — are treated with the same care as the large ones.
               </p>
               <p className={styles.textContentLight}>
-                Our team selects seasonal botanicals, custom furniture rentals, and acoustic setups tailored to your venue&apos;s unique architecture.
+                It&apos;s these details that guests remember, even if they can&apos;t always name why.
               </p>
             </div>
           </div>
@@ -144,56 +144,42 @@ export default function AboutUsPage() {
       <section className={styles.daySectionDark}>
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
-            <span className={styles.labelGold}>CALM & PRECISION</span>
+            <span className={styles.labelGold}>PEACE OF MIND</span>
             <WindRevealHeading as="h2" className="heading-lg" style={{ color: '#ffffff' }}>
               On Event Day
             </WindRevealHeading>
-          </div>
-          <div className={styles.cardsGridDark}>
-            <div className={styles.cardDark}>
-              <h3 className={styles.cardTitleGold}>Early Arrival & Set Up</h3>
-              <p className={styles.cardTextDark}>
-                Our production crew arrives hours ahead to construct staging, align lighting grids, and hydrate floral arches.
-              </p>
+            <p className={styles.daySubtitleDark}>
+              Our team manages setup, timing, and coordination on-site, so you&apos;re free to be a guest at your own event rather than its stage manager.
+            </p>
+            <div style={{ marginTop: '2.5rem' }}>
+              <Link
+                href="/contact/"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                  backgroundColor: '#c9a96e',
+                  color: '#111111',
+                  padding: '1rem 2.5rem',
+                  borderRadius: '50px',
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '0.875rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  textDecoration: 'none',
+                  boxShadow: '0 8px 24px rgba(201, 169, 110, 0.35)',
+                }}
+              >
+                <span>Plan Your Event</span>
+                <span>→</span>
+              </Link>
             </div>
-            <div className={styles.cardDark}>
-              <h3 className={styles.cardTitleGold}>Vendor Dispatching</h3>
-              <p className={styles.cardTextDark}>
-                We act as the single command point for caterers, DJs, photographers, and resort hospitality staff.
-              </p>
-            </div>
-            <div className={styles.cardDark}>
-              <h3 className={styles.cardTitleGold}>Guest Care & Farewell</h3>
-              <p className={styles.cardTextDark}>
-                From welcoming VIPs to managing coat checks and end-of-night transport, we ensure every guest experiences royal hospitality.
-              </p>
-            </div>
-          </div>
-
-          <div style={{ textAlign: 'center', marginTop: '3.5rem' }}>
-            <Link
-              href="/contact/"
-              style={{
-                display: 'inline-block',
-                padding: '0.875rem 2rem',
-                backgroundColor: '#c9a96e',
-                color: '#111111',
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.9rem',
-                fontWeight: 700,
-                borderRadius: '4px',
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                textDecoration: 'none',
-                boxShadow: '0 4px 18px rgba(201, 169, 110, 0.45)',
-              }}
-            >
-              Plan Your Event
-            </Link>
           </div>
         </div>
       </section>
 
+      {/* Global CTA */}
       <FooterCTA />
     </div>
   )

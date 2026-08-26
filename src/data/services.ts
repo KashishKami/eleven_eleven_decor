@@ -340,22 +340,34 @@ export const SERVICES_DATA: ServiceItem[] = [
 export const SERVICES_HUB_FAQS = [
   {
     question: 'What types of events does 11:11 Decor manage?',
-    answer: 'Weddings, corporate events, birthdays, engagements, private functions, and destination events.'
+    answer: 'Weddings, corporate events, birthdays, engagements, private functions, and destination events.',
   },
   {
     question: 'Do you provide complete event planning?',
-    answer: 'Yes — concept, vendors, timeline, décor, and on-site coordination.'
+    answer: 'Yes — concept, vendors, timeline, décor, and on-site coordination.',
   },
   {
     question: 'Do you provide event decoration separately?',
-    answer: 'Yes, décor can be booked on its own without full planning.'
+    answer: 'Yes, décor can be booked on its own without full planning.',
   },
   {
     question: 'Can I customize an event service package?',
-    answer: 'Every package is a starting point and adjusted to your event and budget.'
+    answer: 'Every package is a starting point and adjusted to your event and budget.',
   },
   {
     question: 'How far in advance should I book?',
-    answer: 'As early as possible, especially for weddings and peak-season dates.'
-  }
+    answer: 'As early as possible, especially for weddings and peak-season dates.',
+  },
+  {
+    question: 'Do you manage corporate events?',
+    answer: 'Yes, including launches, conferences, and company celebrations.',
+  },
+  {
+    question: 'Do you work outside [CITY]?',
+    answer: 'Yes, including destination events — confirm coverage on inquiry.',
+  },
+  {
+    question: 'How do I request a quote?',
+    answer: 'Contact form or WhatsApp with event type, date, and guest count.',
+  },
 ]

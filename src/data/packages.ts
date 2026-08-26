@@ -10,21 +10,29 @@ export interface PackageTier {
   ctaHref: string
 }
 
+export const PACKAGES_HERO = {
+  h1: 'Planning Built Around Your Event',
+  intro:
+    'Every quote depends on event type, guest count, venue, décor scope, and production needs — packages below are a starting point, not a fixed price.',
+  ctaText: 'Request a Custom Quote',
+  ctaHref: '/contact/',
+}
+
 export const PACKAGES: PackageTier[] = [
   {
     id: 'essential',
     name: 'Essential',
-    tagline: 'Curated Styling & Core Coordination',
+    tagline: 'Core décor & single-day coordination',
     priceLabel: 'Custom Quote',
     popular: false,
     description:
-      'Ideal for couples and hosts who have secured their venue and key vendors, seeking professional décor styling and seamless day-of management.',
+      'Ideal for events with venues established, focused on core styling, stage design, and day-of vendor coordination.',
     features: [
-      'Comprehensive Décor Concept & Mood Board',
-      'Stage, Mandap, or Entrance Backdrop Styling',
-      'Table Centerpieces & Entrance Welcome Signage',
-      'On-Site Day-of Event Manager (6 Hours)',
-      'Vendor Coordination & Master Timeline Run-Through',
+      'Core décor & styling',
+      'Single-day on-site coordination',
+      'Vendor and supplier liaison',
+      'Run-of-show timeline execution',
+      'Décor mood board and setup supervision',
     ],
     ctaText: 'Request a Custom Quote',
     ctaHref: '/contact/',
@@ -32,18 +40,18 @@ export const PACKAGES: PackageTier[] = [
   {
     id: 'signature',
     name: 'Signature',
-    tagline: 'Full Planning, Floral Artistry & Production',
+    tagline: 'Full planning, complete décor & dedicated on-site team',
     priceLabel: 'Custom Quote',
     popular: true,
     description:
-      'Our most requested experience. Complete end-to-end event planning, custom floral architecture, ambient lighting, and full venue transformation.',
+      'Our comprehensive service covering complete concept planning, décor design across every ceremony, and dedicated management.',
     features: [
-      'Bespoke Floral Architecture & Custom Mandap Design',
-      'Full End-to-End Event Planning & Budget Management',
-      'Architectural Pin-Spotting & Ambient Lighting Grid',
-      'Vendor Procurement (Caterers, DJs, Photographers)',
-      'Dedicated On-Site Director & Production Crew (Full Day)',
-      'Guest Hospitality & Resort Check-in Helpdesk',
+      'Full event planning & management',
+      'Complete décor across all functions',
+      'Dedicated on-site management team',
+      'Master timeline & vendor contract coordination',
+      'Stage, floral, lighting & ambient styling',
+      'Full guest flow & on-day troubleshooting',
     ],
     ctaText: 'Request a Custom Quote',
     ctaHref: '/contact/',
@@ -51,18 +59,17 @@ export const PACKAGES: PackageTier[] = [
   {
     id: 'bespoke',
     name: 'Bespoke',
-    tagline: 'Multi-Day Royal Banquets & Destinations',
+    tagline: 'Custom concept development & multi-venue logistics',
     priceLabel: 'Custom Quote',
     popular: false,
     description:
-      'Turnkey multi-day extravaganza management for royal palace weddings, destination resorts, and high-capacity corporate galas.',
+      'Tailored turnkey production for multi-venue celebrations, destination events, and custom stage fabrication.',
     features: [
-      'Multi-Day Master Timeline & Theme Isolation',
-      '3D Venue Renderings & Architectural Floor Plans',
-      'Custom Fabricated Structural Set Pieces & Stagecraft',
-      'Air-Charter, VIP Logistics & Security Detail',
-      'Full Destination Resort Management in Rajasthan/Hill Stations',
-      '24/7 Dedicated Concierge & Production Directors',
+      'Custom concept development',
+      'Destination & multi-venue logistics',
+      'Production, lighting & entertainment coordination',
+      'Travel and logistics planning for destination events',
+      'Comprehensive on-site multi-day management',
     ],
     ctaText: 'Request a Custom Quote',
     ctaHref: '/contact/',

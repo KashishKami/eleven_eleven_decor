@@ -6,7 +6,7 @@ test.describe('Niche & Special Event Pages (W-403)', () => {
 
     const heading = page.getByRole('heading', { level: 1 })
     await expect(heading).toBeVisible()
-    await expect(heading).toContainText(/Corporate Event Planning & Management/i)
+    await expect(heading).toContainText(/Corporate Event Planning/i)
 
     const faqHeading = page.getByRole('heading', { level: 2 }).filter({ hasText: /Frequently Asked Questions/i })
     await expect(faqHeading).toBeVisible()

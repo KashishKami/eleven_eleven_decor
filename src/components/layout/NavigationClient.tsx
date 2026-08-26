@@ -30,7 +30,10 @@ const EVENTS_LINKS = [
 
 /* ─── Dropdown Component ────────────────────────────────────────────────── */
 
-interface DropdownItem { label: string; href: string }
+interface DropdownItem {
+  label: string
+  href: string
+}
 
 interface NavDropdownProps {
   label: string
@@ -46,10 +49,12 @@ function NavDropdown({ label, items }: NavDropdownProps) {
     setOpen(true)
   }
   const handleMouseLeave = () => {
-    timerRef.current = setTimeout(() => setOpen(false), 120)
+    timerRef.current = setTimeout(() => setOpen(false), 140)
   }
 
-  useEffect(() => () => { if (timerRef.current) clearTimeout(timerRef.current) }, [])
+  useEffect(() => () => {
+    if (timerRef.current) clearTimeout(timerRef.current)
+  }, [])
 
   return (
     <div
@@ -86,37 +91,37 @@ function NavDropdown({ label, items }: NavDropdownProps) {
         </span>
       </button>
 
-      {/* Dropdown Panel */}
+      {/* Dropdown Panel - Aligned left: -0.5rem so it never overflows offscreen */}
       <div
         role="menu"
         style={{
           position: 'absolute',
-          top: 'calc(100% + 18px)',
-          left: '50%',
-          minWidth: '260px',
-          backgroundColor: 'rgba(14, 14, 14, 0.97)',
+          top: 'calc(100% + 16px)',
+          left: '-0.75rem',
+          minWidth: '275px',
+          backgroundColor: 'rgba(14, 14, 14, 0.98)',
           backdropFilter: 'blur(24px)',
           WebkitBackdropFilter: 'blur(24px)',
-          border: '1px solid rgba(201, 169, 110, 0.18)',
+          border: '1px solid rgba(201, 169, 110, 0.22)',
           borderTop: '2px solid #c9a96e',
           borderRadius: '0 0 10px 10px',
-          boxShadow: '0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04)',
+          boxShadow: '0 20px 60px rgba(0,0,0,0.75), 0 0 0 1px rgba(255,255,255,0.04)',
           padding: '0.5rem 0',
           opacity: open ? 1 : 0,
           visibility: open ? 'visible' : 'hidden',
-          transform: open
-            ? 'translateX(-50%) translateY(0px)'
-            : 'translateX(-50%) translateY(-8px)',
+          transform: open ? 'translateY(0px)' : 'translateY(-8px)',
           transition: 'opacity 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94), visibility 0.22s',
-          zIndex: 100,
+          zIndex: 1000,
         }}
       >
-        {/* Gold accent top rule (decorative) */}
-        <div style={{
-          height: '1px',
-          margin: '0 1.25rem 0.5rem',
-          background: 'linear-gradient(90deg, transparent, rgba(201,169,110,0.35), transparent)',
-        }} />
+        {/* Gold accent top rule */}
+        <div
+          style={{
+            height: '1px',
+            margin: '0 1.25rem 0.5rem',
+            background: 'linear-gradient(90deg, transparent, rgba(201,169,110,0.35), transparent)',
+          }}
+        />
 
         {items.map((item) => (
           <Link
@@ -138,6 +143,7 @@ function NavDropdown({ label, items }: NavDropdownProps) {
               letterSpacing: '0.03em',
               transition: 'all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
               borderLeft: '2px solid transparent',
+              whiteSpace: 'nowrap',
             }}
           >
             <span
@@ -155,11 +161,13 @@ function NavDropdown({ label, items }: NavDropdownProps) {
         ))}
 
         {/* Bottom subtle gradient */}
-        <div style={{
-          height: '1px',
-          margin: '0.5rem 1.25rem 0',
-          background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)',
-        }} />
+        <div
+          style={{
+            height: '1px',
+            margin: '0.5rem 1.25rem 0',
+            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)',
+          }}
+        />
       </div>
     </div>
   )
@@ -197,21 +205,25 @@ function MobileGroup({ label, items, onClose }: MobileGroupProps) {
         }}
       >
         {label}
-        <span style={{
-          fontSize: '0.7rem',
-          transition: 'transform 0.25s ease',
-          transform: open ? 'rotate(180deg)' : 'rotate(0)',
-          color: '#c9a96e',
-        }}>
+        <span
+          style={{
+            fontSize: '0.7rem',
+            transition: 'transform 0.25s ease',
+            transform: open ? 'rotate(180deg)' : 'rotate(0)',
+            color: '#c9a96e',
+          }}
+        >
           ▾
         </span>
       </button>
 
-      <div style={{
-        maxHeight: open ? `${items.length * 52}px` : '0',
-        overflow: 'hidden',
-        transition: 'max-height 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-      }}>
+      <div
+        style={{
+          maxHeight: open ? `${items.length * 52}px` : '0',
+          overflow: 'hidden',
+          transition: 'max-height 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        }}
+      >
         {items.map((item) => (
           <Link
             key={item.href}
@@ -230,7 +242,15 @@ function MobileGroup({ label, items, onClose }: MobileGroupProps) {
               borderLeft: '2px solid rgba(201,169,110,0.25)',
             }}
           >
-            <span style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: '#c9a96e', flexShrink: 0 }} />
+            <span
+              style={{
+                width: '4px',
+                height: '4px',
+                borderRadius: '50%',
+                backgroundColor: '#c9a96e',
+                flexShrink: 0,
+              }}
+            />
             {item.label}
           </Link>
         ))}
@@ -265,109 +285,175 @@ export function NavigationClient() {
       }}
     >
       <div
-        className="container"
         style={{
+          position: 'relative',
+          width: '100%',
+          maxWidth: '100%',
+          paddingInline: 'clamp(1rem, 2.5vw, 3rem)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          height: '80px',
+          height: '96px',
+          boxSizing: 'border-box',
         }}
       >
-        {/* ── Brand Logo ── */}
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0 }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/logo.png"
-            alt="11:11 Decor — Event Management & Décor Studio"
-            style={{
-              height: '100px',
-              width: 'auto',
-              objectFit: 'contain',
-              display: 'block',
-            }}
-          />
-        </Link>
-
-        {/* ── Desktop Nav ── */}
-        <nav
+        {/* ── Left Side: Navigation Links (Desktop) ── */}
+        <div
           className="desktop-only"
-          aria-label="Main navigation"
-          style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}
+          style={{
+            flex: '1 1 0%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            zIndex: 2,
+          }}
         >
-          <NavDropdown label="Services" items={SERVICES_LINKS} />
-          <NavDropdown label="Events" items={EVENTS_LINKS} />
-          <Link href="/portfolio/" className="nav-item-link">Portfolio</Link>
-          <Link href="/blog/" className="nav-item-link">Blog</Link>
-          <Link href="/about-us/" className="nav-item-link">About Us</Link>
-        </nav>
-
-        {/* ── Desktop CTA ── */}
-        <div className="desktop-only" style={{ flexShrink: 0 }}>
-          <Link
-            href="/contact/"
-            className="nav-cta-button"
+          <nav
+            aria-label="Main navigation"
             style={{
-              display: 'inline-flex',
+              display: 'flex',
               alignItems: 'center',
-              gap: '0.4rem',
-              padding: '0.625rem 1.375rem',
-              backgroundColor: '#c9a96e',
-              color: '#111111',
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.8125rem',
-              fontWeight: 700,
-              borderRadius: '4px',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              textDecoration: 'none',
-              boxShadow: '0 4px 18px rgba(201,169,110,0.38)',
-              transition: 'background-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease',
+              gap: 'clamp(0.85rem, 1.6vw, 2.25rem)',
             }}
           >
-            Plan Your Event
+            <NavDropdown label="Services" items={SERVICES_LINKS} />
+            <NavDropdown label="Events" items={EVENTS_LINKS} />
+            <Link href="/portfolio/" className="nav-item-link">
+              Portfolio
+            </Link>
+            <Link href="/blog/" className="nav-item-link">
+              Blog
+            </Link>
+            <Link href="/about-us/" className="nav-item-link">
+              About Us
+            </Link>
+          </nav>
+        </div>
+
+        {/* ── Center: Brand Logo (Always Strictly Centered) ── */}
+        <div
+          style={{
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 10,
+            pointerEvents: 'auto',
+          }}
+        >
+          <Link
+            href="/"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              textDecoration: 'none',
+            }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo.png"
+              alt="11:11 Decor — Event Management & Décor Studio"
+              style={{
+                height: 'clamp(72px, 7vw, 105px)',
+                width: 'auto',
+                objectFit: 'contain',
+                display: 'block',
+                filter: 'drop-shadow(0 2px 10px rgba(0,0,0,0.5))',
+              }}
+            />
           </Link>
         </div>
 
-        {/* ── Mobile Hamburger ── */}
-        <button
-          aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-          aria-expanded={mobileMenuOpen}
-          aria-controls="mobile-menu-drawer"
-          onClick={() => setMobileMenuOpen((prev) => !prev)}
-          className="mobile-hamburger"
+        {/* ── Right Side: Desktop CTA & Mobile Hamburger ── */}
+        <div
           style={{
-            display: 'none',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            gap: '5px',
-            padding: '8px',
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
+            flex: '1 1 0%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            zIndex: 2,
           }}
         >
-          <span style={{
-            width: '24px', height: '2px',
-            backgroundColor: '#ffffff',
-            transition: 'transform 0.3s ease, opacity 0.3s ease',
-            transform: mobileMenuOpen ? 'translateY(7px) rotate(45deg)' : 'none',
-            display: 'block',
-          }} />
-          <span style={{
-            width: '24px', height: '2px',
-            backgroundColor: '#ffffff',
-            transition: 'opacity 0.3s ease',
-            opacity: mobileMenuOpen ? 0 : 1,
-            display: 'block',
-          }} />
-          <span style={{
-            width: '24px', height: '2px',
-            backgroundColor: '#ffffff',
-            transition: 'transform 0.3s ease, opacity 0.3s ease',
-            transform: mobileMenuOpen ? 'translateY(-7px) rotate(-45deg)' : 'none',
-            display: 'block',
-          }} />
-        </button>
+          <div className="desktop-only">
+            <Link
+              href="/contact/"
+              className="nav-cta-button"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                padding: 'clamp(0.65rem, 0.8vw, 0.8rem) clamp(1rem, 1.4vw, 1.75rem)',
+                backgroundColor: '#c9a96e',
+                color: '#111111',
+                fontFamily: 'var(--font-body)',
+                fontSize: 'clamp(0.78rem, 0.85vw, 0.875rem)',
+                fontWeight: 700,
+                borderRadius: '5px',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                boxShadow: '0 4px 18px rgba(201,169,110,0.38)',
+                whiteSpace: 'nowrap',
+                transition: 'background-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease',
+              }}
+            >
+              Plan Your Event
+            </Link>
+          </div>
+
+          {/* ── Mobile Hamburger ── */}
+          <button
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu-drawer"
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
+            className="mobile-hamburger"
+            style={{
+              display: 'none',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              gap: '5px',
+              padding: '8px',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+            }}
+          >
+            <span
+              style={{
+                width: '24px',
+                height: '2px',
+                backgroundColor: '#ffffff',
+                transition: 'transform 0.3s ease, opacity 0.3s ease',
+                transform: mobileMenuOpen ? 'translateY(7px) rotate(45deg)' : 'none',
+                display: 'block',
+              }}
+            />
+            <span
+              style={{
+                width: '24px',
+                height: '2px',
+                backgroundColor: '#ffffff',
+                transition: 'opacity 0.3s ease',
+                opacity: mobileMenuOpen ? 0 : 1,
+                display: 'block',
+              }}
+            />
+            <span
+              style={{
+                width: '24px',
+                height: '2px',
+                backgroundColor: '#ffffff',
+                transition: 'transform 0.3s ease, opacity 0.3s ease',
+                transform: mobileMenuOpen ? 'translateY(-7px) rotate(-45deg)' : 'none',
+                display: 'block',
+              }}
+            />
+          </button>
+        </div>
       </div>
 
       {/* ── Mobile Drawer ── */}
@@ -394,11 +480,13 @@ export function NavigationClient() {
         }}
       >
         {/* Gold accent rule */}
-        <div style={{
-          height: '1px',
-          background: 'linear-gradient(90deg, #c9a96e, transparent)',
-          marginBottom: '1.5rem',
-        }} />
+        <div
+          style={{
+            height: '1px',
+            background: 'linear-gradient(90deg, #c9a96e, transparent)',
+            marginBottom: '1.5rem',
+          }}
+        />
 
         <MobileGroup label="Services" items={SERVICES_LINKS} onClose={() => setMobileMenuOpen(false)} />
         <MobileGroup label="Events" items={EVENTS_LINKS} onClose={() => setMobileMenuOpen(false)} />
@@ -463,11 +551,11 @@ export function NavigationClient() {
         .nav-dropdown-trigger {
           position: relative;
           font-family: var(--font-body) !important;
-          font-size: 0.9375rem !important;
+          font-size: clamp(0.88rem, 1vw, 1.05rem) !important;
           font-weight: 600 !important;
           color: #ffffff !important;
           letter-spacing: 0.04em;
-          text-shadow: 0 1px 8px rgba(0,0,0,0.7);
+          text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
           text-decoration: none !important;
           padding-bottom: 4px;
           white-space: nowrap;
@@ -499,20 +587,20 @@ export function NavigationClient() {
         /* Dropdown links hover */
         .dropdown-link:hover {
           color: #c9a96e !important;
-          background-color: rgba(201, 169, 110, 0.06) !important;
+          background-color: rgba(201, 169, 110, 0.08) !important;
           border-left-color: #c9a96e !important;
-          padding-left: calc(1.25rem + 4px) !important;
+          padding-left: calc(1.25rem + 6px) !important;
         }
 
         /* CTA hover */
         .nav-cta-button:hover {
           background-color: #b8924e !important;
           transform: translateY(-1px) !important;
-          box-shadow: 0 8px 28px rgba(201,169,110,0.5) !important;
+          box-shadow: 0 8px 28px rgba(201, 169, 110, 0.5) !important;
         }
 
-        /* Responsive */
-        @media (max-width: 900px) {
+        /* Responsive Breakpoint: Switch cleanly at 1120px to prevent squeezing */
+        @media (max-width: 1120px) {
           .desktop-only {
             display: none !important;
           }

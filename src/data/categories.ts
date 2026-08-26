@@ -14,7 +14,7 @@ export const CATEGORIES: Category[] = [
     name: 'Weddings',
     title: 'WEDDING CELEBRATIONS',
     description:
-      'End-to-end wedding planning and décor — mandap architecture, floral styling, lighting, and timeline management.',
+      'End-to-end wedding planning and décor — mandap, stage, venue styling, and coordination across every ceremony.',
     bgImage: '/events/weddings-bg.jpg',
     cardImage: '/events/weddings-card.jpg',
     link: '/events/wedding-events/',
@@ -22,19 +22,19 @@ export const CATEGORIES: Category[] = [
   {
     id: 'corporate',
     name: 'Corporate Events',
-    title: 'CORPORATE GALAS & SUMMITS',
+    title: 'CORPORATE EVENTS',
     description:
-      'Brand launches, galas, award nights, and conferences — professional production and precision execution.',
+      'Product launches, conferences, and company celebrations planned and staged with a professional finish.',
     bgImage: '/events/corporate-bg.jpg',
     cardImage: '/events/corporate-card.jpg',
     link: '/events/corporate-events/',
   },
   {
     id: 'birthdays',
-    name: 'Birthdays',
-    title: 'MILESTONE CELEBRATIONS',
+    name: 'Birthday Celebrations',
+    title: 'BIRTHDAY CELEBRATIONS',
     description:
-      "Milestone birthdays, theme celebrations, and children's parties — tailored styling and entertainment.",
+      'Milestone birthdays and intimate parties, themed and decorated to match the celebration in mind.',
     bgImage: '/events/birthdays-bg.jpg',
     cardImage: '/events/birthdays-card.jpg',
     link: '/events/birthday-events/',
@@ -42,9 +42,9 @@ export const CATEGORIES: Category[] = [
   {
     id: 'engagements',
     name: 'Engagements',
-    title: 'RING CEREMONIES & SANGEET',
+    title: 'ENGAGEMENT FUNCTIONS',
     description:
-      'Roka ceremonies, ring exchanges, and Sangeet celebrations — romantic ambiance and detailed planning.',
+      'Ring ceremonies and engagement functions styled with décor that photographs as beautifully as it feels.',
     bgImage: '/events/engagements-bg.jpg',
     cardImage: '/events/engagements-card.jpg',
     link: '/events/engagement-events/',
@@ -52,9 +52,9 @@ export const CATEGORIES: Category[] = [
   {
     id: 'parties',
     name: 'Private Events',
-    title: 'PRIVATE SOIRÉES & MILESTONES',
+    title: 'PRIVATE CELEBRATIONS',
     description:
-      'Anniversaries, family gatherings, and house parties — intimate styling and complete coordination.',
+      'Anniversaries, family functions, and personal celebrations planned with the same attention as our largest events.',
     bgImage: '/events/parties-bg.jpg',
     cardImage: '/events/parties-card.jpg',
     link: '/events/private-events/',
@@ -62,9 +62,9 @@ export const CATEGORIES: Category[] = [
   {
     id: 'destinations',
     name: 'Destination Events',
-    title: 'DESTINATION RETREATS',
+    title: 'DESTINATION EVENTS',
     description:
-      'Multi-day celebrations in hill resorts, heritage venues, and scenic retreats across Uttarakhand.',
+      'Planning and décor coordination for events held away from home, with logistics handled end to end.',
     bgImage: '/events/destinations-bg.jpg',
     cardImage: '/events/destinations-card.jpg',
     link: '/events/destination-events/',

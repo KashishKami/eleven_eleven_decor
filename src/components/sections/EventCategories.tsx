@@ -231,9 +231,10 @@ export function EventCategories() {
                 }}
                 style={{
                   position: 'absolute',
-                  inset: 0,
+                  inset: '-8px',
                   willChange: 'transform',
                   transformOrigin: 'center center',
+                  filter: 'blur(3.5px)',
                 }}
               >
                 <Image
@@ -286,23 +287,23 @@ export function EventCategories() {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             zIndex: 3,
-            width: 'clamp(310px, 24.5vw, 400px)',
-            height: 'clamp(510px, 73vh, 650px)',
+            width: 'clamp(320px, 26vw, 420px)',
+            height: 'clamp(560px, 82vh, 700px)',
             maxWidth: 'calc(100vw - 2rem)',
-            maxHeight: 'calc(100vh - 2.5rem)',
+            maxHeight: 'calc(100vh - 2rem)',
             background:
-              'linear-gradient(180deg, rgba(208, 201, 190, 0.68) 0%, rgba(198, 191, 180, 0.72) 50%, rgba(190, 183, 172, 0.76) 100%)',
+              'linear-gradient(180deg, rgba(208, 201, 190, 0.72) 0%, rgba(198, 191, 180, 0.76) 50%, rgba(190, 183, 172, 0.80) 100%)',
             backdropFilter: 'blur(16px)',
             WebkitBackdropFilter: 'blur(16px)',
-            borderRadius: '12px',
-            padding: 'clamp(2rem, 3.8vh, 2.75rem) clamp(1.5rem, 2vw, 2rem) clamp(2rem, 3.8vh, 2.75rem)',
+            borderRadius: '16px',
+            padding: '1.5rem 1.5rem 1.75rem',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'space-between',
             textAlign: 'center',
-            border: '1px solid rgba(255, 255, 255, 0.22)',
-            boxShadow: '0 20px 45px rgba(0, 0, 0, 0.32)',
+            border: '1px solid rgba(255, 255, 255, 0.28)',
+            boxShadow: '0 25px 50px rgba(0, 0, 0, 0.38)',
             boxSizing: 'border-box',
           }}
         >
@@ -311,8 +312,8 @@ export function EventCategories() {
             ref={circleWindowRef}
             style={{
               position: 'relative',
-              width: 'clamp(205px, 16.5vw, 260px)',
-              height: 'clamp(255px, 32vh, 325px)',
+              width: 'clamp(180px, 14.5vw, 225px)',
+              height: 'clamp(210px, 26vh, 270px)',
               borderRadius: '50%',
               overflow: 'hidden',
               margin: '0 auto',
@@ -385,7 +386,7 @@ export function EventCategories() {
                     style={{
                       fontFamily: 'var(--font-display)',
                       fontSize: 'clamp(1.75rem, 2.1vw, 2.35rem)',
-                      fontWeight: 400,
+                      fontWeight: 700,
                       color: '#ffffff',
                       letterSpacing: '0.06em',
                       textTransform: 'uppercase',
@@ -404,7 +405,7 @@ export function EventCategories() {
                     fontSize: 'clamp(0.84rem, 0.9vw, 0.94rem)',
                     fontWeight: 400,
                     lineHeight: 1.6,
-                    maxWidth: '290px',
+                    maxWidth: '300px',
                     marginInline: 'auto',
                     margin: 0,
                     textAlign: 'center',
@@ -412,6 +413,37 @@ export function EventCategories() {
                 >
                   {cat.description}
                 </p>
+
+                <div
+                  style={{
+                    marginTop: 'clamp(0.85rem, 1.8vh, 1.35rem)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '0.75rem',
+                      fontWeight: 700,
+                      letterSpacing: '0.14em',
+                      textTransform: 'uppercase',
+                      color: '#111111',
+                      backgroundColor: '#c9a96e',
+                      padding: '0.55rem 1.4rem',
+                      borderRadius: '30px',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.45rem',
+                      boxShadow: '0 4px 18px rgba(201, 169, 110, 0.45)',
+                      transition: 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.3s ease',
+                    }}
+                  >
+                    <span>Explore Event</span>
+                    <span style={{ fontSize: '0.9rem' }}>→</span>
+                  </span>
+                </div>
               </Link>
             ))}
           </div>

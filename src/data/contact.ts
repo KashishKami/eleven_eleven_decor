@@ -30,7 +30,7 @@ export const CONTACT_INFO: ContactInfo = {
   brandName: '11:11 Decor',
   headline: "Let's Plan Your Event",
   subtitle:
-    'Whether you are envisioning a grand palace wedding, a refined corporate gala, or an intimate private gathering, our team in Dehradun is dedicated to orchestrating every nuance with impeccable artistry.',
+    'Tell us about your event and we will follow up with availability and a custom quote.',
   address: {
     street: '123 Rajpur Road',
     city: 'Dehradun',

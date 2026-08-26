@@ -21,438 +21,340 @@ export interface EventCategory {
   metaDescription: string
 }
 
+const COMMON_PROCESS_STEPS = [
+  {
+    title: '01 Consultation',
+    description: 'We begin with a conversation about your occasion, priorities, guest count, and the feeling you want to create.',
+  },
+  {
+    title: '02 Concept & Planning',
+    description: 'We draft the concept, schedule, and vendor requirements so every logistical detail is defined early.',
+  },
+  {
+    title: '03 Design & Coordination',
+    description: 'Décor plans, staging, florals, and vendor timelines are aligned into one unified master plan.',
+  },
+  {
+    title: '04 Event Day Execution',
+    description: 'Our on-site team manages setup, cueing, and live coordination so you are free to enjoy your celebration.',
+  },
+]
+
 export const EVENT_CATEGORIES: EventCategory[] = [
   {
     slug: 'wedding-events',
     title: 'Wedding Event Planning & Management',
-    subtitle: 'Royal Mandaps, Seamless Run-of-Show & Full Celebration Design',
+    subtitle: 'End-to-end wedding planning and décor across every ceremony',
     description:
-      'Comprehensive wedding planning, design, and management services across pre-wedding rituals, grand reception evenings, and multi-day festivities.',
-    heroImage: '/events/weddings-hero.jpg',
+      'End-to-end wedding planning and décor — mandap, stage, venue styling, and coordination across every ceremony.',
+    heroImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
     intro:
-      'At 11:11 Decor, we craft bespoke wedding experiences where timeless elegance meets surgical operational execution. From intricate mandap floral installations to multi-venue guest management, our team oversees every single detail so you can savor your dream day.',
+      'A wedding is several events inside one celebration. 11:11 Decor plans and manages every function — from the first consultation through to the final send-off — so timing, vendors, and décor stay connected across the whole event.',
     planningServices: [
-      'Multi-Day Master Itinerary & Timeline Architecture',
-      'Vendor Sourcing, Contract Negotiation & On-Site Alignment',
-      'Custom Theme Conceptualization & Moodboard Curation',
-      'Budget Structuring & Allocation Optimization',
-      'Guest RSVPs, Seating Layouts & Welcome Logistics',
+      'Function-by-function timeline planning',
+      'Vendor sourcing and contract alignment',
+      'Budget guidance across the full wedding',
     ],
     decorationOptions: [
-      'Signature Mandap Architecture & Overhead Floral Canopies',
-      'Grand Entrance Arches & Walkway Light Passages',
-      'Stage Backdrops, Sangeet Light Scapes & Table Centerpieces',
-      'Themed Haldi & Mehendi Color Palette Styling',
+      'Mandap & royal stage design',
+      'Entrance & pathway styling',
+      'Table & seating floral décor',
+      'Consistent styling across all ceremonies (full details on our [Wedding Decoration](/services/wedding-decoration/) service page)',
     ],
     eventManagement: [
-      'Dedicated On-Site Event Director & Run-of-Show Stage Manager',
-      'Artist, DJ & Choreographer Soundcheck Coordination',
-      'Bridal Entry Timing & Special Effects Alignment',
-      'Hospitality Desk & VIP Escort Services',
+      'On-ground coordination across every function',
+      'Vendor and venue liaison on the day',
+      'Ceremony timeline & guest flow management',
     ],
     whatWeHandle: [
-      'Pre-wedding site inspections & spatial layout drafting',
-      'Vendor load-in schedules and venue clearance compliance',
-      'Live timeline adjustments for ceremony muhurat timings',
-      'Post-event breakdown, asset teardown, and venue handover',
+      'Guest flow management',
+      'Vendor scheduling and arrivals',
+      'Ceremony timing and cueing',
+      'On-site troubleshooting',
     ],
-    processSteps: [
-      {
-        title: 'Initial Vision & Discovery',
-        description: 'We explore your love story, preferred aesthetics, guest count, and budget preferences.',
-      },
-      {
-        title: 'Design & Spatial Plan',
-        description: '3D spatial layouts, color palettes, and vendor production timelines are crafted for approval.',
-      },
-      {
-        title: 'Production & Vendor Coordination',
-        description: 'Custom fabrication, floral orders, and vendor run-of-show synchronization.',
-      },
-      {
-        title: 'Flawless Execution',
-        description: 'Our on-site crew manages every ritual, performance, and guest touchpoint seamlessly.',
-      },
-    ],
+    processSteps: COMMON_PROCESS_STEPS,
     whyChooseUs: [
-      '10+ years executing luxury weddings across India and destination venues',
-      'In-house floral designers and master stage architects',
-      'Zero-stress, single point of contact throughout the planning journey',
-      'Transparent budgeting with clear itemized line items',
+      'One team plans and manages every function, rather than each ceremony being handled in isolation.',
     ],
     faqs: [
       {
-        question: 'How far in advance should we book wedding planning services?',
-        answer:
-          'We recommend booking 6 to 12 months prior to your wedding date to secure premium venues, top artists, and custom fabrication capacity.',
+        question: 'Do you manage multi-day weddings?',
+        answer: 'Yes, we coordinate multi-day weddings across all ceremonies.',
       },
       {
-        question: 'Do you manage destination weddings outside Dehradun?',
-        answer:
-          'Yes, we specialize in destination wedding planning across Rajasthan, Goa, Uttarakhand, and international venues.',
-      },
-      {
-        question: 'What is the difference between wedding planning and wedding decoration?',
-        answer:
-          'Wedding decoration focuses on visual aesthetics (flowers, stage, lighting), while wedding planning encompasses full end-to-end logistics, vendor contracts, guest management, and run-of-show timelines.',
+        question: 'Can we book décor only, without planning?',
+        answer: 'Yes — see our Wedding Decoration service page for décor-only bookings.',
       },
     ],
     metaTitle: 'Wedding Event Planning & Management | 11:11 Decor',
     metaDescription:
-      'Bespoke wedding event planning, royal mandap design, vendor logistics, and seamless multi-day celebration management by 11:11 Decor.',
+      'End-to-end wedding planning and décor — mandap, stage, venue styling, and coordination across every ceremony with 11:11 Decor.',
   },
   {
     slug: 'corporate-events',
-    title: 'Corporate Event Planning & Management',
-    subtitle: 'Brand Galas, Award Nights, Product Launches & Executive Summits',
+    title: 'Corporate Event Planning',
+    subtitle: 'Product launches, conferences, and company celebrations',
     description:
-      'High-impact corporate event production delivering impeccable brand alignment, seamless AV technology, and polished executive hospitality.',
-    heroImage: '/events/corporate-hero.jpg',
+      'Product launches, conferences, and company celebrations planned and staged with a professional finish.',
+    heroImage: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1200&q=80',
     intro:
-      '11:11 Decor partners with leading corporate brands and enterprises to execute flawless galas, annual conferences, award ceremonies, and product unveilings. We translate corporate values into unforgettable live experiences.',
+      'Launches, conferences, and company celebrations each need a different kind of planning. 11:11 Decor plans corporate events around your objective — brand visibility, hospitality, or internal culture — not a one-size format.',
     planningServices: [
-      'Executive Summit & Gala Concept Development',
-      'Venue Procurement & Technical Rider Compliance',
-      'Stage Production, LED Wall & AV Engineering',
-      'Keynote Speaker & Celebrity Host Management',
-      'Sponsor Activation & Brand Booth Fabrications',
+      'Objective-led concept planning',
+      'Venue sourcing and layout support',
+      'Vendor and AV coordination',
     ],
     decorationOptions: [
-      'Minimalist Luxury Stage Sets & Illuminated Brand Walls',
-      'Sophisticated Gala Table Centerpieces & Linen Styling',
-      'Immersive Entrance Tunnel Lighting & Dynamic LED Passages',
-      'VIP Lounge & Executive Networking Suite Styling',
+      'Branded staging & backdrop design',
+      'Entrance and registration styling',
+      'Full styling coordination (details on [Corporate Event Management](/services/corporate-event-management/) & [Stage Decoration](/services/stage-decoration/))',
     ],
     eventManagement: [
-      'Precision Cue-to-Cue Stage Direction & Show Calling',
-      'Delegate Registration & RFID Badge Check-In Flow',
-      'Security, Crowd Flow & Protocol Management',
-      'Catering & Executive Bar Coordination',
+      'Run-of-show management and on-site coordination for the full event',
+      'AV, sound, and lighting cue direction',
     ],
     whatWeHandle: [
-      'Technical rehearsals and teleprompter cueing',
-      'Media press wall setup and red carpet photo ops',
-      'Sound and lighting level compliance for speeches and awards',
-      'Post-event analytical debrief and attendance reporting',
+      'Vendor logistics and schedule management',
+      'Guest registration flow',
+      'Run-of-show timing',
+      'AV/production coordination',
     ],
-    processSteps: [
-      {
-        title: 'Corporate Briefing & Objectives',
-        description: 'We align on brand guidelines, audience demographics, and key event KPIs.',
-      },
-      {
-        title: 'Production Blueprinting',
-        description: 'Stage floorplans, lighting plots, and cue sheets are finalized.',
-      },
-      {
-        title: 'Technical Run-Through',
-        description: 'Complete AV check, presenter rehearsals, and safety compliance audit.',
-      },
-      {
-        title: 'Live Event Direction',
-        description: 'Precision show control ensuring every cue fires right on time.',
-      },
-    ],
+    processSteps: COMMON_PROCESS_STEPS,
     whyChooseUs: [
-      'Proven track record with Fortune 500 companies and premier brands',
-      'Integrated AV, stage fabrication, and luxury floral decor teams',
-      'Strict adherence to brand identity guidelines and corporate security',
-      'Full post-event reconciliation and executive feedback loops',
+      'A dedicated coordination team keeps schedules on track under time-sensitive corporate conditions.',
     ],
     faqs: [
       {
-        question: 'Can you handle corporate events with over 1,000 attendees?',
-        answer:
-          'Absolutely. Our team has engineered and managed large-scale corporate summits, expos, and galas for up to 3,000 guests.',
+        question: 'Can you manage multi-day conferences?',
+        answer: 'Yes, we manage multi-day corporate conferences and summit schedules.',
       },
       {
-        question: 'Do you provide audio-visual and stage lighting production?',
-        answer:
-          'Yes, we provide end-to-end stage fabrication, LED screens, line-array audio systems, and intelligent lighting setups.',
+        question: 'Do you handle brand-specific staging?',
+        answer: 'Yes, all staging is coordinated according to your brand guidelines.',
       },
     ],
-    metaTitle: 'Corporate Event Planning & Management | 11:11 Decor',
+    metaTitle: 'Corporate Event Planning | 11:11 Decor',
     metaDescription:
-      'Premier corporate event planning, brand galas, product launches, and high-tech stage production by 11:11 Decor.',
+      'Product launches, conferences, and company celebrations planned and staged with a professional finish by 11:11 Decor.',
   },
   {
     slug: 'birthday-events',
     title: 'Birthday Event Planning',
-    subtitle: 'Milestone Celebrations, Themed Soirees & Immersive Decor',
+    subtitle: 'Milestone birthdays and intimate parties',
     description:
-      'Custom birthday party planning for 1st birthdays, sweet sixteens, 30th milestones, and 50th golden jubilees with signature styling.',
-    heroImage: '/events/birthdays-hero.jpg',
+      'Milestone birthdays and intimate parties, themed and decorated to match the celebration in mind.',
+    heroImage: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=1200&q=80',
     intro:
-      'Whether celebrating a child’s magical 1st birthday or honoring a 50th milestone jubilee, 11:11 Decor brings creativity, flair, and effortless execution to private birthday celebrations.',
+      'From a first birthday to a milestone celebration, 11:11 Decor plans and decorates birthday events sized and styled to the occasion.',
     planningServices: [
-      'Theme Selection & Custom Concept Illustration',
-      'Venue Sourcing (Ballrooms, Lawns, Private Villas)',
-      'Entertainment & Artist Booking (DJs, Live Bands, Magicians)',
-      'Custom Cake & Dessert Station Coordination',
+      'Theme development and styling concept',
+      'Venue and vendor coordination',
+      'Guest list logistics support',
     ],
     decorationOptions: [
-      'Organic Balloon Arch Canopies & Neon Backdrop Walls',
-      'Custom Marquee Light Letters & Photo Op Corners',
-      'Themed Tableware, Centerpieces & Favor Boxes',
-      'Ambient LED Fairy Light & Ceiling Canopy Drape Styling',
+      'Themed backdrops and photo areas',
+      'Balloon and floral styling',
+      'Table and seating décor (see our [Event Decoration](/services/event-decoration/) service for décor-only options)',
     ],
     eventManagement: [
-      'On-site Guest Welcome & Gift Station Oversight',
-      'Cake Cutting Ceremony Cueing & Sound FX',
-      'Activity Station & Children’s Entertainment Coordination',
+      'Setup, timing, and on-site coordination for the celebration',
+      'Activity and entertainment flow management',
     ],
     whatWeHandle: [
-      'Personalized party favors and guest welcome kits',
-      'Sound system setup and custom party playlist curation',
-      'On-time cake delivery and climate-controlled display',
+      'Vendor scheduling and deliveries',
+      'Entertainment coordination',
+      'Setup and breakdown',
     ],
-    processSteps: [
-      {
-        title: 'Theme & Concept Selection',
-        description: 'Brainstorming unique themes tailored to the guest of honor.',
-      },
-      {
-        title: 'Design Approval',
-        description: 'Previewing color palettes, balloon sculptures, and dessert tables.',
-      },
-      {
-        title: 'Set Up & Styling',
-        description: 'On-site installation completed hours before guests arrive.',
-      },
-      {
-        title: 'Party Time!',
-        description: 'Relax and enjoy while our event coordinator manages the flow.',
-      },
-    ],
+    processSteps: COMMON_PROCESS_STEPS,
     whyChooseUs: [
-      'Bespoke themes tailored to every age and passion',
-      'High-quality eco-friendly balloons and structural props',
-      'Full catering and entertainment integration',
+      "Décor and planning are matched to the celebration's scale, from an intimate family gathering to a large milestone party.",
     ],
     faqs: [
       {
-        question: 'Do you offer customized birthday themes?',
-        answer:
-          'Yes! Every birthday celebration is designed from scratch to match your preferred theme, color palette, and personal style.',
+        question: 'Do you plan themed birthdays?',
+        answer: 'Yes, built entirely around your chosen theme.',
+      },
+      {
+        question: 'Can this be décor-only?',
+        answer: 'Yes, see our Event Decoration service page.',
       },
     ],
-    metaTitle: 'Birthday Event Planning Services | 11:11 Decor',
+    metaTitle: 'Birthday Event Planning | 11:11 Decor',
     metaDescription:
-      'Unforgettable birthday party planning, custom themes, milestone balloon arches, and entertainment by 11:11 Decor.',
+      'Milestone birthdays and intimate parties, themed and decorated to match the celebration in mind with 11:11 Decor.',
   },
   {
     slug: 'engagement-events',
     title: 'Engagement Event Planning & Decoration',
-    subtitle: 'Roka Ceremonies, Ring Exchanges, Cocktail Nights & Sangeet',
+    subtitle: 'Ring ceremonies and engagement functions',
     description:
-      'Elegant engagement party planning, romantic ring exchange stages, and vibrant Sangeet celebration management.',
-    heroImage: '/events/engagements-hero.jpg',
+      'Ring ceremonies and engagement functions styled with décor that photographs as beautifully as it feels.',
+    heroImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
     intro:
-      'Mark the beginning of your wedding journey with an intimate Roka, glamorous engagement ring ceremony, or energetic Sangeet night designed and managed by 11:11 Decor.',
+      'An engagement sets the tone for everything that follows. 11:11 Decor plans and decorates ring ceremonies and engagement functions with décor that photographs as well as it feels in person.',
     planningServices: [
-      'Engagement Party Concept & Venue Selection',
-      'Choreographer & Anchor Booking for Sangeet',
-      'Catering Menu Selection & Bar Service Alignment',
-      'Guest Seating & Family Protocol Planning',
+      'Timeline and vendor planning for the ceremony and related functions',
+      'Vendor coordination and guest layout',
     ],
     decorationOptions: [
-      'Floral Backdrop Frames & Candlelight Pathways',
-      'Glamorous Ring Ceremony Stage Sets',
-      'Vibrant Sangeet Dance Floor & Truss Lighting',
-      'Customized Couple Monogram Projections',
+      'Stage and backdrop styling',
+      'Floral arrangements and centerpieces',
+      'Seating and entrance décor (details on [Floral Decoration](/services/floral-decoration/) & [Stage Decoration](/services/stage-decoration/))',
     ],
     eventManagement: [
-      'Ring Exchange Sequence & Special Effects Sparklers',
-      'Sangeet Dance Sequence Cueing & DJ Synchronization',
-      'Family Greeting & Photography Flow Control',
+      'On-site coordination for setup, timing, and vendor management',
+      'Ring ceremony timing & photography coordination',
     ],
     whatWeHandle: [
-      'Cold pyro and fog entry effects coordination',
-      'Sound check for live performers and anchors',
-      'Gifts and family ring box safety protocol',
+      'Ceremony flow and timing',
+      'Photography-friendly staging',
+      'Vendor scheduling',
     ],
-    processSteps: [
-      {
-        title: 'Ceremony Planning',
-        description: 'Aligning tradition with modern party flair.',
-      },
-      {
-        title: 'Stage & Lighting Design',
-        description: 'Creating stunning backdrops for ring exchange photos.',
-      },
-      {
-        title: 'Seamless Execution',
-        description: 'Managing timing from entries to late-night dancing.',
-      },
-    ],
+    processSteps: COMMON_PROCESS_STEPS,
     whyChooseUs: [
-      'Specialized experience in North Indian Roka & Ring ceremonies',
-      'Stunning photography-focused lighting and backdrop setups',
-      'Full coordination between families and event vendors',
+      'Décor is designed with photography and guest experience in mind from the start.',
     ],
     faqs: [
       {
-        question: 'Can you organize an outdoor engagement party?',
-        answer:
-          'Yes, we design garden engagements, poolside cocktail nights, and resort lawn setups complete with weather contingency plans.',
+        question: 'Can this lead into full wedding planning later?',
+        answer: 'Yes, many clients continue with us into their wedding celebrations.',
+      },
+      {
+        question: 'Do you decorate outdoor engagement venues?',
+        answer: 'Yes, we design for both indoor and outdoor spaces.',
       },
     ],
-    metaTitle: 'Engagement & Pre-Wedding Event Planning | 11:11 Decor',
+    metaTitle: 'Engagement Event Planning & Decoration | 11:11 Decor',
     metaDescription:
-      'Elegant engagement party planning, Roka ceremony styling, Sangeet staging, and ring exchange management by 11:11 Decor.',
+      'Ring ceremonies and engagement functions styled with décor that photographs as beautifully as it feels with 11:11 Decor.',
   },
   {
     slug: 'private-events',
     title: 'Private Event Planning',
-    subtitle: 'Anniversaries, Housewarmings, Soirees & Baby Showers',
+    subtitle: 'Anniversaries, family functions, and personal celebrations',
     description:
-      'Intimate private party planning offering discreet luxury, customized catering, and refined home or venue transformation.',
-    heroImage: '/events/parties-hero.jpg',
+      'Anniversaries, family functions, and personal celebrations planned with the same attention as our largest events.',
+    heroImage: 'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=1200&q=80',
     intro:
-      'From silver wedding anniversaries to warm home Griha Pravesh gatherings and baby showers, 11:11 Decor elevates private home and venue celebrations into exquisite, stress-free occasions.',
+      'Anniversaries, family functions, and personal milestones get the same level of planning and décor as our largest events. 11:11 Decor scales its process to fit intimate, private celebrations.',
     planningServices: [
-      'Private Residence Space Transformation Planning',
-      'Bespoke Fine Dining & Mixology Coordination',
-      'Acoustic Musician & Valet Service Booking',
-      'RSVP & Guest Transport Scheduling',
+      'Concept planning and design',
+      'Vendor coordination',
+      'Timeline support sized to smaller guest counts',
     ],
     decorationOptions: [
-      'Refined Table Setting with Fine Crystal & Fresh Florals',
-      'Warm Ambient Lantern & Garden String Lighting',
-      'Custom Welcome Signage & Memory Photo Galleries',
-      'Soft Lounge Seating & Drape Accent Cabanas',
+      'Table, seating, and space styling tailored to the occasion',
+      'Ambient lighting and centerpiece accents (details on [Venue Decoration](/services/venue-decoration/))',
     ],
     eventManagement: [
-      'Discreet On-Site Host Assistance & Butler Coordination',
-      'TIMELY Setup & Clean Breakdown Without Home Damage',
-      'Guest Comfort & Ambient Sound Control',
+      'Setup and on-site coordination for the day',
+      'Dedicated single point of contact on-site',
     ],
     whatWeHandle: [
-      'Protection of home flooring, lawn, and private furniture',
-      'Trash removal and full post-event cleanliness audit',
-      'Valet parking coordination for quiet residential streets',
+      'Vendor scheduling and arrivals',
+      'Layout and guest flow',
+      'Event-day logistics',
     ],
-    processSteps: [
-      {
-        title: 'Home / Venue Walkthrough',
-        description: 'Assessing spatial layout and electrical access points.',
-      },
-      {
-        title: 'Bespoke Proposal',
-        description: 'Selecting tableware, floral arrangements, and menu courses.',
-      },
-      {
-        title: 'Careful Setup',
-        description: 'Transforming your space with complete structural safety.',
-      },
-      {
-        title: 'Hosted Perfection',
-        description: 'Overseeing service while you enjoy your guests.',
-      },
-    ],
+    processSteps: COMMON_PROCESS_STEPS,
     whyChooseUs: [
-      'Discreet and respectful staff accustomed to luxury private residences',
-      'Tailored dining and floral packages for intimate gatherings',
-      'Clean, fast setup and restoration',
+      'Smaller events receive the same planning discipline as large ones, without unnecessary scale or cost.',
     ],
     faqs: [
       {
-        question: 'Can you transform a home backyard into an event space?',
-        answer:
-          'Yes, we regularly convert private lawns, terrace gardens, and living rooms into high-end event spaces with flooring, lighting, and decor.',
+        question: 'Is there a minimum guest count?',
+        answer: 'No — private events of any size are welcome.',
+      },
+      {
+        question: 'Can décor-only be booked for a private event?',
+        answer: 'Yes, décor can be booked as a standalone service.',
       },
     ],
-    metaTitle: 'Private Party & Milestone Event Planning | 11:11 Decor',
+    metaTitle: 'Private Event Planning | 11:11 Decor',
     metaDescription:
-      'Intimate private party planning, anniversary soirees, baby showers, and home venue transformations by 11:11 Decor.',
+      'Anniversaries, family functions, and personal celebrations planned with the same attention as our largest events by 11:11 Decor.',
   },
   {
     slug: 'destination-events',
     title: 'Destination Event Planning',
-    subtitle: 'Mussoorie, Rishikesh, Rajasthan & Global Celebrations',
+    subtitle: 'Planning and décor coordination away from home',
     description:
-      'Turnkey destination wedding and event management handling travel, guest hospitality, local sourcing, and multi-day production.',
-    heroImage: '/events/destinations-hero.jpg',
+      'Planning and décor coordination for events held away from home, with logistics handled end to end.',
+    heroImage: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1200&q=80',
     intro:
-      'Planning an event away from home requires seasoned remote logistics management. 11:11 Decor specializes in destination weddings and retreats in Mussoorie, Rishikesh, Jim Corbett, Jaipur, Udaipur, and beyond.',
+      "Events held away from home add a layer of logistics most planners don't handle daily. 11:11 Decor plans and coordinates destination events end to end, including travel-dependent vendor and décor logistics.",
     planningServices: [
-      'Destination Venue Scouting & Resort Contracting',
-      'Guest Travel Logistics, Flight Transfers & Airport Desks',
-      'Multi-Day Welcome Hampers & Travel Itineraries',
-      'Local Vendor Procurement & Equipment Haulage',
+      'Destination-specific vendor sourcing',
+      'Travel and logistics coordination',
+      'Multi-day timeline planning',
     ],
     decorationOptions: [
-      'Hills & Valley Backdrop Mandaps with Scenic Panoramic Views',
-      'Riverside Floral Installations & Eco-Friendly Decor',
-      'Heritage Palace Illumination & Royal Lantern Pathways',
-      'Weather-Resistant Outdoor Staging & Canopy Drapes',
+      'Décor designed around the destination venue',
+      'Transported or locally sourced elements',
+      'Complete staging & production (details on [Event Management](/services/event-management/))',
     ],
     eventManagement: [
-      'Command Center & 24/7 Guest Hospitality Helpdesk',
-      'Luggage Tracking & Resort Check-in Coordination',
-      'Multi-Venue Shuttle Bus & Transport Dispatch',
-      'Local Authority Permits & Noise Exemption Certificates',
+      'On-site coordination for the full duration of the event',
+      'Setup and travel logistics management',
+      'Multi-day schedule supervision',
     ],
     whatWeHandle: [
-      'Interstate trucking logistics and fragile floral transit',
-      'Weather backup plans (rain covers, indoor hall conversions)',
-      'Medical emergency and local doctor-on-call arrangements',
+      'Vendor travel coordination',
+      'Local sourcing where useful',
+      'Multi-day scheduling',
+      'On-site troubleshooting away from home base',
     ],
-    processSteps: [
-      {
-        title: 'Destination Selection & Recce',
-        description: 'Evaluating resort capabilities, room blocks, and travel routes.',
-      },
-      {
-        title: 'Master Logistics Plan',
-        description: 'Scheduling travel, staging cargo shipments, and vendor travel.',
-      },
-      {
-        title: 'Destination Setup',
-        description: 'Advance team arrives 48 hours early for full venue buildout.',
-      },
-      {
-        title: 'Unforgettable Experience',
-        description: 'Complete hospitality and event production oversight.',
-      },
-    ],
+    processSteps: COMMON_PROCESS_STEPS,
     whyChooseUs: [
-      'Extensive network across Uttarakhand, Rajasthan, and Goa luxury resorts',
-      'In-house logistics managers dedicated solely to guest hospitality',
-      'Proven expertise in mountain and outdoor weather contingencies',
+      "Logistics for a destination event are planned as carefully as the décor itself, so nothing is left to chance once you've left home.",
     ],
     faqs: [
       {
-        question: 'Do you manage guest accommodation and airport transfers for destination weddings?',
-        answer:
-          'Yes! We manage full guest hospitality including hotel room allocation, welcome gifts, airport shuttle buses, and helpdesks.',
+        question: 'Which destinations do you cover?',
+        answer: "Reach out with your location and we'll confirm coverage.",
+      },
+      {
+        question: 'Do you handle guest travel coordination?',
+        answer: 'We can coordinate with your chosen travel partners.',
       },
     ],
-    metaTitle: 'Destination Event Planning Services | 11:11 Decor',
+    metaTitle: 'Destination Event Planning | 11:11 Decor',
     metaDescription:
-      'Turnkey destination event planning, hill station weddings in Mussoorie & Rishikesh, palace celebrations, and travel logistics by 11:11 Decor.',
+      'Planning and décor coordination for events held away from home, with logistics handled end to end with 11:11 Decor.',
   },
 ]
 
 export const EVENTS_PAGE_FAQS: FAQItem[] = [
   {
-    question: 'What types of events does 11:11 Decor specialize in?',
+    question: 'What types of events does 11:11 Decor manage?',
     answer:
-      'We plan, manage, and decorate weddings, corporate galas, milestone birthdays, engagement ceremonies, private home soirees, and destination events across India.',
+      'Weddings, corporate events, birthdays, engagements, private functions, and destination events.',
   },
   {
-    question: 'Can I hire 11:11 Decor for planning only or decor only?',
-    answer:
-      'Yes! We offer standalone wedding/event planning services, standalone visual decoration services, or complete turnkey packages combining planning and decor.',
+    question: 'Do you provide complete event planning?',
+    answer: 'Yes — concept, vendors, timeline, décor, and on-site coordination.',
   },
   {
-    question: 'How do you handle unexpected weather during outdoor events?',
-    answer:
-      'Every outdoor event plan includes a structural weather contingency strategy — such as waterproof canopy drapes, fast indoor hall migration plans, and heavy-duty staging.',
+    question: 'Do you provide event decoration separately?',
+    answer: 'Yes, décor can be booked on its own.',
   },
   {
-    question: 'How do we get started with planning our event?',
-    answer:
-      'Simply reach out via our contact page or WhatsApp. We will schedule an initial discovery consultation to understand your date, venue, guest count, and visual vision.',
+    question: 'Can I customize an event package?',
+    answer: 'Every package is a starting point and adjusted to your event and budget.',
+  },
+  {
+    question: 'How far in advance should I book?',
+    answer: 'As early as possible, especially for weddings and peak-season dates.',
+  },
+  {
+    question: 'Do you manage corporate events?',
+    answer: 'Yes, including launches, conferences, and company celebrations.',
+  },
+  {
+    question: 'Do you work outside [CITY]?',
+    answer: 'Yes, including destination events — confirm coverage on inquiry.',
+  },
+  {
+    question: 'How do I request a quote?',
+    answer: 'Contact form or WhatsApp with event type, date, and guest count.',
   },
 ]

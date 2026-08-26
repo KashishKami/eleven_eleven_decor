@@ -6,7 +6,7 @@ test.describe('Events Main Hub Page (W-401)', () => {
 
     const heading = page.getByRole('heading', { level: 1 })
     await expect(heading).toBeVisible()
-    await expect(heading).toContainText(/All 6 Event Categories/i)
+    await expect(heading).toContainText(/Events We Plan, Manage & Decorate/i)
   })
 
   test('renders all 6 event category links', async ({ page }) => {
@@ -39,6 +39,6 @@ test.describe('Events Main Hub Page (W-401)', () => {
 
     const heading = page.getByRole('heading', { level: 1 })
     await expect(heading).toBeVisible()
-    await expect(heading).toContainText(/All 6 Event Categories/i)
+    await expect(heading).toContainText(/Events We Plan, Manage & Decorate/i)
   })
 })

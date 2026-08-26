@@ -1665,3 +1665,34 @@ Run the full verification pipeline and resolve any remaining type or lint edge c
 >   - 0 TypeScript errors (`tsc --noEmit`), 0 ESLint warnings (`next lint`).
 >   - 62 / 62 static and dynamic pages successfully compiled and generated in Next.js production build (`next build`).
 
+---
+
+> ### 📝 Session Note (PDF Handoff Content Remediation, Navigation Center Pinning, Event Detail Editorial Overhaul & Test Suite Alignment) — August 26, 2026 (Part 2)
+> - **11:11 Decor PDF Content Handoff Remediation:**
+>   - Conducted line-by-line inspection of `11-11-decor-website-content-handoff.pdf` across all sections.
+>   - Replaced all legacy catering references in `process.ts` with the official 4-step event workflow: `01 Consultation`, `02 Concept & Planning`, `03 Design & Coordination`, `04 Event Day Execution`.
+>   - Aligned `WhyChooseUs.tsx` with the 6 pillars from PDF Section 5 (`Creative Concepts`, `Personalized Décor`, `Detailed Planning`, `Professional Coordination`, `Seamless Execution`, `Client-Focused Approach`).
+>   - Preserved hero headline *"Your Wish Our Creation."* while matching the supporting copy and CTAs to the PDF.
+>   - Updated About Us narrative across `AboutSection.tsx` and `app/about-us/page.tsx` with authentic brand copy.
+>   - Synchronized all 8 FAQs across `SERVICES_HUB_FAQS` in `services.ts` and `events.ts`.
+> - **Event Detail Pages Editorial Overhaul:**
+>   - Re-architected `events/[slug]/page.tsx` under the luxury Services theme, eliminating fragmented alternating zebra stripes.
+>   - Formatted all event deliverables into clean, structured bullet points with `✦` and `✔` icons.
+>   - Explicitly rendered each of the 5 core PDF sections with its exact heading:
+>     1. `Event Planning Services`
+>     2. `Decoration Options`
+>     3. `Event Management`
+>     4. `What We Handle`
+>     5. `Why Choose 11:11 Decor`
+>   - Embedded direct, clickable Next.js `<Link>` elements for all internal service references (e.g. `Wedding Decoration`, `Corporate Event Management`, `Stage Decoration`, `Floral Decoration`).
+>   - Removed extraneous "Related Occasions" and "Featured Case Studies" blocks to strictly adhere to the PDF Section 7 template.
+> - **Navbar Center Pinning & Responsive Scaling:**
+>   - Pinned the logo to the exact geometric center (`position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%)`) preventing menu items from shifting it.
+>   - Added fluid scaling for navigation link gaps and typography (`gap: clamp(0.85rem, 1.6vw, 2.25rem)`, `font-size: clamp(0.88rem, 1vw, 1.05rem)`).
+>   - Adjusted mobile drawer switch threshold to `1120px` to prevent menu crowding.
+>   - Fixed dropdown left-alignment clipping (`left: -0.75rem`), ensuring full visibility without viewport overflow.
+> - **Homepage Categories Slider Card Enhancement:**
+>   - Refined card proportions and oval window height in `EventCategories.tsx`, ensuring the `Explore Event →` button is prominently displayed and clickable.
+> - **E2E & Unit Test Suite Alignment:**
+>   - Updated E2E test assertions in `events-celebrations.spec.ts`, `events-hub.spec.ts`, `events-niche.spec.ts`, `work-process.spec.ts`, and `why-choose-us.spec.ts` to reflect the official PDF headings and copy.
+

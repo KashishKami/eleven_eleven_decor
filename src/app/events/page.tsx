@@ -3,18 +3,20 @@ import type { Metadata } from 'next'
 import { EVENTS_PAGE_FAQS } from '@/data/events'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 import { EventCategories } from '@/components/sections/EventCategories'
+import { WorkProcess } from '@/components/sections/WorkProcess'
+import { WhyChooseUs } from '@/components/sections/WhyChooseUs'
 import { FooterCTA } from '@/components/sections/FooterCTA'
 import JsonLd from '@/components/seo/JsonLd'
 import styles from './events.module.css'
 
 export const metadata: Metadata = {
-  title: 'All 6 Event Categories | 1111 Decor',
+  title: 'Events We Plan, Manage & Decorate | 11:11 Decor',
   description:
-    'Explore luxury event planning, royal weddings, corporate galas, milestone birthdays, and destination management by 11:11 Decor.',
+    'Every event type carries its own rhythm — a wedding unfolds across days, a product launch runs on minutes. 11:11 Decor plans and decorates each differently.',
   openGraph: {
-    title: 'All 6 Event Categories | 1111 Decor',
+    title: 'Events We Plan, Manage & Decorate | 11:11 Decor',
     description:
-      'Explore luxury event planning, royal weddings, corporate galas, milestone birthdays, and destination management by 11:11 Decor.',
+      'Every event type carries its own rhythm — a wedding unfolds across days, a product launch runs on minutes. 11:11 Decor plans and decorates each differently.',
     url: 'https://1111decor.com/events/',
     type: 'website',
   },
@@ -58,11 +60,10 @@ export default function EventsHubPage() {
             className="heading-xl"
             style={{ color: '#ffffff', marginTop: '0.75rem' }}
           >
-            All 6 Event Categories
+            Events We Plan, Manage &amp; Decorate
           </WindRevealHeading>
           <p className={styles.introSubtext}>
-            From intimate private dinners to multi-day royal weddings and corporate galas, our team seamlessly combines
-            strategic event planning, bespoke floral design, and surgical on-site execution.
+            Every event type carries its own rhythm — a wedding unfolds across days, a product launch runs on minutes. 11:11 Decor plans and decorates each differently, matched to what that event actually needs.
           </p>
         </div>
       </section>
@@ -70,12 +71,18 @@ export default function EventsHubPage() {
       {/* SECTION 2: Interactive Curtain-Wipe Event Categories Animation */}
       <EventCategories />
 
-      {/* SECTION 3: Dark Theme FAQ Section */}
+      {/* SECTION 3: 4-Step Process Section */}
+      <WorkProcess />
+
+      {/* SECTION 4: Why Choose Us Section */}
+      <WhyChooseUs />
+
+      {/* SECTION 5: Dark Theme FAQ Section */}
       <section className={styles.faqSection}>
         <div className={styles.container}>
           <div className={styles.faqHeader}>
             <span className={styles.label} style={{ color: 'var(--color-accent)' }}>
-              GOT QUESTIONS?
+              FREQUENTLY ASKED QUESTIONS
             </span>
             <WindRevealHeading
               as="h2"
@@ -97,7 +104,7 @@ export default function EventsHubPage() {
         </div>
       </section>
 
-      {/* SECTION 4: Dark Theme Footer CTA */}
+      {/* SECTION 6: Global Footer CTA */}
       <FooterCTA />
     </div>
   )

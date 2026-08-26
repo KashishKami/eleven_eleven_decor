@@ -9,11 +9,11 @@ test.describe('Primary Celebrations Event Pages (W-402)', () => {
     await expect(heading).toContainText(/Wedding Event Planning & Management/i)
 
     // Verify planning services section
-    const planningHeading = page.getByRole('heading', { level: 2 }).filter({ hasText: /Wedding Planning Services/i })
+    const planningHeading = page.getByRole('heading', { level: 2 }).filter({ hasText: /Event Planning Services/i })
     await expect(planningHeading).toBeVisible()
 
     // Verify decoration options section
-    const decorHeading = page.getByRole('heading', { level: 2 }).filter({ hasText: /Signature Decoration Options/i })
+    const decorHeading = page.getByRole('heading', { level: 2 }).filter({ hasText: /Decoration Options/i })
     await expect(decorHeading).toBeVisible()
 
     // Verify FAQs section

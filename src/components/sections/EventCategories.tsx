@@ -18,7 +18,7 @@ export function EventCategories() {
 
   const bgSlideRefs = useRef<(HTMLDivElement | null)[]>([])
   const circleSlideRefs = useRef<(HTMLDivElement | null)[]>([])
-  const textSlideRefs = useRef<(HTMLDivElement | null)[]>([])
+  const textSlideRefs = useRef<(HTMLAnchorElement | null)[]>([])
 
   useEffect(() => {
     if (typeof window === 'undefined' || !sectionRef.current) return

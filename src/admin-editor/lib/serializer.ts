@@ -51,6 +51,7 @@ export function serializeToHtml(doc: JSONContent): string {
     StarterKit.configure({
       heading: false,
       horizontalRule: false,
+      link: false,
     }),
     Heading.configure({
       levels: [1, 2, 3, 4, 5, 6],

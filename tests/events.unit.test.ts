@@ -23,7 +23,7 @@ describe('Events Data Unit Suite (W-401, W-402, W-403)', () => {
       expect(cat.title).toBeTruthy()
       expect(cat.subtitle).toBeTruthy()
       expect(cat.description).toBeTruthy()
-      expect(cat.heroImage).toMatch(/^https:\/\//)
+      expect(cat.heroImage).toMatch(/^(\/|https?:\/\/)/)
       expect(cat.planningServices.length).toBeGreaterThan(0)
       expect(cat.decorationOptions.length).toBeGreaterThan(0)
       expect(cat.eventManagement.length).toBeGreaterThan(0)

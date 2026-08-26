@@ -167,6 +167,7 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
       StarterKit.configure({
         heading: false,
         horizontalRule: false,
+        link: false,
       }),
       Heading.configure({
         levels: [1, 2, 3, 4, 5, 6],

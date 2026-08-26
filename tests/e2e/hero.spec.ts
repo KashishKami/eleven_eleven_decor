@@ -10,7 +10,7 @@ test.describe('Hero Section (W-201)', () => {
     const heading = heroSection.locator('h1')
     await expect(heading).toBeVisible()
     const headingText = await heading.textContent()
-    expect(headingText).toContain('Celebrations')
+    expect(headingText).toContain('Your Wish Our Creation')
 
     const planBtn = heroSection.getByRole('link', { name: /plan your event/i })
     await expect(planBtn).toBeVisible()

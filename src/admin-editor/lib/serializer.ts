@@ -4,6 +4,7 @@ import StarterKit from '@tiptap/starter-kit'
 import Heading from '@tiptap/extension-heading'
 import Image from '@tiptap/extension-image'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
+import Link from '@tiptap/extension-link'
 import { FaqBlock } from '../extensions/FaqBlock'
 import { TableOfContents } from '../extensions/TableOfContents'
 
@@ -53,6 +54,12 @@ export function serializeToHtml(doc: JSONContent): string {
     }),
     Heading.configure({
       levels: [1, 2, 3, 4, 5, 6],
+    }),
+    Link.configure({
+      openOnClick: false,
+      HTMLAttributes: {
+        rel: 'noopener noreferrer',
+      },
     }),
     Image,
     HorizontalRule,

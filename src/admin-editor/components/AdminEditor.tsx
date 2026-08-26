@@ -4,6 +4,7 @@ import StarterKit from '@tiptap/starter-kit'
 import Heading from '@tiptap/extension-heading'
 import Image from '@tiptap/extension-image'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
+import Link from '@tiptap/extension-link'
 import { FaqBlock } from '../extensions/FaqBlock'
 import { TableOfContents } from '../extensions/TableOfContents'
 import { SLASH_COMMANDS, SlashCommandItem } from '../lib/slashCommands'
@@ -31,6 +32,12 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
   const [imageAltInput, setImageAltInput] = useState('')
   const [uploadSuccessMsg, setUploadSuccessMsg] = useState<string>('')
   const fileInputRef = useRef<HTMLInputElement | null>(null)
+
+  // Link modal state
+  const [showLinkModal, setShowLinkModal] = useState(false)
+  const [linkUrlInput, setLinkUrlInput] = useState('')
+  const [linkOpenNewTab, setLinkOpenNewTab] = useState(true)
+  const linkInputRef = useRef<HTMLInputElement | null>(null)
 
   const handleEditorUpdate = useCallback(
     (ed: Editor) => {
@@ -117,6 +124,44 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
     }
   }, [])
 
+  // Open link modal: pre-fill URL if cursor is already on a link
+  const openLinkModal = useCallback(() => {
+    const ed = editorRef.current
+    if (!ed) return
+    const existingHref = ed.getAttributes('link').href || ''
+    setLinkUrlInput(existingHref)
+    setLinkOpenNewTab(true)
+    setShowLinkModal(true)
+    // Focus the input after the modal renders
+    setTimeout(() => linkInputRef.current?.focus(), 50)
+  }, [])
+
+  const handleInsertLink = useCallback(() => {
+    const ed = editorRef.current
+    if (!ed) return
+    const url = linkUrlInput.trim()
+    if (!url) {
+      setShowLinkModal(false)
+      return
+    }
+    // Ensure the URL has a protocol
+    const href = /^https?:\/\//i.test(url) ? url : `https://${url}`
+    ed.chain()
+      .focus()
+      .extendMarkRange('link')
+      .setLink({ href, target: linkOpenNewTab ? '_blank' : null })
+      .run()
+    setShowLinkModal(false)
+    setLinkUrlInput('')
+  }, [linkUrlInput, linkOpenNewTab])
+
+  const handleRemoveLink = useCallback(() => {
+    const ed = editorRef.current
+    if (!ed) return
+    ed.chain().focus().extendMarkRange('link').unsetLink().run()
+    setShowLinkModal(false)
+  }, [])
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -125,6 +170,13 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
       }),
       Heading.configure({
         levels: [1, 2, 3, 4, 5, 6],
+      }),
+      Link.configure({
+        openOnClick: false, // Don't navigate while editing — click just selects
+        autolink: true,     // Auto-detect URLs as you type
+        HTMLAttributes: {
+          rel: 'noopener noreferrer',
+        },
       }),
       Image.configure({
         inline: true,
@@ -309,6 +361,26 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
           H3
         </button>
         <span className="tb-divider" />
+        {/* Link Button */}
+        <button
+          type="button"
+          className={`tb-btn ${editor.isActive('link') ? 'active' : ''}`}
+          onClick={openLinkModal}
+          title="Insert / Edit Link"
+        >
+          🔗 Link
+        </button>
+        {editor.isActive('link') && (
+          <button
+            type="button"
+            className="tb-btn"
+            onClick={handleRemoveLink}
+            title="Remove Link"
+          >
+            🔗✕
+          </button>
+        )}
+        <span className="tb-divider" />
         <button
           type="button"
           className="tb-btn"
@@ -491,6 +563,66 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({
                 Insert Image into Article
               </button>
               <button type="button" className="btn-secondary" onClick={() => setShowImageModal(false)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Link Insert / Edit Modal */}
+      {showLinkModal && (
+        <div className="image-modal-backdrop" onClick={() => setShowLinkModal(false)}>
+          <div className="image-modal" onClick={(e) => e.stopPropagation()}>
+            <h3 className="modal-title">Insert / Edit Link</h3>
+
+            <div className="modal-section">
+              <label className="modal-label">URL (website address):</label>
+              <input
+                ref={linkInputRef}
+                type="text"
+                className="modal-input"
+                placeholder="e.g. https://elevenelevendecor.com/services/"
+                value={linkUrlInput}
+                onChange={(e) => setLinkUrlInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') handleInsertLink()
+                  if (e.key === 'Escape') setShowLinkModal(false)
+                }}
+              />
+              <p style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.45)', marginTop: '0.4rem' }}>
+                Tip: Select the text you want to turn into a link first, then click 🔗 Link.
+              </p>
+            </div>
+
+            <div className="modal-section" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+              <input
+                type="checkbox"
+                id="link-new-tab"
+                checked={linkOpenNewTab}
+                onChange={(e) => setLinkOpenNewTab(e.target.checked)}
+                style={{ width: '16px', height: '16px', accentColor: '#c9a96e', cursor: 'pointer' }}
+              />
+              <label htmlFor="link-new-tab" className="modal-label" style={{ marginBottom: 0, cursor: 'pointer' }}>
+                Open in new tab (recommended for external links)
+              </label>
+            </div>
+
+            <div className="modal-actions">
+              <button
+                type="button"
+                className="btn-primary"
+                onClick={handleInsertLink}
+                disabled={!linkUrlInput.trim()}
+              >
+                Apply Link
+              </button>
+              {editor.isActive('link') && (
+                <button type="button" className="btn-secondary" onClick={handleRemoveLink}>
+                  Remove Link
+                </button>
+              )}
+              <button type="button" className="btn-secondary" onClick={() => setShowLinkModal(false)}>
                 Cancel
               </button>
             </div>

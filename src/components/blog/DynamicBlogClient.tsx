@@ -82,7 +82,7 @@ function BlogCategoryView({ categorySlug }: { categorySlug: string }) {
   const { posts, loading } = useBlogPosts(categorySlug)
 
   return (
-    <div style={{ paddingTop: '80px', backgroundColor: '#faf6f0', minHeight: '100vh' }}>
+    <div style={{ paddingTop: '80px', backgroundColor: '#ede5d8', minHeight: '100vh' }}>
       <section
         style={{
           padding: '6rem 1.5rem 3.5rem',
@@ -331,7 +331,7 @@ function BlogArticleView({ articleSlug }: { articleSlug: string }) {
 
   if (loading) {
     return (
-      <div style={{ paddingTop: '140px', minHeight: '80vh', textAlign: 'center', backgroundColor: '#faf6f0' }}>
+      <div style={{ paddingTop: '140px', minHeight: '80vh', textAlign: 'center', backgroundColor: '#ede5d8' }}>
         <p style={{ color: '#8a8275', fontSize: '1.25rem', fontFamily: 'var(--font-body)' }}>Loading article...</p>
       </div>
     )
@@ -339,7 +339,7 @@ function BlogArticleView({ articleSlug }: { articleSlug: string }) {
 
   if (error || !post) {
     return (
-      <div style={{ paddingTop: '140px', minHeight: '80vh', textAlign: 'center', backgroundColor: '#faf6f0' }}>
+      <div style={{ paddingTop: '140px', minHeight: '80vh', textAlign: 'center', backgroundColor: '#ede5d8' }}>
         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', color: '#1a1a1a', marginBottom: '1rem' }}>
           Article Not Found
         </h1>
@@ -381,7 +381,7 @@ function BlogArticleView({ articleSlug }: { articleSlug: string }) {
   }
 
   return (
-    <div style={{ paddingTop: '80px', backgroundColor: '#faf6f0', minHeight: '100vh' }}>
+    <div style={{ paddingTop: '80px', backgroundColor: '#ede5d8', minHeight: '100vh' }}>
       {/* Scroll Progress Bar */}
       <div
         ref={progressBarRef}

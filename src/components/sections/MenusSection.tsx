@@ -55,7 +55,7 @@ export function MenusSection() {
       id="menus-section"
       ref={sectionRef}
       style={{
-        backgroundColor: '#f7f3ec',
+        backgroundColor: '#ede5d8',
         padding: '7rem 1.5rem',
         color: '#1a1a1a',
         position: 'relative',

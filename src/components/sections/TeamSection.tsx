@@ -10,7 +10,7 @@ export function TeamSection() {
     <section
       id="team"
       style={{
-        backgroundColor: '#faf6f0',
+        backgroundColor: '#ede5d8',
         padding: '7rem 1.5rem',
         color: '#1a1a1a',
         position: 'relative',

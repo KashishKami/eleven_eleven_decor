@@ -280,7 +280,7 @@ export function NavigationClient() {
             src="/logo.png"
             alt="11:11 Decor — Event Management & Décor Studio"
             style={{
-              height: '90px',
+              height: '100px',
               width: 'auto',
               objectFit: 'contain',
               display: 'block',

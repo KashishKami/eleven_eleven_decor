@@ -84,7 +84,7 @@ export function WhyChooseUs() {
       id="why-choose-us"
       ref={sectionRef}
       style={{
-        backgroundColor: '#faf6f0',
+        backgroundColor: '#ede5d8',
         padding: 'clamp(5rem, 8vw, 7.5rem) 1.5rem',
         color: '#1a1a1a',
         position: 'relative',

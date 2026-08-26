@@ -13,7 +13,7 @@ export function HomeGallery() {
     <section
       id="gallery-overview"
       style={{
-        backgroundColor: '#faf6f0',
+        backgroundColor: '#ede5d8',
         color: '#1a1a1a',
         paddingBlock: 'clamp(5rem, 8vw, 7.5rem)',
         position: 'relative',

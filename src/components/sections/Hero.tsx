@@ -86,7 +86,7 @@ export function Hero() {
               textShadow: '0 4px 25px rgba(0, 0, 0, 0.85)',
             }}
           >
-            Celebrations planned with intention, decorated with detail.
+            Your Wish Our Creation.
           </WindRevealHeading>
         </div>
 

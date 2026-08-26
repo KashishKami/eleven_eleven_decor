@@ -11,7 +11,7 @@ export function AboutSection() {
       id="about"
       className="section-padding"
       style={{
-        backgroundColor: '#faf6f0',
+        backgroundColor: '#ede5d8',
         color: '#1a1a1a',
         position: 'relative',
         overflow: 'hidden',
@@ -222,7 +222,7 @@ export function AboutSection() {
                 height: 'clamp(140px, 30vw, 180px)',
                 borderRadius: '16px',
                 overflow: 'hidden',
-                border: '3px solid #faf6f0',
+                border: '3px solid #ede5d8',
                 boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
                 zIndex: 2,
               }}

@@ -38,12 +38,14 @@ export function EventCategories() {
         // Exact Y coordinates relative to top of section
         const circleTop = cRect.top - sRect.top
         const circleBottom = cRect.bottom - sRect.top
+        const textTop = tRect.top - sRect.top
         const textBottom = tRect.bottom - sRect.top
 
         // Seam progress keypoints: Y_seam(p) = H * (1 - p)
         const pCircleEnter = Math.max(0, Math.min(1, 1 - circleBottom / H))
         const pCircleExit = Math.max(0, Math.min(1, 1 - circleTop / H))
         const pTextEnter = Math.max(0, Math.min(1, 1 - textBottom / H))
+        const pTextExit = Math.max(0, Math.min(1, 1 - textTop / H))
 
         const stepDuration = 1.0
 
@@ -100,61 +102,65 @@ export function EventCategories() {
             }
           }
 
-          // 3. Strict Interactive Pointer & Visibility Control for Text Blocks
-          const tTextStart = slideStartTime + pTextEnter * stepDuration
+        // 3. Text Block Synchronized Wipe (100% Seam Alignment with Background & Oval Photo)
+        const tTextStart = slideStartTime + pTextEnter * stepDuration
+        const tTextEnd = slideStartTime + pTextExit * stepDuration
+        const textDur = tTextEnd - tTextStart
 
+        if (textDur > 0) {
           if (prevTextEl) {
-            tl.to(
+            tl.fromTo(
               prevTextEl,
+              { clipPath: 'inset(0% 0% 0% 0%)' },
               {
-                opacity: 0,
-                y: -10,
+                clipPath: 'inset(0% 0% 100% 0%)',
                 ease: 'none',
-                duration: 0.2 * stepDuration,
+                duration: textDur,
               },
               tTextStart
-            ).set(
-              prevTextEl,
-              {
-                pointerEvents: 'none',
-                visibility: 'hidden',
-                zIndex: 1,
-              },
-              tTextStart + 0.2 * stepDuration
             )
           }
 
           if (textEl) {
-            tl.set(
+            tl.fromTo(
               textEl,
+              { clipPath: 'inset(100% 0% 0% 0%)' },
               {
-                pointerEvents: 'auto',
-                visibility: 'visible',
-                zIndex: 10,
+                clipPath: 'inset(0% 0% 0% 0%)',
+                ease: 'none',
+                duration: textDur,
               },
               tTextStart
-            ).fromTo(
-              textEl,
-              { opacity: 0, y: 12 },
-              {
-                opacity: 1,
-                y: 0,
-                ease: 'none',
-                duration: 0.25 * stepDuration,
-              },
-              tTextStart + 0.05 * stepDuration
             )
+          }
+
+          // Switch pointer events at midpoint of wipe
+          const tSwitch = tTextStart + textDur * 0.5
+          if (prevTextEl) {
+            tl.set(prevTextEl, { pointerEvents: 'none' }, tSwitch)
+          }
+          if (textEl) {
+            tl.set(textEl, { pointerEvents: 'auto' }, tSwitch)
           }
         }
       }
+    }
 
       buildTimeline()
 
+      const handleResize = () => {
+        buildTimeline()
+        ScrollTrigger.refresh()
+      }
+
+      window.addEventListener('resize', handleResize)
+
       const timer = setTimeout(() => {
         ScrollTrigger.refresh()
-      }, 100)
+      }, 150)
 
       return () => {
+        window.removeEventListener('resize', handleResize)
         clearTimeout(timer)
       }
     }, sectionRef)
@@ -225,10 +231,10 @@ export function EventCategories() {
             transform: 'translate(-50%, -50%)',
             zIndex: 2,
             fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(4rem, 14vw, 15rem)',
+            fontSize: 'clamp(4rem, 13vw, 13rem)',
             fontWeight: 400,
-            color: 'rgba(255, 255, 255, 0.12)',
-            letterSpacing: '0.1em',
+            color: 'rgba(255, 255, 255, 0.13)',
+            letterSpacing: '0.14em',
             textTransform: 'uppercase',
             whiteSpace: 'nowrap',
             pointerEvents: 'none',
@@ -238,7 +244,7 @@ export function EventCategories() {
           EVENTS CATER
         </div>
 
-        {/* Centered Translucent Frosted Glass Card */}
+        {/* Centered Translucent Card Perfectly Matched to Reference Proportions */}
         <div
           style={{
             position: 'absolute',
@@ -246,29 +252,34 @@ export function EventCategories() {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             zIndex: 3,
-            width: 'clamp(290px, 88vw, 420px)',
+            width: 'clamp(310px, 24.5vw, 400px)',
+            height: 'clamp(510px, 73vh, 650px)',
             maxWidth: 'calc(100vw - 2rem)',
-            backgroundColor: 'rgba(45, 38, 30, 0.82)',
-            backdropFilter: 'blur(24px)',
-            borderRadius: '24px',
-            padding: 'clamp(1.75rem, 4vw, 2.5rem) clamp(1.25rem, 4vw, 2rem) clamp(2rem, 4.5vw, 2.75rem)',
+            maxHeight: 'calc(100vh - 2.5rem)',
+            background: 'linear-gradient(180deg, #918b7b 0%, #857f70 48%, #9d9782 100%)',
+            borderRadius: '12px',
+            padding: 'clamp(2rem, 3.8vh, 2.75rem) clamp(1.5rem, 2vw, 2rem) clamp(2rem, 3.8vh, 2.75rem)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'space-between',
             textAlign: 'center',
-            border: '1px solid rgba(255, 255, 255, 0.25)',
-            boxShadow: '0 30px 60px rgba(0, 0, 0, 0.6)',
+            border: 'none',
+            boxShadow: '0 20px 45px rgba(0, 0, 0, 0.38)',
+            boxSizing: 'border-box',
           }}
         >
-          {/* Inner Circular Photo Window with 100% Sub-Pixel Synchronized Seam Reveal */}
+          {/* Inner Oval Photo Window with 100% Sub-Pixel Synchronized Seam Reveal */}
           <div
             ref={circleWindowRef}
             style={{
               position: 'relative',
-              width: 'clamp(170px, 48vw, 240px)',
-              height: 'clamp(170px, 48vw, 240px)',
+              width: 'clamp(205px, 16.5vw, 260px)',
+              height: 'clamp(255px, 32vh, 325px)',
               borderRadius: '50%',
               overflow: 'hidden',
-              margin: '0 auto 1.15rem',
-              border: '3.5px solid rgba(255, 255, 255, 0.4)',
-              boxShadow: '0 12px 30px rgba(0,0,0,0.5)',
+              margin: '0 auto',
+              flexShrink: 0,
             }}
           >
             {CATEGORIES.map((cat, idx) => (
@@ -290,7 +301,7 @@ export function EventCategories() {
                   alt={cat.name}
                   fill
                   priority={idx === 0}
-                  sizes="(max-width: 768px) 48vw, 240px"
+                  sizes="(max-width: 768px) 50vw, 260px"
                   style={{ objectFit: 'cover' }}
                 />
               </div>
@@ -298,36 +309,50 @@ export function EventCategories() {
           </div>
 
           {/* Stacked Synchronized Category Content Blocks */}
-          <div ref={textWindowRef} style={{ position: 'relative', minHeight: '190px' }}>
+          <div
+            ref={textWindowRef}
+            style={{
+              position: 'relative',
+              width: '100%',
+              flex: 1,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginTop: 'clamp(1rem, 2vh, 1.5rem)',
+            }}
+          >
             {CATEGORIES.map((cat, idx) => (
-              <div
+              <Link
                 key={`text-${cat.id}`}
+                href={cat.link}
                 ref={(el) => {
                   textSlideRefs.current[idx] = el
                 }}
                 style={{
-                  position: idx === 0 ? 'relative' : 'absolute',
+                  position: 'absolute',
                   inset: 0,
-                  zIndex: idx === 0 ? 10 : 1,
-                  opacity: idx === 0 ? 1 : 0,
+                  zIndex: idx + 1,
+                  clipPath: idx === 0 ? 'inset(0% 0% 0% 0%)' : 'inset(100% 0% 0% 0%)',
                   pointerEvents: idx === 0 ? 'auto' : 'none',
-                  visibility: idx === 0 ? 'visible' : 'hidden',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  willChange: 'opacity, transform',
+                  justifyContent: 'center',
+                  textDecoration: 'none',
+                  color: 'inherit',
+                  willChange: 'clip-path',
                 }}
               >
-                <div style={{ minHeight: '3rem', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '0.4rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '0.65rem' }}>
                   <h3
                     style={{
                       fontFamily: 'var(--font-display)',
-                      fontSize: 'clamp(1.3rem, 3vw, 1.85rem)',
-                      fontWeight: 600,
+                      fontSize: 'clamp(1.75rem, 2.1vw, 2.35rem)',
+                      fontWeight: 400,
                       color: '#ffffff',
-                      letterSpacing: '0.08em',
+                      letterSpacing: '0.06em',
                       textTransform: 'uppercase',
-                      lineHeight: 1.25,
+                      lineHeight: 1.15,
                       margin: 0,
                     }}
                   >
@@ -338,43 +363,19 @@ export function EventCategories() {
                 <p
                   style={{
                     fontFamily: 'var(--font-body)',
-                    color: '#f3ece1',
-                    fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)',
+                    color: 'rgba(255, 255, 255, 0.95)',
+                    fontSize: 'clamp(0.84rem, 0.9vw, 0.94rem)',
                     fontWeight: 400,
-                    lineHeight: 1.5,
-                    maxWidth: '330px',
+                    lineHeight: 1.6,
+                    maxWidth: '290px',
                     marginInline: 'auto',
-                    marginBottom: '1.35rem',
-                    minHeight: '2.8rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    margin: 0,
+                    textAlign: 'center',
                   }}
                 >
                   {cat.description}
                 </p>
-
-                <Link
-                  href={cat.link}
-                  style={{
-                    display: 'inline-block',
-                    padding: '0.625rem 1.35rem',
-                    backgroundColor: '#c9a96e',
-                    color: '#111111',
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '0.825rem',
-                    fontWeight: 700,
-                    borderRadius: '4px',
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
-                    textDecoration: 'none',
-                    boxShadow: '0 4px 15px rgba(201, 169, 110, 0.4)',
-                    transition: 'background-color 0.3s ease, transform 0.2s ease',
-                  }}
-                >
-                  Explore Category &rarr;
-                </Link>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

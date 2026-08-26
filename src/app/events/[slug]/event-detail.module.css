@@ -49,7 +49,7 @@
 /* SECTION 2: Light Theme Intro Overview */
 .introSectionLight {
   padding: 5rem 0 4.5rem;
-  background-color: #f7f3ec;
+  background-color: #ede5d8;
   color: #1a1a1a;
   border-bottom: 1px solid rgba(201, 169, 110, 0.25);
 }
@@ -75,7 +75,7 @@
 /* SECTION 4: Light Theme Signature Decoration Options */
 .decorSectionLight {
   padding: 5rem 0;
-  background-color: #faf6f0;
+  background-color: #ede5d8;
   color: #1a1a1a;
 }
 
@@ -89,7 +89,7 @@
 /* SECTION 6: Light Theme 4-Step Process */
 .processSectionLight {
   padding: 5rem 0;
-  background-color: #f7f3ec;
+  background-color: #ede5d8;
   color: #1a1a1a;
 }
 

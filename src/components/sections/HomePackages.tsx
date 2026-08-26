@@ -10,7 +10,7 @@ export function HomePackages() {
     <section
       id="packages-overview"
       style={{
-        backgroundColor: '#faf6f0',
+        backgroundColor: '#ede5d8',
         color: '#1a1a1a',
         paddingBlock: 'clamp(5rem, 8vw, 7.5rem)',
         position: 'relative',
@@ -142,7 +142,7 @@ export function HomePackages() {
                 <div
                   style={{
                     padding: '0.75rem 1rem',
-                    backgroundColor: tier.popular ? 'rgba(201, 169, 110, 0.12)' : '#faf6f0',
+                    backgroundColor: tier.popular ? 'rgba(201, 169, 110, 0.12)' : '#ede5d8',
                     borderRadius: '8px',
                     marginBottom: '1.5rem',
                   }}

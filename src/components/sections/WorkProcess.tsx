@@ -146,7 +146,7 @@ export function WorkProcess() {
         id="work-process"
         ref={sectionRef}
         style={{
-          backgroundColor: '#f7f3ec',
+          backgroundColor: '#ede5d8',
           color: '#2c221e',
           position: 'relative',
           padding: '5rem 1.25rem 6rem',

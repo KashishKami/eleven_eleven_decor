@@ -17,6 +17,7 @@ export function EventCategories() {
   const textWindowRef = useRef<HTMLDivElement>(null)
 
   const bgSlideRefs = useRef<(HTMLDivElement | null)[]>([])
+  const bgImageRefs = useRef<(HTMLDivElement | null)[]>([])
   const circleSlideRefs = useRef<(HTMLDivElement | null)[]>([])
   const textSlideRefs = useRef<(HTMLAnchorElement | null)[]>([])
 
@@ -35,13 +36,11 @@ export function EventCategories() {
 
         const H = sRect.height || window.innerHeight || 900
 
-        // Exact Y coordinates relative to top of section
         const circleTop = cRect.top - sRect.top
         const circleBottom = cRect.bottom - sRect.top
         const textTop = tRect.top - sRect.top
         const textBottom = tRect.bottom - sRect.top
 
-        // Seam progress keypoints: Y_seam(p) = H * (1 - p)
         const pCircleEnter = Math.max(0, Math.min(1, 1 - circleBottom / H))
         const pCircleExit = Math.max(0, Math.min(1, 1 - circleTop / H))
         const pTextEnter = Math.max(0, Math.min(1, 1 - textBottom / H))
@@ -59,16 +58,16 @@ export function EventCategories() {
           },
         })
 
-        // Build 100% continuous seam animations for slides 1 to totalSlides - 1
         for (let i = 1; i < totalSlides; i++) {
           const slideStartTime = (i - 1) * stepDuration
 
           const bgEl = bgSlideRefs.current[i]
+          const incomingBgImg = bgImageRefs.current[i]
+          const outgoingBgImg = bgImageRefs.current[i - 1]
           const circleEl = circleSlideRefs.current[i]
           const textEl = textSlideRefs.current[i]
           const prevTextEl = textSlideRefs.current[i - 1]
 
-          // 1. Full-Bleed Background Image Wipe
           if (bgEl) {
             tl.fromTo(
               bgEl,
@@ -82,7 +81,32 @@ export function EventCategories() {
             )
           }
 
-          // 2. Circle Photo Window Wipe (100% Seam Alignment with Background Photo)
+          if (incomingBgImg) {
+            tl.fromTo(
+              incomingBgImg,
+              { scale: 1.08 },
+              {
+                scale: 1.0,
+                ease: 'none',
+                duration: stepDuration,
+              },
+              slideStartTime
+            )
+          }
+
+          if (outgoingBgImg) {
+            tl.fromTo(
+              outgoingBgImg,
+              { scale: 1.0 },
+              {
+                scale: 0.94,
+                ease: 'none',
+                duration: stepDuration,
+              },
+              slideStartTime
+            )
+          }
+
           if (circleEl) {
             const tCircleStart = slideStartTime + pCircleEnter * stepDuration
             const tCircleEnd = slideStartTime + pCircleExit * stepDuration
@@ -102,49 +126,47 @@ export function EventCategories() {
             }
           }
 
-        // 3. Text Block Synchronized Wipe (100% Seam Alignment with Background & Oval Photo)
-        const tTextStart = slideStartTime + pTextEnter * stepDuration
-        const tTextEnd = slideStartTime + pTextExit * stepDuration
-        const textDur = tTextEnd - tTextStart
+          const tTextStart = slideStartTime + pTextEnter * stepDuration
+          const tTextEnd = slideStartTime + pTextExit * stepDuration
+          const textDur = tTextEnd - tTextStart
 
-        if (textDur > 0) {
-          if (prevTextEl) {
-            tl.fromTo(
-              prevTextEl,
-              { clipPath: 'inset(0% 0% 0% 0%)' },
-              {
-                clipPath: 'inset(0% 0% 100% 0%)',
-                ease: 'none',
-                duration: textDur,
-              },
-              tTextStart
-            )
-          }
+          if (textDur > 0) {
+            if (prevTextEl) {
+              tl.fromTo(
+                prevTextEl,
+                { clipPath: 'inset(0% 0% 0% 0%)' },
+                {
+                  clipPath: 'inset(0% 0% 100% 0%)',
+                  ease: 'none',
+                  duration: textDur,
+                },
+                tTextStart
+              )
+            }
 
-          if (textEl) {
-            tl.fromTo(
-              textEl,
-              { clipPath: 'inset(100% 0% 0% 0%)' },
-              {
-                clipPath: 'inset(0% 0% 0% 0%)',
-                ease: 'none',
-                duration: textDur,
-              },
-              tTextStart
-            )
-          }
+            if (textEl) {
+              tl.fromTo(
+                textEl,
+                { clipPath: 'inset(100% 0% 0% 0%)' },
+                {
+                  clipPath: 'inset(0% 0% 0% 0%)',
+                  ease: 'none',
+                  duration: textDur,
+                },
+                tTextStart
+              )
+            }
 
-          // Switch pointer events at midpoint of wipe
-          const tSwitch = tTextStart + textDur * 0.5
-          if (prevTextEl) {
-            tl.set(prevTextEl, { pointerEvents: 'none' }, tSwitch)
-          }
-          if (textEl) {
-            tl.set(textEl, { pointerEvents: 'auto' }, tSwitch)
+            const tSwitch = tTextStart + textDur * 0.5
+            if (prevTextEl) {
+              tl.set(prevTextEl, { pointerEvents: 'none' }, tSwitch)
+            }
+            if (textEl) {
+              tl.set(textEl, { pointerEvents: 'auto' }, tSwitch)
+            }
           }
         }
       }
-    }
 
       buildTimeline()
 
@@ -169,7 +191,7 @@ export function EventCategories() {
   }, [])
 
   return (
-    <div style={{ position: 'relative', width: '100%' }}>
+    <div style={{ position: 'relative', width: '100%', backgroundColor: '#111111' }}>
       <section
         id="event-categories"
         ref={sectionRef}
@@ -181,7 +203,6 @@ export function EventCategories() {
           backgroundColor: '#111111',
         }}
       >
-        {/* Stacked Full-Bleed Background Slides for Curtain Wipe Reveal */}
         <div
           style={{
             position: 'absolute',
@@ -201,16 +222,29 @@ export function EventCategories() {
                 zIndex: idx + 1,
                 clipPath: idx === 0 ? 'inset(0% 0% 0% 0%)' : 'inset(100% 0% 0% 0%)',
                 willChange: 'clip-path',
+                overflow: 'hidden',
               }}
             >
-              <Image
-                src={cat.bgImage}
-                alt={cat.name}
-                fill
-                priority={idx === 0}
-                sizes="100vw"
-                style={{ objectFit: 'cover' }}
-              />
+              <div
+                ref={(el) => {
+                  bgImageRefs.current[idx] = el
+                }}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  willChange: 'transform',
+                  transformOrigin: 'center center',
+                }}
+              >
+                <Image
+                  src={cat.bgImage}
+                  alt={cat.name}
+                  fill
+                  priority={idx === 0}
+                  sizes="100vw"
+                  style={{ objectFit: 'cover' }}
+                />
+              </div>
               <div
                 style={{
                   position: 'absolute',

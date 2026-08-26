@@ -127,7 +127,7 @@ export function AboutSection() {
                 }}
               >
                 <Image
-                  src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600&auto=format&fit=crop"
+                  src="/events/engagements-bg.jpg"
                   alt="11:11 Decor Event Curation"
                   fill
                   sizes="90px"
@@ -216,8 +216,8 @@ export function AboutSection() {
               }}
             >
               <Image
-                src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop"
-                alt="11:11 Decor Luxury Garden Wedding Setting"
+                src="/events/engagements-card.jpg"
+                alt="11:11 Decor Luxury Engagement Styling"
                 fill
                 sizes="(max-width: 768px) 100vw, 460px"
                 style={{ objectFit: 'cover' }}
@@ -240,8 +240,8 @@ export function AboutSection() {
               }}
             >
               <Image
-                src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=600&auto=format&fit=crop"
-                alt="11:11 Decor Table and Floral Styling"
+                src="/events/birthdays-card.jpg"
+                alt="11:11 Decor Celebration and Floral Styling"
                 fill
                 sizes="210px"
                 style={{ objectFit: 'cover' }}

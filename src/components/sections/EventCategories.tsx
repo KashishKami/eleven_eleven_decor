@@ -84,9 +84,9 @@ export function EventCategories() {
           if (incomingBgImg) {
             tl.fromTo(
               incomingBgImg,
-              { scale: 1.28 },
+              { scale: 1.05 },
               {
-                scale: 1.05,
+                scale: 1.0,
                 ease: 'none',
                 duration: stepDuration,
               },
@@ -97,9 +97,9 @@ export function EventCategories() {
           if (outgoingBgImg) {
             tl.fromTo(
               outgoingBgImg,
-              { scale: 1.05 },
+              { scale: 1.0 },
               {
-                scale: 0.86,
+                scale: 0.96,
                 ease: 'none',
                 duration: stepDuration,
               },
@@ -231,7 +231,7 @@ export function EventCategories() {
                 }}
                 style={{
                   position: 'absolute',
-                  inset: '-5%',
+                  inset: '-1%',
                   willChange: 'transform',
                   transformOrigin: 'center center',
                   filter: 'blur(3.5px)',
@@ -243,7 +243,10 @@ export function EventCategories() {
                   fill
                   priority={idx === 0}
                   sizes="100vw"
-                  style={{ objectFit: 'cover' }}
+                  style={{
+                    objectFit: 'cover',
+                    objectPosition: cat.bgPosition || 'center center',
+                  }}
                 />
               </div>
               <div

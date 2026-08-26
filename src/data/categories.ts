@@ -4,6 +4,7 @@ export interface Category {
   title: string
   description: string
   bgImage: string
+  bgPosition?: string
   cardImage: string
   link: string
 }
@@ -35,7 +36,8 @@ export const CATEGORIES: Category[] = [
     title: 'BIRTHDAY CELEBRATIONS',
     description:
       'Milestone birthdays and intimate parties, themed and decorated to match the celebration in mind.',
-    bgImage: '/events/birthdays-bg.png',
+    bgImage: '/events/birthdays-bg.jpeg',
+    bgPosition: 'center 15%',
     cardImage: '/events/birthdays-card.jpg',
     link: '/events/birthday-events/',
   },

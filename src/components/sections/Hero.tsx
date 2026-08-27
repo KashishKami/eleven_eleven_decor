@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import gsap from 'gsap'
+import pageVisibility from '../../../php-admin/data/page-visibility.json'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 
 export function Hero() {
@@ -156,7 +157,7 @@ export function Hero() {
           </Link>
 
           <Link
-            href="/portfolio/"
+            href={pageVisibility.portfolio ? '/portfolio/' : '/events/'}
             style={{
               padding: '1rem 2.25rem',
               backgroundColor: 'rgba(255, 255, 255, 0.12)',
@@ -173,7 +174,7 @@ export function Hero() {
               transition: 'background-color 0.3s ease, border-color 0.3s ease',
             }}
           >
-             View Our Work
+             {pageVisibility.portfolio ? 'View Our Work' : 'Explore Events'}
           </Link>
         </div>
       </div>

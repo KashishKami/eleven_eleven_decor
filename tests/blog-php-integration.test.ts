@@ -46,11 +46,12 @@ describe('PHP & Blog Backend Integration Tests', () => {
   })
 
   it('verifies api/blog-post.php returns single post detail with FAQs', () => {
-    const detailApiPath = path.join(phpAdminDir, 'api', 'blog-post.php')
-    // Test execution with query param via CLI or simulation
     const seedCheck = JSON.parse(fs.readFileSync(postsJson, 'utf-8'))
     expect(seedCheck.length).toBeGreaterThanOrEqual(5)
-    const seedPost = seedCheck.find((p: any) => p.slug === 'complete-wedding-decor-checklist')
+    const seedPost = seedCheck.find(
+      (p: { slug: string; faqs: { question: string; answer: string }[]; related_service_slug: string }) =>
+        p.slug === 'complete-wedding-decor-checklist'
+    )
     expect(seedPost).toBeDefined()
     expect(seedPost.faqs.length).toBeGreaterThan(0)
     expect(seedPost.related_service_slug).toBe('wedding-decoration')

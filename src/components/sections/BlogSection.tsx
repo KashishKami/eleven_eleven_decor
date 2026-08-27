@@ -3,7 +3,8 @@
 import React, { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { BLOG_POSTS } from '@/data/blog'
+import { useBlogPosts } from '@/hooks/useBlogPosts'
+import type { BlogPost } from '@/types/blog'
 import { BlogCard } from '@/components/ui/BlogCard'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 
@@ -14,6 +15,7 @@ if (typeof window !== 'undefined') {
 export function BlogSection() {
   const sectionRef = useRef<HTMLDivElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)
+  const { posts } = useBlogPosts()
 
   useEffect(() => {
     if (typeof window === 'undefined' || !sectionRef.current) return
@@ -40,66 +42,45 @@ export function BlogSection() {
     }, sectionRef)
 
     return () => ctx.revert()
-  }, [])
+  }, [posts])
+
+  if (!posts || posts.length === 0) {
+    return null
+  }
 
   return (
     <section
-      id="blog-section"
       ref={sectionRef}
       style={{
-        backgroundColor: '#ede5d8',
-        padding: '7rem 1.5rem',
-        color: '#1a1a1a',
+        padding: '8rem 0',
+        backgroundColor: '#0a0a0a',
         position: 'relative',
       }}
     >
-      <div
-        style={{
-          maxWidth: '1280px',
-          margin: '0 auto',
-        }}
-      >
-        {/* Section Header with Wind Reveal Heading */}
-        <div style={{ textAlign: 'center', marginBottom: '4.5rem' }}>
-          <p
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem' }}>
+        {/* Section Header */}
+        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+          <span
             style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: '0.85rem',
+              letterSpacing: '0.22em',
               color: '#c9a96e',
-              fontFamily: 'var(--font-sans)',
-              fontSize: '0.875rem',
-              letterSpacing: '0.2em',
               textTransform: 'uppercase',
-              marginBottom: '0.75rem',
+              display: 'block',
+              marginBottom: '1rem',
               fontWeight: 600,
             }}
           >
-            INSIGHTS & INSPIRATION
-          </p>
-          <div style={{ maxWidth: '800px', margin: '0 auto 1.25rem' }}>
-            <WindRevealHeading
-              as="h2"
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(2.25rem, 5vw, 3.5rem)',
-                color: '#1a1a1a',
-                letterSpacing: '0.04em',
-                fontWeight: 500,
-                lineHeight: 1.2,
-              }}
-            >
-              The 1111 Decor Journal
-            </WindRevealHeading>
-          </div>
-          <p
-            style={{
-              color: '#4a443c',
-              fontSize: '1.05rem',
-              maxWidth: '600px',
-              margin: '0 auto',
-              lineHeight: 1.6,
-            }}
+            Insights &amp; Inspiration
+          </span>
+          <WindRevealHeading
+            as="h2"
+            className="heading-lg"
+            style={{ color: '#ffffff', marginBottom: '1.25rem' }}
           >
-            Explore expert advice, luxury event styling trends, and backstage stories from our master creators.
-          </p>
+            Latest Editorial Stories
+          </WindRevealHeading>
         </div>
 
         {/* Blog Posts Grid */}
@@ -111,7 +92,7 @@ export function BlogSection() {
             gap: '2rem',
           }}
         >
-          {BLOG_POSTS.slice(0, 3).map((post) => (
+          {posts.slice(0, 3).map((post: BlogPost) => (
             <BlogCard key={post.id} post={post} />
           ))}
         </div>

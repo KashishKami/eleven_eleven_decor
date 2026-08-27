@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import type { BlogPost } from '@/types/blog'
-import { BLOG_DATA } from '@/data/blog'
 
 export interface FetchBlogPostsResult {
   posts: BlogPost[]
@@ -47,33 +46,18 @@ export function useBlogPosts(category?: string) {
     fetchBlogPosts(category)
       .then((res) => {
         if (!isMounted) return
-        if (res.posts && res.posts.length > 0) {
+        if (res.posts) {
           setPosts(res.posts)
-          setError(null)
+          setError(res.error)
         } else {
-          // Fallback to static seed articles so the website always displays articles
-          const filteredSeed = category
-            ? BLOG_DATA.filter(
-                (p) =>
-                  p.category.toLowerCase().replace(/\s+/g, '-') === category.toLowerCase() ||
-                  p.category.toLowerCase() === category.toLowerCase()
-              )
-            : BLOG_DATA
-          setPosts(filteredSeed)
-          setError(null)
+          setPosts([])
+          setError(res.error || null)
         }
       })
-      .catch(() => {
+      .catch((err) => {
         if (!isMounted) return
-        const filteredSeed = category
-          ? BLOG_DATA.filter(
-              (p) =>
-                p.category.toLowerCase().replace(/\s+/g, '-') === category.toLowerCase() ||
-                p.category.toLowerCase() === category.toLowerCase()
-            )
-          : BLOG_DATA
-        setPosts(filteredSeed)
-        setError(null)
+        setPosts([])
+        setError(err instanceof Error ? err.message : 'Failed to load posts')
       })
       .finally(() => {
         if (isMounted) setLoading(false)

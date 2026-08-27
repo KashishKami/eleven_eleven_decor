@@ -16,8 +16,16 @@ header('X-Robots-Tag: noindex'); // The sitemap itself shouldn't be indexed
 // Derive the public base URL from CORS_ORIGIN (e.g. "https://elevenelevendecor.com")
 $baseUrl = rtrim(defined('CORS_ORIGIN') && CORS_ORIGIN !== '*' ? CORS_ORIGIN : 'https://elevenelevendecor.com', '/');
 
+// Check visibility toggle
+$visFile = __DIR__ . '/../data/page-visibility.json';
+$blogVisible = false;
+if (file_exists($visFile)) {
+    $visData = json_decode(file_get_contents($visFile), true);
+    $blogVisible = !empty($visData['blog']);
+}
+
 try {
-    $posts = BlogStore::all(true); // true = published only
+    $posts = $blogVisible ? BlogStore::all(true) : []; // only load if blog is toggled on
 } catch (Exception $e) {
     $posts = [];
 }

@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next'
+import pageVisibility from '../../php-admin/data/page-visibility.json'
 import { SERVICES_DATA } from '@/data/services'
 import { EVENT_CATEGORIES } from '@/data/events'
 import { PORTFOLIO_PROJECTS } from '@/data/portfolio'
@@ -48,30 +49,46 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
-    {
-      url: `${baseUrl}/portfolio/`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly',
-      priority: 0.85,
-    },
-    {
-      url: `${baseUrl}/venues/`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/gallery/`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/blog/`,
-      lastModified: currentDate,
-      changeFrequency: 'daily',
-      priority: 0.85,
-    },
+    ...(pageVisibility.portfolio
+      ? [
+          {
+            url: `${baseUrl}/portfolio/`,
+            lastModified: currentDate,
+            changeFrequency: 'weekly' as const,
+            priority: 0.85,
+          },
+        ]
+      : []),
+    ...(pageVisibility.venues
+      ? [
+          {
+            url: `${baseUrl}/venues/`,
+            lastModified: currentDate,
+            changeFrequency: 'monthly' as const,
+            priority: 0.8,
+          },
+        ]
+      : []),
+    ...(pageVisibility.gallery
+      ? [
+          {
+            url: `${baseUrl}/gallery/`,
+            lastModified: currentDate,
+            changeFrequency: 'weekly' as const,
+            priority: 0.8,
+          },
+        ]
+      : []),
+    ...(pageVisibility.blog
+      ? [
+          {
+            url: `${baseUrl}/blog/`,
+            lastModified: currentDate,
+            changeFrequency: 'daily' as const,
+            priority: 0.85,
+          },
+        ]
+      : []),
     {
       url: `${baseUrl}/contact/`,
       lastModified: currentDate,
@@ -96,29 +113,35 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }))
 
-  // Dynamic Portfolio Case Studies
-  const portfolioRoutes: MetadataRoute.Sitemap = PORTFOLIO_PROJECTS.map((project) => ({
-    url: `${baseUrl}/portfolio/${project.slug}/`,
-    lastModified: currentDate,
-    changeFrequency: 'monthly',
-    priority: 0.75,
-  }))
+  // Dynamic Portfolio Case Studies (gated by visibility)
+  const portfolioRoutes: MetadataRoute.Sitemap = pageVisibility.portfolio
+    ? PORTFOLIO_PROJECTS.map((project) => ({
+        url: `${baseUrl}/portfolio/${project.slug}/`,
+        lastModified: currentDate,
+        changeFrequency: 'monthly',
+        priority: 0.75,
+      }))
+    : []
 
-  // Dynamic Venue Detail Pages
-  const venueRoutes: MetadataRoute.Sitemap = VENUES.map((venue) => ({
-    url: `${baseUrl}/venues/${venue.slug}/`,
-    lastModified: currentDate,
-    changeFrequency: 'monthly',
-    priority: 0.75,
-  }))
+  // Dynamic Venue Detail Pages (gated by visibility)
+  const venueRoutes: MetadataRoute.Sitemap = pageVisibility.venues
+    ? VENUES.map((venue) => ({
+        url: `${baseUrl}/venues/${venue.slug}/`,
+        lastModified: currentDate,
+        changeFrequency: 'monthly',
+        priority: 0.75,
+      }))
+    : []
 
-  // Blog Category Hub Pages
-  const blogCategoryRoutes: MetadataRoute.Sitemap = BLOG_CATEGORIES.map((category) => ({
-    url: `${baseUrl}/blog/${category.slug}/`,
-    lastModified: currentDate,
-    changeFrequency: 'weekly',
-    priority: 0.8,
-  }))
+  // Blog Category Hub Pages (gated by visibility)
+  const blogCategoryRoutes: MetadataRoute.Sitemap = pageVisibility.blog
+    ? BLOG_CATEGORIES.map((category) => ({
+        url: `${baseUrl}/blog/${category.slug}/`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly',
+        priority: 0.8,
+      }))
+    : []
 
   return [
     ...staticRoutes,

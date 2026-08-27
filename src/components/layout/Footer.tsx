@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import pageVisibility from '../../../php-admin/data/page-visibility.json'
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
@@ -81,17 +82,6 @@ export function Footer() {
               >
                 hello@1111decor.com
               </a>
-              <p
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.8rem',
-                  color: '#555050',
-                  margin: 0,
-                  lineHeight: 1.5,
-                }}
-              >
-                Mon – Sat, 10:00 AM – 7:00 PM
-              </p>
             </div>
           </div>
 
@@ -112,10 +102,10 @@ export function Footer() {
             </h4>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.7rem', padding: 0, margin: 0 }}>
               {[
-                { label: 'Event Management', href: '/services/event-management/' },
                 { label: 'Event Planning', href: '/services/event-planning/' },
                 { label: 'Event Decoration', href: '/services/event-decoration/' },
                 { label: 'Wedding Decoration', href: '/services/wedding-decoration/' },
+                { label: 'Corporate Event Management', href: '/services/corporate-event-management/' },
                 { label: 'Stage Decoration', href: '/services/stage-decoration/' },
                 { label: 'Floral Decoration', href: '/services/floral-decoration/' },
                 { label: 'All Services →', href: '/services/' },
@@ -180,11 +170,11 @@ export function Footer() {
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.7rem', padding: 0, margin: 0 }}>
               {[
                 { label: 'About Us', href: '/about-us/' },
-                { label: 'Portfolio', href: '/portfolio/' },
-                { label: 'Gallery', href: '/gallery/' },
+                ...(pageVisibility.portfolio ? [{ label: 'Portfolio', href: '/portfolio/' }] : []),
+                ...(pageVisibility.gallery ? [{ label: 'Gallery', href: '/gallery/' }] : []),
                 { label: 'Packages', href: '/packages/' },
-                { label: 'Venues', href: '/venues/' },
-                { label: 'Blog', href: '/blog/' },
+                ...(pageVisibility.venues ? [{ label: 'Venues', href: '/venues/' }] : []),
+                ...(pageVisibility.blog ? [{ label: 'Blog', href: '/blog/' }] : []),
                 { label: 'Contact Us', href: '/contact/' },
               ].map((link) => (
                 <li key={link.href}>
@@ -227,7 +217,7 @@ export function Footer() {
             © {currentYear} 11:11 Decor (Eleven Eleven Decor). All rights reserved.
           </p>
 
-          {/* Social icons placeholder */}
+          {/* Social icons */}
           <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
             {['Instagram', 'Facebook', 'Pinterest'].map((platform) => (
               <span
@@ -249,8 +239,6 @@ export function Footer() {
           </div>
         </div>
       </div>
-
-
     </footer>
   )
 }

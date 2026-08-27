@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { useScrolled } from '@/hooks/useScrolled'
+import type { PageVisibility } from '@/types/page-visibility'
 
 /* ─── Data ─────────────────────────────────────────────────────────────── */
 
@@ -262,7 +263,11 @@ function MobileGroup({ label, items, onClose }: MobileGroupProps) {
 
 /* ─── Main Navigation ───────────────────────────────────────────────────── */
 
-export function NavigationClient() {
+interface NavigationClientProps {
+  visibility?: PageVisibility
+}
+
+export function NavigationClient({ visibility }: NavigationClientProps) {
   const scrolled = useScrolled(80)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
@@ -318,12 +323,16 @@ export function NavigationClient() {
           >
             <NavDropdown label="Services" items={SERVICES_LINKS} />
             <NavDropdown label="Events" items={EVENTS_LINKS} />
-            <Link href="/portfolio/" className="nav-item-link">
-              Portfolio
-            </Link>
-            <Link href="/blog/" className="nav-item-link">
-              Blog
-            </Link>
+            {visibility?.portfolio && (
+              <Link href="/portfolio/" className="nav-item-link">
+                Portfolio
+              </Link>
+            )}
+            {visibility?.blog && (
+              <Link href="/blog/" className="nav-item-link">
+                Blog
+              </Link>
+            )}
             <Link href="/about-us/" className="nav-item-link">
               About Us
             </Link>
@@ -357,7 +366,7 @@ export function NavigationClient() {
               src="/logo.png"
               alt="11:11 Decor — Event Management & Décor Studio"
               style={{
-                height: 'clamp(72px, 7vw, 105px)',
+                height: 'clamp(68px, 7vw, 100px)',
                 width: 'auto',
                 objectFit: 'contain',
                 display: 'block',
@@ -493,8 +502,8 @@ export function NavigationClient() {
 
         <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           {[
-            { label: 'Portfolio', href: '/portfolio/' },
-            { label: 'Blog', href: '/blog/' },
+            ...(visibility?.portfolio ? [{ label: 'Portfolio', href: '/portfolio/' }] : []),
+            ...(visibility?.blog ? [{ label: 'Blog', href: '/blog/' }] : []),
             { label: 'About Us', href: '/about-us/' },
           ].map((link) => (
             <Link

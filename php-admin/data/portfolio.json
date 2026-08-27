@@ -1,0 +1,52 @@
+[
+    {
+        "title": "E2E Himalayan Royal Wedding",
+        "subtitle": "Cliffside Palace Staging",
+        "slug": "e2e-himalayan-royal-wedding",
+        "category": "Weddings",
+        "location": "Mussoorie, Uttarakhand",
+        "venue": "JW Marriott Walnut Grove",
+        "guestCount": 400,
+        "heroImage": "https:\/\/images.unsplash.com\/photo-1519741497674-611481863552",
+        "galleryImages": [],
+        "summary": "Bespoke floral architecture in the Garhwal mountains.",
+        "planningDetails": [],
+        "decorHighlights": [],
+        "executionNotes": "",
+        "metaTitle": "E2E Himalayan Royal Wedding | 11:11 Decor Showcase",
+        "metaDescription": "Bespoke floral architecture in the Garhwal mountains.",
+        "published": 1,
+        "id": "1",
+        "created_at": "2026-08-27 11:53:11"
+    },
+    {
+        "title": "Testing",
+        "subtitle": "Testing",
+        "slug": "testing",
+        "category": "Birthdays",
+        "location": "jD",
+        "venue": "DB Park",
+        "guestCount": 100,
+        "heroImage": "\/manage-7f3b9x2k\/uploads\/11-11-decor-1-6a90293491d38.jpg",
+        "galleryImages": [
+            "\/manage-7f3b9x2k\/uploads\/logo-v2-6a902942377c7.png",
+            "\/manage-7f3b9x2k\/uploads\/11-11-decor-2-6a902947baf86.jpg"
+        ],
+        "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "planningDetails": [
+            "Test",
+            "Test"
+        ],
+        "decorHighlights": [
+            "Test",
+            "test"
+        ],
+        "executionNotes": "Testing notes",
+        "metaTitle": "Testing | 11:11 Decor Showcase",
+        "metaDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostru",
+        "published": 1,
+        "id": "2",
+        "created_at": "2026-08-27 12:01:25",
+        "updated_at": "2026-08-27 12:12:32"
+    }
+]

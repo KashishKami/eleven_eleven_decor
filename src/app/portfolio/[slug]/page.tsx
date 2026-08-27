@@ -3,7 +3,8 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { PORTFOLIO_PROJECTS } from '@/data/portfolio'
+import pageVisibility from '../../../../php-admin/data/page-visibility.json'
+import { getAllPortfolioProjectsServer, getPortfolioProjectBySlugServer } from '@/lib/server-portfolio'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 import { FooterCTA } from '@/components/sections/FooterCTA'
 import JsonLd from '@/components/seo/JsonLd'
@@ -15,15 +16,24 @@ interface Props {
   }
 }
 
+export const dynamicParams = false
+
 export function generateStaticParams() {
-  return PORTFOLIO_PROJECTS.map((project) => ({
+  const projects = getAllPortfolioProjectsServer()
+  if (projects.length === 0) {
+    return [{ slug: '__empty__' }]
+  }
+  return projects.map((project) => ({
     slug: project.slug,
   }))
 }
 
 export function generateMetadata({ params }: Props): Metadata {
-  const project = PORTFOLIO_PROJECTS.find((p) => p.slug === params.slug)
-  if (!project) {
+  if (params.slug === '__empty__') {
+    return { title: 'Project Not Found | 1111 Decor' }
+  }
+  const project = getPortfolioProjectBySlugServer(params.slug)
+  if (!project || !pageVisibility.portfolio) {
     return { title: 'Project Not Found | 1111 Decor' }
   }
 
@@ -33,17 +43,21 @@ export function generateMetadata({ params }: Props): Metadata {
     openGraph: {
       title: project.metaTitle,
       description: project.metaDescription,
-      url: `https://1111decor.com/portfolio/${project.slug}/`,
+      url: `https://elevenelevendecor.com/portfolio/${project.slug}/`,
       images: [{ url: project.heroImage }],
     },
     alternates: {
-      canonical: `https://1111decor.com/portfolio/${project.slug}/`,
+      canonical: `https://elevenelevendecor.com/portfolio/${project.slug}/`,
     },
   }
 }
 
 export default function PortfolioDetailPage({ params }: Props) {
-  const project = PORTFOLIO_PROJECTS.find((p) => p.slug === params.slug)
+  if (!pageVisibility.portfolio || params.slug === '__empty__') {
+    notFound()
+  }
+
+  const project = getPortfolioProjectBySlugServer(params.slug)
   if (!project) {
     notFound()
   }

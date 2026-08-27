@@ -17,13 +17,31 @@ try {
     $error = "Failed to load posts: " . $e->getMessage();
     $posts = [];
 }
+
+// Load page visibility configuration
+$visibilityFile = __DIR__ . '/../data/page-visibility.json';
+$visibility = [
+    'blog' => false,
+    'gallery' => false,
+    'portfolio' => false,
+    'venues' => false
+];
+if (file_exists($visibilityFile)) {
+    $rawVis = json_decode(file_get_contents($visibilityFile), true);
+    if (is_array($rawVis)) {
+        $visibility['blog'] = !empty($rawVis['blog']);
+        $visibility['gallery'] = !empty($rawVis['gallery']);
+        $visibility['portfolio'] = !empty($rawVis['portfolio']);
+        $visibility['venues'] = !empty($rawVis['venues']);
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Dashboard — 11:11 Decor</title>
+    <title>Management Dashboard — 11:11 Decor</title>
     <meta name="robots" content="noindex, nofollow">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -57,6 +75,30 @@ try {
             gap: 1rem;
             align-items: center;
         }
+        .nav-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 0.75rem;
+        }
+        .nav-tab {
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
+            color: #a39c90;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .nav-tab:hover {
+            color: #ffffff;
+            background: rgba(255,255,255,0.05);
+        }
+        .nav-tab.active {
+            color: #111111;
+            background: #c9a96e;
+        }
         .btn-primary {
             padding: 0.65rem 1.25rem;
             background: #c9a96e;
@@ -76,6 +118,120 @@ try {
             font-size: 0.9rem;
             border: 1px solid rgba(255,255,255,0.1);
         }
+        
+        /* ── Page Visibility Card ── */
+        .visibility-card {
+            background: #1a1a1a;
+            border: 1px solid rgba(201, 169, 110, 0.25);
+            border-radius: 12px;
+            padding: 1.75rem 2rem;
+            margin-bottom: 2.5rem;
+        }
+        .visibility-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+        .visibility-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.02em;
+        }
+        .visibility-desc {
+            font-size: 0.85rem;
+            color: #8a8275;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .toggle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+        .toggle-item {
+            background: #242424;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px;
+            padding: 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .toggle-info h4 {
+            font-size: 0.95rem;
+            color: #ffffff;
+            margin-bottom: 0.25rem;
+        }
+        .toggle-info p {
+            font-size: 0.78rem;
+            color: #8a8275;
+        }
+        
+        /* iOS Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+        .switch input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.001;
+            z-index: 5;
+            cursor: pointer;
+            margin: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #3f3f46;
+            transition: 0.3s;
+            border-radius: 26px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #c9a96e;
+        }
+        input:checked + .slider:before {
+            transform: translateX(22px);
+        }
+        
+        #visibility-status-msg {
+            display: inline-block;
+            font-size: 0.825rem;
+            font-weight: 600;
+            color: #86efac;
+            margin-left: 1rem;
+            transition: opacity 0.3s;
+        }
+        .build-notice {
+            margin-top: 1.25rem;
+            padding: 0.75rem 1rem;
+            background: rgba(201, 169, 110, 0.08);
+            border-left: 3px solid #c9a96e;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: #d4cfc7;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -139,7 +295,7 @@ $live_site_url = $is_local ? 'http://localhost:3000/blog' : '/blog';
         <header>
             <div>
                 <div class="brand">11:11 DECOR</div>
-                <p style="color: #8a8275; font-size: 0.85rem;">Blog Articles Management</p>
+                <p style="color: #8a8275; font-size: 0.85rem;">Website Management Studio</p>
             </div>
             <div class="header-actions">
                 <a href="new-post.php" class="btn-primary">+ Create New Post</a>
@@ -147,6 +303,81 @@ $live_site_url = $is_local ? 'http://localhost:3000/blog' : '/blog';
                 <a href="logout.php" class="btn-secondary">Log Out</a>
             </div>
         </header>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <a href="dashboard.php" class="nav-tab active">Blog Articles &amp; Visibility</a>
+            <a href="portfolio.php" class="nav-tab">Portfolio Showcase</a>
+            <a href="venues.php" class="nav-tab">Venues Directory</a>
+            <a href="gallery.php" class="nav-tab">Photo Gallery</a>
+        </div>
+
+        <!-- ── Page Visibility Controls Card ── -->
+        <div id="page-visibility-card" data-testid="page-visibility-card" class="visibility-card">
+            <div class="visibility-header">
+                <div style="display: flex; align-items: center;">
+                    <span class="visibility-title">Page & Content Visibility Controls</span>
+                    <span id="visibility-status-msg" class="toast-success"></span>
+                </div>
+            </div>
+            <p class="visibility-desc">
+                Toggle sections ON or OFF to control public access, navigation links, and sitemap indexing. When hidden, pages return 404 and disappear from menus.
+            </p>
+            <div class="toggle-grid">
+                <!-- Blog Toggle -->
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <h4>Blog Articles</h4>
+                        <p>/blog/ &amp; stories</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="toggle-blog" name="visibility_blog" <?= $visibility['blog'] ? 'checked' : '' ?> onchange="updateVisibility('blog', this.checked)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- Gallery Toggle -->
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <h4>Photo Gallery</h4>
+                        <p>/gallery/</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="toggle-gallery" name="visibility_gallery" <?= $visibility['gallery'] ? 'checked' : '' ?> onchange="updateVisibility('gallery', this.checked)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- Portfolio Toggle -->
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <h4>Portfolio Showcase</h4>
+                        <p>/portfolio/ &amp; projects</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="toggle-portfolio" name="visibility_portfolio" <?= $visibility['portfolio'] ? 'checked' : '' ?> onchange="updateVisibility('portfolio', this.checked)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- Venues Toggle -->
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <h4>Venues Archive</h4>
+                        <p>/venues/ &amp; detail pages</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="toggle-venues" name="visibility_venues" <?= $visibility['venues'] ? 'checked' : '' ?> onchange="updateVisibility('venues', this.checked)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="build-notice">
+                ⚠️ <strong>GoDaddy Static Build Notice:</strong> Changes update the server configuration immediately. Run <code>pnpm build</code> to re-export static files when publishing to production.
+            </div>
+        </div>
+
+        <h3 style="margin-bottom: 1rem; color: #c9a96e; font-size: 1.1rem;">Blog Articles Management</h3>
 
         <table>
             <thead>
@@ -203,5 +434,38 @@ $live_site_url = $is_local ? 'http://localhost:3000/blog' : '/blog';
             </tbody>
         </table>
     </div>
+
+    <script>
+    async function updateVisibility(section, published) {
+        const msgEl = document.getElementById('visibility-status-msg');
+        msgEl.textContent = 'Saving...';
+        msgEl.style.color = '#fde047';
+
+        try {
+            const res = await fetch('../api/page-visibility.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ section, published })
+            });
+
+            const data = await res.json();
+            if (res.ok && data.success) {
+                msgEl.textContent = '✓ Visibility updated & saved';
+                msgEl.style.color = '#86efac';
+                setTimeout(() => {
+                    msgEl.textContent = '';
+                }, 3500);
+            } else {
+                msgEl.textContent = 'Error: ' + (data.error || 'Failed to save');
+                msgEl.style.color = '#f87171';
+            }
+        } catch (err) {
+            msgEl.textContent = 'Network error saving visibility';
+            msgEl.style.color = '#f87171';
+        }
+    }
+    </script>
 </body>
 </html>

@@ -1,5 +1,7 @@
 import React from 'react'
 import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
+import pageVisibility from '../../../../php-admin/data/page-visibility.json'
 import { DynamicBlogClient } from '@/components/blog/DynamicBlogClient'
 import { BLOG_CATEGORIES } from '@/types/blog'
 import { getStoredBlogPosts } from '@/lib/server-blog'
@@ -54,6 +56,10 @@ export async function generateMetadata({ params }: { params: { slug: string[] } 
 }
 
 export default function DynamicBlogPage({ params }: { params: { slug: string[] } }) {
+  if (!pageVisibility.blog) {
+    notFound()
+  }
+
   const slugArray = params?.slug || []
   const isCategory = slugArray.length === 1
   const categorySlug = slugArray[0] || ''

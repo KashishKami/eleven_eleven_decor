@@ -1,4 +1,5 @@
 import React from 'react'
+import pageVisibility from '../../php-admin/data/page-visibility.json'
 import { Hero } from '@/components/sections/Hero'
 import { EventCategories } from '@/components/sections/EventCategories'
 import { AboutSection } from '@/components/sections/AboutSection'
@@ -31,14 +32,14 @@ export default function Home() {
       {/* 5. Why Choose 11:11 Decor */}
       <WhyChooseUs />
 
-      {/* 6. Featured Portfolio */}
-      <HomePortfolio />
+      {/* 6. Featured Portfolio (gated) */}
+      {pageVisibility.portfolio && <HomePortfolio />}
 
       {/* 7. Event Process (4-step workflow) */}
       <WorkProcess />
 
-      {/* 8. Venues Teaser */}
-      <HomeVenues />
+      {/* 8. Venues Teaser (gated) */}
+      {pageVisibility.venues && <HomeVenues />}
 
       {/* 9. Packages Overview */}
       <HomePackages />
@@ -46,8 +47,8 @@ export default function Home() {
       {/* 10. Client Testimonials */}
       <HomeTestimonials />
 
-      {/* 11. Visual Gallery Preview */}
-      <HomeGallery />
+      {/* 11. Visual Gallery Preview (gated) */}
+      {pageVisibility.gallery && <HomeGallery />}
 
       {/* 12. Homepage FAQ */}
       <HomeFAQ />

@@ -3,7 +3,8 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { VENUES } from '@/data/venues'
+import pageVisibility from '../../../../php-admin/data/page-visibility.json'
+import { getAllVenuesServer, getVenueBySlugServer } from '@/lib/server-venues'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 import { FooterCTA } from '@/components/sections/FooterCTA'
 import JsonLd from '@/components/seo/JsonLd'
@@ -15,15 +16,24 @@ interface Props {
   }
 }
 
+export const dynamicParams = false
+
 export function generateStaticParams() {
-  return VENUES.map((venue) => ({
+  const venues = getAllVenuesServer()
+  if (venues.length === 0) {
+    return [{ slug: '__empty__' }]
+  }
+  return venues.map((venue) => ({
     slug: venue.slug,
   }))
 }
 
 export function generateMetadata({ params }: Props): Metadata {
-  const venue = VENUES.find((v) => v.slug === params.slug)
-  if (!venue) {
+  if (params.slug === '__empty__') {
+    return { title: 'Venue Not Found | 1111 Decor' }
+  }
+  const venue = getVenueBySlugServer(params.slug)
+  if (!venue || !pageVisibility.venues) {
     return { title: 'Venue Not Found | 1111 Decor' }
   }
 
@@ -33,17 +43,21 @@ export function generateMetadata({ params }: Props): Metadata {
     openGraph: {
       title: venue.metaTitle,
       description: venue.metaDescription,
-      url: `https://1111decor.com/venues/${venue.slug}/`,
+      url: `https://elevenelevendecor.com/venues/${venue.slug}/`,
       images: [{ url: venue.heroImage }],
     },
     alternates: {
-      canonical: `https://1111decor.com/venues/${venue.slug}/`,
+      canonical: `https://elevenelevendecor.com/venues/${venue.slug}/`,
     },
   }
 }
 
 export default function VenueDetailPage({ params }: Props) {
-  const venue = VENUES.find((v) => v.slug === params.slug)
+  if (!pageVisibility.venues || params.slug === '__empty__') {
+    notFound()
+  }
+
+  const venue = getVenueBySlugServer(params.slug)
   if (!venue) {
     notFound()
   }

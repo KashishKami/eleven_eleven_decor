@@ -1,8 +1,9 @@
 import React from 'react'
 import type { Metadata } from 'next'
-import Image from 'next/image'
-import Link from 'next/link'
-import { VENUES } from '@/data/venues'
+import { notFound } from 'next/navigation'
+import pageVisibility from '../../../php-admin/data/page-visibility.json'
+import { getAllVenuesServer } from '@/lib/server-venues'
+import { VenuesClient } from '@/components/sections/VenuesClient'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 import { FooterCTA } from '@/components/sections/FooterCTA'
 import JsonLd from '@/components/seo/JsonLd'
@@ -16,24 +17,30 @@ export const metadata: Metadata = {
     title: 'Find the Right Setting for Your Event | 1111 Decor',
     description:
       'Explore luxury indoor ballrooms, hill resort lawns, and riverfront settings across Dehradun, Mussoorie, and Rishikesh curated by 11:11 Decor.',
-    url: 'https://1111decor.com/venues/',
+    url: 'https://elevenelevendecor.com/venues/',
     type: 'website',
   },
   alternates: {
-    canonical: 'https://1111decor.com/venues/',
+    canonical: 'https://elevenelevendecor.com/venues/',
   },
 }
 
 export default function VenuesHubPage() {
+  if (!pageVisibility.venues) {
+    notFound()
+  }
+
+  const initialVenues = getAllVenuesServer()
+
   const schemaData = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: '11:11 Decor Preferred Venue Directory',
-    itemListElement: VENUES.map((v, idx) => ({
+    itemListElement: initialVenues.map((v, idx) => ({
       '@type': 'ListItem',
       position: idx + 1,
       name: v.name,
-      url: `https://1111decor.com/venues/${v.slug}/`,
+      url: `https://elevenelevendecor.com/venues/${v.slug}/`,
     })),
   }
 
@@ -56,42 +63,8 @@ export default function VenuesHubPage() {
         </div>
       </section>
 
-      {/* SECTION 2: Light Theme Venues Grid */}
-      <section className={styles.gridSectionLight}>
-        <div className={styles.container}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.labelDark}>PREFLIGHT VENUE DIRECTORY</span>
-            <WindRevealHeading as="h2" className="heading-lg" style={{ color: '#1a1a1a', marginTop: '0.25rem' }}>
-              Luxury Settings & Decor Frameworks
-            </WindRevealHeading>
-          </div>
-
-          <div className={styles.cardsGrid}>
-            {VENUES.map((venue) => (
-              <Link key={venue.slug} href={`/venues/${venue.slug}/`} className={styles.venueCard}>
-                <div className={styles.imageWrapper}>
-                  <Image
-                    src={venue.heroImage}
-                    alt={venue.name}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className={styles.cardImage}
-                  />
-                </div>
-                <div className={styles.cardBody}>
-                  <div>
-                    <span className={styles.spaceBadge}>{venue.spaceType}</span>
-                    <h3 className={styles.cardTitle}>{venue.name}</h3>
-                    <p className={styles.cardMeta}>{venue.location} • Up to {venue.capacity} Guests</p>
-                    <p className={styles.cardDesc}>{venue.summary}</p>
-                  </div>
-                  <span className={styles.cardLink}>Explore Venue Staging &rarr;</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* SECTION 2: Venues Client Component */}
+      <VenuesClient initialVenues={initialVenues} />
 
       <FooterCTA />
     </div>

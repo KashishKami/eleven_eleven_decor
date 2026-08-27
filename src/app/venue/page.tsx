@@ -1,5 +1,7 @@
 import React from 'react'
 import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
+import pageVisibility from '../../../php-admin/data/page-visibility.json'
 import { FooterCTA } from '@/components/sections/FooterCTA'
 
 export const metadata: Metadata = {
@@ -8,6 +10,9 @@ export const metadata: Metadata = {
 }
 
 export default function VenuePage() {
+  if (!pageVisibility.venues) {
+    notFound()
+  }
   return (
     <div style={{ paddingTop: '80px' }}>
       <div

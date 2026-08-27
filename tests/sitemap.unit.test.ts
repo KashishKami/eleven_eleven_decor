@@ -2,33 +2,32 @@ import { describe, it, expect } from 'vitest'
 import sitemap from '@/app/sitemap'
 import robots from '@/app/robots'
 
-describe('Dynamic Sitemap & Robots Generation (W-902)', () => {
-  it('generates a comprehensive sitemap containing core hubs and dynamic routes', () => {
+describe('Dynamic Sitemap & Robots Generation with Visibility Gate (W-902 / W-1003)', () => {
+  it('excludes hidden sections (gallery, portfolio, venues, blog) from sitemap when visibility is false', () => {
     const sitemapEntries = sitemap()
-
-    expect(sitemapEntries).toBeInstanceOf(Array)
-    expect(sitemapEntries.length).toBeGreaterThanOrEqual(30)
-
     const urls = sitemapEntries.map((e) => e.url)
 
-    // Check core hubs
+    // Hidden sections MUST NOT be present
+    expect(urls).not.toContain('https://elevenelevendecor.com/gallery/')
+    expect(urls).not.toContain('https://elevenelevendecor.com/portfolio/')
+    expect(urls).not.toContain('https://elevenelevendecor.com/venues/')
+    expect(urls).not.toContain('https://elevenelevendecor.com/blog/')
+    expect(urls.some((u) => u.includes('/portfolio/'))).toBe(false)
+    expect(urls.some((u) => u.includes('/venues/'))).toBe(false)
+    expect(urls.some((u) => u.includes('/blog/'))).toBe(false)
+
+    // Core hubs MUST remain present
     expect(urls).toContain('https://elevenelevendecor.com/')
     expect(urls).toContain('https://elevenelevendecor.com/about-us/')
     expect(urls).toContain('https://elevenelevendecor.com/services/')
     expect(urls).toContain('https://elevenelevendecor.com/events/')
-    expect(urls).toContain('https://elevenelevendecor.com/portfolio/')
-    expect(urls).toContain('https://elevenelevendecor.com/venues/')
     expect(urls).toContain('https://elevenelevendecor.com/packages/')
     expect(urls).toContain('https://elevenelevendecor.com/testimonials/')
-    expect(urls).toContain('https://elevenelevendecor.com/gallery/')
-    expect(urls).toContain('https://elevenelevendecor.com/blog/')
     expect(urls).toContain('https://elevenelevendecor.com/contact/')
 
-    // Check dynamic routes
+    // Core dynamic services & events MUST remain present
     expect(urls.some((u) => u.includes('/services/wedding-decoration/'))).toBe(true)
     expect(urls.some((u) => u.includes('/events/wedding-events/'))).toBe(true)
-    expect(urls.some((u) => u.includes('/venues/taj-rishikesh-resort-spa/'))).toBe(true)
-    expect(urls.some((u) => u.includes('/portfolio/royal-palace-wedding-dehradun/'))).toBe(true)
   })
 
   it('guarantees every sitemap URL ends with a trailing slash', () => {

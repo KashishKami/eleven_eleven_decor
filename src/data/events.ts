@@ -47,7 +47,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     subtitle: 'End-to-end wedding planning and décor across every ceremony',
     description:
       'End-to-end wedding planning and décor — mandap, stage, venue styling, and coordination across every ceremony.',
-    heroImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
+    heroImage: '/events/weddings-new.jpg',
     intro:
       'A wedding is several events inside one celebration. 11:11 Decor plans and manages every function — from the first consultation through to the final send-off — so timing, vendors, and décor stay connected across the whole event.',
     planningServices: [
@@ -96,7 +96,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     subtitle: 'Product launches, conferences, and company celebrations',
     description:
       'Product launches, conferences, and company celebrations planned and staged with a professional finish.',
-    heroImage: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1200&q=80',
+    heroImage: '/events/corporate-bg.jpg',
     intro:
       'Launches, conferences, and company celebrations each need a different kind of planning. 11:11 Decor plans corporate events around your objective — brand visibility, hospitality, or internal culture — not a one-size format.',
     planningServices: [
@@ -143,7 +143,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     subtitle: 'Milestone birthdays and intimate parties',
     description:
       'Milestone birthdays and intimate parties, themed and decorated to match the celebration in mind.',
-    heroImage: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=1200&q=80',
+    heroImage: '/events/birthdays-card.jpg',
     intro:
       'From a first birthday to a milestone celebration, 11:11 Decor plans and decorates birthday events sized and styled to the occasion.',
     planningServices: [
@@ -189,7 +189,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     subtitle: 'Ring ceremonies and engagement functions',
     description:
       'Ring ceremonies and engagement functions styled with décor that photographs as beautifully as it feels.',
-    heroImage: '/events/engagements-card.jpg',
+    heroImage: '/events/engagements-new.jpeg',
     intro:
       'An engagement sets the tone for everything that follows. 11:11 Decor plans and decorates ring ceremonies and engagement functions with décor that photographs as well as it feels in person.',
     planningServices: [
@@ -234,7 +234,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     subtitle: 'Anniversaries, family functions, and personal celebrations',
     description:
       'Anniversaries, family functions, and personal celebrations planned with the same attention as our largest events.',
-    heroImage: 'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=1200&q=80',
+    heroImage: '/events/parties-bg.jpg',
     intro:
       'Anniversaries, family functions, and personal milestones get the same level of planning and décor as our largest events. 11:11 Decor scales its process to fit intimate, private celebrations.',
     planningServices: [
@@ -279,7 +279,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     subtitle: 'Planning and décor coordination away from home',
     description:
       'Planning and décor coordination for events held away from home, with logistics handled end to end.',
-    heroImage: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1200&q=80',
+    heroImage: '/events/destinations-card.jpg',
     intro:
       "Events held away from home add a layer of logistics most planners don't handle daily. 11:11 Decor plans and coordinates destination events end to end, including travel-dependent vendor and décor logistics.",
     planningServices: [

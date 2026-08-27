@@ -2317,7 +2317,10 @@ Run every validation suite in sequence. Resolve any lint or typing issues. Verif
    - Refactored `src/components/sections/HomePortfolio.tsx` to dynamically query `usePortfolioProjects()` for real project case studies.
 4. **Data Store & Initial Content:**
    - Added initial curated luxury showcase venues (*Grand Heritage Palace & Royal Gardens* and *JD Connect*) in `php-admin/data/venues.json`.
-5. **Quality Gate & CI Verification:**
+5. **Event & Service Image Synchronization:**
+   - Synced all 6 Event category detail pages in `src/data/events.ts` to identically match their respective animated homepage category card images from `src/data/categories.ts`.
+   - Copied 10 authentic brand photos to `public/images/services/` with clean number-free semantic names (`event-management.jpg`, `event-planning.png`, `event-decoration.jpg`, `wedding-decoration.jpg`, `corporate-event-management.jpg`, `stage-decoration.jpg`, `venue-decoration.jpg`, `floral-decoration.jpg`, `lighting-production.jpg`, `entertainment-hospitality.jpg`) and wired them into `src/data/services.ts`.
+6. **Quality Gate & CI Verification:**
    - `next lint`: 0 errors / 0 warnings.
    - `tsc --noEmit`: 0 type errors in strict mode.
    - `vitest run`: All 30 unit test suites passed (92/92 tests green).

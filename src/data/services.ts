@@ -45,7 +45,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       }
     ],
     ctaText: 'Get a Quote',
-    image: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1200&q=80'
+    image: '/images/services/event-management.jpg'
   },
   {
     slug: 'event-planning',
@@ -77,7 +77,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       }
     ],
     ctaText: 'Get a Quote',
-    image: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=1200&q=80'
+    image: '/images/services/event-planning.png'
   },
   {
     slug: 'event-decoration',
@@ -109,7 +109,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       }
     ],
     ctaText: 'Get a Quote',
-    image: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1200&q=80'
+    image: '/images/services/event-decoration.jpg'
   },
   {
     slug: 'wedding-decoration',
@@ -142,7 +142,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       }
     ],
     ctaText: 'Get a Quote',
-    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80'
+    image: '/images/services/wedding-decoration.jpg'
   },
   {
     slug: 'corporate-event-management',
@@ -174,7 +174,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       }
     ],
     ctaText: 'Get a Quote',
-    image: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=1200&q=80'
+    image: '/images/services/corporate-event-management.jpg'
   },
   {
     slug: 'stage-decoration',
@@ -206,7 +206,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       }
     ],
     ctaText: 'Get a Quote',
-    image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1200&q=80'
+    image: '/images/services/stage-decoration.jpg'
   },
   {
     slug: 'venue-decoration',
@@ -238,7 +238,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       }
     ],
     ctaText: 'Get a Quote',
-    image: 'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=1200&q=80'
+    image: '/images/services/venue-decoration.jpg'
   },
   {
     slug: 'floral-decoration',
@@ -270,7 +270,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       }
     ],
     ctaText: 'Get a Quote',
-    image: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=1200&q=80'
+    image: '/images/services/floral-decoration.jpg'
   },
   {
     slug: 'lighting-production',
@@ -302,7 +302,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       }
     ],
     ctaText: 'Get a Quote',
-    image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80'
+    image: '/images/services/lighting-production.jpg'
   },
   {
     slug: 'entertainment-hospitality',
@@ -333,7 +333,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       }
     ],
     ctaText: 'Get a Quote',
-    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80'
+    image: '/images/services/entertainment-hospitality.jpg'
   }
 ]
 

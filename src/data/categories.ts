@@ -16,8 +16,8 @@ export const CATEGORIES: Category[] = [
     title: 'WEDDING CELEBRATIONS',
     description:
       'End-to-end wedding planning and décor — mandap, stage, venue styling, and coordination across every ceremony.',
-    bgImage: '/events/weddings-bg.jpg',
-    cardImage: '/events/weddings-card.jpg',
+    bgImage: '/events/weddings-new.jpg',
+    cardImage: '/events/weddings-new.jpg',
     link: '/events/wedding-events/',
   },
   {
@@ -27,7 +27,7 @@ export const CATEGORIES: Category[] = [
     description:
       'Product launches, conferences, and company celebrations planned and staged with a professional finish.',
     bgImage: '/events/corporate-bg.jpg',
-    cardImage: '/events/corporate-card.jpg',
+    cardImage: '/events/corporate-bg.jpg',
     link: '/events/corporate-events/',
   },
   {
@@ -36,8 +36,7 @@ export const CATEGORIES: Category[] = [
     title: 'BIRTHDAY CELEBRATIONS',
     description:
       'Milestone birthdays and intimate parties, themed and decorated to match the celebration in mind.',
-    bgImage: '/events/birthdays-bg.jpeg',
-    bgPosition: 'center 15%',
+    bgImage: '/events/birthdays-card.jpg',
     cardImage: '/events/birthdays-card.jpg',
     link: '/events/birthday-events/',
   },
@@ -47,8 +46,8 @@ export const CATEGORIES: Category[] = [
     title: 'ENGAGEMENT FUNCTIONS',
     description:
       'Ring ceremonies and engagement functions styled with décor that photographs as beautifully as it feels.',
-    bgImage: '/events/engagements-bg.jpg',
-    cardImage: '/events/engagements-card.jpg',
+    bgImage: '/events/engagements-new.jpeg',
+    cardImage: '/events/engagements-new.jpeg',
     link: '/events/engagement-events/',
   },
   {
@@ -58,7 +57,7 @@ export const CATEGORIES: Category[] = [
     description:
       'Anniversaries, family functions, and personal celebrations planned with the same attention as our largest events.',
     bgImage: '/events/parties-bg.jpg',
-    cardImage: '/events/parties-card.jpg',
+    cardImage: '/events/parties-bg.jpg',
     link: '/events/private-events/',
   },
   {
@@ -67,7 +66,7 @@ export const CATEGORIES: Category[] = [
     title: 'DESTINATION EVENTS',
     description:
       'Planning and décor coordination for events held away from home, with logistics handled end to end.',
-    bgImage: '/events/destinations-bg.jpg',
+    bgImage: '/events/destinations-card.jpg',
     cardImage: '/events/destinations-card.jpg',
     link: '/events/destination-events/',
   },

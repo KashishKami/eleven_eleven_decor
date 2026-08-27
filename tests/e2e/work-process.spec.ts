@@ -1,12 +1,11 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Work Process Section (W-206)', () => {
-  test('renders 4 process steps', async ({ page }) => {
+  test('is unmounted from pages per layout specification', async ({ page }) => {
     await page.goto('/')
 
     const section = page.locator('#work-process')
-    await expect(section).toBeVisible()
-
-    await expect(page.getByRole('heading', { name: /Consultation/i }).first()).toBeVisible()
+    await expect(section).toHaveCount(0)
   })
 })
+

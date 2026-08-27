@@ -6,7 +6,6 @@ import Link from 'next/link'
 import { SERVICES_DATA } from '@/data/services'
 import { PORTFOLIO_PROJECTS } from '@/data/portfolio'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
-import { WorkProcess } from '@/components/sections/WorkProcess'
 import JsonLd from '@/components/seo/JsonLd'
 import { generateServiceSchema, generateBreadcrumbSchema } from '@/lib/schemaGenerators'
 import styles from './service-detail.module.css'
@@ -140,8 +139,6 @@ export default function ServiceDetailPage({ params }: Props) {
         </div>
       </section>
 
-      {/* Reused 4-Step Process Block */}
-      <WorkProcess />
 
       {/* Related Services */}
       <section className={styles.relatedSection}>

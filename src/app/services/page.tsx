@@ -2,10 +2,9 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
-import { WorkProcess } from '@/components/sections/WorkProcess'
 import { WhyChooseUs } from '@/components/sections/WhyChooseUs'
 import JsonLd from '@/components/seo/JsonLd'
-import { SERVICES_DATA, SERVICES_HUB_FAQS } from '@/data/services'
+import { SERVICES_DATA } from '@/data/services'
 import styles from './services.module.css'
 
 export const metadata: Metadata = {
@@ -106,38 +105,8 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Reused 4-Step Process Section */}
-      <div data-testid="work-process-section">
-        <WorkProcess />
-      </div>
-
       {/* Reused Why Choose Us Section */}
       <WhyChooseUs />
-
-      {/* FAQs Section */}
-      <section className={styles.faqSection} data-testid="faq-accordion">
-        <div className="container">
-          <div className={styles.faqHeader}>
-            <span className={styles.label}>FREQUENTLY ASKED QUESTIONS</span>
-            <div style={{ width: '100%', textAlign: 'center' }}>
-              <WindRevealHeading as="h2" className={styles.faqTitle}>
-                Questions About Our Services
-              </WindRevealHeading>
-            </div>
-          </div>
-          <div className={styles.faqGrid}>
-            {SERVICES_HUB_FAQS.map((faq, idx) => (
-              <details key={idx} className={styles.faqItem}>
-                <summary className={styles.faqQuestion}>
-                  <span>{faq.question}</span>
-                  <span className={styles.faqIcon}>+</span>
-                </summary>
-                <p className={styles.faqAnswer}>{faq.answer}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
     </main>
   )
 }

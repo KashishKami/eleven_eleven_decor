@@ -22,11 +22,4 @@ test.describe('Services Main Hub Page (/services/)', () => {
     await expect(firstCardLink).toHaveAttribute('href', /\/services\/[a-z-]+/)
   })
 
-  test('should render process block and FAQ section', async ({ page }) => {
-    const processSection = page.locator('[data-testid="work-process-section"]')
-    await expect(processSection).toBeVisible()
-
-    const faqAccordion = page.locator('[data-testid="faq-accordion"]')
-    await expect(faqAccordion).toBeVisible()
-  })
 })

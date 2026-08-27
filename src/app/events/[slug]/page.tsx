@@ -5,7 +5,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { EVENT_CATEGORIES } from '@/data/events'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
-import { WorkProcess } from '@/components/sections/WorkProcess'
 import JsonLd from '@/components/seo/JsonLd'
 import { generateServiceSchema, generateBreadcrumbSchema } from '@/lib/schemaGenerators'
 import styles from './event-detail.module.css'
@@ -215,8 +214,6 @@ export default function EventDetailPage({ params }: Props) {
         </div>
       </section>
 
-      {/* Our Process: 4-Step Workflow Reused */}
-      <WorkProcess />
 
       {/* FAQs Section */}
       <section className={styles.faqSection}>

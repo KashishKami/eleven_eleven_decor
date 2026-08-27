@@ -89,5 +89,57 @@
         "message": "Looking for mandap and entrance flower styling.",
         "submitted_at": "2026-08-27 15:56:52",
         "email_sent": true
+    },
+    {
+        "id": 8,
+        "name": "Ananya Sen",
+        "phone": "+91 98765 43210",
+        "email": "ananya@example.com",
+        "eventType": "Wedding",
+        "eventDate": "2026-11-25",
+        "guestCount": "350",
+        "budget": "₹10,00,000+",
+        "message": "Looking for mandap and entrance flower styling.",
+        "submitted_at": "2026-08-27 18:48:05",
+        "email_sent": true
+    },
+    {
+        "id": 9,
+        "name": "Ananya Sen",
+        "phone": "+91 98765 43210",
+        "email": "ananya@example.com",
+        "eventType": "Wedding",
+        "eventDate": "2026-11-25",
+        "guestCount": "350",
+        "budget": "₹10,00,000+",
+        "message": "Looking for mandap and entrance flower styling.",
+        "submitted_at": "2026-08-27 18:48:30",
+        "email_sent": true
+    },
+    {
+        "id": 10,
+        "name": "Ananya Sen",
+        "phone": "+91 98765 43210",
+        "email": "ananya@example.com",
+        "eventType": "Wedding",
+        "eventDate": "2026-11-25",
+        "guestCount": "350",
+        "budget": "₹10,00,000+",
+        "message": "Looking for mandap and entrance flower styling.",
+        "submitted_at": "2026-08-27 19:08:32",
+        "email_sent": true
+    },
+    {
+        "id": 11,
+        "name": "Ananya Sen",
+        "phone": "+91 98765 43210",
+        "email": "ananya@example.com",
+        "eventType": "Wedding",
+        "eventDate": "2026-11-25",
+        "guestCount": "350",
+        "budget": "₹10,00,000+",
+        "message": "Looking for mandap and entrance flower styling.",
+        "submitted_at": "2026-08-27 19:08:55",
+        "email_sent": true
     }
 ]

@@ -2322,9 +2322,27 @@ Run every validation suite in sequence. Resolve any lint or typing issues. Verif
    - Copied 10 authentic brand photos to `public/images/services/` with clean number-free semantic names (`event-management.jpg`, `event-planning.png`, `event-decoration.jpg`, `wedding-decoration.jpg`, `corporate-event-management.jpg`, `stage-decoration.jpg`, `venue-decoration.jpg`, `floral-decoration.jpg`, `lighting-production.jpg`, `entertainment-hospitality.jpg`) and wired them into `src/data/services.ts`.
 6. **Quality Gate & CI Verification:**
    - `next lint`: 0 errors / 0 warnings.
-   - `tsc --noEmit`: 0 type errors in strict mode.
-   - `vitest run`: All 30 unit test suites passed (92/92 tests green).
-   - `playwright test`: 125/126 tests passed (1 skipped, exit code 0).
-   - `next build`: 55 static pages generated cleanly including `/venues/grand-heritage-palace` and `/venues/jd-connect`.
+### Session Note — August 28, 2026: Navbar Layout & Sizing, Blurred Backgrounds, Event Visuals & Section Streamlining
+
+**Completed Work & Enhancements:**
+1. **Edge-to-Edge Navigation Redesign & Increased Sizing:**
+   - Re-architected `NavigationClient.tsx` with a full-width 3-column layout: all page navigation links (`Services ▾`, `Events ▾`, `Portfolio`, `Blog`, `About Us`) at the extreme left, **11:11 Decor** brand logo centered, and **`PLAN YOUR EVENT`** CTA at the extreme right with fluid horizontal padding (`clamp(1.25rem, 3vw, 3.5rem)`).
+   - Increased overall navbar dimensions: header height to `96px`, brand logo to `115px`, navigation link font size to `1.05rem` (semi-bold 600), and CTA button padding to `0.8rem 1.75rem`.
+2. **Hero Section Cinematic Background Blur:**
+   - Added a dedicated blurry background layer with `filter: blur(10px)` and edge-clip prevention `transform: scale(1.08)` beneath a dark gradient vignette in `src/components/sections/Hero.tsx`, keeping foreground text, badges, and CTAs crystal sharp.
+3. **Event Categories Visuals & Typography:**
+   - Updated background images for **Birthday Events** (`public/events/birthdays-bg.jpg`), **Private Events** (`public/events/parties-bg.jpg`), and **Corporate Events** (`public/events/corporate-bg.jpg`) from `1111_Decor_images/`.
+   - Added depth-of-field soft blur (`filter: blur(3.5px)`) to all background slides in `EventCategories.tsx`.
+   - Set center-card event name typography to bold (`fontWeight: 700`).
+4. **Work Process Section Modular Decoupling:**
+   - Unmounted the 4-step "Our Work Process" section from all pages (`/`, `/services`, `/services/[slug]`, `/events`, `/events/[slug]`) while keeping the `WorkProcess.tsx` component and unit test suite fully intact for modular reuse.
+5. **Services Section Button Update:**
+   - Updated the homepage services CTA button from "View All 10 Services" to "View All Services".
+6. **FAQ Section Streamlining:**
+   - Removed the generic FAQ block exclusively from the `/events` and `/services` hub pages, preserving occasion-specific FAQs on dynamic event/service detail pages and the homepage FAQ.
+7. **Quality Gate & CI Verification:**
+   - `tsc --noEmit`: 0 errors in strict mode.
+   - `vitest run`: 30/30 unit test suites green (92/92 passed).
+   - `playwright test`: 125/125 E2E tests green across Chromium and Mobile Chrome.
 
 

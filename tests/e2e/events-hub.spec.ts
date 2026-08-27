@@ -27,12 +27,6 @@ test.describe('Events Main Hub Page (W-401)', () => {
     }
   })
 
-  test('renders FAQ accordion section', async ({ page }) => {
-    await page.goto('/events/')
-
-    const faqHeading = page.getByRole('heading', { level: 2 }).filter({ hasText: /Frequently Asked Questions/i })
-    await expect(faqHeading).toBeVisible()
-  })
 
   test('supports legacy /event route by redirecting or rendering events hub', async ({ page }) => {
     await page.goto('/event/')

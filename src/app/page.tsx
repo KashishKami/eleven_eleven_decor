@@ -6,7 +6,6 @@ import { AboutSection } from '@/components/sections/AboutSection'
 import { HomeServices } from '@/components/sections/HomeServices'
 import { WhyChooseUs } from '@/components/sections/WhyChooseUs'
 import { HomePortfolio } from '@/components/sections/HomePortfolio'
-import { WorkProcess } from '@/components/sections/WorkProcess'
 import { HomeVenues } from '@/components/sections/HomeVenues'
 import { HomePackages } from '@/components/sections/HomePackages'
 import { HomeTestimonials } from '@/components/sections/HomeTestimonials'
@@ -35,10 +34,7 @@ export default function Home() {
       {/* 6. Featured Portfolio (gated) */}
       {pageVisibility.portfolio && <HomePortfolio />}
 
-      {/* 7. Event Process (4-step workflow) */}
-      <WorkProcess />
-
-      {/* 8. Venues Teaser (gated) */}
+      {/* 7. Venues Teaser (gated) */}
       {pageVisibility.venues && <HomeVenues />}
 
       {/* 9. Packages Overview */}

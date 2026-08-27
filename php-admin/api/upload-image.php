@@ -52,12 +52,19 @@ $filename = ($cleanName ? $cleanName : 'image') . '-' . uniqid() . '.' . $extens
 $destination = $uploadDir . $filename;
 
 if (move_uploaded_file($file['tmp_name'], $destination)) {
-    $publicUploadDir = dirname(__DIR__, 2) . '/public/uploads/';
-    if (is_dir(dirname(__DIR__, 2) . '/public')) {
+    $publicBase = dirname(__DIR__, 2) . '/public';
+    $publicUploadDir = $publicBase . '/uploads/';
+    $publicManageUploadDir = $publicBase . '/manage-7f3b9x2k/uploads/';
+    
+    if (is_dir($publicBase)) {
         if (!is_dir($publicUploadDir)) {
             @mkdir($publicUploadDir, 0755, true);
         }
+        if (!is_dir($publicManageUploadDir)) {
+            @mkdir($publicManageUploadDir, 0755, true);
+        }
         @copy($destination, $publicUploadDir . $filename);
+        @copy($destination, $publicManageUploadDir . $filename);
     }
     $url = '/manage-7f3b9x2k/uploads/' . $filename;
     echo json_encode(['url' => $url]);

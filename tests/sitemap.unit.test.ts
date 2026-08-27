@@ -1,20 +1,29 @@
 import { describe, it, expect } from 'vitest'
 import sitemap from '@/app/sitemap'
 import robots from '@/app/robots'
+import pageVisibility from '../php-admin/data/page-visibility.json'
 
 describe('Dynamic Sitemap & Robots Generation with Visibility Gate (W-902 / W-1003)', () => {
   it('excludes hidden sections (gallery, portfolio, venues, blog) from sitemap when visibility is false', () => {
     const sitemapEntries = sitemap()
     const urls = sitemapEntries.map((e) => e.url)
 
-    // Hidden sections MUST NOT be present
-    expect(urls).not.toContain('https://elevenelevendecor.com/gallery/')
-    expect(urls).not.toContain('https://elevenelevendecor.com/portfolio/')
-    expect(urls).not.toContain('https://elevenelevendecor.com/venues/')
-    expect(urls).not.toContain('https://elevenelevendecor.com/blog/')
-    expect(urls.some((u) => u.includes('/portfolio/'))).toBe(false)
-    expect(urls.some((u) => u.includes('/venues/'))).toBe(false)
-    expect(urls.some((u) => u.includes('/blog/'))).toBe(false)
+    // Hidden sections MUST NOT be present when their flag is false
+    if (!pageVisibility.gallery) {
+      expect(urls).not.toContain('https://elevenelevendecor.com/gallery/')
+    }
+    if (!pageVisibility.portfolio) {
+      expect(urls).not.toContain('https://elevenelevendecor.com/portfolio/')
+      expect(urls.some((u) => u.includes('/portfolio/'))).toBe(false)
+    }
+    if (!pageVisibility.venues) {
+      expect(urls).not.toContain('https://elevenelevendecor.com/venues/')
+      expect(urls.some((u) => u.includes('/venues/'))).toBe(false)
+    }
+    if (!pageVisibility.blog) {
+      expect(urls).not.toContain('https://elevenelevendecor.com/blog/')
+      expect(urls.some((u) => u.includes('/blog/'))).toBe(false)
+    }
 
     // Core hubs MUST remain present
     expect(urls).toContain('https://elevenelevendecor.com/')

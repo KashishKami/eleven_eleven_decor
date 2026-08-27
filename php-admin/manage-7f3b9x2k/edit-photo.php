@@ -263,7 +263,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     function updatePreviewFromUrl(url, previewId) {
         const preview = document.getElementById(previewId);
-        if (url && url.startsWith('http')) {
+        if (!preview) return;
+        if (url && (url.startsWith('http') || url.startsWith('/'))) {
             preview.src = url;
             preview.style.display = 'block';
         } else {

@@ -3,11 +3,16 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { PORTFOLIO_PROJECTS } from '@/data/portfolio'
+import { usePortfolioProjects } from '@/hooks/usePortfolioProjects'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 
 export function HomePortfolio() {
-  const featured = PORTFOLIO_PROJECTS.slice(0, 4)
+  const { projects } = usePortfolioProjects()
+  const featured = projects.slice(0, 4)
+
+  if (featured.length === 0) {
+    return null
+  }
 
   return (
     <section

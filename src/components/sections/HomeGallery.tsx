@@ -3,11 +3,16 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { GALLERY_ITEMS } from '@/data/gallery'
+import { useGallery } from '@/hooks/useGallery'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 
 export function HomeGallery() {
-  const previewItems = GALLERY_ITEMS.slice(0, 6)
+  const { items } = useGallery()
+  const previewItems = items.slice(0, 6)
+
+  if (previewItems.length === 0) {
+    return null
+  }
 
   return (
     <section

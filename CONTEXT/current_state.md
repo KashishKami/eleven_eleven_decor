@@ -2302,11 +2302,26 @@ Run every validation suite in sequence. Resolve any lint or typing issues. Verif
 4. **Dynamic Next.js Client Hooks & SSR Static Helpers:**
    - Client hooks: `usePortfolioProjects.ts`, `useVenues.ts`, `useGallery.ts`, and `useBlogPosts.ts` with graceful loading and client-side fetching.
    - Server data access: `server-portfolio.ts`, `server-venues.ts`, and `server-gallery.ts` reading directly from `php-admin/data/*.json` during `generateStaticParams()`.
-5. **Full Quality Gate Verification:**
-   - `pnpm typecheck`: 0 errors.
-   - `pnpm lint`: 0 errors / 0 warnings.
-   - `pnpm test:unit`: 30/30 suites passed, 93/93 tests passed.
-   - `npx playwright test`: 22/22 Phase 11 E2E tests passed across Chromium and Mobile Chrome.
-   - `pnpm build`: 55 static pages generated cleanly with exit code 0.
+### Session Note — August 27, 2026: Live Gallery Previews, Image Sync & Real-Content Dynamic Homepage
+
+**Completed Work & Enhancements:**
+1. **Interactive Visual Gallery Previews in PHP Admin:**
+   - Implemented dynamic thumbnail preview grids with instant remove (`×`) buttons in `edit-project.php`, `new-project.php`, `edit-venue.php`, and `new-venue.php`.
+   - Updated `updatePreviewFromUrl` in `new-photo.php`, `edit-photo.php`, and all CRUD forms to support relative upload URLs (`/manage-7f3b9x2k/uploads/...`).
+2. **Dual Upload Directory Sync & Dev Proxy Rewrites:**
+   - Updated `php-admin/api/upload-image.php`, `new-post.php`, and `edit-post.php` to mirror every uploaded image into `public/manage-7f3b9x2k/uploads/` and `public/uploads/` for Next.js frontend rendering and static export.
+   - Added dev server proxy rewrites in `next.config.mjs` for seamless local multi-server image access across ports 3000 and 8080.
+3. **Dynamic Real-Content Homepage Architecture:**
+   - Refactored `src/components/sections/HomeVenues.tsx` to eliminate hardcoded dummy venue highlights and dynamically render real published venues via `useVenues()`.
+   - Refactored `src/components/sections/HomeGallery.tsx` to dynamically query `useGallery()` and display real photos uploaded through the admin panel.
+   - Refactored `src/components/sections/HomePortfolio.tsx` to dynamically query `usePortfolioProjects()` for real project case studies.
+4. **Data Store & Initial Content:**
+   - Added initial curated luxury showcase venues (*Grand Heritage Palace & Royal Gardens* and *JD Connect*) in `php-admin/data/venues.json`.
+5. **Quality Gate & CI Verification:**
+   - `next lint`: 0 errors / 0 warnings.
+   - `tsc --noEmit`: 0 type errors in strict mode.
+   - `vitest run`: All 30 unit test suites passed (92/92 tests green).
+   - `playwright test`: 125/126 tests passed (1 skipped, exit code 0).
+   - `next build`: 55 static pages generated cleanly including `/venues/grand-heritage-palace` and `/venues/jd-connect`.
 
 

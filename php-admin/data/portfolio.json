@@ -20,73 +20,29 @@
         "created_at": "2026-08-27 11:53:11"
     },
     {
-        "title": "Testing",
-        "subtitle": "Testing",
-        "slug": "testing",
-        "category": "Birthdays",
-        "location": "jD",
-        "venue": "DB Park",
-        "guestCount": 100,
-        "heroImage": "\/manage-7f3b9x2k\/uploads\/11-11-decor-1-6a90293491d38.jpg",
+        "title": "Test",
+        "subtitle": "Test",
+        "slug": "test",
+        "category": "Weddings",
+        "location": "Test",
+        "venue": "TESt",
+        "guestCount": 200,
+        "heroImage": "\/manage-7f3b9x2k\/uploads\/wedding-banner-1-6a9041241f545.jpg",
         "galleryImages": [
-            "\/manage-7f3b9x2k\/uploads\/logo-v2-6a902942377c7.png",
-            "\/manage-7f3b9x2k\/uploads\/11-11-decor-2-6a902947baf86.jpg"
+            "\/manage-7f3b9x2k\/uploads\/private-parties-4-6a90412c1ae3b.jpg"
         ],
-        "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "summary": "TEst",
         "planningDetails": [
-            "Test",
             "Test"
         ],
         "decorHighlights": [
-            "Test",
-            "test"
+            "Test"
         ],
-        "executionNotes": "Testing notes",
-        "metaTitle": "Testing | 11:11 Decor Showcase",
-        "metaDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostru",
+        "executionNotes": "Test",
+        "metaTitle": "Test | 11:11 Decor Showcase",
+        "metaDescription": "TEst",
         "published": 1,
         "id": "2",
-        "created_at": "2026-08-27 12:01:25",
-        "updated_at": "2026-08-27 12:12:32"
-    },
-    {
-        "title": "E2E Wedding 1787835678586_fxbb",
-        "subtitle": "Cliffside Palace Staging",
-        "slug": "e2e-wedding-1787835678586-fxbb",
-        "category": "Weddings",
-        "location": "Mussoorie, Uttarakhand",
-        "venue": "JW Marriott Walnut Grove",
-        "guestCount": 400,
-        "heroImage": "https:\/\/images.unsplash.com\/photo-1519741497674-611481863552",
-        "galleryImages": [],
-        "summary": "Bespoke floral architecture in the Garhwal mountains.",
-        "planningDetails": [],
-        "decorHighlights": [],
-        "executionNotes": "",
-        "metaTitle": "E2E Wedding 1787835678586_fxbb | 11:11 Decor Showcase",
-        "metaDescription": "Bespoke floral architecture in the Garhwal mountains.",
-        "published": 1,
-        "id": "3",
-        "created_at": "2026-08-27 13:01:19"
-    },
-    {
-        "title": "E2E Wedding 1787835724692_opvp",
-        "subtitle": "Cliffside Palace Staging",
-        "slug": "e2e-wedding-1787835724692-opvp",
-        "category": "Weddings",
-        "location": "Mussoorie, Uttarakhand",
-        "venue": "JW Marriott Walnut Grove",
-        "guestCount": 400,
-        "heroImage": "https:\/\/images.unsplash.com\/photo-1519741497674-611481863552",
-        "galleryImages": [],
-        "summary": "Bespoke floral architecture in the Garhwal mountains.",
-        "planningDetails": [],
-        "decorHighlights": [],
-        "executionNotes": "",
-        "metaTitle": "E2E Wedding 1787835724692_opvp | 11:11 Decor Showcase",
-        "metaDescription": "Bespoke floral architecture in the Garhwal mountains.",
-        "published": 1,
-        "id": "4",
-        "created_at": "2026-08-27 13:02:05"
+        "created_at": "2026-08-27 13:53:03"
     }
 ]

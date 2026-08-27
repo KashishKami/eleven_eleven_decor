@@ -78,12 +78,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $destPath = $uploadDir . $newFileName;
 
             if (move_uploaded_file($fileTmpPath, $destPath)) {
-                $publicUploadDir = dirname(__DIR__, 2) . '/public/uploads/';
-                if (is_dir(dirname(__DIR__, 2) . '/public')) {
+                $publicBase = dirname(__DIR__, 2) . '/public';
+                $publicUploadDir = $publicBase . '/uploads/';
+                $publicManageUploadDir = $publicBase . '/manage-7f3b9x2k/uploads/';
+                if (is_dir($publicBase)) {
                     if (!is_dir($publicUploadDir)) {
                         @mkdir($publicUploadDir, 0755, true);
                     }
+                    if (!is_dir($publicManageUploadDir)) {
+                        @mkdir($publicManageUploadDir, 0755, true);
+                    }
                     @copy($destPath, $publicUploadDir . $newFileName);
+                    @copy($destPath, $publicManageUploadDir . $newFileName);
                 }
                 $image_url = '/manage-7f3b9x2k/uploads/' . $newFileName;
             } else {

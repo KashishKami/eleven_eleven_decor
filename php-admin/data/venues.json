@@ -1,1 +1,55 @@
-[]
+[
+    {
+        "id": "1",
+        "name": "Grand Heritage Palace & Royal Gardens",
+        "slug": "grand-heritage-palace",
+        "tagline": "Imperial Palatial Architecture & Manicured Courtyards",
+        "spaceType": "Hybrid (Indoor & Outdoor)",
+        "location": "Dehradun Valley, Uttarakhand",
+        "capacity": 800,
+        "heroImage": "https:\/\/images.unsplash.com\/photo-1544078751-58fee2d8a03b?q=80&w=1200&auto=format&fit=crop",
+        "galleryImages": [
+            "https:\/\/images.unsplash.com\/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop",
+            "https:\/\/images.unsplash.com\/photo-1519225421980-715cb0215aed?q=80&w=1200&auto=format&fit=crop"
+        ],
+        "summary": "A breathtaking heritage sanctuary offering colonial archways, cascading fountains, and a 15,000 sq.ft lawn for majestic open-air wedding mandaps and royal banquets.",
+        "decorHighlights": [
+            "Custom 360-degree floating floral mandap over central water body",
+            "Vintage brass lantern pathways and warm amber architectural uplighting",
+            "Columnar floral draping across 20-foot colonial stone arches"
+        ],
+        "planningConsiderations": [
+            "Dedicated green rooms with bridal suites",
+            "Independent heavy-duty 125kVA generator power grid",
+            "Dedicated valet parking for 250+ vehicles"
+        ],
+        "metaTitle": "Grand Heritage Palace & Royal Gardens | 11:11 Decor Curated Venues",
+        "metaDescription": "Explore Grand Heritage Palace & Royal Gardens in Dehradun Valley with bespoke floral architecture, banquet staging, and luxury event planning by 11:11 Decor.",
+        "published": 1,
+        "created_at": "2026-08-27 12:00:00"
+    },
+    {
+        "name": "JD Connect",
+        "tagline": "5 years celeberation",
+        "slug": "jd-connect",
+        "spaceType": "Hybrid (Indoor & Outdoor)",
+        "location": "Dehradun",
+        "capacity": 20,
+        "heroImage": "\/manage-7f3b9x2k\/uploads\/front-banner-1-6a903fa055fa8.jpg",
+        "galleryImages": [
+            "\/manage-7f3b9x2k\/uploads\/birthday-events-1-6a903fae605bf.jpg"
+        ],
+        "summary": "JD Connect Party",
+        "decorHighlights": [
+            "Testing"
+        ],
+        "planningConsiderations": [
+            "Testing"
+        ],
+        "metaTitle": "JD Connect | 11:11 Decor Venue Staging",
+        "metaDescription": "JD Connect Party",
+        "published": 1,
+        "id": "2",
+        "created_at": "2026-08-27 13:46:28"
+    }
+]

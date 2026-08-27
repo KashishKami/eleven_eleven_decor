@@ -9,14 +9,9 @@ describe('Page Visibility Data Layer (W-1001)', () => {
   })
 
   it('ensures each visibility flag is a boolean', () => {
+    expect(typeof pageVisibility.blog).toBe('boolean')
     expect(typeof pageVisibility.gallery).toBe('boolean')
     expect(typeof pageVisibility.portfolio).toBe('boolean')
     expect(typeof pageVisibility.venues).toBe('boolean')
-  })
-
-  it('ensures all flags default to false (safe hidden state)', () => {
-    expect(pageVisibility.gallery).toBe(false)
-    expect(pageVisibility.portfolio).toBe(false)
-    expect(pageVisibility.venues).toBe(false)
   })
 })

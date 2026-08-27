@@ -304,7 +304,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </label>
                     <span id="gallery-upload-status" style="font-size: 0.8rem; color: #86efac; margin-left: 0.75rem;"></span>
                 </div>
-                <textarea id="galleryImages" name="galleryImages" rows="4"><?= htmlspecialchars(implode("\n", $venue['galleryImages'] ?? [])) ?></textarea>
+                <textarea id="galleryImages" name="galleryImages" rows="4" oninput="renderGalleryPreviews()"><?= htmlspecialchars(implode("\n", $venue['galleryImages'] ?? [])) ?></textarea>
+                <div id="gallery-preview-container" style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.75rem;"></div>
             </div>
 
             <div class="form-row">
@@ -378,24 +379,83 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 const data = await res.json();
                 if (data.url) {
                     textarea.value = (textarea.value.trim() + '\n' + data.url).trim();
+                    renderGalleryPreviews();
                 }
             } catch (err) {
                 console.error(err);
             }
         }
         status.textContent = 'Upload complete!';
+        renderGalleryPreviews();
         setTimeout(() => { status.textContent = ''; }, 3000);
+    }
+
+    function renderGalleryPreviews() {
+        const textarea = document.getElementById('galleryImages');
+        const container = document.getElementById('gallery-preview-container');
+        if (!textarea || !container) return;
+        const urls = textarea.value.split('\n').map(u => u.trim()).filter(Boolean);
+        container.innerHTML = '';
+        urls.forEach((url, idx) => {
+            const item = document.createElement('div');
+            item.style.position = 'relative';
+            item.style.width = '90px';
+            item.style.height = '70px';
+            item.style.borderRadius = '6px';
+            item.style.overflow = 'hidden';
+            item.style.border = '1px solid rgba(201, 169, 110, 0.4)';
+            item.style.background = '#242424';
+            
+            const img = document.createElement('img');
+            img.src = url;
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.objectFit = 'cover';
+            img.onerror = () => { img.style.display = 'none'; };
+            
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.innerHTML = '&times;';
+            removeBtn.style.position = 'absolute';
+            removeBtn.style.top = '2px';
+            removeBtn.style.right = '2px';
+            removeBtn.style.background = 'rgba(0,0,0,0.75)';
+            removeBtn.style.color = '#ff6b6b';
+            removeBtn.style.border = 'none';
+            removeBtn.style.borderRadius = '50%';
+            removeBtn.style.width = '20px';
+            removeBtn.style.height = '20px';
+            removeBtn.style.cursor = 'pointer';
+            removeBtn.style.fontSize = '14px';
+            removeBtn.style.lineHeight = '1';
+            removeBtn.title = 'Remove image';
+            removeBtn.onclick = (e) => {
+                e.stopPropagation();
+                urls.splice(idx, 1);
+                textarea.value = urls.join('\n');
+                renderGalleryPreviews();
+            };
+            
+            item.appendChild(img);
+            item.appendChild(removeBtn);
+            container.appendChild(item);
+        });
     }
 
     function updatePreviewFromUrl(url, previewId) {
         const preview = document.getElementById(previewId);
-        if (url && url.startsWith('http')) {
+        if (!preview) return;
+        if (url && (url.startsWith('http') || url.startsWith('/'))) {
             preview.src = url;
             preview.style.display = 'block';
         } else {
             preview.style.display = 'none';
         }
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderGalleryPreviews();
+    });
     </script>
 </body>
 </html>

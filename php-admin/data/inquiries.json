@@ -63,5 +63,31 @@
         "message": "Looking for mandap and entrance flower styling.",
         "submitted_at": "2026-08-27 15:49:06",
         "email_sent": true
+    },
+    {
+        "id": 6,
+        "name": "Ananya Sen",
+        "phone": "+91 98765 43210",
+        "email": "ananya@example.com",
+        "eventType": "Wedding",
+        "eventDate": "2026-11-25",
+        "guestCount": "350",
+        "budget": "₹10,00,000+",
+        "message": "Looking for mandap and entrance flower styling.",
+        "submitted_at": "2026-08-27 15:56:26",
+        "email_sent": true
+    },
+    {
+        "id": 7,
+        "name": "Ananya Sen",
+        "phone": "+91 98765 43210",
+        "email": "ananya@example.com",
+        "eventType": "Wedding",
+        "eventDate": "2026-11-25",
+        "guestCount": "350",
+        "budget": "₹10,00,000+",
+        "message": "Looking for mandap and entrance flower styling.",
+        "submitted_at": "2026-08-27 15:56:52",
+        "email_sent": true
     }
 ]

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -16,7 +16,9 @@ interface SmoothScrollProviderProps {
 
 export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
   const pathname = usePathname()
+  const lenisRef = useRef<Lenis | null>(null)
 
+  // ── Initialise Lenis once for the lifetime of the app ────────────────────
   useEffect(() => {
     if (typeof window === 'undefined') return
 
@@ -25,6 +27,8 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
     })
+
+    lenisRef.current = lenis
 
     lenis.on('scroll', ScrollTrigger.update)
 
@@ -38,13 +42,23 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
     return () => {
       gsap.ticker.remove(updateTicker)
       lenis.destroy()
+      lenisRef.current = null
     }
   }, [])
 
-  // Refresh GSAP ScrollTriggers when switching routes
+  // ── Scroll to top + refresh ScrollTrigger on every route change ───────────
   useEffect(() => {
     if (typeof window === 'undefined') return
 
+    if (lenisRef.current) {
+      // Jump instantly to top — no smooth animation between pages
+      lenisRef.current.scrollTo(0, { immediate: true })
+    } else {
+      // Fallback for the very first paint before Lenis initialises
+      window.scrollTo(0, 0)
+    }
+
+    // Small delay lets the new page DOM render before recalculating triggers
     const timer = setTimeout(() => {
       ScrollTrigger.refresh()
     }, 100)

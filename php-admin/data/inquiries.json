@@ -1,0 +1,67 @@
+[
+    {
+        "id": 1,
+        "name": "Test",
+        "phone": "+91 98765 43210",
+        "email": "test@example.com",
+        "eventType": "Wedding",
+        "eventDate": "2026-11-25",
+        "guestCount": "350",
+        "budget": "flex",
+        "message": "Test message for local dev",
+        "submitted_at": "2026-08-27 15:46:33",
+        "email_sent": true
+    },
+    {
+        "id": 2,
+        "name": "Ananya Sen",
+        "phone": "+91 98765 43210",
+        "email": "ananya@example.com",
+        "eventType": "Wedding",
+        "eventDate": "2026-11-25",
+        "guestCount": "350",
+        "budget": "₹10,00,000+",
+        "message": "Looking for mandap and entrance flower styling.",
+        "submitted_at": "2026-08-27 15:47:50",
+        "email_sent": true
+    },
+    {
+        "id": 3,
+        "name": "Ananya Sen",
+        "phone": "+91 98765 43210",
+        "email": "ananya@example.com",
+        "eventType": "Wedding",
+        "eventDate": "2026-11-25",
+        "guestCount": "350",
+        "budget": "₹10,00,000+",
+        "message": "Looking for mandap and entrance flower styling.",
+        "submitted_at": "2026-08-27 15:47:59",
+        "email_sent": true
+    },
+    {
+        "id": 4,
+        "name": "Ananya Sen",
+        "phone": "+91 98765 43210",
+        "email": "ananya@example.com",
+        "eventType": "Wedding",
+        "eventDate": "2026-11-25",
+        "guestCount": "350",
+        "budget": "₹10,00,000+",
+        "message": "Looking for mandap and entrance flower styling.",
+        "submitted_at": "2026-08-27 15:48:40",
+        "email_sent": true
+    },
+    {
+        "id": 5,
+        "name": "Ananya Sen",
+        "phone": "+91 98765 43210",
+        "email": "ananya@example.com",
+        "eventType": "Wedding",
+        "eventDate": "2026-11-25",
+        "guestCount": "350",
+        "budget": "₹10,00,000+",
+        "message": "Looking for mandap and entrance flower styling.",
+        "submitted_at": "2026-08-27 15:49:06",
+        "email_sent": true
+    }
+]

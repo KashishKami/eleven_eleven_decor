@@ -20,6 +20,15 @@ define('ADMIN_PASSWORD_HASH', '$2y$10$w3U6R7Qo0dK1X9z8E4o3UeFhG7mQ5vK6y9n8p3X4r7
 // Session Configuration
 define('SESSION_LIFETIME', 7200); // 2 hours
 
+// ─── Contact Form Email Settings ─────────────────────────────────────────────
+// CONTACT_EMAIL    — The inbox that receives every form submission.
+//                    Change to your real business email before deploying.
+// CONTACT_FROM_EMAIL — The "From:" address GoDaddy uses when sending.
+//                    MUST match a domain hosted on this GoDaddy account to avoid
+//                    being silently blocked (e.g. noreply@yourdomain.com).
+define('CONTACT_EMAIL',      'hello@YOUR-REAL-DOMAIN.com');
+define('CONTACT_FROM_EMAIL', 'noreply@YOUR-REAL-DOMAIN.com');
+
 /**
  * File-based JSON Blog Store Helper for Local Dev & Staging
  */

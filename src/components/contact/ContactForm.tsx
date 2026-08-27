@@ -22,6 +22,7 @@ export default function ContactForm() {
   const [errors, setErrors] = useState<Partial<Record<keyof ContactFormData, string>>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -35,6 +36,7 @@ export default function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setSubmitError(null)
 
     const validation = validateContactForm(formData)
     if (!validation.isValid) {
@@ -43,23 +45,64 @@ export default function ContactForm() {
     }
 
     setIsSubmitting(true)
-    // Simulate brief luxury network submission
-    await new Promise((resolve) => setTimeout(resolve, 600))
-    setIsSubmitting(false)
-    setIsSubmitted(true)
 
-    // Reset form fields
-    setFormData({
-      name: '',
-      phone: '',
-      email: '',
-      eventType: '',
-      eventDate: '',
-      guestCount: '',
-      budget: '',
-      message: '',
-    })
-    setErrors({})
+    try {
+      // NEXT_PUBLIC_CONTACT_API_URL is the full URL to the PHP endpoint.
+      //
+      // Local dev  → http://127.0.0.1:8080/api/contact.php
+      //   (PHP server root = php-admin/, so path starts at /api/)
+      //
+      // GoDaddy    → https://yourdomain.com/php-admin/api/contact.php
+      //   (Set NEXT_PUBLIC_CONTACT_API_URL in .env.production before building)
+      const contactApiUrl =
+        process.env.NEXT_PUBLIC_CONTACT_API_URL ||
+        'http://127.0.0.1:8080/api/contact.php'
+
+      const response = await fetch(contactApiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...formData,
+          // Honeypot field — always empty from real users; bots fill it in
+          website: '',
+        }),
+      })
+
+      const json = await response.json()
+
+      if (!response.ok || !json.success) {
+        // Server-side validation errors (422) — map back to field errors
+        if (json.errors && typeof json.errors === 'object') {
+          setErrors(json.errors as Partial<Record<keyof ContactFormData, string>>)
+        } else {
+          setSubmitError(
+            json.error ||
+              'Something went wrong. Please try again or contact us directly by phone.'
+          )
+        }
+        return
+      }
+
+      // ── SUCCESS ──────────────────────────────────────────────────────────────
+      setIsSubmitted(true)
+      setFormData({
+        name: '',
+        phone: '',
+        email: '',
+        eventType: '',
+        eventDate: '',
+        guestCount: '',
+        budget: '',
+        message: '',
+      })
+      setErrors({})
+    } catch {
+      setSubmitError(
+        'Unable to reach our server. Please check your connection and try again, or call us directly.'
+      )
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -130,6 +173,40 @@ export default function ContactForm() {
             </h4>
             <p style={{ margin: 0, fontSize: '0.925rem', color: '#ded6ca', lineHeight: 1.5 }}>
               Our executive planning and styling team will review your requirements and get in touch with you shortly.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {submitError && (
+        <div
+          data-testid="contact-error-toast"
+          style={{
+            marginBottom: '2rem',
+            padding: '1.25rem 1.5rem',
+            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+            border: '1px solid rgba(239, 68, 68, 0.5)',
+            borderRadius: '6px',
+            color: '#f5f0e8',
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '1rem',
+          }}
+        >
+          <span style={{ fontSize: '1.5rem', color: '#ef4444', lineHeight: 1 }}>⚠</span>
+          <div>
+            <h4
+              style={{
+                margin: '0 0 0.25rem 0',
+                color: '#ef4444',
+                fontFamily: 'var(--font-display, serif)',
+                fontSize: '1.1rem',
+              }}
+            >
+              Submission Failed
+            </h4>
+            <p style={{ margin: 0, fontSize: '0.925rem', color: '#ded6ca', lineHeight: 1.5 }}>
+              {submitError}
             </p>
           </div>
         </div>

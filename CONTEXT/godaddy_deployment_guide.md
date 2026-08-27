@@ -232,6 +232,10 @@ define('ADMIN_PASSWORD_HASH', password_hash('MySecretAdminPassword!', PASSWORD_B
 
 // Session lifetime (seconds) — 7200 = 2 hours
 define('SESSION_LIFETIME', 7200);
+
+// 🔴 Contact Form Email Settings (see Part 15 for full explanation)
+define('CONTACT_EMAIL',      'hello@YOUR-REAL-DOMAIN.com');      // ← Where you receive inquiries
+define('CONTACT_FROM_EMAIL', 'noreply@YOUR-REAL-DOMAIN.com');    // ← Must be on YOUR hosted domain!
 ```
 
 5. **Save the file**
@@ -333,6 +337,21 @@ GoDaddy includes a free SSL certificate with hosting plans:
 3. Wait a few minutes for it to activate
 
 Once done, your site will be accessible at `https://` (not just `http://`).
+
+### Step 9.2 — If You Don't See "Let's Encrypt SSL" in cPanel ⚠️
+
+> GoDaddy sometimes hides or doesn't pre-enable the free SSL option depending on your plan or account age. **This is common — don't panic.** It takes 2 minutes to fix via their chat support.
+
+**What to do:**
+
+1. Go to [GoDaddy Support](https://www.godaddy.com/help) and click **"Chat with us"** (bottom-right of the page)
+2. Tell the agent exactly this:
+   > *"I'm on a cPanel Shared Hosting plan and I don't see the Let's Encrypt SSL or AutoSSL option in my cPanel. Can you please enable the free SSL certificate for my domain `YOUR-REAL-DOMAIN.com`?"*
+3. The agent will enable it on the backend — it takes them under 2 minutes
+4. Refresh your cPanel and the SSL option will now appear
+5. Follow Step 9.1 above to install it
+
+> **Note:** GoDaddy's chat is available 24/7. You can also call them if you prefer. Either way, activating the free SSL is a standard request they handle many times a day — no upselling required, just ask for AutoSSL or Let's Encrypt to be enabled.
 
 ---
 
@@ -492,9 +511,149 @@ public_html/
 | # | Step | File / Location | What to change |
 |---|------|----------------|----------------|
 | **#1** | Step 2.2 | `.env.production` on your computer | `NEXT_PUBLIC_SITE_URL=https://YOUR-REAL-DOMAIN.com` |
-| **#2** | Step 5.2 | `config.php` created on GoDaddy server | `CORS_ORIGIN` value |
-| **#3** | Step 6.1 | Browser address bar | `https://YOUR-REAL-DOMAIN.com/php-admin/api/install.php` |
-| **#4** | Step 10 | Admin panel login URL | `https://YOUR-REAL-DOMAIN.com/php-admin/manage-7f3b9x2k/` |
+| **#2** | Step 2.2 | `.env.production` on your computer | `NEXT_PUBLIC_CONTACT_API_URL=https://YOUR-REAL-DOMAIN.com/php-admin/api/contact.php` |
+| **#3** | Step 5.2 | `config.php` created on GoDaddy server | `CORS_ORIGIN`, `CONTACT_EMAIL`, and `CONTACT_FROM_EMAIL` values |
+| **#4** | Step 6.1 | Browser address bar | `https://YOUR-REAL-DOMAIN.com/php-admin/api/install.php` |
+| **#5** | Step 12 | Admin panel login URL | `https://YOUR-REAL-DOMAIN.com/php-admin/manage-7f3b9x2k/` |
+
+---
+
+---
+
+## 📬 PART 15 — Contact Form Email Setup
+
+When a visitor submits the enquiry form on `/contact`, your website POSTs the data to `php-admin/api/contact.php`. That PHP script does two things:
+
+1. **Sends an HTML email** directly to your business inbox via GoDaddy's built-in mail server.
+2. **Saves the lead** to `php-admin/data/inquiries.json` as a permanent backup (so you never lose an inquiry even if an email goes to spam).
+
+---
+
+### Step 15.1 — Set Your Business Email in `config.php`
+
+When you create (or edit) `config.php` on the GoDaddy server (see Step 5.2), you must add **two extra lines** alongside the other settings:
+
+```php
+// ─── Contact Form Email Settings ─────────────────────────────────────────────
+// CONTACT_EMAIL    — where incoming inquiries land in your inbox
+// CONTACT_FROM_EMAIL — the "From:" address GoDaddy uses to send the email
+//                      ⚠ MUST be an address on your hosted domain (e.g. noreply@yourdomain.com)
+//                      GoDaddy BLOCKS emails where "From" is a random address.
+
+define('CONTACT_EMAIL',      'hello@YOUR-REAL-DOMAIN.com');
+define('CONTACT_FROM_EMAIL', 'noreply@YOUR-REAL-DOMAIN.com');
+```
+
+🔴 **Replace `YOUR-REAL-DOMAIN.com` with your actual domain** (e.g. `elevenelevendecor.com`).
+
+> **Why two addresses?**
+> - `CONTACT_EMAIL` is *where you receive the email* (can be any Gmail, Outlook, or business address).
+> - `CONTACT_FROM_EMAIL` must be a mailbox **on the same domain as your GoDaddy hosting** (e.g. `noreply@elevenelevendecor.com`). GoDaddy's outgoing mail server will silently reject emails where the `From:` header doesn't match a hosted domain. The **visitor's own email** is placed in the `Reply-To:` header automatically, so you can reply directly to them with one click.
+
+---
+
+### Step 15.2 — Create the `noreply@` Mailbox on GoDaddy (One-Time)
+
+GoDaddy requires a real mailbox to exist before using it as the `From:` address.
+
+1. Log into GoDaddy → **My Products** → find your domain → click **Manage** under Email
+2. Click **Create** (or **Add Mailbox**)
+3. Enter `noreply` as the mailbox name → it becomes `noreply@yourdomain.com`
+4. Set any password (you won't need to log into this mailbox; it's only used for sending)
+5. Click **Create**
+
+> **Note:** If you already have a mailbox like `hello@yourdomain.com`, you can use that as `CONTACT_FROM_EMAIL` instead. It just must exist on GoDaddy.
+
+---
+
+### Step 15.3 — Verify the Endpoint Works After Deploying
+
+Once everything is uploaded, test the contact form by visiting:
+
+```
+https://YOUR-REAL-DOMAIN.com/contact/
+```
+
+Fill in the form and submit. Within a few seconds you should:
+
+1. **See the gold success banner** on the form ("Thank You! Your Inquiry Has Been Received.")
+2. **Receive an email** in your `CONTACT_EMAIL` inbox with the full inquiry details and a one-click "Reply to [Name]" button.
+3. **See the lead logged** in `public_html/php-admin/data/inquiries.json` (viewable via cPanel File Manager).
+
+---
+
+### Step 15.4 — Protect the `inquiries.json` Log File
+
+The `data/` folder already has an `.htaccess` that blocks browser access (from Step 5.3). This means `inquiries.json` is **never publicly accessible** — it is only readable by your PHP scripts on the server.
+
+> You can view saved leads at any time by opening `public_html/php-admin/data/inquiries.json` in cPanel → File Manager → Edit.
+
+---
+
+### Final `config.php` on GoDaddy — Complete Template
+
+After all setup steps, your server-side `config.php` should look like this:
+
+```php
+<?php
+// MySQL Database Credentials
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'YOUR_FULL_DATABASE_NAME');    // e.g. johndoe_elevendecor_blog
+define('DB_USER', 'YOUR_FULL_DATABASE_USER');    // e.g. johndoe_elevendecor_user
+define('DB_PASS', 'YOUR_DATABASE_PASSWORD');
+
+// 🔴 DOMAIN CHANGE #2
+define('CORS_ORIGIN', 'https://YOUR-REAL-DOMAIN.com');
+
+// Admin Panel Password (bcrypt hash)
+define('ADMIN_PASSWORD_HASH', password_hash('YourAdminPassword!', PASSWORD_BCRYPT));
+
+// Session lifetime
+define('SESSION_LIFETIME', 7200);
+
+// 🔴 Contact Form Email Settings
+define('CONTACT_EMAIL',      'hello@YOUR-REAL-DOMAIN.com');       // ← Your real inbox
+define('CONTACT_FROM_EMAIL', 'noreply@YOUR-REAL-DOMAIN.com');     // ← Must be on this domain
+```
+
+---
+
+### Troubleshooting Contact Form Emails
+
+| Problem | Fix |
+|---------|-----|
+| Form shows "Submission Failed" | Check that `php-admin/api/contact.php` was uploaded correctly to GoDaddy |
+| Email never arrives | Check Spam/Junk folder first. Then verify `CONTACT_FROM_EMAIL` matches your hosted domain |
+| `CONTACT_EMAIL` not defined error | You forgot to add the two new constants to `config.php` on the GoDaddy server |
+| Email arrives but "From" is wrong | Change `CONTACT_FROM_EMAIL` to a real mailbox on your GoDaddy domain |
+| Leads not appearing in `inquiries.json` | Check that `php-admin/data/` folder has permissions `755` in cPanel |
+| Form works locally but not on GoDaddy | Set `NEXT_PUBLIC_CONTACT_API_URL=https://YOUR-REAL-DOMAIN.com/php-admin/api/contact.php` in `.env.production` before rebuilding |
+
+---
+
+## 📁 PART 15 Addendum — Updated Folder Structure on GoDaddy
+
+After adding the contact form, your `public_html/php-admin/` should look like this:
+
+```
+public_html/php-admin/
+├── config.php                   ← Now also includes CONTACT_EMAIL + CONTACT_FROM_EMAIL
+├── api/
+│   ├── contact.php              ← NEW: Contact form endpoint (email + lead log)
+│   ├── blogs.php
+│   ├── blog-post.php
+│   ├── upload-image.php
+│   ├── gallery.php
+│   ├── venues.php
+│   ├── blog-sitemap.php
+│   └── sitemap-index.php
+├── data/
+│   ├── .htaccess                ← Blocks browser access to all files below
+│   ├── inquiries.json           ← NEW: Auto-created on first form submission
+│   └── posts.json
+└── manage-7f3b9x2k/
+    └── [... admin panel files ...]
+```
 
 ---
 

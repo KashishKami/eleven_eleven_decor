@@ -45,6 +45,8 @@ try {
             padding-bottom: 1.5rem;
             border-bottom: 1px solid rgba(201, 169, 110, 0.2);
             margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
         .brand {
             font-family: Georgia, serif;
@@ -56,13 +58,21 @@ try {
             display: flex;
             gap: 1rem;
             align-items: center;
+            flex-wrap: wrap;
         }
         .nav-tabs {
             display: flex;
             gap: 0.5rem;
+            row-gap: 0.75rem;
+            flex-wrap: wrap;
             margin-bottom: 2rem;
             border-bottom: 1px solid rgba(255,255,255,0.08);
             padding-bottom: 0.75rem;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            header { flex-direction: column; align-items: flex-start; }
+            .header-actions { width: 100%; }
         }
         .nav-tab {
             padding: 0.5rem 1.2rem;

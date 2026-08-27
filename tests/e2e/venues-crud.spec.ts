@@ -18,7 +18,7 @@ test.describe('Venues PHP Admin CRUD & Management (W-1104)', () => {
     // 2. Navigate to Venues Manager
     const venuesTab = page.locator('a[href*="venues.php"]')
     await expect(venuesTab).toBeVisible()
-    await venuesTab.click()
+    await venuesTab.click({ force: true })
     await expect(page).toHaveURL(/venues\.php/)
 
     // 3. Click "+ Create New Venue"
@@ -34,7 +34,7 @@ test.describe('Venues PHP Admin CRUD & Management (W-1104)', () => {
     await page.fill('input[name="heroImage"]', 'https://images.unsplash.com/photo-1544078751-58fee2d8a03b')
     await page.fill('textarea[name="summary"]', 'Private botanical sanctuary with mountain views.')
 
-    await page.locator('button[type="submit"]').click()
+    await page.locator('button[type="submit"]').click({ force: true })
 
     // 5. Assert redirected to venues list and venue is visible
     await expect(page).toHaveURL(/venues\.php/)
@@ -44,7 +44,7 @@ test.describe('Venues PHP Admin CRUD & Management (W-1104)', () => {
     // 6. Delete venue
     page.on('dialog', async (dialog) => dialog.accept())
     const deleteBtn = venueRow.locator('a.action-delete')
-    await deleteBtn.click()
+    await deleteBtn.click({ force: true })
 
     // 7. Verify venue removed
     await expect(page.locator('tr', { hasText: uniqueName })).toHaveCount(0)

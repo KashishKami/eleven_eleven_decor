@@ -7,3 +7,4 @@ export interface GalleryItem {
 }
 
 export const GALLERY_ITEMS: GalleryItem[] = []
+

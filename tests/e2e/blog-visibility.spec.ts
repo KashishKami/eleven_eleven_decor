@@ -1,6 +1,26 @@
 import { test, expect } from '@playwright/test'
+import fs from 'fs'
+import path from 'path'
 
-test.describe('Blog Visibility Gate (W-1101)', () => {
+const dataPath = path.resolve(__dirname, '../../php-admin/data/page-visibility.json')
+
+test.describe.serial('Blog Visibility Gate (W-1101)', () => {
+  test.beforeAll(() => {
+    fs.writeFileSync(
+      dataPath,
+      JSON.stringify({ blog: false, gallery: true, portfolio: true, venues: true }, null, 4),
+      'utf-8'
+    )
+  })
+
+  test.afterAll(() => {
+    fs.writeFileSync(
+      dataPath,
+      JSON.stringify({ blog: true, gallery: true, portfolio: true, venues: true }, null, 4),
+      'utf-8'
+    )
+  })
+
   test('returns 404 / Not Found for /blog and /blog/[...slug] when blog visibility is false', async ({ page }) => {
     const responseIndex = await page.goto('/blog')
     expect(responseIndex?.status() === 404 || (await page.locator('text=404').count()) > 0).toBeTruthy()

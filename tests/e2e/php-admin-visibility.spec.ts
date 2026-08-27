@@ -1,6 +1,26 @@
 import { test, expect } from '@playwright/test'
+import fs from 'fs'
+import path from 'path'
 
-test.describe('PHP Admin Panel: Page Visibility Controls (W-1005)', () => {
+const dataPath = path.resolve(__dirname, '../../php-admin/data/page-visibility.json')
+
+test.describe.serial('PHP Admin Panel: Page Visibility Controls (W-1005)', () => {
+  test.beforeAll(() => {
+    fs.writeFileSync(
+      dataPath,
+      JSON.stringify({ blog: false, gallery: false, portfolio: false, venues: false }, null, 4),
+      'utf-8'
+    )
+  })
+
+  test.afterAll(() => {
+    fs.writeFileSync(
+      dataPath,
+      JSON.stringify({ blog: true, gallery: true, portfolio: true, venues: true }, null, 4),
+      'utf-8'
+    )
+  })
+
   test('authenticates and toggles page visibility live from admin dashboard', async ({ page }) => {
     // 1. Visit PHP Admin login
     await page.goto('http://127.0.0.1:8080/manage-7f3b9x2k/index.php')

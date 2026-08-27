@@ -1,6 +1,26 @@
 import { test, expect } from '@playwright/test'
+import fs from 'fs'
+import path from 'path'
 
-test.describe('Content Visibility Gate (W-1002)', () => {
+const dataPath = path.resolve(__dirname, '../../php-admin/data/page-visibility.json')
+
+test.describe.serial('Content Visibility Gate (W-1002 & W-1004)', () => {
+  test.beforeEach(() => {
+    fs.writeFileSync(
+      dataPath,
+      JSON.stringify({ blog: false, gallery: false, portfolio: false, venues: false }, null, 4),
+      'utf-8'
+    )
+  })
+
+  test.afterAll(() => {
+    fs.writeFileSync(
+      dataPath,
+      JSON.stringify({ blog: true, gallery: true, portfolio: true, venues: true }, null, 4),
+      'utf-8'
+    )
+  })
+
   test('returns 404 / Not Found for /gallery when visibility is false', async ({ page }) => {
     const response = await page.goto('/gallery')
     expect(response?.status() === 404 || (await page.locator('text=404').count()) > 0).toBeTruthy()
@@ -36,9 +56,7 @@ test.describe('Content Visibility Gate (W-1002)', () => {
     expect(response?.status()).toBe(200)
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Services')
   })
-})
 
-test.describe('Navigation & Footer Hidden Links Gate (W-1004)', () => {
   test('does NOT render any gallery, portfolio, or venues links in navigation or footer when visibility is false', async ({
     page,
   }) => {
@@ -58,3 +76,4 @@ test.describe('Navigation & Footer Hidden Links Gate (W-1004)', () => {
     expect(await servicesLinks.count()).toBeGreaterThan(0)
   })
 })
+

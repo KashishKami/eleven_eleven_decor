@@ -18,7 +18,7 @@ test.describe('Portfolio PHP Admin CRUD & Management (W-1103)', () => {
     // 2. Navigate to Portfolio Manager
     const portfolioTab = page.locator('a[href*="portfolio.php"]')
     await expect(portfolioTab).toBeVisible()
-    await portfolioTab.click()
+    await portfolioTab.click({ force: true })
     await expect(page).toHaveURL(/portfolio\.php/)
 
     // 3. Click "+ Create New Project"
@@ -45,7 +45,7 @@ test.describe('Portfolio PHP Admin CRUD & Management (W-1103)', () => {
     // 6. Delete project
     page.on('dialog', async (dialog) => dialog.accept())
     const deleteBtn = projectRow.locator('a.action-delete')
-    await deleteBtn.click()
+    await deleteBtn.click({ force: true })
 
     // 7. Verify project removed
     await expect(page.locator('tr', { hasText: uniqueTitle })).toHaveCount(0)

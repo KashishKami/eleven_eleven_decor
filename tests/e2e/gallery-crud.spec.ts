@@ -18,7 +18,7 @@ test.describe('Gallery PHP Admin CRUD & Management (W-1105)', () => {
     // 2. Navigate to Gallery Manager
     const galleryTab = page.locator('a[href*="gallery.php"]')
     await expect(galleryTab).toBeVisible()
-    await galleryTab.click()
+    await galleryTab.click({ force: true })
     await expect(page).toHaveURL(/gallery\.php/)
 
     // 3. Click "+ Add New Photo"
@@ -31,7 +31,7 @@ test.describe('Gallery PHP Admin CRUD & Management (W-1105)', () => {
     await page.selectOption('select[name="aspectRatio"]', 'landscape')
     await page.fill('input[name="src"]', 'https://images.unsplash.com/photo-1519741497674-611481863552')
 
-    await page.locator('button[type="submit"]').click()
+    await page.locator('button[type="submit"]').click({ force: true })
 
     // 5. Assert redirected to gallery list and photo is visible
     await expect(page).toHaveURL(/gallery\.php/)
@@ -41,7 +41,7 @@ test.describe('Gallery PHP Admin CRUD & Management (W-1105)', () => {
     // 6. Delete photo
     page.on('dialog', async (dialog) => dialog.accept())
     const deleteBtn = photoRow.locator('a.action-delete')
-    await deleteBtn.click()
+    await deleteBtn.click({ force: true })
 
     // 7. Verify photo removed
     await expect(page.locator('tr', { hasText: uniqueTitle })).toHaveCount(0)

@@ -8,6 +8,7 @@ import Lenis from 'lenis'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
+  ScrollTrigger.config({ ignoreMobileResize: true })
 }
 
 interface SmoothScrollProviderProps {

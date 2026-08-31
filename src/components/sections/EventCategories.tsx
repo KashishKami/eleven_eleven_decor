@@ -9,6 +9,7 @@ import { CATEGORIES } from '@/data/categories'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
+  ScrollTrigger.config({ ignoreMobileResize: true })
 }
 
 export function EventCategories() {
@@ -21,14 +22,24 @@ export function EventCategories() {
   const circleSlideRefs = useRef<(HTMLDivElement | null)[]>([])
   const textSlideRefs = useRef<(HTMLAnchorElement | null)[]>([])
 
+  const timelineRef = useRef<gsap.core.Timeline | null>(null)
+  const lastWidthRef = useRef<number>(0)
+
   useEffect(() => {
     if (typeof window === 'undefined' || !sectionRef.current) return
 
+    lastWidthRef.current = window.innerWidth
     const totalSlides = CATEGORIES.length
 
     const ctx = gsap.context(() => {
       const buildTimeline = () => {
         if (!sectionRef.current || !circleWindowRef.current || !textWindowRef.current) return
+
+        if (timelineRef.current) {
+          timelineRef.current.scrollTrigger?.kill(true)
+          timelineRef.current.kill()
+          timelineRef.current = null
+        }
 
         const sRect = sectionRef.current.getBoundingClientRect()
         const cRect = circleWindowRef.current.getBoundingClientRect()
@@ -54,9 +65,12 @@ export function EventCategories() {
             start: 'top top',
             end: `+=${(totalSlides - 1) * 60}%`,
             pin: true,
+            anticipatePin: 1,
             scrub: 0.2,
+            invalidateOnRefresh: true,
           },
         })
+        timelineRef.current = tl
 
         for (let i = 1; i < totalSlides; i++) {
           const slideStartTime = (i - 1) * stepDuration
@@ -171,6 +185,11 @@ export function EventCategories() {
       buildTimeline()
 
       const handleResize = () => {
+        if (typeof window === 'undefined') return
+        const newWidth = window.innerWidth
+        if (newWidth === lastWidthRef.current) return
+        lastWidthRef.current = newWidth
+
         buildTimeline()
         ScrollTrigger.refresh()
       }
@@ -184,10 +203,22 @@ export function EventCategories() {
       return () => {
         window.removeEventListener('resize', handleResize)
         clearTimeout(timer)
+        if (timelineRef.current) {
+          timelineRef.current.scrollTrigger?.kill(true)
+          timelineRef.current.kill()
+          timelineRef.current = null
+        }
       }
     }, sectionRef)
 
-    return () => ctx.revert()
+    return () => {
+      ctx.revert()
+      if (timelineRef.current) {
+        timelineRef.current.scrollTrigger?.kill(true)
+        timelineRef.current.kill()
+        timelineRef.current = null
+      }
+    }
   }, [])
 
   return (
@@ -198,7 +229,7 @@ export function EventCategories() {
         style={{
           position: 'relative',
           height: '100vh',
-          width: '100vw',
+          width: '100%',
           overflow: 'hidden',
           backgroundColor: '#111111',
         }}

@@ -216,11 +216,11 @@ export function AboutSection() {
               }}
             >
               <Image
-                src="/events/engagements-card.jpg"
-                alt="11:11 Decor Luxury Engagement Styling"
+                src="/images/about/about-main.jpg"
+                alt="11:11 Decor Corporate and Celebration Event Experiences"
                 fill
                 sizes="(max-width: 768px) 100vw, 460px"
-                style={{ objectFit: 'cover' }}
+                style={{ objectFit: 'cover', objectPosition: 'center 35%' }}
               />
             </div>
 
@@ -240,11 +240,11 @@ export function AboutSection() {
               }}
             >
               <Image
-                src="/events/birthdays-card.jpg"
-                alt="11:11 Decor Celebration and Floral Styling"
+                src="/images/about/about-secondary.jpg"
+                alt="11:11 Decor Luxury Toast and Celebration Details"
                 fill
                 sizes="210px"
-                style={{ objectFit: 'cover' }}
+                style={{ objectFit: 'cover', objectPosition: 'center center' }}
               />
             </div>
 

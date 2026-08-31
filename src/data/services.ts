@@ -77,7 +77,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       }
     ],
     ctaText: 'Get a Quote',
-    image: '/images/services/event-planning.png'
+    image: '/images/services/event-planning.jpg'
   },
   {
     slug: 'event-decoration',
@@ -334,6 +334,39 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     ctaText: 'Get a Quote',
     image: '/images/services/entertainment-hospitality.jpg'
+  },
+  {
+    slug: 'birthday-decoration',
+    title: 'Birthday Decoration',
+    shortDescription: 'Custom themed birthday styling, balloon architecture, stage backdrops, and table settings for all ages.',
+    heroH1: 'Birthday Decoration Services',
+    intro: "A birthday should reflect the person being celebrated. From milestone birthdays (1st, 18th, 21st, 50th) and intimate adult celebrations to lively themed children's parties, 11:11 Decor creates bespoke styling — custom photo backdrops, balloon art, luxury table styling, and ambient lighting.",
+    whatWeProvide: [
+      'Custom themed stage and photo backdrops',
+      'Organic balloon arches and custom installations',
+      'Cake and dessert table styling',
+      'Table settings, linens, and floral accents',
+      'Personalized neon signage and prop styling'
+    ],
+    whyChooseUs: 'Every birthday décor concept is built from scratch around your chosen theme and venue, avoiding cookie-cutter party packages.',
+    whatYouCanExpect: 'A visual mood board and color palette proposal, complete layout planning, and punctual on-site installation before guests arrive.',
+    relatedServices: [
+      { title: 'Event Decoration', slug: 'event-decoration' },
+      { title: 'Venue Decoration', slug: 'venue-decoration' },
+      { title: 'Lighting & Production', slug: 'lighting-production' }
+    ],
+    faqs: [
+      {
+        question: 'Can you design custom themes?',
+        answer: 'Yes, we create fully personalized themes tailored to your vision and age group.'
+      },
+      {
+        question: 'Do you handle both indoor and outdoor birthday setups?',
+        answer: 'Yes, we design for home lawns, banquet halls, private villas, and outdoor venues.'
+      }
+    ],
+    ctaText: 'Get a Quote',
+    image: '/images/services/birthday-party-decoration.jpg'
   }
 ]
 

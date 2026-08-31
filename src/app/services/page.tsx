@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Event Planning, Management & Décor Services | 11:11 Decor',
     description:
-      'From first concept conversation to the last flower placed. Explore our 10 specialized event services.',
+      'From first concept conversation to the last flower placed. Explore our 11 specialized event services.',
     url: 'https://1111decor.com/services/',
   },
 }

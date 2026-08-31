@@ -12,6 +12,7 @@ const SERVICES_LINKS = [
   { label: 'Event Planning', href: '/services/event-planning/' },
   { label: 'Event Decoration', href: '/services/event-decoration/' },
   { label: 'Wedding Decoration', href: '/services/wedding-decoration/' },
+  { label: 'Birthday Decoration', href: '/services/birthday-decoration/' },
   { label: 'Corporate Event Management', href: '/services/corporate-event-management/' },
   { label: 'Stage Decoration', href: '/services/stage-decoration/' },
   { label: 'Venue Decoration', href: '/services/venue-decoration/' },

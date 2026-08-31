@@ -42,6 +42,7 @@ php-admin/**/uploads/*
 php-admin/data/inquiries_test.json
 
 
-Logos/
-1111_Decor_images/
-assets/
+/Logos/
+/1111_Decor_images/
+/assets/
+/Images/

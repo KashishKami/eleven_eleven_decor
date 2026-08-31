@@ -36,6 +36,7 @@ describe('Dynamic Sitemap & Robots Generation with Visibility Gate (W-902 / W-10
 
     // Core dynamic services & events MUST remain present
     expect(urls.some((u) => u.includes('/services/wedding-decoration/'))).toBe(true)
+    expect(urls.some((u) => u.includes('/services/birthday-decoration/'))).toBe(true)
     expect(urls.some((u) => u.includes('/events/wedding-events/'))).toBe(true)
   })
 

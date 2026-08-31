@@ -13,9 +13,9 @@ test.describe('Services Main Hub Page (/services/)', () => {
     expect(text).toContain('Services')
   })
 
-  test('should render 10 service cards with proper links and CTA', async ({ page }) => {
+  test('should render 11 service cards with proper links and CTA', async ({ page }) => {
     const serviceCards = page.locator('[data-testid="service-card"]')
-    await expect(serviceCards).toHaveCount(10)
+    await expect(serviceCards).toHaveCount(11)
 
     // Check first card links to dynamic service route
     const firstCardLink = serviceCards.first().locator('a')

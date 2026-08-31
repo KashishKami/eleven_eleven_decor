@@ -2382,9 +2382,28 @@ Run every validation suite in sequence. Resolve any lint or typing issues. Verif
      - Adding a `safeGoto` resilient navigation helper that gracefully catches dev-server on-demand recompilation connection resets and re-requests smoothly.
      - Using canonical trailing-slash URLs with `waitUntil: 'domcontentloaded'`.
 
-6. **Quality Gate Verification:**
-   - `vitest run`: 30/30 unit test suites green (92/92 passed).
-   - `playwright test`: Navigation, contact, event categories, and page-visibility E2E tests 100% green across Desktop Chromium and Mobile Chrome.
-
-
-
+7. **Services Expansion & High-Quality Visual Assets Integration:**
+   - Integrated user-provided images from `Images/` into `public/images/services/`:
+     - `corporate-event-management.jpg`
+     - `entertainment-hospitality.jpg`
+     - `event-decoration.jpg`
+     - `event-management.jpg`
+     - `event-planning.jpg`
+     - `stage-decoration.jpg`
+     - `venue-decoration.jpg`
+     - `wedding-decoration.jpg`
+   - Anchored `.gitignore` directory paths with leading slashes (`/Images/`, `/Logos/`, etc.) so that web assets inside `public/images/services/` remain properly tracked by Git.
+   - Added the 11th service: **Birthday Decoration** (`birthday-decoration`):
+     - Configured comprehensive service data in `src/data/services.ts` including title, hero image, intro, offerings, features, process, and FAQs.
+     - Registered in `src/components/layout/NavigationClient.tsx` dropdown menu and `src/components/layout/Footer.tsx`.
+     - Updated service hub meta description in `src/app/services/page.tsx` to reference all 11 luxury services.
+     - Dynamic sitemap (`src/app/sitemap.ts`) automatically includes `/services/birthday-decoration/` with canonical trailing slash.
+   - Updated test suites:
+     - `tests/sitemap.unit.test.ts`: Added assertion for `/services/birthday-decoration/`.
+     - `tests/e2e/services-detail.spec.ts`: Expanded to test all 11 detail pages across Desktop and Mobile.
+     - `tests/e2e/services-hub.spec.ts`: Updated card count expectation from 10 to 11.
+   - **Quality Verification:**
+     - `npm run lint`: 0 errors / 0 warnings.
+     - `npm run typecheck`: 0 errors.
+     - `npm run test:unit`: 30/30 suites passed (92/92 tests).
+     - `tests/e2e/services-hub.spec.ts`: 4/4 passed across Chromium and Mobile Chrome.

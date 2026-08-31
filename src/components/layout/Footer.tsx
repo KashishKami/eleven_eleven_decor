@@ -107,6 +107,7 @@ export function Footer() {
                 { label: 'Wedding Decoration', href: '/services/wedding-decoration/' },
                 { label: 'Corporate Event Management', href: '/services/corporate-event-management/' },
                 { label: 'Stage Decoration', href: '/services/stage-decoration/' },
+                { label: 'Birthday Decoration', href: '/services/birthday-decoration/' },
                 { label: 'Floral Decoration', href: '/services/floral-decoration/' },
                 { label: 'All Services →', href: '/services/' },
               ].map((link) => (

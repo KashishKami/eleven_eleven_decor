@@ -5,6 +5,7 @@ const SERVICE_SLUGS = [
   'event-planning',
   'event-decoration',
   'wedding-decoration',
+  'birthday-decoration',
   'corporate-event-management',
   'stage-decoration',
   'venue-decoration',
@@ -13,7 +14,7 @@ const SERVICE_SLUGS = [
   'entertainment-hospitality',
 ]
 
-test.describe('All 10 Individual Service Detail Pages (/services/[slug]/)', () => {
+test.describe('All 11 Individual Service Detail Pages (/services/[slug]/)', () => {
   for (const slug of SERVICE_SLUGS) {
     test(`should render service detail page for /services/${slug}/ with full content`, async ({ page }) => {
       await page.goto(`/services/${slug}/`)

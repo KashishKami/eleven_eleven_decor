@@ -169,16 +169,10 @@ $htmlBody = "
 ";
 
 // ─── Send Email ───────────────────────────────────────────────────────────────
-$toEmail     = defined('CONTACT_EMAIL') ? CONTACT_EMAIL : 'hello@elevenelevendecor.com';
-$fromEmail   = defined('CONTACT_FROM_EMAIL') ? CONTACT_FROM_EMAIL : 'noreply@elevenelevendecor.com';
-$fromName    = '11:11 Decor Website';
-$subject     = "✦ New Event Inquiry: {$eventType} — {$name}";
+require_once __DIR__ . '/../lib/Mailer.php';
 
-$headers  = "MIME-Version: 1.0\r\n";
-$headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-$headers .= "From: {$fromName} <{$fromEmail}>\r\n";
-$headers .= "Reply-To: {$name} <{$email}>\r\n";
-$headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
+$toEmail     = defined('CONTACT_EMAIL') ? CONTACT_EMAIL : 'hello@elevenelevendecor.com';
+$subject     = "✦ New Event Inquiry: {$eventType} — {$name}";
 
 // ─── Test Mode Detection ─────────────────────────────────────────────────────
 // When running automated tests (Playwright, CI, or test suite), redirect inquiries
@@ -189,7 +183,8 @@ $isTest = (getenv('APP_ENV') === 'test')
     || (isset($data['_test_mode']) && $data['_test_mode'] === true)
     || (isset($email) && strpos($email, '@example.com') !== false);
 
-$emailSent = $isTest ? true : @mail($toEmail, $subject, $htmlBody, $headers);
+$mailResult = sendInquiryEmail($toEmail, $subject, $htmlBody, $email, $name);
+$emailSent  = !empty($mailResult['success']);
 
 // ─── Log Inquiry to JSON (Safety Backup) ─────────────────────────────────────
 $logFile = $isTest

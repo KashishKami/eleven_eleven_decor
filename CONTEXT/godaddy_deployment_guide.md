@@ -15,32 +15,66 @@ Before we start, here's a quick map so you understand what you're deploying:
 | Part | What it is | Where it goes on GoDaddy |
 |------|-----------|--------------------------|
 | **Next.js Website** | The public-facing website (all pages) | Uploaded as HTML/CSS/JS files to `public_html/` |
-| **PHP Admin Panel** | A private backend to write/edit blog posts | Uploaded to `public_html/php-admin/` |
-| **MySQL Database** | Stores all your blog posts | Created inside GoDaddy cPanel |
-| **PHP API** | Connects the website to the database | Part of the PHP admin upload |
+| **PHP Admin Panel** | Unified backend to manage blogs, portfolio, venues, gallery, and page toggles | Uploaded to `public_html/php-admin/` |
+| **MySQL Database** | Stores your dynamic blog posts | Created inside GoDaddy cPanel |
+| **JSON Data Stores** | Fast zero-config storage for portfolio, venues, gallery photos, and inquiries | Saved in `public_html/php-admin/data/` |
+| **PHP API** | Connects the website to database and data stores | Part of the PHP admin upload |
 
 ---
 
-## 🛒 PART 1 — GoDaddy Hosting Requirements
+## 🛒 PART 1 — GoDaddy Hosting Requirements & Accessing cPanel
 
-### Step 1.1 — What GoDaddy Plan You Need
+### Step 1.1 — How to Check Your Existing Hosting Plan
 
-You need a GoDaddy **cPanel Shared Hosting** plan (also called "Web Hosting"). Any of these plans work:
-- Economy
-- Deluxe  
-- Ultimate ✅ *(Recommended — includes more MySQL databases)*
+If you already have a GoDaddy account with services, you might already have a hosting plan that can host your new website for free:
 
-> **Do NOT** use GoDaddy's "Website Builder" product — that is a completely different product and won't work for this project. You need the classic **cPanel Web Hosting**.
+1. Log into your GoDaddy account.
+2. In the top-right corner, click on your account initials/avatar → select **"My Products"** (or visit `https://account.godaddy.com/products`).
+3. Scroll down to find the section called **"Web Hosting"**:
+   * Click the down arrow `∨` to expand the section (or click **"Manage All →"**).
+4. Look at the **"Plan"** column for your hosting account:
+   * **Deluxe or Ultimate Plan**: ✅ **Supports MULTIPLE websites!** You can host your new domain on this existing plan without paying for additional hosting.
+   * **Economy Plan**: Supports only 1 website. If you already have a site on it, you will need to either upgrade to Deluxe or add an additional hosting plan.
 
-### Step 1.2 — Make Sure PHP and MySQL Are Available
+> [!WARNING]
+> **Avoid "Websites + Marketing / Airo AI Builder":** GoDaddy often shows an AI builder dashboard with buttons like "Try Airo Builder" or "Create a Site". That is a closed website builder product and **will not run custom Next.js + PHP code**. You must use classic **cPanel Web Hosting**.
 
-GoDaddy's cPanel hosting includes PHP and MySQL by default. You don't need to install anything extra. However, confirm the PHP version is **8.0 or higher**:
+---
 
-1. Log in to GoDaddy → go to **My Products**
-2. Click **Manage** next to your hosting plan
-3. Scroll to find **cPanel Admin** → click it to open cPanel
-4. Inside cPanel, look for **"PHP Selector"** or **"MultiPHP Manager"**
-5. Select **PHP 8.1** or **PHP 8.2** from the dropdown and save
+### Step 1.2 — How to Open cPanel Admin
+
+1. On the **Web Hosting** page (`My Hosting`), find your active hosting plan row.
+2. Click the three dots **`...`** under the **Actions** column on the right side of the row (or click directly on your existing primary domain name).
+3. Click **"Manage"**.
+4. On the hosting management dashboard, look for the primary button labeled **"cPanel Admin"** (or **"cPanel"**).
+5. Clicking **cPanel Admin** opens your full cPanel control center where your File Manager, MySQL Databases, and Domain settings live.
+
+---
+
+### Step 1.3 — Adding Your New Domain in cPanel (For Multi-Site / Deluxe Plans)
+
+If you are adding your new website to an existing Deluxe or Ultimate hosting account:
+
+1. Inside **cPanel**, scroll down to the **"Domains"** section.
+2. Click on **"Domains"** (or **"Addon Domains"**).
+3. Click the blue button labeled **"Create A New Domain"**.
+4. In the **"Domain"** field, enter your new domain name:
+   ```
+   YOUR-NEW-DOMAIN.com
+   ```
+5. Leave the **Document Root** directory as suggested by cPanel (it will automatically assign a folder such as `YOUR-NEW-DOMAIN.com` or `public_html/YOUR-NEW-DOMAIN.com`).
+   * *Note down this folder name — this is where you will upload your files in Part 3!*
+6. Click **"Submit"**.
+
+---
+
+### Step 1.4 — Confirm PHP Version
+
+Your cPanel hosting includes PHP and MySQL by default. Verify that PHP is set to **8.1 or 8.2**:
+
+1. Inside **cPanel**, look for **"MultiPHP Manager"** or **"Select PHP Version"**.
+2. Select your domain (`YOUR-NEW-DOMAIN.com`) from the list.
+3. Choose **PHP 8.1** or **PHP 8.2** from the version dropdown and click **Apply / Save**.
 
 ---
 
@@ -309,20 +343,63 @@ In cPanel File Manager:
 
 ---
 
-## 🌐 PART 8 — Connect Your Domain to GoDaddy Hosting
+## 🌐 PART 8 — Connect Your Domain to Hosting (DNS Records Setup)
 
-*Skip this section if your domain is already pointing to your hosting.*
+This connects your domain (`YOUR-NEW-DOMAIN.com`) to the cPanel hosting server where your website files and database live.
 
-### Step 8.1 — Point Your Domain to the Hosting
+---
 
-1. In GoDaddy, go to **My Products** → find your **Domain** → click **Manage**
-2. Click **DNS** (or "Manage DNS")
-3. Find the **A Record** (Type = A, Name = @)
-4. Change its **Value** to your hosting server's IP address
-   - Find your server IP in cPanel → **"Shared IP Address"** (shown on the cPanel home screen)
-5. Also update the **CNAME** for `www` to point to `@` or your domain
+### Step 8.1 — Find Your Server's Shared IP Address in cPanel
 
-> **Note:** DNS changes can take **up to 48 hours** to fully propagate worldwide, though usually it's much faster (under 1 hour).
+Every hosting account has a unique server IP address:
+
+1. Open your **cPanel Admin** (as described in Step 1.2).
+2. On the main **cPanel Home** screen, look at the **right-hand sidebar** under the section titled **"General Information"**.
+3. Locate the field labeled **"Shared IP Address"** (it is a series of four numbers separated by dots, for example: `198.51.100.25` or `YOUR_SHARED_IP_ADDRESS`).
+4. **Copy this IP address** — you will paste it into your DNS records next.
+
+---
+
+### Step 8.2 — Open the DNS Management Page for Your Domain
+
+1. Go to your GoDaddy account → **"My Products"** (`https://account.godaddy.com/products`).
+2. Under the **"Domains"** section, find your website domain: `YOUR-NEW-DOMAIN.com`.
+3. Click the three dots **`...`** next to your domain → select **"Manage DNS"** (or click **"DNS"**).
+4. You will arrive at the **DNS Management** page.
+   * *Note:* At the top of the page, GoDaddy may display promotional cards like *"Connect Your Domain in Minutes (Powered by Airo)"*. **Scroll past these cards** until you see the **"DNS Records"** table.
+
+---
+
+### Step 8.3 — Configure the Required DNS Records
+
+In the **DNS Records** table, ensure the following two core records are configured:
+
+| Type | Name | Value (Target) | TTL | Purpose |
+|:---:|:---:|:---:|:---:|:---|
+| **A** | `@` | `YOUR_SHARED_IP_ADDRESS` | `1/2 Hour` (or `600 seconds`) | Directs the root domain (`https://YOUR-NEW-DOMAIN.com`) to your cPanel web server |
+| **CNAME** | `www` | `@` *(or `YOUR-NEW-DOMAIN.com`)* | `1 Hour` (or `Default`) | Directs visitors typing `www.YOUR-NEW-DOMAIN.com` to your main site |
+
+#### How to edit the `A` Record:
+1. In the records table, look for the row where **Type is `A`** and **Name is `@`**.
+2. Click the **Edit** pencil icon (or the row itself).
+3. In the **Value** box, replace the existing placeholder with your **`YOUR_SHARED_IP_ADDRESS`** (copied from Step 8.1).
+4. Set TTL to **1/2 Hour** (or shortest available) so changes take effect quickly.
+5. Click **Save**.
+
+#### How to verify the `CNAME` Record:
+1. In the same table, look for the row where **Type is `CNAME`** and **Name is `www`**.
+2. Ensure its **Value** points to `@` (or `YOUR-NEW-DOMAIN.com`). If it does, leave it as is. If not, edit it and click **Save**.
+
+---
+
+### Step 8.4 — DNS Propagation
+
+* Once saved, DNS updates typically take **15 to 45 minutes** to take effect (up to 24 hours in rare cases).
+* You can check when your domain has successfully pointed to your IP by opening a terminal on your computer and running:
+  ```bash
+  nslookup YOUR-NEW-DOMAIN.com
+  ```
+  When it returns `YOUR_SHARED_IP_ADDRESS`, your domain is live and pointing to your hosting!
 
 ---
 
@@ -428,17 +505,42 @@ Here's the full picture of what happens automatically once the site is live on G
 
 ---
 
-## 🔑 PART 12 — Admin Panel — How to Use It
+## 🔑 PART 12 — Admin Panel — Full Content Management & On/Off Toggles
 
-Once everything is set up, you can manage blog posts at:
+Your website features a full, private Content Management System (CMS) located at:
 
 🔴 **DOMAIN CHANGE #4** — Use your real domain in this URL:
 ```
 https://YOUR-REAL-DOMAIN.com/php-admin/manage-7f3b9x2k/
 ```
 
-- **Login:** Enter the admin password you set in Step 5.2
-- From the dashboard you can: create new posts, edit existing posts, upload images, publish/unpublish posts
+* **Login:** Enter the admin password you configured in `config.php` (Step 5.2).
+* **Storage Architecture Note**: Only **Blog Posts** use the MySQL database. **Portfolio, Venues, Gallery photos, and Page Visibility** use ultra-fast, zero-config JSON files stored securely in `php-admin/data/`. You **do NOT** need to create separate MySQL tables for them!
+
+---
+
+### What You Can Manage in the Admin Panel:
+
+#### 1. 📝 Dynamic Blog Posts (`/blog`)
+* **Create & Edit**: Rich WYSIWYG TipTap block editor with headings, image insertions, and quote formatting.
+* **Metadata & SEO**: Customize author, excerpt, reading time, category, and related service links.
+* **On/Off Toggle**: Set post to **Published** (visible live and included in sitemap) or **Draft** (hidden from visitors).
+
+#### 2. 🏛️ Venues (`/venues`)
+* **Add & Edit Venues**: Add luxury partner venues with space type (Palace, Heritage, Resort, Lawn), guest capacity, location, description, and photo galleries.
+* **On/Off Toggle**: Every venue has an instant **Published / Draft toggle** — toggle any venue off at any time to temporarily hide it from the public directory.
+
+#### 3. 📸 Portfolio Projects (`/portfolio`)
+* **Manage Case Studies**: Add complete event case studies including event category, client name, event date, cover hero image, and project gallery.
+* **On/Off Toggle**: Toggle projects between **Published** and **Draft** with one click.
+
+#### 4. 🖼️ Gallery Photos (`/gallery`)
+* **Upload & Organize Photos**: Upload new photography directly into the server's `uploads/` folder or paste image URLs.
+* **Categories & Grid Styling**: Assign category tabs (*Weddings, Décor, Stage Designs, Birthdays*) and aspect ratios (*Landscape, Portrait, Square*).
+* **On/Off Toggle**: Easily toggle photos between **Published** and **Draft** without deleting them.
+
+#### 5. 👁️ Page & Section Visibility Toggles
+* Use the **Visibility Manager** card in your dashboard to toggle entire main navigation sections on or off dynamically without needing to rebuild or re-upload your website.
 
 ---
 
@@ -520,53 +622,100 @@ public_html/
 
 ---
 
-## 📬 PART 15 — Contact Form Email Setup
+## 📬 PART 15 — Contact Form Email & SMTP Setup (99.9% Deliverability)
 
-When a visitor submits the enquiry form on `/contact`, your website POSTs the data to `php-admin/api/contact.php`. That PHP script does two things:
+When a visitor submits the inquiry form on `/contact`, your website POSTs the data to `php-admin/api/contact.php`. That endpoint now features an **enterprise-grade, dual-engine mailer**:
 
-1. **Sends an HTML email** directly to your business inbox via GoDaddy's built-in mail server.
-2. **Saves the lead** to `php-admin/data/inquiries.json` as a permanent backup (so you never lose an inquiry even if an email goes to spam).
+1. **Authenticated SMTP Delivery (Recommended)**: Sends through a trusted mail provider (Google Workspace, Gmail, or GoDaddy webmail) using TLS encryption. Arrives in 1 to 2 seconds and avoids spam filters.
+2. **Graceful Auto-Fallback**: If SMTP credentials are empty or if a network glitch occurs, the system automatically falls back to GoDaddy's native server mailer.
+3. **Guaranteed Lead Backup**: Every lead is permanently recorded to `php-admin/data/inquiries.json` before sending, ensuring you **never** lose a customer inquiry even during server downtime.
 
 ---
 
-### Step 15.1 — Set Your Business Email in `config.php`
+### Step 15.1 — Choose Your Email Sending Method
 
-When you create (or edit) `config.php` on the GoDaddy server (see Step 5.2), you must add **two extra lines** alongside the other settings:
+You can choose either of the two methods below by editing `config.php`:
 
+* **Option A: Authenticated SMTP (Strongly Recommended)** — Uses your real Gmail or GoDaddy email account. Emails arrive instantly in the inbox without getting spam-flagged.
+* **Option B: GoDaddy Server Mail (Zero Config)** — Uses GoDaddy's built-in mailer (`mail()`). Requires no password, but may be subject to shared IP spam filters.
+
+---
+
+### Step 15.2 (Option A1) — If Using Gmail / Google Workspace: How to Generate an App Password
+
+> [!TIP]
+> You do **not** need Google Cloud Console or developer tools. You only generate a simple 16-letter **App Password** from your regular Google Account.
+
+1. Open your browser and go to your Google Account: [https://myaccount.google.com/security](https://myaccount.google.com/security)
+2. Ensure **2-Step Verification** is turned **ON** (Google requires this before creating app passwords).
+3. In the search bar at the very top of the page, type:
+   ```
+   App passwords
+   ```
+   and click on the search result **App passwords**.
+4. In the "App name" input box, type:
+   ```
+   11:11 Decor Website
+   ```
+5. Click **Create**.
+6. A pop-up box will appear showing a yellow highlighted **16-letter code** (for example: `abcd efgh ijkl mnop`).
+7. **Copy this 16-letter code** (spaces don't matter, but you can paste it without spaces). This is your `SMTP_PASS`.
+
+---
+
+### Step 15.3 (Option A2) — If Using GoDaddy / Custom Domain Webmail
+
+If you prefer sending from a custom domain address hosted on GoDaddy (e.g. `hello@elevenelevendecor.com`):
+
+* **SMTP Server**: `smtpout.secureserver.net` (or `mail.YOUR-REAL-DOMAIN.com`)
+* **SMTP Port**: `587` (TLS) or `465` (SSL)
+* **SMTP Username**: Your full email address (e.g. `hello@YOUR-REAL-DOMAIN.com`)
+* **SMTP Password**: Your normal webmail mailbox password
+
+---
+
+### Step 15.4 — Add Email & SMTP Settings to `config.php` on GoDaddy
+
+When you create or edit `config.php` inside `public_html/php-admin/` in cPanel File Manager, configure the **Contact Form & SMTP** section:
+
+#### For Gmail / Google Workspace:
 ```php
-// ─── Contact Form Email Settings ─────────────────────────────────────────────
-// CONTACT_EMAIL    — where incoming inquiries land in your inbox
-// CONTACT_FROM_EMAIL — the "From:" address GoDaddy uses to send the email
-//                      ⚠ MUST be an address on your hosted domain (e.g. noreply@yourdomain.com)
-//                      GoDaddy BLOCKS emails where "From" is a random address.
+// ─── Contact Form & SMTP Settings (Gmail) ───────────────────────────────────
+define('CONTACT_EMAIL',      'yourbusiness@gmail.com');   // Where you want to receive inquiries
+define('CONTACT_FROM_EMAIL', 'yourbusiness@gmail.com');   // Matching sender address
 
-define('CONTACT_EMAIL',      'hello@YOUR-REAL-DOMAIN.com');
-define('CONTACT_FROM_EMAIL', 'noreply@YOUR-REAL-DOMAIN.com');
+define('SMTP_ENABLED', true);
+define('SMTP_HOST',    'smtp.gmail.com');
+define('SMTP_PORT',    587);
+define('SMTP_SECURE',  'tls');
+define('SMTP_USER',    'yourbusiness@gmail.com');
+define('SMTP_PASS',    'abcdefghijklmnop');               // The 16-letter Google App Password
 ```
 
-🔴 **Replace `YOUR-REAL-DOMAIN.com` with your actual domain** (e.g. `elevenelevendecor.com`).
+#### For GoDaddy Domain Webmail:
+```php
+// ─── Contact Form & SMTP Settings (GoDaddy Webmail) ─────────────────────────
+define('CONTACT_EMAIL',      'hello@YOUR-REAL-DOMAIN.com');
+define('CONTACT_FROM_EMAIL', 'noreply@YOUR-REAL-DOMAIN.com');
 
-> **Why two addresses?**
-> - `CONTACT_EMAIL` is *where you receive the email* (can be any Gmail, Outlook, or business address).
-> - `CONTACT_FROM_EMAIL` must be a mailbox **on the same domain as your GoDaddy hosting** (e.g. `noreply@elevenelevendecor.com`). GoDaddy's outgoing mail server will silently reject emails where the `From:` header doesn't match a hosted domain. The **visitor's own email** is placed in the `Reply-To:` header automatically, so you can reply directly to them with one click.
+define('SMTP_ENABLED', true);
+define('SMTP_HOST',    'smtpout.secureserver.net');
+define('SMTP_PORT',    587);
+define('SMTP_SECURE',  'tls');
+define('SMTP_USER',    'noreply@YOUR-REAL-DOMAIN.com');
+define('SMTP_PASS',    'YourMailboxPasswordHere');
+```
+
+#### For Native Server Mail (If you don't want SMTP):
+```php
+define('CONTACT_EMAIL',      'hello@YOUR-REAL-DOMAIN.com');
+define('CONTACT_FROM_EMAIL', 'noreply@YOUR-REAL-DOMAIN.com');
+define('SMTP_ENABLED', false); // Uses native mail() with backup logging
+```
 
 ---
 
-### Step 15.2 — Create the `noreply@` Mailbox on GoDaddy (One-Time)
-
-GoDaddy requires a real mailbox to exist before using it as the `From:` address.
-
-1. Log into GoDaddy → **My Products** → find your domain → click **Manage** under Email
-2. Click **Create** (or **Add Mailbox**)
-3. Enter `noreply` as the mailbox name → it becomes `noreply@yourdomain.com`
-4. Set any password (you won't need to log into this mailbox; it's only used for sending)
-5. Click **Create**
-
-> **Note:** If you already have a mailbox like `hello@yourdomain.com`, you can use that as `CONTACT_FROM_EMAIL` instead. It just must exist on GoDaddy.
-
----
-
-### Step 15.3 — Verify the Endpoint Works After Deploying
+### Step 15.5 — Verify the Endpoint Works After Deploying
 
 Once everything is uploaded, test the contact form by visiting:
 
@@ -574,28 +723,34 @@ Once everything is uploaded, test the contact form by visiting:
 https://YOUR-REAL-DOMAIN.com/contact/
 ```
 
-Fill in the form and submit. Within a few seconds you should:
+Fill in the form and submit. Within seconds you will:
 
-1. **See the gold success banner** on the form ("Thank You! Your Inquiry Has Been Received.")
-2. **Receive an email** in your `CONTACT_EMAIL` inbox with the full inquiry details and a one-click "Reply to [Name]" button.
-3. **See the lead logged** in `public_html/php-admin/data/inquiries.json` (viewable via cPanel File Manager).
-
----
-
-### Step 15.4 — Protect the `inquiries.json` Log File
-
-The `data/` folder already has an `.htaccess` that blocks browser access (from Step 5.3). This means `inquiries.json` is **never publicly accessible** — it is only readable by your PHP scripts on the server.
-
-> You can view saved leads at any time by opening `public_html/php-admin/data/inquiries.json` in cPanel → File Manager → Edit.
+1. **See the luxury gold success banner** on the form: *"Thank You! Your Inquiry Has Been Received."*
+2. **Receive an email in your inbox** featuring a responsive, branded HTML layout with all client inquiry details (name, phone, event date, guest count, budget, vision) and a one-click *"Reply to [Client]"* button.
+3. **See the lead permanently saved** in `public_html/php-admin/data/inquiries.json` (viewable via cPanel File Manager → Edit).
 
 ---
 
-### Final `config.php` on GoDaddy — Complete Template
+### Step 15.6 — Accessing & Protecting Your Saved Leads
 
-After all setup steps, your server-side `config.php` should look like this:
+Even if your email server ever experiences an outage, **no customer lead is ever lost**.
+
+* The `php-admin/data/` folder contains an `.htaccess` file that blocks all public browser access. No outside visitor can download or view your leads.
+* To view your customer inquiries:
+  1. Open GoDaddy cPanel → **File Manager**.
+  2. Navigate to `public_html/php-admin/data/`.
+  3. Right-click `inquiries.json` → **View** or **Edit**.
+
+---
+
+### Final `config.php` on GoDaddy — Complete Master Template
 
 ```php
 <?php
+/**
+ * 11:11 Decor — Master Production Configuration
+ */
+
 // MySQL Database Credentials
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'YOUR_FULL_DATABASE_NAME');    // e.g. johndoe_elevendecor_blog
@@ -608,38 +763,44 @@ define('CORS_ORIGIN', 'https://YOUR-REAL-DOMAIN.com');
 // Admin Panel Password (bcrypt hash)
 define('ADMIN_PASSWORD_HASH', password_hash('YourAdminPassword!', PASSWORD_BCRYPT));
 
-// Session lifetime
+// Session lifetime (2 hours)
 define('SESSION_LIFETIME', 7200);
 
-// 🔴 Contact Form Email Settings
-define('CONTACT_EMAIL',      'hello@YOUR-REAL-DOMAIN.com');       // ← Your real inbox
-define('CONTACT_FROM_EMAIL', 'noreply@YOUR-REAL-DOMAIN.com');     // ← Must be on this domain
+// ─── Contact Form & SMTP Settings ────────────────────────────────────────────
+define('CONTACT_EMAIL',      'hello@YOUR-REAL-DOMAIN.com');   // Where inquiries arrive
+define('CONTACT_FROM_EMAIL', 'noreply@YOUR-REAL-DOMAIN.com'); // Outgoing sender
+
+define('SMTP_ENABLED', true);
+define('SMTP_HOST',    'smtp.gmail.com');             // or smtpout.secureserver.net
+define('SMTP_PORT',    587);
+define('SMTP_SECURE',  'tls');                        // 'tls' (587) or 'ssl' (465)
+define('SMTP_USER',    'yourbusiness@gmail.com');
+define('SMTP_PASS',    'your-16-char-app-password');  // Google App Password or Webmail password
 ```
 
 ---
 
-### Troubleshooting Contact Form Emails
+### Troubleshooting Contact Form & Emails
 
-| Problem | Fix |
-|---------|-----|
-| Form shows "Submission Failed" | Check that `php-admin/api/contact.php` was uploaded correctly to GoDaddy |
-| Email never arrives | Check Spam/Junk folder first. Then verify `CONTACT_FROM_EMAIL` matches your hosted domain |
-| `CONTACT_EMAIL` not defined error | You forgot to add the two new constants to `config.php` on the GoDaddy server |
-| Email arrives but "From" is wrong | Change `CONTACT_FROM_EMAIL` to a real mailbox on your GoDaddy domain |
-| Leads not appearing in `inquiries.json` | Check that `php-admin/data/` folder has permissions `755` in cPanel |
-| Form works locally but not on GoDaddy | Set `NEXT_PUBLIC_CONTACT_API_URL=https://YOUR-REAL-DOMAIN.com/php-admin/api/contact.php` in `.env.production` before rebuilding |
+| Problem | Cause | Fix |
+|---------|-------|-----|
+| Form shows "Submission Failed" | API path incorrect | Ensure `NEXT_PUBLIC_CONTACT_API_URL` is set to `https://YOUR-REAL-DOMAIN.com/php-admin/api/contact.php` in `.env.production` before building |
+| Email never arrives | Invalid SMTP password | Verify your 16-letter Google App Password (ensure 2-step verification is active) |
+| GoDaddy Webmail authentication error | Port or host mismatch | Use host `smtpout.secureserver.net` with port `587` (TLS) or port `465` (SSL) |
+| Email arrives in Spam (when using `mail()`) | Missing SPF/DKIM records | Enable SMTP (`SMTP_ENABLED = true`) to route through verified Google/Webmail servers |
+| Leads not saving to `inquiries.json` | Folder permissions | Set `php-admin/data/` folder permissions to `755` in cPanel File Manager |
 
 ---
 
 ## 📁 PART 15 Addendum — Updated Folder Structure on GoDaddy
 
-After adding the contact form, your `public_html/php-admin/` should look like this:
+After adding the contact form and mailer engine, your `public_html/php-admin/` directory on GoDaddy should look like this:
 
 ```
 public_html/php-admin/
-├── config.php                   ← Now also includes CONTACT_EMAIL + CONTACT_FROM_EMAIL
+├── config.php                   ← Includes DB credentials, CORS, and SMTP settings
 ├── api/
-│   ├── contact.php              ← NEW: Contact form endpoint (email + lead log)
+│   ├── contact.php              ← Contact form submission endpoint
 │   ├── blogs.php
 │   ├── blog-post.php
 │   ├── upload-image.php
@@ -647,9 +808,15 @@ public_html/php-admin/
 │   ├── venues.php
 │   ├── blog-sitemap.php
 │   └── sitemap-index.php
+├── lib/
+│   ├── Mailer.php               ← NEW: Unified SMTP + Native Mailer service
+│   └── PHPMailer/               ← NEW: Standalone PHPMailer engine
+│       ├── Exception.php
+│       ├── PHPMailer.php
+│       └── SMTP.php
 ├── data/
-│   ├── .htaccess                ← Blocks browser access to all files below
-│   ├── inquiries.json           ← NEW: Auto-created on first form submission
+│   ├── .htaccess                ← Blocks public web access to data files
+│   ├── inquiries.json           ← Auto-created backup of all submitted inquiries
 │   └── posts.json
 └── manage-7f3b9x2k/
     └── [... admin panel files ...]

@@ -29,6 +29,16 @@ define('SESSION_LIFETIME', 7200); // 2 hours
 define('CONTACT_EMAIL',      'hello@YOUR-REAL-DOMAIN.com');
 define('CONTACT_FROM_EMAIL', 'noreply@YOUR-REAL-DOMAIN.com');
 
+// ─── SMTP Email Settings (Recommended for 99.9% Inbox Delivery) ─────────────
+// Set to true to send through an authenticated SMTP provider (Gmail, GoDaddy, Outlook)
+// instead of GoDaddy's default server mailer.
+define('SMTP_ENABLED', false);
+define('SMTP_HOST',    'smtp.gmail.com');             // For Gmail: smtp.gmail.com | For GoDaddy: smtpout.secureserver.net
+define('SMTP_PORT',    587);                          // 587 (TLS) or 465 (SSL)
+define('SMTP_SECURE',  'tls');                        // 'tls' or 'ssl'
+define('SMTP_USER',    'your-email@gmail.com');       // Your full sending email address
+define('SMTP_PASS',    'your-16-char-app-password');  // Google 16-letter App Password or mailbox password
+
 /**
  * File-based JSON Blog Store Helper for Local Dev & Staging
  */

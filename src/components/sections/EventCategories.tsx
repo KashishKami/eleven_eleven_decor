@@ -57,16 +57,18 @@ export function EventCategories() {
         const pTextEnter = Math.max(0, Math.min(1, 1 - textBottom / H))
         const pTextExit = Math.max(0, Math.min(1, 1 - textTop / H))
 
+        const isMobile = window.innerWidth < 768
         const stepDuration = 1.0
+        const endPercent = isMobile ? 85 : 60
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRef.current,
             start: 'top top',
-            end: `+=${(totalSlides - 1) * 60}%`,
+            end: `+=${(totalSlides - 1) * endPercent}%`,
             pin: true,
             anticipatePin: 1,
-            scrub: 0.2,
+            scrub: true,
             invalidateOnRefresh: true,
           },
         })
@@ -95,7 +97,7 @@ export function EventCategories() {
             )
           }
 
-          if (incomingBgImg) {
+          if (!isMobile && incomingBgImg) {
             tl.fromTo(
               incomingBgImg,
               { scale: 1.05 },
@@ -108,7 +110,7 @@ export function EventCategories() {
             )
           }
 
-          if (outgoingBgImg) {
+          if (!isMobile && outgoingBgImg) {
             tl.fromTo(
               outgoingBgImg,
               { scale: 1.0 },
@@ -145,14 +147,16 @@ export function EventCategories() {
           const textDur = tTextEnd - tTextStart
 
           if (textDur > 0) {
+            const halfDur = textDur * 0.5
             if (prevTextEl) {
               tl.fromTo(
                 prevTextEl,
-                { clipPath: 'inset(0% 0% 0% 0%)' },
+                { opacity: 1, y: 0 },
                 {
-                  clipPath: 'inset(0% 0% 100% 0%)',
-                  ease: 'none',
-                  duration: textDur,
+                  opacity: 0,
+                  y: -12,
+                  ease: 'power1.out',
+                  duration: halfDur,
                 },
                 tTextStart
               )
@@ -161,17 +165,18 @@ export function EventCategories() {
             if (textEl) {
               tl.fromTo(
                 textEl,
-                { clipPath: 'inset(100% 0% 0% 0%)' },
+                { opacity: 0, y: 12 },
                 {
-                  clipPath: 'inset(0% 0% 0% 0%)',
-                  ease: 'none',
-                  duration: textDur,
+                  opacity: 1,
+                  y: 0,
+                  ease: 'power1.out',
+                  duration: halfDur,
                 },
-                tTextStart
+                tTextStart + halfDur
               )
             }
 
-            const tSwitch = tTextStart + textDur * 0.5
+            const tSwitch = tTextStart + halfDur
             if (prevTextEl) {
               tl.set(prevTextEl, { pointerEvents: 'none' }, tSwitch)
             }
@@ -232,6 +237,7 @@ export function EventCategories() {
           width: '100%',
           overflow: 'hidden',
           backgroundColor: '#111111',
+          touchAction: 'pan-y',
         }}
       >
         <div
@@ -321,16 +327,16 @@ export function EventCategories() {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             zIndex: 3,
-            width: 'clamp(320px, 26vw, 420px)',
-            height: 'clamp(560px, 82vh, 700px)',
-            maxWidth: 'calc(100vw - 2rem)',
+            width: 'clamp(300px, 86vw, 420px)',
+            height: 'clamp(520px, 80vh, 700px)',
+            maxWidth: 'calc(100% - 1.5rem)',
             maxHeight: 'calc(100vh - 2rem)',
             background:
-              'linear-gradient(180deg, rgba(208, 201, 190, 0.72) 0%, rgba(198, 191, 180, 0.76) 50%, rgba(190, 183, 172, 0.80) 100%)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
+              'linear-gradient(180deg, rgba(208, 201, 190, 0.82) 0%, rgba(198, 191, 180, 0.85) 50%, rgba(190, 183, 172, 0.88) 100%)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
             borderRadius: '16px',
-            padding: 'clamp(3.5rem, 6vh, 4.75rem) 1.5rem clamp(2.5rem, 4vh, 3.5rem)',
+            padding: 'clamp(2.5rem, 5vh, 4rem) 1.25rem clamp(2rem, 3.5vh, 3rem)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -404,7 +410,8 @@ export function EventCategories() {
                   position: 'absolute',
                   inset: 0,
                   zIndex: idx + 1,
-                  clipPath: idx === 0 ? 'inset(0% 0% 0% 0%)' : 'inset(100% 0% 0% 0%)',
+                  opacity: idx === 0 ? 1 : 0,
+                  transform: idx === 0 ? 'translateY(0px)' : 'translateY(12px)',
                   pointerEvents: idx === 0 ? 'auto' : 'none',
                   display: 'flex',
                   flexDirection: 'column',
@@ -412,7 +419,7 @@ export function EventCategories() {
                   justifyContent: 'center',
                   textDecoration: 'none',
                   color: 'inherit',
-                  willChange: 'clip-path',
+                  willChange: 'opacity, transform',
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '0.65rem' }}>

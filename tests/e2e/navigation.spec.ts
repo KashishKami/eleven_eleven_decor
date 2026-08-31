@@ -22,7 +22,17 @@ test.describe('Navigation & Layout Shell', () => {
     const navContainer = page.locator('header')
     await expect(navContainer).toHaveAttribute('data-scrolled', 'false')
 
-    await page.evaluate(() => window.scrollTo(0, 200))
+    // Allow initial mount and ScrollTrigger refresh timers (100-150ms) to settle
+    await page.waitForTimeout(300)
+
+    await page.evaluate(() => {
+      const lenis = (window as unknown as { lenis?: { scrollTo: (y: number, opts: unknown) => void } }).lenis
+      if (lenis) {
+        lenis.scrollTo(200, { immediate: true })
+      } else {
+        window.scrollTo(0, 200)
+      }
+    })
     await page.waitForTimeout(300)
 
     await expect(navContainer).toHaveAttribute('data-scrolled', 'true')

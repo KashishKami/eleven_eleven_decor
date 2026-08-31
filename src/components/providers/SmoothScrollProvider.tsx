@@ -30,6 +30,7 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
     })
 
     lenisRef.current = lenis
+    ;(window as unknown as { lenis: Lenis }).lenis = lenis
 
     lenis.on('scroll', ScrollTrigger.update)
 
@@ -44,6 +45,7 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
       gsap.ticker.remove(updateTicker)
       lenis.destroy()
       lenisRef.current = null
+      delete (window as unknown as { lenis?: Lenis }).lenis
     }
   }, [])
 

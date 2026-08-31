@@ -1,6 +1,25 @@
 import { test, expect } from '@playwright/test'
+import fs from 'fs'
+import path from 'path'
+
+const testInquiriesPath = path.resolve(__dirname, '../../php-admin/data/inquiries_test.json')
 
 test.describe('Contact & Lead Conversion Page (W-801)', () => {
+  test.beforeEach(async ({ page }) => {
+    // Forward X-Test-Mode header to the PHP backend
+    await page.route('**/api/contact.php', async (route) => {
+      const headers = { ...route.request().headers(), 'X-Test-Mode': '1' }
+      await route.continue({ headers })
+    })
+  })
+
+  test.afterAll(() => {
+    if (fs.existsSync(testInquiriesPath)) {
+      try {
+        fs.unlinkSync(testInquiriesPath)
+      } catch {}
+    }
+  })
   test('renders H1, 8 form fields, contact info block, and map embed', async ({ page }) => {
     await page.goto('/contact/')
 

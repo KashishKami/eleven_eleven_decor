@@ -307,7 +307,6 @@ export function NavigationClient({ visibility }: NavigationClientProps) {
           className="desktop-only"
           style={{
             flex: '1 1 0%',
-            display: 'flex',
             alignItems: 'center',
             justifyContent: 'flex-start',
             zIndex: 2,
@@ -421,7 +420,6 @@ export function NavigationClient({ visibility }: NavigationClientProps) {
             onClick={() => setMobileMenuOpen((prev) => !prev)}
             className="mobile-hamburger"
             style={{
-              display: 'none',
               flexDirection: 'column',
               justifyContent: 'center',
               gap: '5px',

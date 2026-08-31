@@ -180,10 +180,21 @@ $headers .= "From: {$fromName} <{$fromEmail}>\r\n";
 $headers .= "Reply-To: {$name} <{$email}>\r\n";
 $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
 
-$emailSent = @mail($toEmail, $subject, $htmlBody, $headers);
+// ─── Test Mode Detection ─────────────────────────────────────────────────────
+// When running automated tests (Playwright, CI, or test suite), redirect inquiries
+// to inquiries_test.json to protect real leads and prevent git diff pollution.
+$isTest = (getenv('APP_ENV') === 'test')
+    || (!empty($_SERVER['HTTP_X_TEST_MODE']))
+    || (isset($_SERVER['HTTP_X_PLAYWRIGHT_TEST']))
+    || (isset($data['_test_mode']) && $data['_test_mode'] === true)
+    || (isset($email) && strpos($email, '@example.com') !== false);
+
+$emailSent = $isTest ? true : @mail($toEmail, $subject, $htmlBody, $headers);
 
 // ─── Log Inquiry to JSON (Safety Backup) ─────────────────────────────────────
-$logFile = __DIR__ . '/../data/inquiries.json';
+$logFile = $isTest
+    ? __DIR__ . '/../data/inquiries_test.json'
+    : __DIR__ . '/../data/inquiries.json';
 $logDir  = dirname($logFile);
 
 if (!is_dir($logDir)) {

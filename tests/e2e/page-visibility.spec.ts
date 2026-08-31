@@ -5,12 +5,13 @@ import path from 'path'
 const dataPath = path.resolve(__dirname, '../../php-admin/data/page-visibility.json')
 
 test.describe.serial('Content Visibility Gate (W-1002 & W-1004)', () => {
-  test.beforeEach(() => {
+  test.beforeEach(async () => {
     fs.writeFileSync(
       dataPath,
       JSON.stringify({ blog: false, gallery: false, portfolio: false, venues: false }, null, 4),
       'utf-8'
     )
+    await new Promise((resolve) => setTimeout(resolve, 300))
   })
 
   test.afterAll(() => {
@@ -21,32 +22,44 @@ test.describe.serial('Content Visibility Gate (W-1002 & W-1004)', () => {
     )
   })
 
+  const safeGoto = async (page: any, url: string) => {
+    try {
+      return await page.goto(url, { waitUntil: 'domcontentloaded' })
+    } catch (err: any) {
+      if (err?.message?.includes('ERR_ABORTED')) {
+        await page.waitForTimeout(500)
+        return await page.goto(url, { waitUntil: 'domcontentloaded' })
+      }
+      throw err
+    }
+  }
+
   test('returns 404 / Not Found for /gallery when visibility is false', async ({ page }) => {
-    const response = await page.goto('/gallery')
+    const response = await safeGoto(page, '/gallery/')
     expect(response?.status() === 404 || (await page.locator('text=404').count()) > 0).toBeTruthy()
     await expect(page.locator('text=404 — Page Not Found')).toBeVisible()
   })
 
   test('returns 404 / Not Found for /portfolio and /portfolio/[slug] when visibility is false', async ({ page }) => {
-    const responseIndex = await page.goto('/portfolio')
+    const responseIndex = await safeGoto(page, '/portfolio/')
     expect(responseIndex?.status() === 404 || (await page.locator('text=404').count()) > 0).toBeTruthy()
     await expect(page.locator('text=404 — Page Not Found')).toBeVisible()
 
-    const responseSlug = await page.goto('/portfolio/luxury-himalayan-resort-wedding')
+    const responseSlug = await safeGoto(page, '/portfolio/e2e-himalayan-royal-wedding/')
     expect(responseSlug?.status() === 404 || (await page.locator('text=404').count()) > 0).toBeTruthy()
     await expect(page.locator('text=404 — Page Not Found')).toBeVisible()
   })
 
   test('returns 404 / Not Found for /venues, /venue, and /venues/[slug] when visibility is false', async ({ page }) => {
-    const responseVenues = await page.goto('/venues')
+    const responseVenues = await safeGoto(page, '/venues/')
     expect(responseVenues?.status() === 404 || (await page.locator('text=404').count()) > 0).toBeTruthy()
     await expect(page.locator('text=404 — Page Not Found')).toBeVisible()
 
-    const responseVenue = await page.goto('/venue')
+    const responseVenue = await safeGoto(page, '/venue/')
     expect(responseVenue?.status() === 404 || (await page.locator('text=404').count()) > 0).toBeTruthy()
     await expect(page.locator('text=404 — Page Not Found')).toBeVisible()
 
-    const responseSlug = await page.goto('/venues/grand-heritage-palace')
+    const responseSlug = await safeGoto(page, '/venues/grand-heritage-palace/')
     expect(responseSlug?.status() === 404 || (await page.locator('text=404').count()) > 0).toBeTruthy()
     await expect(page.locator('text=404 — Page Not Found')).toBeVisible()
   })

@@ -2345,4 +2345,46 @@ Run every validation suite in sequence. Resolve any lint or typing issues. Verif
    - `vitest run`: 30/30 unit test suites green (92/92 passed).
    - `playwright test`: 125/125 E2E tests green across Chromium and Mobile Chrome.
 
+### Session Note — August 31, 2026: Mobile Animation Optimization, Navbar FOUC Elimination, Test Inquiry Isolation & E2E Stabilization
+
+**Completed Work & Enhancements:**
+1. **Mobile Snap & Blackout Fix (`EventCategories.tsx` & `SmoothScrollProvider.tsx`):**
+   - Diagnosed root cause: mobile address-bar collapse/expansion triggered window `resize` events on every scroll frame, spawning stacked GSAP timelines and duplicate `.pin-spacer` wrappers without teardown.
+   - Configured `ScrollTrigger.config({ ignoreMobileResize: true })` across GSAP providers.
+   - Tracked timeline in `timelineRef` with explicit `timelineRef.current.scrollTrigger?.kill(true)` and `timelineRef.current.kill()` before rebuilding.
+   - Added horizontal-only width comparison (`lastWidthRef`) in resize handler to ignore mobile address bar height fluctuations.
+   - Replaced `100vw` with `100%` on `#event-categories` container.
+
+2. **Event Categories 60fps Mobile Optimization & Text Transition Refactor:**
+   - Changed ScrollTrigger `scrub: 0.2` to `scrub: true` to eliminate double-smoothing rubber-banding lag against Lenis smooth scroll.
+   - Replaced horizontal `clipPath: inset(...)` text slicing with smooth GPU-accelerated opacity & vertical translation cross-fade (`opacity, transform: translateY`), removing letter-slicing artifacts on mobile viewports.
+   - Added `touchAction: 'pan-y'` to prevent mobile touch gesture stutter.
+   - Adjusted mobile scroll runway (85% per slide on mobile vs 60% on desktop) for comfortable thumb travel.
+   - Bypassed heavy blurred image scaling passes on mobile devices to preserve GPU memory bandwidth on standard smartphones.
+
+3. **Mobile Navbar Flash of Unstyled Content (FOUC) Elimination:**
+   - Fixed split-second appearance of desktop nav links on mobile first-load caused by runtime `<style jsx global>` hydration lag and inline styles.
+   - Extracted `.desktop-only` (`display: none !important`) and `.mobile-hamburger` (`display: flex !important`) media queries into static stylesheets (`src/app/globals.css` and `src/styles/globals.css`) evaluated at first paint.
+   - Removed conflicting inline `display: flex` and `display: none` styles from `NavigationClient.tsx`.
+
+4. **Inquiry Test Isolation & Clean Production Data Store:**
+   - Identified automated E2E test runs polluting `php-admin/data/inquiries.json` with test contact leads.
+   - Updated `php-admin/api/contact.php` with multi-guard test-mode detection (`X-Test-Mode: 1`, `APP_ENV=test`, or `@example.com` emails) to route test submissions to `php-admin/data/inquiries_test.json` and bypass live `mail()` calls.
+   - Added `php-admin/data/inquiries_test.json` to `.gitignore`.
+   - Added test-mode routing and automatic test-file teardown in `tests/e2e/contact-page.spec.ts`.
+   - Reset `php-admin/data/inquiries.json` to a clean empty array (`[]`) for production leads.
+
+5. **E2E Test Suite Stabilization:**
+   - Resolved `SmoothScrollProvider.tsx` scroll lock by removing the `window.scrollTo` monkey-patch that collided with Lenis's internal RAF loop.
+   - Updated `tests/e2e/navigation.spec.ts` to coordinate with `window.lenis.scrollTo(200, { immediate: true })` and allowed measurement timers to settle.
+   - Fixed `page-visibility.spec.ts` `net::ERR_ABORTED` on mobile Chrome by:
+     - Updating stale portfolio test slug `/portfolio/luxury-himalayan-resort-wedding/` to the actual published slug `/portfolio/e2e-himalayan-royal-wedding/` (avoiding Next.js `dynamicParams = false` unmapped route abortion).
+     - Adding a `safeGoto` resilient navigation helper that gracefully catches dev-server on-demand recompilation connection resets and re-requests smoothly.
+     - Using canonical trailing-slash URLs with `waitUntil: 'domcontentloaded'`.
+
+6. **Quality Gate Verification:**
+   - `vitest run`: 30/30 unit test suites green (92/92 passed).
+   - `playwright test`: Navigation, contact, event categories, and page-visibility E2E tests 100% green across Desktop Chromium and Mobile Chrome.
+
+
 

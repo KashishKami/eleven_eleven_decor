@@ -458,3 +458,23 @@ img {
   color: #c9a96e;
   padding-left: 4px;
 }
+
+/* ==========================================================================
+   Navigation Responsive Visibility (Static CSS - Eliminates Hydration Flash)
+   ========================================================================== */
+.desktop-only {
+  display: flex;
+}
+
+.mobile-hamburger {
+  display: none;
+}
+
+@media (max-width: 1120px) {
+  .desktop-only {
+    display: none !important;
+  }
+  .mobile-hamburger {
+    display: flex !important;
+  }
+}

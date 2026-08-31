@@ -1,6 +1,18 @@
 import { test, expect } from '@playwright/test'
+import fs from 'fs'
+import path from 'path'
+
+const dataPath = path.resolve(__dirname, '../../php-admin/data/page-visibility.json')
 
 test.describe('Portfolio Hub & Case Study Pages (W-601)', () => {
+  test.beforeAll(() => {
+    fs.writeFileSync(
+      dataPath,
+      JSON.stringify({ blog: true, gallery: true, portfolio: true, venues: true }, null, 4),
+      'utf-8'
+    )
+  })
+
   test('renders portfolio hub with category filter pills and project cards', async ({ page }) => {
     await page.goto('/portfolio/')
 

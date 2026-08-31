@@ -1,15 +1,17 @@
 import { describe, it, expect } from 'vitest'
 import { execSync } from 'child_process'
 import path from 'path'
+import fs from 'fs'
 
 describe('Mailer & SMTP Integration Tests (TDD Rule 2 - Red/Green)', () => {
   const rootDir = process.cwd()
   const scriptPath = path.join(rootDir, 'tests', 'scripts', 'test-smtp-mailer.php')
+  const phpBin = fs.existsSync('C:\\php\\php.exe') ? 'C:\\php\\php.exe' : 'php'
 
   it('verifies Mailer.php exists, PHPMailer loads, and handles fallback gracefully', () => {
     let output = ''
     try {
-      output = execSync(`php "${scriptPath}"`, { encoding: 'utf-8' })
+      output = execSync(`"${phpBin}" "${scriptPath}"`, { encoding: 'utf-8' })
     } catch (err: any) {
       output = err.stdout ? err.stdout.toString() : err.message
       // If the PHP script fails (e.g. exit 1 because Mailer.php is missing), parse JSON output

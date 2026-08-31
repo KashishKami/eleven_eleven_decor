@@ -4,7 +4,7 @@
 ---
 
 > **IMPORTANT — Where to enter your real domain name:**
-> Every time you see `YOUR-REAL-DOMAIN.com` in this guide, that is where you must type **your actual domain** (e.g., `elevenelevendecor.com`). There are **4 key places** — they are all clearly marked with a 🔴 symbol.
+> Every time you see `YOUR-REAL-DOMAIN.com` in this guide, that is where you must type **your actual domain** (e.g., `elevenelevendecor.com`). There are **5 key places** — they are all clearly marked with a 🔴 symbol.
 
 ---
 
@@ -87,25 +87,26 @@ This step converts the Next.js project into plain HTML files that GoDaddy can se
 1. Open the folder `eleven_eleven_decor` on your Desktop
 2. Right-click inside the folder → **"Open in Terminal"** (or open PowerShell and navigate there)
 
-### Step 2.2 — Set the Environment Variable
+### Step 2.2 — Set the Environment Variables
 
-Before building, you need to tell the website what your real domain is.
+Before building, you need to tell the website what your real domain is and configure your contact form endpoint:
 
 1. In the project folder, find the file `.env.example`
 2. **Make a copy** of it and rename the copy to `.env.production`
 3. Open `.env.production` in any text editor (Notepad is fine)
-4. You will see this line:
+4. Set your production domain in both of these lines:
 
-```
-NEXT_PUBLIC_SITE_URL=https://elevenelevendecor.com
-```
-
-🔴 **DOMAIN CHANGE #1** — Change `elevenelevendecor.com` to **your real domain**:
-```
+🔴 **DOMAIN CHANGE #1** — Set your canonical site URL:
+```env
 NEXT_PUBLIC_SITE_URL=https://YOUR-REAL-DOMAIN.com
 ```
 
-5. Also set `NODE_ENV=production` in that same file
+🔴 **DOMAIN CHANGE #2** — Set your contact form PHP endpoint:
+```env
+NEXT_PUBLIC_CONTACT_API_URL=https://YOUR-REAL-DOMAIN.com/php-admin/api/contact.php
+```
+
+5. Also ensure `NODE_ENV=production` is set in that same file
 6. Save and close the file
 
 ### Step 2.3 — Install Dependencies (if not already done)
@@ -166,12 +167,28 @@ The project already has an `.htaccess` configuration for GoDaddy. You need to cr
 4. Paste the following content:
 
 ```apache
+# 11:11 Decor — Apache Configuration for GoDaddy Shared Hosting
 Options -MultiViews
 RewriteEngine On
 
 # Force HTTPS
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Block direct access to hidden files and php-admin config
+<FilesMatch "(^\.|\.json$|config\.php)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Allow direct access to php-admin, api, assets, and uploads
+RewriteCond %{REQUEST_URI} ^/(php-admin|_next|uploads|api) [NC]
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Route managed dynamic sections through gateway.php for live visibility 404s and zero-rebuild slugs
+RewriteRule ^(blog|portfolio|venues|gallery)(/.*)?$ gateway.php [L,QSA]
 
 # Serve existing files/directories directly
 RewriteCond %{REQUEST_FILENAME} -f [OR]
@@ -190,7 +207,7 @@ RewriteRule ^(.*)/?$ /$1/index.html [L,QSA]
 ErrorDocument 404 /404.html
 ```
 
-5. Save the file
+> **Tip:** Because `.htaccess` and `gateway.php` are already configured inside your project's `public/` folder, `pnpm build` automatically copies them directly into `out/`. When you upload all contents of `out/` in Step 3.3, `.htaccess` will already be there! Just right-click → Edit in cPanel to confirm its content matches above.
 
 ---
 
@@ -229,12 +246,13 @@ ErrorDocument 404 /404.html
 2. Create a new folder called `php-admin` (click **"New Folder"**)
 3. Upload everything from your local `php-admin/` folder into `public_html/php-admin/`
 
-This includes:
-- `api/` folder (with all `.php` files inside)
-- `manage-7f3b9x2k/` folder (with the admin panel files inside)
-- `data/` folder (can be empty)
+This includes all 4 folders:
+- **`api/` folder**: All JSON REST APIs and live XML sitemap generators (`contact.php`, `blogs.php`, `portfolio.php`, `venues.php`, `gallery.php`, `sitemap-index.php`, etc.).
+- **`lib/` folder**: The backend engine containing `Mailer.php` and the `PHPMailer/` library (required for contact form email delivery).
+- **`data/` folder**: Secure zero-config JSON data stores for portfolio, venues, gallery, inquiries, and visibility toggles.
+- **`manage-7f3b9x2k/` folder**: The full Editorial Studio and Admin Dashboard interface.
 
-> **Caution:** Do **NOT** upload `config.php` from your local machine — it has local/development settings. You will create a fresh one on the server in the next step.
+> **Caution:** Do **NOT** upload `config.php` from your local machine — it has local/development settings. You will create a fresh, secure one directly on the server in the next step.
 
 ### Step 5.2 — Create the `config.php` File on the Server
 
@@ -256,7 +274,7 @@ define('DB_NAME', 'PASTE_YOUR_FULL_DATABASE_NAME_HERE');   // e.g., johndoe_elev
 define('DB_USER', 'PASTE_YOUR_FULL_DATABASE_USER_HERE');   // e.g., johndoe_elevendecor_user
 define('DB_PASS', 'PASTE_YOUR_DATABASE_PASSWORD_HERE');     // The password you created in Step 4.2
 
-// 🔴 DOMAIN CHANGE #2 — Replace with your real domain
+// 🔴 DOMAIN CHANGE #3 — Replace with your real domain
 define('CORS_ORIGIN', 'https://YOUR-REAL-DOMAIN.com');
 
 // Admin Panel Password
@@ -302,7 +320,7 @@ Now we'll run the installer to create the database tables.
 Open your browser and go to:
 
 ```
-🔴 DOMAIN CHANGE #3 — Use your real domain:
+🔴 DOMAIN CHANGE #4 — Use your real domain:
 https://YOUR-REAL-DOMAIN.com/php-admin/api/install.php
 ```
 
@@ -445,63 +463,66 @@ After completing all steps, test everything by visiting these URLs in your brows
 | Admin panel | `https://YOUR-DOMAIN.com/php-admin/manage-7f3b9x2k/` | Login page shows |
 | HTTPS redirect | `http://YOUR-DOMAIN.com` | Should auto-redirect to `https://` |
 | Config protected | `https://YOUR-DOMAIN.com/php-admin/config.php` | Should show "Forbidden" (403 error) |
-| Static sitemap | `https://YOUR-DOMAIN.com/sitemap.xml` | Shows XML with all pages & blog categories |
-| Blog posts sitemap | `https://YOUR-DOMAIN.com/php-admin/api/blog-sitemap.php` | Shows XML with all published blog posts |
-| Sitemap index | `https://YOUR-DOMAIN.com/php-admin/api/sitemap-index.php` | Shows XML index pointing to both sitemaps above |
+| Static sitemap | `https://YOUR-DOMAIN.com/sitemap.xml` | Shows XML with core static pages |
+| Dynamic Blog sitemap | `https://YOUR-DOMAIN.com/php-admin/api/blog-sitemap.php` | Shows XML with all published blog posts |
+| Dynamic Portfolio sitemap | `https://YOUR-DOMAIN.com/php-admin/api/portfolio-sitemap.php` | Shows XML with all published case studies |
+| Dynamic Venues sitemap | `https://YOUR-DOMAIN.com/php-admin/api/venues-sitemap.php` | Shows XML with all published venues |
+| Sitemap index (master) | `https://YOUR-DOMAIN.com/php-admin/api/sitemap-index.php` | Shows XML index pointing to all sitemaps above |
 
 ---
 
 ## 🔍 PART 11 — Google Search Console & Sitemaps
+This project uses a **Sitemap Index** architecture — one master file that points Google to your static pages and all dynamic content sitemaps. This is the industry-standard way to handle modern hybrid websites.
 
-This project uses a **Sitemap Index** approach — one master file that points Google to two separate sitemaps. This is the industry-standard way to handle mixed static + dynamic content.
-
-### The Three Sitemap Files Explained
+### The Five Sitemap Files Explained
 
 | File | URL on GoDaddy | What it contains | Updates when? |
 |------|---------------|-----------------|---------------|
-| **`sitemap.xml`** | `https://YOUR-DOMAIN.com/sitemap.xml` | All static pages — Home, About, Services, Events, Portfolio, Venues, Gallery, Contact, Blog category pages | Only when you **rebuild and re-upload** the site |
-| **`blog-sitemap.php`** | `https://YOUR-DOMAIN.com/php-admin/api/blog-sitemap.php` | Every **published blog post** individually | **Automatically** — the second you publish a new post |
-| **`sitemap-index.php`** | `https://YOUR-DOMAIN.com/php-admin/api/sitemap-index.php` | Just a master index pointing to the two files above | Always up to date |
+| **`sitemap.xml`** | `https://YOUR-DOMAIN.com/sitemap.xml` | Core static pages — Home, About, Services, Events, Packages, Testimonials, Contact | Only when you **rebuild and re-upload** the site |
+| **`blog-sitemap.php`** | `https://YOUR-DOMAIN.com/php-admin/api/blog-sitemap.php` | Every **published blog post** individually | **Automatically** — the second you publish a post in Admin |
+| **`portfolio-sitemap.php`** | `https://YOUR-DOMAIN.com/php-admin/api/portfolio-sitemap.php` | Every **published portfolio case study** individually | **Automatically** — the second you publish a project in Admin |
+| **`venues-sitemap.php`** | `https://YOUR-DOMAIN.com/php-admin/api/venues-sitemap.php` | Every **published luxury venue** individually | **Automatically** — the second you publish a venue in Admin |
+| **`sitemap-index.php`** | `https://YOUR-DOMAIN.com/php-admin/api/sitemap-index.php` | Master index pointing to all 4 sitemaps above | Always up to date |
 
-> **Key point:** `sitemap.xml` will NOT show individual blog posts — that is by design. Blog posts live in the PHP sitemap which updates automatically.
+> **Key point:** You do **NOT** need to submit 4 separate sitemaps to Google. You only submit `sitemap-index.php`. Google reads the index and crawls all 4 sub-sitemaps automatically!
 
 ---
 
 ### Step 11.1 — Submit to Google Search Console
 
-Google Search Console is the free Google tool that tells Google about your website. Here's how to set it up:
+Google Search Console is the free Google tool that tells Google about your website:
 
-1. Go to [Google Search Console](https://search.google.com/search-console/) and sign in with a Google account
+1. Go to [Google Search Console](https://search.google.com/search-console/) and sign in with your Google account.
 2. Click **"Add Property"** → select **"URL prefix"** → type your full domain: `https://YOUR-DOMAIN.com`
-3. Verify ownership — Google will give you an HTML file to upload to `public_html/` on GoDaddy (just upload it via File Manager)
-4. Once verified, click **"Sitemaps"** in the left sidebar
-5. In the **"Add a new sitemap"** box, type:
+3. Verify ownership — Google will give you an HTML verification file to upload to `public_html/` on GoDaddy (upload via cPanel File Manager).
+4. Once verified, click **"Sitemaps"** in the left sidebar.
+5. In the **"Add a new sitemap"** box, enter:
 
 ```
 php-admin/api/sitemap-index.php
 ```
 
-6. Click **"Submit"**
+6. Click **"Submit"**.
 
-That's it! Google will now automatically discover:
-- All your static pages (from `sitemap.xml`)
-- All your blog posts (from `blog-sitemap.php`)
-
-> **Note:** You only submit the **sitemap index URL** — Google follows the links inside it to find both sitemaps automatically.
+Google will instantly recognize and crawl:
+- All static pages (from `sitemap.xml`)
+- All dynamic blog posts (from `blog-sitemap.php`)
+- All dynamic portfolio case studies (from `portfolio-sitemap.php`)
+- All dynamic venues (from `venues-sitemap.php`)
 
 ---
 
-### Step 11.2 — What Happens When You Publish a New Blog Post
+### Step 11.2 — Zero-Rebuild Workflow for Content Team
 
-Here's the full picture of what happens automatically once the site is live on GoDaddy:
+Here is what happens automatically whenever your content team publishes or updates anything in the Admin Panel:
 
-1. You log into `https://YOUR-DOMAIN.com/php-admin/manage-7f3b9x2k/`
-2. You write and publish a new blog post
-3. The post immediately appears on the live website at `https://YOUR-DOMAIN.com/blog/category/post-slug/`
-4. The post **immediately** appears in `blog-sitemap.php` (no rebuild needed)
-5. The next time Google crawls your sitemap index, it will find the new post and index it
+1. You log into `https://YOUR-DOMAIN.com/php-admin/manage-7f3b9x2k/`.
+2. You write and publish a new blog post, portfolio project, or venue.
+3. **Instant Live Display:** The item immediately appears on the website directory grids (`/blog/`, `/portfolio/`, `/venues/`), and direct URLs (`/portfolio/slug/`, `/venues/slug/`, `/blog/cat/slug/`) render live via the dynamic SPA clients and server gateway.
+4. **Instant Dynamic Sitemap:** The item immediately appears in its corresponding PHP XML sitemap with today's `<lastmod>` date.
+5. **Instant Rich Schema:** Googlebot automatically detects the dynamically generated Schema.org structured data (`Article`, `CreativeWork`, or `EventVenue`) for rich snippets.
 
-> **You never need to rebuild or re-upload the site just to add a new blog post.** The PHP backend handles it entirely.
+> **Zero Rebuild Guarantee:** Your content team **never** needs to rebuild, re-export, or re-upload files to add or edit blogs, portfolio case studies, venues, or gallery photos. Everything works 100% out of the box.
 
 ---
 
@@ -509,7 +530,7 @@ Here's the full picture of what happens automatically once the site is live on G
 
 Your website features a full, private Content Management System (CMS) located at:
 
-🔴 **DOMAIN CHANGE #4** — Use your real domain in this URL:
+🔴 **DOMAIN CHANGE #5** — Use your real domain in this URL:
 ```
 https://YOUR-REAL-DOMAIN.com/php-admin/manage-7f3b9x2k/
 ```
@@ -540,7 +561,8 @@ https://YOUR-REAL-DOMAIN.com/php-admin/manage-7f3b9x2k/
 * **On/Off Toggle**: Easily toggle photos between **Published** and **Draft** without deleting them.
 
 #### 5. 👁️ Page & Section Visibility Toggles
-* Use the **Visibility Manager** card in your dashboard to toggle entire main navigation sections on or off dynamically without needing to rebuild or re-upload your website.
+* Use the **Visibility Manager** card in your dashboard to toggle entire main navigation sections (Blog, Portfolio, Venues, Gallery) on or off dynamically without needing to rebuild or re-upload your website.
+* **Instant HTTP 404 Protection:** When you toggle a section OFF, the server gateway (`gateway.php`) immediately intercepts all traffic to that section and returns a true `HTTP 404 Not Found` header to browsers and search engine crawlers. Toggling it back ON instantly restores the page. No rebuild is ever required!
 
 ---
 
@@ -569,9 +591,14 @@ After everything is done, your `public_html/` on GoDaddy should look like this:
 public_html/
 ├── .htaccess                        ← Created in Step 3.4
 ├── index.html                       ← Uploaded from out/ in Step 3.3
+├── gateway.php                      ← Uploaded from out/ (real-time visibility 404 & dynamic routing)
 ├── about-us/
 │   └── index.html
 ├── blog/
+│   └── index.html
+├── portfolio/
+│   └── index.html
+├── venues/
 │   └── index.html
 ├── contact/
 │   └── index.html
@@ -581,9 +608,14 @@ public_html/
     ├── api/
     │   ├── blogs.php
     │   ├── blog-post.php
+    │   ├── portfolio.php
+    │   ├── venues.php
+    │   ├── gallery.php
     │   ├── upload-image.php
-    │   ├── blog-sitemap.php          ← NEW: Dynamic blog posts XML sitemap
-    │   └── sitemap-index.php        ← NEW: Master sitemap index (submit THIS to Google)
+    │   ├── blog-sitemap.php          ← Dynamic blog posts XML sitemap
+    │   ├── portfolio-sitemap.php     ← Dynamic portfolio projects XML sitemap
+    │   ├── venues-sitemap.php        ← Dynamic venues XML sitemap
+    │   └── sitemap-index.php        ← Master sitemap index (submit THIS to Google)
     │   (install.php → DELETED after Step 6.2)
     ├── data/
     │   └── .htaccess                ← Created in Step 5.3
@@ -596,7 +628,7 @@ public_html/
 
 ---
 
-## 🔴 Quick Reference — All 4 Domain Name Locations
+## 🔴 Quick Reference — All 5 Domain Name Locations
 
 ### Sitemap URLs at a Glance
 
@@ -604,6 +636,8 @@ public_html/
 |---------|-----|-------------------|
 | Static pages sitemap | `https://YOUR-DOMAIN.com/sitemap.xml` | No — Google finds it via the index |
 | Blog posts sitemap | `https://YOUR-DOMAIN.com/php-admin/api/blog-sitemap.php` | No — Google finds it via the index |
+| Portfolio projects sitemap | `https://YOUR-DOMAIN.com/php-admin/api/portfolio-sitemap.php` | No — Google finds it via the index |
+| Luxury venues sitemap | `https://YOUR-DOMAIN.com/php-admin/api/venues-sitemap.php` | No — Google finds it via the index |
 | **Sitemap index (master)** | `https://YOUR-DOMAIN.com/php-admin/api/sitemap-index.php` | **✅ YES — submit this one only** |
 
 ---
@@ -803,20 +837,27 @@ public_html/php-admin/
 │   ├── contact.php              ← Contact form submission endpoint
 │   ├── blogs.php
 │   ├── blog-post.php
-│   ├── upload-image.php
-│   ├── gallery.php
+│   ├── portfolio.php
 │   ├── venues.php
-│   ├── blog-sitemap.php
-│   └── sitemap-index.php
+│   ├── gallery.php
+│   ├── upload-image.php
+│   ├── blog-sitemap.php         ← Dynamic blog posts XML sitemap
+│   ├── portfolio-sitemap.php    ← Dynamic portfolio projects XML sitemap
+│   ├── venues-sitemap.php       ← Dynamic venues XML sitemap
+│   └── sitemap-index.php       ← Master sitemap index (submit to Google)
 ├── lib/
-│   ├── Mailer.php               ← NEW: Unified SMTP + Native Mailer service
-│   └── PHPMailer/               ← NEW: Standalone PHPMailer engine
+│   ├── Mailer.php               ← Unified SMTP + Native Mailer service
+│   └── PHPMailer/               ← Standalone PHPMailer engine
 │       ├── Exception.php
 │       ├── PHPMailer.php
 │       └── SMTP.php
 ├── data/
 │   ├── .htaccess                ← Blocks public web access to data files
 │   ├── inquiries.json           ← Auto-created backup of all submitted inquiries
+│   ├── page-visibility.json     ← On/off toggles for main navigation sections
+│   ├── portfolio.json           ← Fast JSON data store for portfolio case studies
+│   ├── venues.json              ← Fast JSON data store for luxury venues
+│   ├── gallery.json             ← Fast JSON data store for gallery photography
 │   └── posts.json
 └── manage-7f3b9x2k/
     └── [... admin panel files ...]

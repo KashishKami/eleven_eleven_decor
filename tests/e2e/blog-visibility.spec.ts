@@ -5,7 +5,7 @@ import path from 'path'
 const dataPath = path.resolve(__dirname, '../../php-admin/data/page-visibility.json')
 
 test.describe.serial('Blog Visibility Gate (W-1101)', () => {
-  test.beforeAll(() => {
+  test.beforeEach(() => {
     fs.writeFileSync(
       dataPath,
       JSON.stringify({ blog: false, gallery: true, portfolio: true, venues: true }, null, 4),

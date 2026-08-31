@@ -294,3 +294,51 @@ export function generateBreadcrumbSchema(items: BreadcrumbItem[]): BreadcrumbLis
     })),
   }
 }
+
+export interface PortfolioSchemaInput {
+  title: string
+  description: string
+  slug: string
+  heroImage?: string
+  location?: string
+  category?: string
+}
+
+export function generatePortfolioSchema(project: PortfolioSchemaInput) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: project.title,
+    description: project.description,
+    image: project.heroImage,
+    locationCreated: project.location,
+    genre: project.category,
+    provider: {
+      '@type': 'Organization',
+      name: '11:11 Decor',
+      url: `${SITE_URL}/`,
+    },
+  }
+}
+
+export interface VenueSchemaInput {
+  name: string
+  description: string
+  slug: string
+  heroImage?: string
+  location?: string
+  capacity?: number
+  spaceType?: string
+}
+
+export function generateVenueSchema(venue: VenueSchemaInput) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'EventVenue',
+    name: venue.name,
+    description: venue.description,
+    image: venue.heroImage,
+    address: venue.location,
+    maximumAttendeeCapacity: venue.capacity,
+  }
+}

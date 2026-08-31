@@ -1,6 +1,18 @@
 import { test, expect } from '@playwright/test'
+import fs from 'fs'
+import path from 'path'
+
+const dataPath = path.resolve(__dirname, '../../php-admin/data/page-visibility.json')
 
 test.describe('Curated Venues Section (W-207)', () => {
+  test.beforeAll(() => {
+    fs.writeFileSync(
+      dataPath,
+      JSON.stringify({ blog: true, gallery: true, portfolio: true, venues: true }, null, 4),
+      'utf-8'
+    )
+  })
+
   test('renders venue teaser cards with links', async ({ page }) => {
     await page.goto('/')
 

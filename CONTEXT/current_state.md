@@ -2375,7 +2375,7 @@ Run every validation suite in sequence. Resolve any lint or typing issues. Verif
    - Reset `php-admin/data/inquiries.json` to a clean empty array (`[]`) for production leads.
 
 5. **E2E Test Suite Stabilization:**
-   - Resolved `SmoothScrollProvider.tsx` scroll lock by removing the `window.scrollTo` monkey-patch that collided with Lenis's internal RAF loop.
+- Resolved `SmoothScrollProvider.tsx` scroll lock by removing the `window.scrollTo` monkey-patch that collided with Lenis's internal RAF loop.
    - Updated `tests/e2e/navigation.spec.ts` to coordinate with `window.lenis.scrollTo(200, { immediate: true })` and allowed measurement timers to settle.
    - Fixed `page-visibility.spec.ts` `net::ERR_ABORTED` on mobile Chrome by:
      - Updating stale portfolio test slug `/portfolio/luxury-himalayan-resort-wedding/` to the actual published slug `/portfolio/e2e-himalayan-royal-wedding/` (avoiding Next.js `dynamicParams = false` unmapped route abortion).
@@ -2407,3 +2407,68 @@ Run every validation suite in sequence. Resolve any lint or typing issues. Verif
      - `npm run typecheck`: 0 errors.
      - `npm run test:unit`: 30/30 suites passed (92/92 tests).
      - `tests/e2e/services-hub.spec.ts`: 4/4 passed across Chromium and Mobile Chrome.
+
+
+---
+
+### Session Note: August 31, 2026 — Zero-Rebuild Dynamic Content Delivery, Multi-Sitemap Index, Real-Time 404 Gatekeeper & SEO Architecture
+
+**Overview & User Goals:**
+- **Zero-Rebuild Guarantee**: Enable content team to perform full CRUD on Blogs, Portfolio case studies, Luxury Venues, and Gallery photos without ever needing to run `pnpm build` or re-upload the `out/` folder to GoDaddy's `public_html/`.
+- **Dynamic Multi-Sitemaps**: Dynamically generate XML sitemaps for Portfolio and Venues, and aggregate all 4 sitemaps (Static, Blogs, Portfolio, Venues) under a master `sitemap-index.php`.
+- **Live 404 Visibility Guard**: If a section is toggled OFF in the admin panel, the server must return an HTTP 404 header immediately to browsers and crawlers without a rebuild.
+- **Educational SEO Guide**: Create a comprehensive beginner's guide to XML Sitemaps and Schema.org JSON-LD structured data in `CONTEXT/`.
+- **GoDaddy Guide Alignment**: Ensure all documentation, folder trees, and domain replacement locations (#1 through #5) in `godaddy_deployment_guide.md` and `config.example.php` are completely accurate and synchronized.
+
+**Completed Work & Enhancements:**
+
+1. **W-1201: Dynamic XML Sitemaps Engine:**
+   - Implemented `php-admin/api/portfolio-sitemap.php`: Generates live XML sitemap for all published portfolio projects with `<loc>`, `<lastmod>`, `<changefreq>`, and `<priority>`. Automatically returns empty `<urlset>` when toggled off.
+   - Implemented `php-admin/api/venues-sitemap.php`: Generates live XML sitemap for all published partner venues with `<loc>`, `<lastmod>`, `<changefreq>`, and `<priority>`. Automatically returns empty `<urlset>` when toggled off.
+   - Updated `php-admin/api/sitemap-index.php` to link:
+     1. Static sitemap: `/sitemap.xml`
+     2. Dynamic blogs: `/php-admin/api/blog-sitemap.php`
+     3. Dynamic portfolio: `/php-admin/api/portfolio-sitemap.php`
+     4. Dynamic venues: `/php-admin/api/venues-sitemap.php`
+   - Verified with unit tests (`tests/dynamic-sitemaps.unit.test.ts`).
+
+2. **W-1202: Zero-Rebuild Dynamic Detail Views & Schema.org JSON-LD:**
+   - Created `src/hooks/usePortfolioProject.ts` and `src/hooks/useVenue.ts` with direct API connectors to `/api/portfolio.php?slug=...` and `/api/venues.php?slug=...` and fallback to static seed constants.
+   - Created `src/components/portfolio/DynamicPortfolioClient.tsx` and `src/components/venues/DynamicVenueClient.tsx` with dynamic client-side `CreativeWork` and `EventVenue` JSON-LD injection.
+   - Connected dynamic clients into `src/app/portfolio/[slug]/page.tsx` and `src/app/venues/[slug]/page.tsx`. Slugs added in PHP admin render dynamically without requiring a static rebuild.
+   - Verified with unit tests (`tests/dynamic-item-hooks.unit.test.ts`).
+
+3. **W-1203: Real-Time HTTP 404 Visibility Gatekeeper & Apache Routing:**
+   - Implemented `public/gateway.php`:
+     - Reads `php-admin/data/page-visibility.json`. If a section is toggled OFF, immediately issues `http_response_code(404)` and displays `404.html`.
+     - Validates newly created dynamic slugs directly from database/JSON stores. If found, serves the SPA shell; if not found, returns HTTP 404.
+   - Updated `public/.htaccess` to route managed dynamic sections (`blog`, `portfolio`, `venues`, `gallery`) through `gateway.php`.
+   - Verified with unit tests (`tests/gateway-routing.unit.test.ts`).
+
+4. **W-1204: Educational SEO Guide (`CONTEXT/SITEMAP_AND_SCHEMA_GUIDE.md`):**
+   - Wrote a comprehensive, beginner-friendly technical guide covering:
+     - XML Sitemaps vs HTML Sitemaps, URL tags (`<loc>`, `<lastmod>`, `<changefreq>`, `<priority>`).
+     - Sitemap Index architecture and zero-rebuild live sitemaps.
+     - Schema.org (JSON-LD) structured data, Google Rich Results, and copy-paste templates (`LocalBusiness`, `Article`, `CreativeWork`, `EventVenue`, `FAQPage`, `BreadcrumbList`).
+     - Open Graph social cards (WhatsApp/Facebook) vs Search Engine Schema.
+     - Official validation tools and reusable 4-step checklist for future projects.
+
+5. **Local Dev CORS & Hook Resilience:**
+   - Updated `php-admin/config.php` and `php-admin/config.example.php` to dynamically allow local dev origins (`localhost` / `127.0.0.1`) while defaulting to production domain, resolving CORS failures during local development and E2E testing.
+   - Updated `src/hooks/useGallery.ts`, `src/hooks/usePortfolioProjects.ts`, and `src/hooks/useVenues.ts` to preserve initial static seed data if an API fetch fails or returns empty.
+   - Added `pageVisibility` gating inside `PortfolioDetailPage` and `VenueDetailPage` components so that navigating to a disabled section in Next.js triggers `notFound()`.
+   - Fixed E2E test state isolation in `blog-visibility.spec.ts`, `team-section.spec.ts`, `portfolio.spec.ts`, and `gallery.spec.ts`.
+
+6. **GoDaddy Guide Revisions (`CONTEXT/godaddy_deployment_guide.md`):**
+   - Updated Step 3.4 with the full gateway `.htaccess` rules and clarified automatic file deployment from `public/` into `out/`.
+   - Updated Step 5.1 to explicitly list all 4 upload folders: `api/`, `data/`, `lib/` (`Mailer.php` & `PHPMailer/`), and `manage-7f3b9x2k/`.
+   - Updated Part 10 checklist to include verification rows for `portfolio-sitemap.php` and `venues-sitemap.php`.
+   - Updated Part 11 to document all 5 sitemap files and confirmed that only the single master index URL `php-admin/api/sitemap-index.php` is submitted to Google Search Console.
+   - Synchronized all 5 domain change locations (#1 through #5) across the intro, Step 2.2, Step 5.2, Step 6.1, Part 12, and the Quick Reference summary table in Part 14.
+   - Updated Part 15 Addendum server folder structure tree.
+
+7. **Quality Verification:**
+   - Unit Tests (`pnpm test:unit`): 34/34 test files passed (104/104 tests).
+   - ESLint (`pnpm lint`): 0 warnings / 0 errors.
+   - TypeCheck (`pnpm typecheck`): 0 errors.
+   - Production Build (`pnpm build`): 56/56 static pages generated successfully.

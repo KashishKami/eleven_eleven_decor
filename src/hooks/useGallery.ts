@@ -40,12 +40,13 @@ export function useGallery(initialItems: GalleryItem[] = [], category?: string) 
     fetchGalleryItems(category)
       .then((res) => {
         if (!isMounted) return
-        setItems(res.items)
+        if (res.items && res.items.length > 0) {
+          setItems(res.items)
+        }
         setError(res.error)
       })
       .catch((err) => {
         if (!isMounted) return
-        setItems([])
         setError(err instanceof Error ? err.message : 'Failed to load gallery')
       })
       .finally(() => {

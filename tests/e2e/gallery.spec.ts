@@ -1,6 +1,18 @@
 import { test, expect } from '@playwright/test'
+import fs from 'fs'
+import path from 'path'
+
+const dataPath = path.resolve(__dirname, '../../php-admin/data/page-visibility.json')
 
 test.describe('Interactive Photo Gallery & Lightbox Modal (W-603)', () => {
+  test.beforeAll(() => {
+    fs.writeFileSync(
+      dataPath,
+      JSON.stringify({ blog: true, gallery: true, portfolio: true, venues: true }, null, 4),
+      'utf-8'
+    )
+  })
+
   test('renders photo gallery grid and opens Lightbox modal on image click', async ({ page }) => {
     await page.goto('/gallery/')
 

@@ -40,12 +40,13 @@ export function usePortfolioProjects(initialProjects: PortfolioProject[] = [], c
     fetchPortfolioProjects(category)
       .then((res) => {
         if (!isMounted) return
-        setProjects(res.projects)
+        if (res.projects && res.projects.length > 0) {
+          setProjects(res.projects)
+        }
         setError(res.error)
       })
       .catch((err) => {
         if (!isMounted) return
-        setProjects([])
         setError(err instanceof Error ? err.message : 'Failed to load projects')
       })
       .finally(() => {

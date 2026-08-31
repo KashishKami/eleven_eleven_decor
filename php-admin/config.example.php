@@ -11,7 +11,12 @@ define('DB_USER', 'elevendecor_user');
 define('DB_PASS', 'YOUR_STRONG_DATABASE_PASSWORD');
 
 // Allowed Origins for CORS (Public domain where your Next.js site lives)
-define('CORS_ORIGIN', 'https://elevenelevendecor.com');
+$requestOrigin = $_SERVER['HTTP_ORIGIN'] ?? '';
+$isLocalDev = !empty($requestOrigin) && (
+    strpos($requestOrigin, 'localhost') !== false ||
+    strpos($requestOrigin, '127.0.0.1') !== false
+);
+define('CORS_ORIGIN', $isLocalDev ? $requestOrigin : 'https://elevenelevendecor.com');
 
 // Admin Panel Password Hash (Generate using password_hash('YourSecretPassword', PASSWORD_BCRYPT))
 // Default hash below is for password: "AdminPassword1111!"

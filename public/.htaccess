@@ -12,6 +12,15 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     Deny from all
 </FilesMatch>
 
+# Allow direct access to php-admin, api, assets, and uploads
+RewriteCond %{REQUEST_URI} ^/(php-admin|_next|uploads|api) [NC]
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Route managed dynamic sections through gateway.php for live visibility 404s and zero-rebuild slugs
+RewriteRule ^(blog|portfolio|venues|gallery)(/.*)?$ gateway.php [L,QSA]
+
 # Serve existing files/directories directly
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d

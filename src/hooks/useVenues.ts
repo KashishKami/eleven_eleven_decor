@@ -40,12 +40,13 @@ export function useVenues(initialVenues: VenueItem[] = [], spaceType?: string) {
     fetchVenues(spaceType)
       .then((res) => {
         if (!isMounted) return
-        setVenues(res.venues)
+        if (res.venues && res.venues.length > 0) {
+          setVenues(res.venues)
+        }
         setError(res.error)
       })
       .catch((err) => {
         if (!isMounted) return
-        setVenues([])
         setError(err instanceof Error ? err.message : 'Failed to load venues')
       })
       .finally(() => {

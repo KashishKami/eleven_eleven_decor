@@ -1,4 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
+import fs from 'fs'
+
+const phpBin = fs.existsSync('C:\\php\\php.exe') ? 'C:\\php\\php.exe' : 'php'
 
 export default defineConfig({
   testDir: './tests/e2e',
@@ -31,7 +34,7 @@ export default defineConfig({
       timeout: 120 * 1000,
     },
     {
-      command: 'php -S 127.0.0.1:8080 -t php-admin',
+      command: `"${phpBin}" -S 127.0.0.1:8080 -t php-admin`,
       url: 'http://127.0.0.1:8080/manage-7f3b9x2k/index.php',
       reuseExistingServer: true,
       timeout: 120 * 1000,

@@ -36,6 +36,18 @@ $xml .= "    <loc>{$baseUrl}/php-admin/api/blog-sitemap.php</loc>\n";
 $xml .= "    <lastmod>{$today}</lastmod>\n";
 $xml .= "  </sitemap>\n";
 
+// 3. Dynamic portfolio projects sitemap (updates automatically when new projects are published)
+$xml .= "  <sitemap>\n";
+$xml .= "    <loc>{$baseUrl}/php-admin/api/portfolio-sitemap.php</loc>\n";
+$xml .= "    <lastmod>{$today}</lastmod>\n";
+$xml .= "  </sitemap>\n";
+
+// 4. Dynamic venues sitemap (updates automatically when new venues are published)
+$xml .= "  <sitemap>\n";
+$xml .= "    <loc>{$baseUrl}/php-admin/api/venues-sitemap.php</loc>\n";
+$xml .= "    <lastmod>{$today}</lastmod>\n";
+$xml .= "  </sitemap>\n";
+
 $xml .= '</sitemapindex>';
 
 echo $xml;

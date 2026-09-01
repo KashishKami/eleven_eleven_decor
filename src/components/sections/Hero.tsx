@@ -47,7 +47,7 @@ export function Hero() {
       style={{
         position: 'relative',
         minHeight: '100vh',
-        marginTop: '-96px',
+        marginTop: '0px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

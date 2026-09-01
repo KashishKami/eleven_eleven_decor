@@ -67,7 +67,7 @@ function renderLinkedText(text: string) {
           key={match.index}
           href={href}
           style={{
-            color: '#c9a96e',
+            color: '#a8834a',
             textDecoration: 'underline',
             textUnderlineOffset: '3px',
             fontWeight: 600,
@@ -184,7 +184,7 @@ export default function EventDetailPage({ params }: Props) {
               <ul className={styles.provideList}>
                 {event.eventManagement.map((item, idx) => (
                   <li key={`mgmt-${idx}`} className={styles.provideItem}>
-                    <span className={styles.checkIcon} style={{ color: '#c9a96e' }}>✔</span>
+                    <span className={styles.checkIcon} style={{ color: '#a8834a' }}>✔</span>
                     <span>{renderLinkedText(item)}</span>
                   </li>
                 ))}

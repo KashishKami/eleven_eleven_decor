@@ -59,7 +59,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div style={{ paddingTop: '80px', backgroundColor: '#0d0d0d', color: '#f5f0e8', minHeight: '100vh' }}>
+    <div style={{ paddingTop: '96px', backgroundColor: '#0d0d0d', color: '#f5f0e8', minHeight: '100vh' }}>
       <JsonLd data={schemaData} />
 
       {/* HERO SECTION */}

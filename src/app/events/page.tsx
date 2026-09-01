@@ -44,19 +44,19 @@ export default function EventsHubPage() {
   }
 
   return (
-    <div style={{ paddingTop: '80px' }}>
+    <div style={{ paddingTop: '96px', backgroundColor: '#ede5d8', minHeight: '100vh' }}>
       <JsonLd data={schemaData} />
 
-      {/* SECTION 1: Dark Hero Header */}
+      {/* SECTION 1: Light Hero Header */}
       <section className={styles.heroHeader}>
         <div className={styles.container}>
-          <span className={styles.label} style={{ color: 'var(--color-accent)' }}>
+          <span className={styles.label} style={{ color: 'var(--color-accent-dark, #a8834a)' }}>
             EXPLORE OUR OCCASIONS
           </span>
           <WindRevealHeading
             as="h1"
             className="heading-xl"
-            style={{ color: '#ffffff', marginTop: '0.75rem' }}
+            style={{ color: '#1a1a1a', marginTop: '0.75rem' }}
           >
             Events We Plan, Manage &amp; Decorate
           </WindRevealHeading>

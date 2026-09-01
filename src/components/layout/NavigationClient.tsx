@@ -276,18 +276,18 @@ export function NavigationClient({ visibility }: NavigationClientProps) {
     <header
       data-scrolled={scrolled ? 'true' : 'false'}
       style={{
-        position: 'sticky',
+        position: 'fixed',
         top: 0,
+        left: 0,
+        right: 0,
         zIndex: 1000,
         width: '100%',
-        backgroundColor: scrolled ? 'rgba(13, 13, 13, 0.96)' : 'transparent',
+        backgroundColor: 'transparent',
         backgroundImage: scrolled
-          ? 'none'
-          : 'linear-gradient(180deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.45) 65%, rgba(0,0,0,0) 100%)',
-        backdropFilter: scrolled ? 'blur(18px)' : 'none',
-        WebkitBackdropFilter: scrolled ? 'blur(18px)' : 'none',
-        borderBottom: scrolled ? '1px solid rgba(201,169,110,0.15)' : 'none',
-        transition: 'background-color 0.4s ease, border-bottom 0.4s ease, backdrop-filter 0.4s ease',
+          ? 'linear-gradient(180deg, rgba(12, 12, 12, 0.94) 0%, rgba(12, 12, 12, 0.65) 55%, rgba(12, 12, 12, 0) 100%)'
+          : 'linear-gradient(180deg, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.45) 65%, rgba(0, 0, 0, 0) 100%)',
+        borderBottom: 'none',
+        transition: 'background-image 0.4s ease',
       }}
     >
       <div

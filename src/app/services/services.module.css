@@ -1,6 +1,6 @@
 .servicesContainer {
-  background-color: var(--color-primary, #1a1a1a);
-  color: var(--color-secondary, #f5f0e8);
+  background-color: #ede5d8;
+  color: #1a1a1a;
   min-height: 100vh;
   padding-top: 120px;
 }
@@ -15,11 +15,11 @@
 
 .label {
   display: block;
-  font-family: var(--font-label, sans-serif);
+  font-family: var(--font-body, sans-serif);
   font-size: 0.85rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--color-accent, #c9a96e);
+  color: var(--color-accent-dark, #a8834a);
   margin: 0 auto 16px;
   text-align: center;
   width: 100%;
@@ -30,7 +30,7 @@
   font-size: clamp(2.5rem, 5vw, 4.2rem);
   font-weight: 400;
   line-height: 1.15;
-  color: #ffffff;
+  color: #1a1a1a;
   max-width: 900px;
   margin: 0 auto 24px;
   text-align: center;
@@ -40,7 +40,7 @@
 .heroSubtext {
   font-family: var(--font-body, sans-serif);
   font-size: clamp(1rem, 1.8vw, 1.2rem);
-  color: #c4bebe;
+  color: #5a544c;
   max-width: 820px;
   margin: 0 auto;
   line-height: 1.65;
@@ -58,12 +58,13 @@
 }
 
 .serviceCard {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(201, 169, 110, 0.2);
-  border-radius: 4px;
+  background: #ffffff;
+  border: 1px solid rgba(201, 169, 110, 0.25);
+  border-radius: 8px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               border-color 0.4s ease,
               box-shadow 0.4s ease;
@@ -71,8 +72,8 @@
 
 .serviceCard:hover {
   transform: translateY(-8px);
-  border-color: var(--color-accent, #c9a96e);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+  border-color: #a8834a;
+  box-shadow: 0 18px 40px rgba(201, 169, 110, 0.2);
 }
 
 .imageWrapper {
@@ -94,7 +95,7 @@
 .imageOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 40%, rgba(26, 26, 26, 0.8) 100%);
+  background: linear-gradient(180deg, transparent 40%, rgba(26, 26, 26, 0.35) 100%);
 }
 
 .cardBody {
@@ -108,14 +109,14 @@
   font-family: var(--font-display, serif);
   font-size: 1.65rem;
   font-weight: 500;
-  color: #ffffff;
+  color: #1a1a1a;
   margin-bottom: 12px;
 }
 
 .cardDescription {
   font-family: var(--font-body, sans-serif);
   font-size: 0.95rem;
-  color: #b5b0a8;
+  color: #5a544c;
   line-height: 1.6;
   margin-bottom: 24px;
   flex-grow: 1;
@@ -130,18 +131,18 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--color-accent, #c9a96e) !important;
+  color: #a8834a !important;
   transition: gap 0.3s ease, color 0.3s ease;
 }
 
 .cardLink:hover {
   gap: 14px;
-  color: #ffffff !important;
+  color: #c9a96e !important;
 }
 
 .faqSection {
   padding: 100px 0 120px;
-  background: #141414;
+  background: #f7f3ed;
 }
 
 .faqHeader {
@@ -155,7 +156,7 @@
 .faqTitle {
   font-family: var(--font-display, serif);
   font-size: clamp(2rem, 3.5vw, 3rem);
-  color: #ffffff;
+  color: #1a1a1a;
   text-align: center;
   display: block !important;
 }
@@ -169,21 +170,23 @@
 }
 
 .faqItem {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(201, 169, 110, 0.15);
-  border-radius: 4px;
+  background: #ffffff;
+  border: 1px solid rgba(201, 169, 110, 0.25);
+  border-radius: 8px;
   padding: 20px 24px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
   transition: border-color 0.3s ease;
 }
 
 .faqItem[open] {
-  border-color: var(--color-accent, #c9a96e);
+  border-color: #a8834a;
+  box-shadow: 0 8px 25px rgba(201, 169, 110, 0.12);
 }
 
 .faqQuestion {
   font-family: var(--font-display, serif);
   font-size: 1.3rem;
-  color: #ffffff;
+  color: #1a1a1a;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -197,7 +200,7 @@
 
 .faqIcon {
   font-size: 1.4rem;
-  color: var(--color-accent, #c9a96e);
+  color: var(--color-accent-dark, #a8834a);
   transition: transform 0.3s ease;
 }
 
@@ -208,9 +211,9 @@
 .faqAnswer {
   font-family: var(--font-body, sans-serif);
   font-size: 0.98rem;
-  color: #c4bebe;
+  color: #5a544c;
   line-height: 1.6;
   margin-top: 16px;
   padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
 }

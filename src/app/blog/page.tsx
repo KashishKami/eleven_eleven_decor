@@ -19,7 +19,7 @@ export default function BlogHubPage() {
   const { posts, loading } = useBlogPosts(activeCategory || undefined)
 
   return (
-    <div style={{ paddingTop: '80px', backgroundColor: '#ede5d8', minHeight: '100vh' }}>
+    <div style={{ paddingTop: '96px', backgroundColor: '#ede5d8', minHeight: '100vh' }}>
       {/* Hero Section */}
       <section
         style={{

@@ -178,11 +178,11 @@ export default function ServiceDetailPage({ params }: Props) {
       </section>
 
       {/* Related Portfolio Section (PDF Section 5 Requirement) */}
-      <section style={{ padding: '80px 0', backgroundColor: '#161616', borderTop: '1px solid rgba(201, 169, 110, 0.15)' }}>
+      <section style={{ padding: '80px 0', backgroundColor: '#f7f3ed', borderTop: '1px solid rgba(201, 169, 110, 0.2)' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <span className={styles.label}>FEATURED CASE STUDIES</span>
-            <h2 style={{ fontFamily: 'var(--font-display, serif)', fontSize: 'clamp(2rem, 3.5vw, 3rem)', color: '#ffffff', margin: 0 }}>
+            <h2 style={{ fontFamily: 'var(--font-display, serif)', fontSize: 'clamp(2rem, 3.5vw, 3rem)', color: '#1a1a1a', margin: 0 }}>
               Recent Work & Staging
             </h2>
           </div>
@@ -193,14 +193,15 @@ export default function ServiceDetailPage({ params }: Props) {
                 key={project.slug}
                 href={`/portfolio/${project.slug}/`}
                 style={{
-                  backgroundColor: '#1f1f1f',
+                  backgroundColor: '#ffffff',
                   borderRadius: '8px',
                   overflow: 'hidden',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  border: '1px solid rgba(201, 169, 110, 0.25)',
+                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.05)',
                   textDecoration: 'none',
                   display: 'flex',
                   flexDirection: 'column',
-                  transition: 'transform 0.3s ease, border-color 0.3s ease',
+                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
                 }}
               >
                 <div style={{ position: 'relative', width: '100%', height: '200px' }}>
@@ -216,13 +217,15 @@ export default function ServiceDetailPage({ params }: Props) {
                       position: 'absolute',
                       top: '12px',
                       left: '12px',
-                      backgroundColor: 'rgba(0, 0, 0, 0.75)',
-                      color: '#c9a96e',
+                      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                      backdropFilter: 'blur(6px)',
+                      color: '#a8834a',
                       fontSize: '0.75rem',
                       fontWeight: 700,
-                      padding: '4px 8px',
+                      padding: '4px 10px',
                       borderRadius: '4px',
                       textTransform: 'uppercase',
+                      border: '1px solid rgba(201, 169, 110, 0.3)',
                     }}
                   >
                     {project.category}
@@ -230,14 +233,14 @@ export default function ServiceDetailPage({ params }: Props) {
                 </div>
                 <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
                   <div>
-                    <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', color: '#ffffff', margin: '0 0 8px 0' }}>
+                    <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', color: '#1a1a1a', margin: '0 0 8px 0' }}>
                       {project.title}
                     </h3>
-                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.875rem', color: '#a09990', lineHeight: 1.5, margin: 0 }}>
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.875rem', color: '#5a544c', lineHeight: 1.5, margin: 0 }}>
                       {project.summary}
                     </p>
                   </div>
-                  <span style={{ marginTop: '16px', color: '#c9a96e', fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase' }}>
+                  <span style={{ marginTop: '16px', color: '#a8834a', fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase' }}>
                     View Case Study &rarr;
                   </span>
                 </div>
@@ -252,7 +255,7 @@ export default function ServiceDetailPage({ params }: Props) {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                color: '#c9a96e',
+                color: '#a8834a',
                 fontFamily: 'var(--font-body)',
                 fontSize: '0.9rem',
                 fontWeight: 600,

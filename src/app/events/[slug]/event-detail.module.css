@@ -106,13 +106,14 @@
 .contentGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 48px;
+  gap: 32px;
+  align-items: stretch;
 }
 
 @media (max-width: 992px) {
   .contentGrid {
     grid-template-columns: 1fr;
-    gap: 36px;
+    gap: 24px;
   }
 }
 
@@ -178,6 +179,34 @@
   border: 1px solid rgba(201, 169, 110, 0.2);
   border-radius: 6px;
   padding: 32px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.whyChooseCard {
+  grid-column: 1 / -1;
+  max-width: 720px;
+  width: 100%;
+  margin: 12px auto 0;
+  text-align: center;
+  align-items: center;
+}
+
+.whyChooseCard .sectionHeading {
+  text-align: center;
+  width: 100%;
+}
+
+.whyChooseCard .sectionHeading::after {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.whyChooseCard .infoText {
+  text-align: center;
+  margin: 0 auto;
+  max-width: 620px;
 }
 
 .subHeading {

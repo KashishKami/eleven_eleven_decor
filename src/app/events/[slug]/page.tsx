@@ -165,72 +165,66 @@ export default function EventDetailPage({ params }: Props) {
       <section className={styles.contentSection}>
         <div className="container">
           <div className={styles.contentGrid}>
-            {/* Left Column: Event Planning Services & Decoration Options */}
-            <div className={styles.infoBox}>
-              {/* Section: Event Planning Services */}
-              <div className={styles.infoBlock}>
-                <h2 className={styles.sectionHeading}>Event Planning Services</h2>
-                <ul className={styles.provideList}>
-                  {event.planningServices.map((item, idx) => (
-                    <li key={`plan-${idx}`} className={styles.provideItem}>
-                      <span className={styles.checkIcon}>✦</span>
-                      <span>{renderLinkedText(item)}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Section: Decoration Options */}
-              <div className={styles.infoBlock}>
-                <h2 className={styles.sectionHeading}>Decoration Options</h2>
-                <ul className={styles.provideList}>
-                  {event.decorationOptions.map((item, idx) => (
-                    <li key={`decor-${idx}`} className={styles.provideItem}>
-                      <span className={styles.checkIcon}>✦</span>
-                      <span>{renderLinkedText(item)}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            {/* 1. Event Planning Services (Row 1 Left) */}
+            <div className={styles.infoBlock}>
+              <h2 className={styles.sectionHeading}>Event Planning Services</h2>
+              <ul className={styles.provideList}>
+                {event.planningServices.map((item, idx) => (
+                  <li key={`plan-${idx}`} className={styles.provideItem}>
+                    <span className={styles.checkIcon}>✦</span>
+                    <span>{renderLinkedText(item)}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            {/* Right Column: Event Management, What We Handle & Why Choose */}
-            <div className={styles.infoBox}>
-              {/* Section: Event Management */}
-              <div className={styles.infoBlock}>
-                <h2 className={styles.sectionHeading}>Event Management</h2>
-                <ul className={styles.provideList}>
-                  {event.eventManagement.map((item, idx) => (
-                    <li key={`mgmt-${idx}`} className={styles.provideItem}>
-                      <span className={styles.checkIcon} style={{ color: '#c9a96e' }}>✔</span>
-                      <span>{renderLinkedText(item)}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Section: What We Handle */}
-              <div className={styles.infoBlock}>
-                <h2 className={styles.sectionHeading}>What We Handle</h2>
-                <ul className={styles.provideList}>
-                  {event.whatWeHandle.map((item, idx) => (
-                    <li key={`handle-${idx}`} className={styles.provideItem}>
-                      <span className={styles.checkIcon}>✦</span>
-                      <span>{renderLinkedText(item)}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Section: Why Choose 11:11 Decor */}
-              <div className={styles.infoBlock}>
-                <h2 className={styles.sectionHeading}>Why Choose 11:11 Decor</h2>
-                {event.whyChooseUs.map((reason, idx) => (
-                  <p key={`why-${idx}`} className={styles.infoText}>
-                    {renderLinkedText(reason)}
-                  </p>
+            {/* 2. Event Management (Row 1 Right) */}
+            <div className={styles.infoBlock}>
+              <h2 className={styles.sectionHeading}>Event Management</h2>
+              <ul className={styles.provideList}>
+                {event.eventManagement.map((item, idx) => (
+                  <li key={`mgmt-${idx}`} className={styles.provideItem}>
+                    <span className={styles.checkIcon} style={{ color: '#c9a96e' }}>✔</span>
+                    <span>{renderLinkedText(item)}</span>
+                  </li>
                 ))}
-              </div>
+              </ul>
+            </div>
+
+            {/* 3. Decoration Options (Row 2 Left) */}
+            <div className={styles.infoBlock}>
+              <h2 className={styles.sectionHeading}>Decoration Options</h2>
+              <ul className={styles.provideList}>
+                {event.decorationOptions.map((item, idx) => (
+                  <li key={`decor-${idx}`} className={styles.provideItem}>
+                    <span className={styles.checkIcon}>✦</span>
+                    <span>{renderLinkedText(item)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* 4. What We Handle (Row 2 Right) */}
+            <div className={styles.infoBlock}>
+              <h2 className={styles.sectionHeading}>What We Handle</h2>
+              <ul className={styles.provideList}>
+                {event.whatWeHandle.map((item, idx) => (
+                  <li key={`handle-${idx}`} className={styles.provideItem}>
+                    <span className={styles.checkIcon}>✦</span>
+                    <span>{renderLinkedText(item)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* 5. Why Choose 11:11 Decor (Row 3 Centered) */}
+            <div className={`${styles.infoBlock} ${styles.whyChooseCard}`}>
+              <h2 className={styles.sectionHeading}>Why Choose 11:11 Decor</h2>
+              {event.whyChooseUs.map((reason, idx) => (
+                <p key={`why-${idx}`} className={styles.infoText}>
+                  {renderLinkedText(reason)}
+                </p>
+              ))}
             </div>
           </div>
         </div>

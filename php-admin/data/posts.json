@@ -21,5 +21,101 @@
             }
         ],
         "created_at": "2026-08-24 11:08:39"
+    },
+    {
+        "id": 4,
+        "title": "Designing Executive Corporate Galas That Reinforce Brand Authority",
+        "slug": "executive-corporate-gala-design",
+        "focus_keyword": "corporate galas, executive event design",
+        "category": "corporate-events",
+        "category_name": "Corporate Events",
+        "excerpt": "How architectural staging, kinetic lighting, and spatial zoning elevate attendee prestige at annual summits and galas.",
+        "content": "<h2>Elevating Brand Presence Through Spatial Architecture<\/h2><p>Corporate galas serve as powerful extensions of executive vision and brand leadership. Staging should balance sleek modern sophistication with seamless hospitality flow.<\/p><h2>Dynamic Stage & Keynote Staging<\/h2><p>Clean lines, seamless LED backdrops, and precision stage illumination ensure every presenter commands attention while reinforcing corporate excellence.<\/p>",
+        "author": "1111 Decor Executive Team",
+        "image": "https:\/\/images.unsplash.com\/photo-1540575467063-178a50c2df87?q=80&w=1000&auto=format&fit=crop",
+        "read_time": "5 min read",
+        "published": 1,
+        "related_service_slug": "corporate-event-management",
+        "related_service_name": "Corporate Event Management",
+        "faqs": [
+            {
+                "question": "Do you manage AV production alongside decor?",
+                "answer": "Yes, our technical production team oversees stage rigging, crystal-clear acoustics, and intelligent lighting choreography."
+            }
+        ],
+        "created_at": "2026-08-21 11:08:39"
+    },
+    {
+        "id": 3,
+        "title": "The Art of the Haute Couture Tablescape: Textures, Florals & Light",
+        "slug": "haute-couture-tablescape-ideas",
+        "focus_keyword": "couture tablescape, dining decor",
+        "category": "decoration-ideas",
+        "category_name": "Decoration Ideas",
+        "excerpt": "Explore how curated textures, bespoke ceramics, and layered candle heights create unforgettable dining atmospheres.",
+        "content": "<h2>Designing Immersive Dining Experiences<\/h2><p>A couture tablescape transforms dinner into an immersive sensory occasion. By layering organic botanical elements with structured metallic accents, the table becomes living art.<\/p><h2>Layering Tonal Harmony<\/h2><p>Begin with artisanal linen bases in silk cream or charcoal velvet. Complement with brushed brass cutlery, etched crystal goblets, and organic floral centerpieces reflecting natural garden movement.<\/p>",
+        "author": "1111 Decor Styling Team",
+        "image": "https:\/\/images.unsplash.com\/photo-1527529482837-4698179dc6ce?q=80&w=1000&auto=format&fit=crop",
+        "read_time": "4 min read",
+        "published": 1,
+        "related_service_slug": "stage-decoration",
+        "related_service_name": "Stage & Tablescape Decoration",
+        "faqs": [
+            {
+                "question": "Can tablescapes be customized for branded corporate dinners?",
+                "answer": "Absolutely. We integrate custom color harmonies, branded stationery accents, and bespoke tableware curated to match corporate identity."
+            }
+        ],
+        "created_at": "2026-08-18 11:08:39"
+    },
+    {
+        "id": 2,
+        "title": "5 Crucial Event Planning Mistakes and How to Prevent Them",
+        "slug": "top-event-planning-mistakes-to-avoid",
+        "focus_keyword": "event planning mistakes, event coordination",
+        "category": "event-planning",
+        "category_name": "Event Planning",
+        "excerpt": "Avoid common logistical bottlenecks, timeline overruns, and guest flow friction with professional coordination strategies.",
+        "content": "<h2>Mastering Event Execution Without Stress<\/h2><p>Flawless events happen by design, not chance. When coordinating milestones, galas, or celebrations, small logistical oversights can compound into noticeable delays.<\/p><h2>1. Underestimating Vendor Setup Lead Times<\/h2><p>Complex audio-visual rigs and large-scale floral installations require minimum 4 to 8 hours of dedicated venue access. Always negotiate setup windows early with venue management.<\/p><h2>2. Neglecting Acoustic and Lighting Balance<\/h2><p>High-energy sound systems must be zoned thoughtfully so that dining and conversation areas remain acoustically comfortable throughout the evening.<\/p>",
+        "author": "1111 Decor Operations",
+        "image": "https:\/\/images.unsplash.com\/photo-1511578314322-379afb476865?q=80&w=1000&auto=format&fit=crop",
+        "read_time": "5 min read",
+        "published": 1,
+        "related_service_slug": "event-planning",
+        "related_service_name": "Event Planning Services",
+        "faqs": [
+            {
+                "question": "How do you prevent scheduling delays during the event?",
+                "answer": "We deploy an integrated run-of-show timeline with buffer intervals and designated lead coordinators for each production milestone."
+            }
+        ],
+        "created_at": "2026-08-15 11:08:39"
+    },
+    {
+        "id": 1,
+        "title": "The Complete Wedding Decor Checklist: From Mandap to Grand Reception",
+        "slug": "complete-wedding-decor-checklist",
+        "focus_keyword": "wedding decor checklist, mandap decoration",
+        "category": "wedding-planning",
+        "category_name": "Wedding Planning",
+        "excerpt": "Step-by-step styling framework ensuring every photo angle, floral installation, and lighting scheme delivers unforgettable magic.",
+        "content": "<h2>The Foundation of Luxury Wedding Decor<\/h2><p>Planning the visual narrative of a wedding requires harmonious alignment between architectural venue features, lighting geometry, and floral design. A luxury setting should not simply look adorned; it should evoke profound emotional resonance.<\/p><h2>1. The Entrance & Welcome Experience<\/h2><p>Your guests' sensory journey begins at the entryway. Incorporate fragrant floral arches, customized monogram welcome signage, and ambient lantern pathways that set a warm, celebratory tone immediately upon arrival.<\/p><h2>2. Sacred Stage & Mandap Architecture<\/h2><p>As the focal centerpiece of the sacred vows, the mandap demands structural grandeur paired with intimate visibility. We balance suspended floral canopies, bespoke fabric drapery, and soft warm spotlights calibrated specifically for cinematic photography.<\/p><h2>3. Tablescapes and Dining Ambient Lighting<\/h2><p>Elevate the dining pavilion with hand-crafted crystal glassware, tailored linen runners, and low-profile floral arrangements that encourage lively conversation without obstructing guest sightlines.<\/p>",
+        "author": "1111 Decor Design Studio",
+        "image": "https:\/\/images.unsplash.com\/photo-1519741497674-611481863552?q=80&w=1000&auto=format&fit=crop",
+        "read_time": "6 min read",
+        "published": 1,
+        "related_service_slug": "wedding-decoration",
+        "related_service_name": "Wedding Decoration Services",
+        "faqs": [
+            {
+                "question": "When should we finalize our wedding decor concept?",
+                "answer": "We recommend finalizing your decor palette and 3D concept renders 4 to 6 months prior to your wedding date to ensure custom fabrications and seasonal floral sourcing."
+            },
+            {
+                "question": "Do you handle both setup and teardown?",
+                "answer": "Yes, our on-site production crew handles seamless setup, live event adjustments, and prompt post-event teardown without venue disruption."
+            }
+        ],
+        "created_at": "2026-08-10 11:08:39"
     }
 ]

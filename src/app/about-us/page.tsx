@@ -68,11 +68,11 @@ export default function AboutUsPage() {
             </div>
             <div className={styles.imageBox}>
               <Image
-                src="/images/about/about-page.jpg"
+                src="/images/about/about-page-1.jpg"
                 alt="11:11 Decor Event Design"
                 fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                style={{ objectFit: 'cover' }}
+                sizes="(max-width: 768px) 100vw, 460px"
+                style={{ objectFit: 'cover', objectPosition: 'center center' }}
               />
             </div>
           </div>
@@ -117,11 +117,11 @@ export default function AboutUsPage() {
           <div className={styles.splitGrid}>
             <div className={styles.imageBox}>
               <Image
-                src="/about-detail.jpg"
+                src="/images/about/about-page-2.jpg"
                 alt="11:11 Decor Attention to Detail"
                 fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                style={{ objectFit: 'cover' }}
+                sizes="(max-width: 768px) 100vw, 460px"
+                style={{ objectFit: 'cover', objectPosition: 'center center' }}
               />
             </div>
             <div>

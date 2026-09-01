@@ -1,5 +1,5 @@
 import React from 'react'
-import pageVisibility from '../../php-admin/data/page-visibility.json'
+import { getPageVisibility } from '@/lib/server-visibility'
 import { Hero } from '@/components/sections/Hero'
 import { EventCategories } from '@/components/sections/EventCategories'
 import { AboutSection } from '@/components/sections/AboutSection'
@@ -14,6 +14,8 @@ import { HomeFAQ } from '@/components/sections/HomeFAQ'
 import { FooterCTA } from '@/components/sections/FooterCTA'
 
 export default function Home() {
+  const pageVisibility = getPageVisibility()
+
   return (
     <>
       {/* 1. Hero */}

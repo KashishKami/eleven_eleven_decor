@@ -18,5 +18,31 @@
         "published": 1,
         "id": "1",
         "created_at": "2026-08-27 11:53:11"
+    },
+    {
+        "title": "Test",
+        "subtitle": "Test",
+        "slug": "test",
+        "category": "Weddings",
+        "location": "Test",
+        "venue": "TESt",
+        "guestCount": 200,
+        "heroImage": "\/manage-7f3b9x2k\/uploads\/wedding-banner-1-6a9041241f545.jpg",
+        "galleryImages": [
+            "\/manage-7f3b9x2k\/uploads\/private-parties-4-6a90412c1ae3b.jpg"
+        ],
+        "summary": "TEst",
+        "planningDetails": [
+            "Test"
+        ],
+        "decorHighlights": [
+            "Test"
+        ],
+        "executionNotes": "Test",
+        "metaTitle": "Test | 11:11 Decor Showcase",
+        "metaDescription": "TEst",
+        "published": 1,
+        "id": "2",
+        "created_at": "2026-08-27 13:53:03"
     }
 ]

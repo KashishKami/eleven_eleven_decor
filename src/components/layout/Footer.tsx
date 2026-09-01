@@ -1,9 +1,10 @@
 import React from 'react'
 import Link from 'next/link'
-import pageVisibility from '../../../php-admin/data/page-visibility.json'
+import { getPageVisibility } from '@/lib/server-visibility'
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
+  const pageVisibility = getPageVisibility()
 
   return (
     <footer

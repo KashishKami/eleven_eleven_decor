@@ -196,7 +196,7 @@ export function AboutSection() {
               }}
             >
               <Image
-                src="/images/about/home-page-about.webp"
+                src="/images/about/home-about.jpg"
                 alt="11:11 Decor Palace Heritage Event Setting"
                 fill
                 sizes="(max-width: 768px) 100vw, 460px"

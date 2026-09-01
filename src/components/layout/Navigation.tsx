@@ -1,7 +1,8 @@
 import React from 'react'
-import pageVisibility from '../../../php-admin/data/page-visibility.json'
+import { getPageVisibility } from '@/lib/server-visibility'
 import { NavigationClient } from './NavigationClient'
 
 export function Navigation() {
+  const pageVisibility = getPageVisibility()
   return <NavigationClient visibility={pageVisibility} />
 }

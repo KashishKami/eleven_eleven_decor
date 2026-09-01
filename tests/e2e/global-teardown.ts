@@ -15,4 +15,14 @@ export default async function globalTeardown() {
       fs.unlinkSync(bakPath)
     }
   }
+
+  // Ensure page-visibility.json returns to default all-off state
+  const visibilityPath = path.join(dataDir, 'page-visibility.json')
+  const defaultState = {
+    blog: false,
+    gallery: false,
+    portfolio: false,
+    venues: false,
+  }
+  fs.writeFileSync(visibilityPath, JSON.stringify(defaultState, null, 4), 'utf-8')
 }

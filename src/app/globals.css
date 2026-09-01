@@ -236,6 +236,8 @@ img {
 .article-editorial-content p {
   margin-bottom: 1.65rem;
   color: #4a443c;
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 .article-editorial-content ul,

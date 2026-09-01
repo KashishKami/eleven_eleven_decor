@@ -2541,3 +2541,11 @@ Run every validation suite in sequence. Resolve any lint or typing issues. Verif
    - Playwright E2E Tests: 6/6 blog E2E tests passed across Chromium and Mobile Chrome.
    - Live content integrity: Verified that `php-admin/data/posts.json` was restored to its live state following test runs.
 
+6. **Content Injection, Justification & Visibility Isolation:**
+   - Injected in-depth editorial content from `content_docs/` across all 11 services in `src/data/services.ts` and all 6 event categories in `src/data/events.ts`.
+   - Rendered the new editorial story section right beneath the hero banner image on both `src/app/services/[slug]/page.tsx` and `src/app/events/[slug]/page.tsx`.
+   - Applied `text-align: justify; text-justify: inter-word;` across all service and event editorial paragraphs.
+   - Applied `text-align: justify; text-justify: inter-word;` to blog article narrative paragraphs in `src/app/globals.css` (`.article-editorial-content p`) while preserving left-alignment for headings, TOC links, and FAQs.
+   - Fixed `page-visibility.json` test leak: `tests/scripts/test-gateway.php` and `tests/gateway-routing.unit.test.ts` now execute strictly inside the `TEST_DATA_DIR` fixture sandbox without early exit, ensuring `php-admin/data/page-visibility.json` permanently retains its default `false` (OFF) state.
+
+

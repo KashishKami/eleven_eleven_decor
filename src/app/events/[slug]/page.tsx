@@ -140,6 +140,27 @@ export default function EventDetailPage({ params }: Props) {
         </div>
       </section>
 
+      {/* Editorial Story Section */}
+      {event.editorialStory && event.editorialStory.length > 0 && (
+        <section className={styles.editorialSection}>
+          <div className="container">
+            <div className={styles.editorialWrapper}>
+              <span className={styles.label}>11:11 DECOR OCCASION OVERVIEW</span>
+              <h2 className={styles.editorialHeading}>
+                The Art of {event.title}
+              </h2>
+              <div className={styles.editorialBody}>
+                {event.editorialStory.map((paragraph, idx) => (
+                  <p key={idx} className={styles.editorialParagraph}>
+                    {renderLinkedText(paragraph)}
+                  </p>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Two Column Structured Content Grid Matching PDF Section Headings */}
       <section className={styles.contentSection}>
         <div className="container">

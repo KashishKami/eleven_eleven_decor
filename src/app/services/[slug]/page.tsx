@@ -107,6 +107,27 @@ export default function ServiceDetailPage({ params }: Props) {
         </div>
       </section>
 
+      {/* Editorial Story Section */}
+      {service.editorialStory && service.editorialStory.length > 0 && (
+        <section className={styles.editorialSection}>
+          <div className="container">
+            <div className={styles.editorialWrapper}>
+              <span className={styles.label}>11:11 DECOR CRAFT &amp; PHILOSOPHY</span>
+              <h2 className={styles.editorialHeading}>
+                The Art of {service.title}
+              </h2>
+              <div className={styles.editorialBody}>
+                {service.editorialStory.map((paragraph, idx) => (
+                  <p key={idx} className={styles.editorialParagraph}>
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Two Column Layout: What We Provide & Why Choose/Expect */}
       <section className={styles.contentSection}>
         <div className="container">

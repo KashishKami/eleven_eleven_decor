@@ -297,27 +297,6 @@ export function EventCategories() {
           ))}
         </div>
 
-        {/* Large Background Watermark Text */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            zIndex: 2,
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(4rem, 13vw, 13rem)',
-            fontWeight: 400,
-            color: 'rgba(255, 255, 255, 0.13)',
-            letterSpacing: '0.14em',
-            textTransform: 'uppercase',
-            whiteSpace: 'nowrap',
-            pointerEvents: 'none',
-            userSelect: 'none',
-          }}
-        >
-          EVENTS CATER
-        </div>
 
         {/* Centered Translucent Card Perfectly Matched to Reference Proportions */}
         <div

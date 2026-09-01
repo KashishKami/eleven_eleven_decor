@@ -68,7 +68,7 @@ export default function AboutUsPage() {
             </div>
             <div className={styles.imageBox}>
               <Image
-                src="/about-approach.jpg"
+                src="/images/about/about-page.jpg"
                 alt="11:11 Decor Event Design"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"

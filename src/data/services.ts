@@ -11,6 +11,7 @@ export interface ServiceItem {
   faqs: { question: string; answer: string }[]
   ctaText: string
   image: string
+  imagePosition?: string
 }
 
 export const SERVICES_DATA: ServiceItem[] = [
@@ -142,7 +143,8 @@ export const SERVICES_DATA: ServiceItem[] = [
       }
     ],
     ctaText: 'Get a Quote',
-    image: '/images/services/wedding-decoration.jpg'
+    image: '/images/services/wedding-decoration.jpg',
+    imagePosition: 'center 75%',
   },
   {
     slug: 'corporate-event-management',
@@ -302,7 +304,8 @@ export const SERVICES_DATA: ServiceItem[] = [
       }
     ],
     ctaText: 'Get a Quote',
-    image: '/images/services/lighting-production.jpg'
+    image: '/images/services/lighting-production.jpg',
+    imagePosition: 'center 75%',
   },
   {
     slug: 'entertainment-hospitality',

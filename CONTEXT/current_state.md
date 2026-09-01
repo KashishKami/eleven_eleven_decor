@@ -2472,3 +2472,72 @@ Run every validation suite in sequence. Resolve any lint or typing issues. Verif
    - ESLint (`pnpm lint`): 0 warnings / 0 errors.
    - TypeCheck (`pnpm typecheck`): 0 errors.
    - Production Build (`pnpm build`): 56/56 static pages generated successfully.
+
+
+---
+
+### Session Note: September 1, 2026 — Visual Assets Placement, Config Alignment, and Test Data Isolation Sandboxing
+
+**Overview & User Goals:**
+- **Visual Assets & Layout Refinement**:
+  - Remove the background watermark text (`EVENTS CATER`) from the animated event categories section.
+  - Redesign the Homepage About section to feature a single clean hero photo (`Home page about.webp`), removing the overlapping secondary photo and small thumbnail.
+  - Distribute dedicated imagery from `Images/` strictly inside their respective dedicated detail pages (About Us, Services, and Event categories) rather than on external animation decks.
+  - Fine-tune image framing (`objectPosition`) for Lighting & Production and Wedding Event hero banners.
+- **Config Synchronization & Documentation**:
+  - Synchronize `php-admin/config.php` with `php-admin/config.example.php`, ensuring comments, Contact Form email configurations, and SMTP email settings match identically.
+  - Document the mandatory creation and configuration of `config.php` from `config.example.php` in `README.md`.
+- **Test Data Isolation & Production Sandboxing**:
+  - Resolve test failures caused by deleting live posts in the admin panel.
+  - Separate production/live content (`php-admin/data/`) from test data so admin content changes never break unit tests or Playwright E2E tests.
+
+**Completed Work & Enhancements:**
+
+1. **Section Styling & Watermark Removal:**
+   - In `src/components/sections/EventCategories.tsx`: Removed the `EVENTS CATER` background watermark div that was rendering behind the card animation deck.
+   - In `src/components/sections/AboutSection.tsx`:
+     - Replaced main photo with `/images/about/home-page-about.webp`.
+     - Removed the floating secondary champagne toast photo (`/images/about/about-secondary.jpg`).
+     - Removed the thumbnail image from the `100% Integrated Planning & Décor` badge.
+
+2. **Dedicated Page Image Placement & Framing:**
+   - Copied assets from `Images/` to `public/images/` and updated corresponding data schemas and pages:
+     - About Us: `/images/about/about-page.jpg`
+     - Services: `event-planning.jpg`, `floral-decoration.jpg`, `lighting-production.jpg`, `entertainment-hospitality.jpg`, `birthday-party-decoration.jpg`, `corporate-event-management.jpg`, `wedding-decoration.jpg`.
+     - Event categories: `wedding-events.jpg`, `corporate-events.jpg`, `birthday-events.jpg`, `private-events.jpg`.
+   - Added `imagePosition` to `ServiceItem` (`src/data/services.ts`) and `heroImagePosition` to `EventCategory` (`src/data/events.ts`).
+   - Set `imagePosition: 'center 75%'` for Lighting & Production and Wedding Decoration banners, and `heroImagePosition: 'center 75%'` for Wedding Events hero image.
+
+3. **Test Data Isolation & Fixture Sandboxing:**
+   - Added `get_data_dir()` helper to `php-admin/config.example.php` first, and then to `php-admin/config.php`:
+     ```php
+     function get_data_dir() {
+         $custom = getenv('TEST_DATA_DIR');
+         $dir = !empty($custom) ? rtrim($custom, '/\\') : (__DIR__ . '/data');
+         if (!is_dir($dir)) {
+             mkdir($dir, 0755, true);
+         }
+         return $dir;
+     }
+     ```
+   - Updated storage classes (`BlogStore`, `PortfolioStore`, `VenueStore`, `GalleryStore`) to route file paths through `get_data_dir()`.
+   - Created permanent demo fixtures in `tests/fixtures/data/` (`posts.json`, `portfolio.json`, `venues.json`, `gallery.json`, `page-visibility.json`).
+   - Updated `tests/blog-php-integration.test.ts` to execute PHP CLI commands with `TEST_DATA_DIR` pointing to `tests/fixtures/data`.
+   - Updated `tests/scripts/test-gateway.php` to resolve `$visFile` via `get_data_dir()`.
+   - Updated Playwright E2E setup/teardown (`tests/e2e/global-setup.ts` and `tests/e2e/global-teardown.ts`):
+     - `globalSetup`: Takes automated snapshots of existing live data files (`.e2e-bak`) and loads standard fixtures into `php-admin/data/`.
+     - `globalTeardown`: Automatically restores the live data files from `.e2e-bak` and cleans up backup files.
+   - Result: Deleting, editing, or adding articles/items in the live admin dashboard never breaks unit or E2E tests.
+
+4. **Configuration Synchronization & README Guide:**
+   - Synchronized `php-admin/config.php` and `php-admin/config.example.php` constants (`CONTACT_EMAIL`, `CONTACT_FROM_EMAIL`, `SMTP_ENABLED`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`).
+   - Updated `README.md` with a detailed step-by-step guide explaining:
+     - How to create `php-admin/config.php` from `php-admin/config.example.php`.
+     - What settings to configure (Contact email, SMTP parameters, Admin bcrypt hash, MySQL vs local JSON).
+     - How automated tests operate in an isolated test fixture sandbox.
+
+5. **Quality Verification:**
+   - Vitest Unit Tests (`pnpm test:unit`): 34/34 test files passed (104/104 tests).
+   - Playwright E2E Tests: 6/6 blog E2E tests passed across Chromium and Mobile Chrome.
+   - Live content integrity: Verified that `php-admin/data/posts.json` was restored to its live state following test runs.
+

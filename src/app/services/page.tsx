@@ -80,6 +80,7 @@ export default function ServicesPage() {
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className={styles.cardImage}
+                    style={{ objectPosition: service.imagePosition || 'center center' }}
                   />
                   <div className={styles.imageOverlay} />
                 </div>

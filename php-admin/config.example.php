@@ -45,11 +45,25 @@ define('SMTP_USER',    'your-email@gmail.com');       // Your full sending email
 define('SMTP_PASS',    'your-16-char-app-password');  // Google 16-letter App Password or mailbox password
 
 /**
+ * Resolves the active data storage directory.
+ * When the TEST_DATA_DIR environment variable is set (e.g. during automated tests),
+ * all data reads and writes are directed to that isolated directory instead of live production data.
+ */
+function get_data_dir() {
+    $custom = getenv('TEST_DATA_DIR');
+    $dir = !empty($custom) ? rtrim($custom, '/\\') : (__DIR__ . '/data');
+    if (!is_dir($dir)) {
+        mkdir($dir, 0755, true);
+    }
+    return $dir;
+}
+
+/**
  * File-based JSON Blog Store Helper for Local Dev & Staging
  */
 class BlogStore {
     private static function getFilePath() {
-        return __DIR__ . '/data/posts.json';
+        return get_data_dir() . '/posts.json';
     }
 
     public static function all($publishedOnly = true, $category = null) {
@@ -149,7 +163,7 @@ class BlogStore {
  */
 class PortfolioStore {
     private static function getFilePath() {
-        return __DIR__ . '/data/portfolio.json';
+        return get_data_dir() . '/portfolio.json';
     }
 
     public static function all($publishedOnly = true, $category = null) {
@@ -251,7 +265,7 @@ class PortfolioStore {
  */
 class VenueStore {
     private static function getFilePath() {
-        return __DIR__ . '/data/venues.json';
+        return get_data_dir() . '/venues.json';
     }
 
     public static function all($publishedOnly = true, $spaceType = null) {
@@ -353,7 +367,7 @@ class VenueStore {
  */
 class GalleryStore {
     private static function getFilePath() {
-        return __DIR__ . '/data/gallery.json';
+        return get_data_dir() . '/gallery.json';
     }
 
     public static function all($publishedOnly = true, $category = null) {

@@ -134,6 +134,7 @@ export default function EventDetailPage({ params }: Props) {
               priority
               sizes="(max-width: 1200px) 100vw, 1200px"
               className={styles.bannerImage}
+              style={{ objectPosition: event.heroImagePosition || 'center center' }}
             />
           </div>
         </div>

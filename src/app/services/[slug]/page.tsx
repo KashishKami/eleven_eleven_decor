@@ -101,6 +101,7 @@ export default function ServiceDetailPage({ params }: Props) {
               priority
               sizes="(max-width: 1200px) 100vw, 1200px"
               className={styles.bannerImage}
+              style={{ objectPosition: service.imagePosition || 'center center' }}
             />
           </div>
         </div>

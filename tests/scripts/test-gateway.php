@@ -10,8 +10,8 @@ $rootDir = dirname(__DIR__, 2);
 $phpAdminDir = $rootDir . '/php-admin';
 require_once $phpAdminDir . '/config.php';
 
-$visFile = $phpAdminDir . '/data/page-visibility.json';
-$originalVis = file_get_contents($visFile);
+$visFile = function_exists('get_data_dir') ? (get_data_dir() . '/page-visibility.json') : ($phpAdminDir . '/data/page-visibility.json');
+$originalVis = file_exists($visFile) ? file_get_contents($visFile) : json_encode(['blog' => false, 'portfolio' => false, 'venues' => false, 'gallery' => false], JSON_PRETTY_PRINT);
 
 try {
     if ($mode === 'visibility_off') {

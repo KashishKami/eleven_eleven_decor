@@ -176,8 +176,9 @@ NEXT_PUBLIC_API_URL=
 NODE_ENV=development
 ```
 
-#### B. PHP Admin Configuration
-Copy `php-admin/config.example.php` to `php-admin/config.php`:
+#### B. PHP Admin & API Configuration (Required)
+
+Before starting the PHP backend or running tests, create `php-admin/config.php` from the template `php-admin/config.example.php`:
 
 **Windows (PowerShell):**
 ```powershell
@@ -189,7 +190,18 @@ Copy-Item php-admin\config.example.php php-admin\config.php
 cp php-admin/config.example.php php-admin/config.php
 ```
 
-*(Note: For local development, the built-in file-based JSON store in `php-admin/data/posts.json` works out of the box without requiring an active MySQL connection).*
+##### What to Configure in `php-admin/config.php`:
+1. **Contact Form & Notifications:**
+   - `CONTACT_EMAIL`: The recipient email address where website inquiry submissions will be delivered.
+   - `CONTACT_FROM_EMAIL`: The "From" address (e.g. `noreply@yourdomain.com`). Must belong to your hosting domain on production servers (like GoDaddy) to prevent delivery blocks.
+2. **SMTP Email Delivery (Recommended):**
+   - If using authenticated SMTP (Gmail, Outlook, GoDaddy SecureServer), set `SMTP_ENABLED` to `true` and provide your host, port, user, and app password.
+3. **Admin Studio Password:**
+   - Default login password is `AdminPassword1111!` (or `Admin1111Decor!`). You can set a custom bcrypt hash in `ADMIN_PASSWORD_HASH`.
+4. **Data Storage:**
+   - **Local Development:** Zero-config JSON storage (`php-admin/data/`) is enabled automatically without requiring MySQL.
+   - **Production (Optional):** Fill in `DB_HOST`, `DB_NAME`, `DB_USER`, and `DB_PASS` to connect to a MySQL database.
+   - **Automated Tests:** The test suite uses isolated test fixture sandboxes (`TEST_DATA_DIR`), meaning any live posts, portfolio items, or venues you add or delete in the admin dashboard will never break your automated test suite.
 
 ### Step 3: Install Node Dependencies
 

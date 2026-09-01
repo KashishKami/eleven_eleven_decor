@@ -9,6 +9,7 @@ export interface EventCategory {
   subtitle: string
   description: string
   heroImage: string
+  heroImagePosition?: string
   intro: string
   planningServices: string[]
   decorationOptions: string[]
@@ -47,7 +48,8 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     subtitle: 'End-to-end wedding planning and décor across every ceremony',
     description:
       'End-to-end wedding planning and décor — mandap, stage, venue styling, and coordination across every ceremony.',
-    heroImage: '/events/weddings-new.jpg',
+    heroImage: '/images/events/wedding-events.jpg',
+    heroImagePosition: 'center 75%',
     intro:
       'A wedding is several events inside one celebration. 11:11 Decor plans and manages every function — from the first consultation through to the final send-off — so timing, vendors, and décor stay connected across the whole event.',
     planningServices: [
@@ -96,7 +98,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     subtitle: 'Product launches, conferences, and company celebrations',
     description:
       'Product launches, conferences, and company celebrations planned and staged with a professional finish.',
-    heroImage: '/events/corporate-bg.jpg',
+    heroImage: '/images/events/corporate-events.jpg',
     intro:
       'Launches, conferences, and company celebrations each need a different kind of planning. 11:11 Decor plans corporate events around your objective — brand visibility, hospitality, or internal culture — not a one-size format.',
     planningServices: [
@@ -143,7 +145,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     subtitle: 'Milestone birthdays and intimate parties',
     description:
       'Milestone birthdays and intimate parties, themed and decorated to match the celebration in mind.',
-    heroImage: '/events/birthdays-card.jpg',
+    heroImage: '/images/events/birthday-events.jpg',
     intro:
       'From a first birthday to a milestone celebration, 11:11 Decor plans and decorates birthday events sized and styled to the occasion.',
     planningServices: [
@@ -234,7 +236,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     subtitle: 'Anniversaries, family functions, and personal celebrations',
     description:
       'Anniversaries, family functions, and personal celebrations planned with the same attention as our largest events.',
-    heroImage: '/events/parties-bg.jpg',
+    heroImage: '/images/events/private-events.jpg',
     intro:
       'Anniversaries, family functions, and personal milestones get the same level of planning and décor as our largest events. 11:11 Decor scales its process to fit intimate, private celebrations.',
     planningServices: [

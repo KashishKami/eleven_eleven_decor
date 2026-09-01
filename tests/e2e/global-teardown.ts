@@ -1,13 +1,18 @@
 import fs from 'fs'
 import path from 'path'
 
+const filesToMock = ['posts.json', 'portfolio.json', 'venues.json', 'gallery.json', 'page-visibility.json']
+
 export default async function globalTeardown() {
-  const dataPath = path.resolve(__dirname, '../../php-admin/data/page-visibility.json')
-  const defaultState = {
-    blog: false,
-    gallery: false,
-    portfolio: false,
-    venues: false,
+  const dataDir = path.resolve(__dirname, '../../php-admin/data')
+
+  // Restore live data from .e2e-bak files
+  for (const file of filesToMock) {
+    const srcPath = path.join(dataDir, file)
+    const bakPath = path.join(dataDir, `${file}.e2e-bak`)
+    if (fs.existsSync(bakPath)) {
+      fs.copyFileSync(bakPath, srcPath)
+      fs.unlinkSync(bakPath)
+    }
   }
-  fs.writeFileSync(dataPath, JSON.stringify(defaultState, null, 4), 'utf-8')
 }

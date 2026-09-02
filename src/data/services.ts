@@ -87,7 +87,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       }
     ],
     ctaText: 'Get a Quote',
-    image: '/images/services/event-planning.png'
+    image: '/images/services/event-planning.jpg'
   },
   {
     slug: 'event-decoration',
@@ -233,7 +233,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       }
     ],
     ctaText: 'Get a Quote',
-    image: '/images/services/stage-decoration.png'
+    image: '/images/services/stage_decor.png'
   },
   {
     slug: 'venue-decoration',
@@ -269,7 +269,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       }
     ],
     ctaText: 'Get a Quote',
-    image: '/images/services/venue-decoration.jpg'
+    image: '/images/services/venue.png'
   },
   {
     slug: 'floral-decoration',
@@ -305,7 +305,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       }
     ],
     ctaText: 'Get a Quote',
-    image: '/images/services/floral-decoration.jpg'
+    image: '/images/services/floral-2.png'
   },
   {
     slug: 'lighting-production',
@@ -341,7 +341,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       }
     ],
     ctaText: 'Get a Quote',
-    image: '/images/services/lighting-production.jpg',
+    image: '/images/services/lighting-copy.jpg',
     imagePosition: 'center center',
   },
   {
@@ -414,7 +414,8 @@ export const SERVICES_DATA: ServiceItem[] = [
       }
     ],
     ctaText: 'Get a Quote',
-    image: '/images/services/birthday-decoration.jpg'
+    image: '/images/services/birthday-event.png',
+    imagePosition: 'center bottom'
   }
 ]
 

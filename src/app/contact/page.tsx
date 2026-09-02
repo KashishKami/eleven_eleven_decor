@@ -59,7 +59,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div style={{ paddingTop: '96px', backgroundColor: '#0d0d0d', color: '#f5f0e8', minHeight: '100vh' }}>
+    <div style={{ paddingTop: '96px', backgroundColor: '#ede5d8', color: '#1a1a1a', minHeight: '100vh' }}>
       <JsonLd data={schemaData} />
 
       {/* HERO SECTION */}
@@ -67,8 +67,8 @@ export default function ContactPage() {
         style={{
           paddingBlock: 'clamp(4rem, 8vw, 6rem) clamp(2.5rem, 5vw, 4rem)',
           textAlign: 'center',
-          backgroundColor: '#121212',
-          borderBottom: '1px solid rgba(201, 169, 110, 0.2)',
+          backgroundColor: '#ede5d8',
+          borderBottom: '1px solid rgba(201, 169, 110, 0.25)',
           position: 'relative',
         }}
       >
@@ -78,7 +78,7 @@ export default function ContactPage() {
               fontSize: '0.85rem',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
-              color: 'var(--color-accent, #c9a96e)',
+              color: 'var(--color-accent-dark, #a8834a)',
               fontWeight: 600,
               display: 'block',
               marginBottom: '0.75rem',
@@ -86,14 +86,14 @@ export default function ContactPage() {
           >
             GET IN TOUCH & RESERVATIONS
           </span>
-          <WindRevealHeading as="h1" className="heading-xl" style={{ color: '#ffffff', marginBottom: '1.25rem' }}>
+          <WindRevealHeading as="h1" className="heading-xl" style={{ color: '#1a1a1a', marginBottom: '1.25rem' }}>
             {"Let's Plan Your Event"}
           </WindRevealHeading>
           <p
             style={{
               fontSize: 'clamp(1.05rem, 1.8vw, 1.2rem)',
               lineHeight: 1.7,
-              color: '#d0c8be',
+              color: '#5a544c',
               maxWidth: '780px',
               marginInline: 'auto',
             }}
@@ -104,7 +104,7 @@ export default function ContactPage() {
       </section>
 
       {/* MAIN TWO-COLUMN SECTION */}
-      <section style={{ paddingBlock: 'clamp(3.5rem, 6vw, 5.5rem)' }}>
+      <section style={{ paddingBlock: 'clamp(3.5rem, 6vw, 5.5rem)', backgroundColor: '#ede5d8' }}>
         <div
           style={{
             maxWidth: '1280px',
@@ -123,7 +123,7 @@ export default function ContactPage() {
                 fontSize: '0.8rem',
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
-                color: 'var(--color-accent, #c9a96e)',
+                color: 'var(--color-accent-dark, #a8834a)',
                 fontWeight: 600,
                 display: 'block',
                 marginBottom: '0.5rem',
@@ -135,7 +135,7 @@ export default function ContactPage() {
               style={{
                 fontFamily: 'var(--font-display, Cormorant Garamond, serif)',
                 fontSize: 'clamp(2rem, 3.5vw, 2.75rem)',
-                color: '#ffffff',
+                color: '#1a1a1a',
                 fontWeight: 400,
                 lineHeight: 1.2,
                 marginBottom: '1.5rem',
@@ -147,7 +147,7 @@ export default function ContactPage() {
               style={{
                 fontSize: '1rem',
                 lineHeight: 1.7,
-                color: '#b0a89d',
+                color: '#5a544c',
                 marginBottom: '2.5rem',
               }}
             >
@@ -159,9 +159,10 @@ export default function ContactPage() {
               <div
                 style={{
                   padding: '1.5rem',
-                  backgroundColor: '#161616',
-                  borderRadius: '8px',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  backgroundColor: '#ffffff',
+                  borderRadius: '10px',
+                  border: '1px solid rgba(201, 169, 110, 0.25)',
+                  boxShadow: '0 10px 30px rgba(44, 34, 30, 0.05)',
                   display: 'flex',
                   alignItems: 'flex-start',
                   gap: '1.25rem',
@@ -172,12 +173,12 @@ export default function ContactPage() {
                     width: '46px',
                     height: '46px',
                     borderRadius: '50%',
-                    backgroundColor: 'rgba(201, 169, 110, 0.12)',
-                    border: '1px solid rgba(201, 169, 110, 0.3)',
+                    backgroundColor: 'rgba(201, 169, 110, 0.15)',
+                    border: '1px solid rgba(201, 169, 110, 0.35)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: 'var(--color-accent, #c9a96e)',
+                    color: 'var(--color-accent-dark, #a8834a)',
                     fontSize: '1.2rem',
                     flexShrink: 0,
                   }}
@@ -185,10 +186,10 @@ export default function ContactPage() {
                   📍
                 </div>
                 <div>
-                  <h3 style={{ margin: '0 0 0.25rem 0', fontSize: '1.1rem', color: '#ffffff', fontWeight: 600 }}>
+                  <h3 style={{ margin: '0 0 0.25rem 0', fontSize: '1.1rem', color: '#1a1a1a', fontWeight: 600 }}>
                     Our Studio & Headquarters
                   </h3>
-                  <p style={{ margin: 0, color: '#b0a89d', lineHeight: 1.5, fontSize: '0.95rem' }}>
+                  <p style={{ margin: 0, color: '#5a544c', lineHeight: 1.5, fontSize: '0.95rem' }}>
                     {CONTACT_INFO.address.formatted}
                   </p>
                 </div>
@@ -198,9 +199,10 @@ export default function ContactPage() {
               <div
                 style={{
                   padding: '1.5rem',
-                  backgroundColor: '#161616',
-                  borderRadius: '8px',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  backgroundColor: '#ffffff',
+                  borderRadius: '10px',
+                  border: '1px solid rgba(201, 169, 110, 0.25)',
+                  boxShadow: '0 10px 30px rgba(44, 34, 30, 0.05)',
                   display: 'flex',
                   alignItems: 'flex-start',
                   gap: '1.25rem',
@@ -211,12 +213,12 @@ export default function ContactPage() {
                     width: '46px',
                     height: '46px',
                     borderRadius: '50%',
-                    backgroundColor: 'rgba(201, 169, 110, 0.12)',
-                    border: '1px solid rgba(201, 169, 110, 0.3)',
+                    backgroundColor: 'rgba(201, 169, 110, 0.15)',
+                    border: '1px solid rgba(201, 169, 110, 0.35)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: 'var(--color-accent, #c9a96e)',
+                    color: 'var(--color-accent-dark, #a8834a)',
                     fontSize: '1.2rem',
                     flexShrink: 0,
                   }}
@@ -224,14 +226,14 @@ export default function ContactPage() {
                   📞
                 </div>
                 <div>
-                  <h3 style={{ margin: '0 0 0.25rem 0', fontSize: '1.1rem', color: '#ffffff', fontWeight: 600 }}>
+                  <h3 style={{ margin: '0 0 0.25rem 0', fontSize: '1.1rem', color: '#1a1a1a', fontWeight: 600 }}>
                     Phone & WhatsApp Inquiries
                   </h3>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginTop: '0.5rem' }}>
                     <a
                       href={CONTACT_INFO.phone.href}
                       style={{
-                        color: 'var(--color-accent, #c9a96e)',
+                        color: 'var(--color-accent-dark, #a8834a)',
                         textDecoration: 'none',
                         fontSize: '0.95rem',
                         fontWeight: 600,
@@ -239,13 +241,13 @@ export default function ContactPage() {
                     >
                       Call: {CONTACT_INFO.phone.display}
                     </a>
-                    <span style={{ color: '#555555' }}>•</span>
+                    <span style={{ color: '#8c8275' }}>•</span>
                     <a
                       href={CONTACT_INFO.whatsapp.href}
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{
-                        color: '#60a5fa',
+                        color: '#0284c7',
                         textDecoration: 'none',
                         fontSize: '0.95rem',
                         fontWeight: 600,
@@ -261,9 +263,10 @@ export default function ContactPage() {
               <div
                 style={{
                   padding: '1.5rem',
-                  backgroundColor: '#161616',
-                  borderRadius: '8px',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  backgroundColor: '#ffffff',
+                  borderRadius: '10px',
+                  border: '1px solid rgba(201, 169, 110, 0.25)',
+                  boxShadow: '0 10px 30px rgba(44, 34, 30, 0.05)',
                   display: 'flex',
                   alignItems: 'flex-start',
                   gap: '1.25rem',
@@ -274,12 +277,12 @@ export default function ContactPage() {
                     width: '46px',
                     height: '46px',
                     borderRadius: '50%',
-                    backgroundColor: 'rgba(201, 169, 110, 0.12)',
-                    border: '1px solid rgba(201, 169, 110, 0.3)',
+                    backgroundColor: 'rgba(201, 169, 110, 0.15)',
+                    border: '1px solid rgba(201, 169, 110, 0.35)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: 'var(--color-accent, #c9a96e)',
+                    color: 'var(--color-accent-dark, #a8834a)',
                     fontSize: '1.2rem',
                     flexShrink: 0,
                   }}
@@ -287,17 +290,18 @@ export default function ContactPage() {
                   ✉️
                 </div>
                 <div>
-                  <h3 style={{ margin: '0 0 0.25rem 0', fontSize: '1.1rem', color: '#ffffff', fontWeight: 600 }}>
+                  <h3 style={{ margin: '0 0 0.25rem 0', fontSize: '1.1rem', color: '#1a1a1a', fontWeight: 600 }}>
                     Official Email
                   </h3>
                   <a
                     href={CONTACT_INFO.email.href}
                     style={{
-                      color: 'var(--color-accent, #c9a96e)',
+                      color: 'var(--color-accent-dark, #a8834a)',
                       textDecoration: 'none',
                       fontSize: '0.95rem',
                       display: 'inline-block',
                       marginTop: '0.25rem',
+                      fontWeight: 600,
                     }}
                   >
                     {CONTACT_INFO.email.display}
@@ -309,9 +313,10 @@ export default function ContactPage() {
               <div
                 style={{
                   padding: '1.5rem',
-                  backgroundColor: '#161616',
-                  borderRadius: '8px',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  backgroundColor: '#ffffff',
+                  borderRadius: '10px',
+                  border: '1px solid rgba(201, 169, 110, 0.25)',
+                  boxShadow: '0 10px 30px rgba(44, 34, 30, 0.05)',
                   display: 'flex',
                   alignItems: 'flex-start',
                   gap: '1.25rem',
@@ -322,12 +327,12 @@ export default function ContactPage() {
                     width: '46px',
                     height: '46px',
                     borderRadius: '50%',
-                    backgroundColor: 'rgba(201, 169, 110, 0.12)',
-                    border: '1px solid rgba(201, 169, 110, 0.3)',
+                    backgroundColor: 'rgba(201, 169, 110, 0.15)',
+                    border: '1px solid rgba(201, 169, 110, 0.35)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: 'var(--color-accent, #c9a96e)',
+                    color: 'var(--color-accent-dark, #a8834a)',
                     fontSize: '1.2rem',
                     flexShrink: 0,
                   }}
@@ -335,10 +340,10 @@ export default function ContactPage() {
                   🕒
                 </div>
                 <div>
-                  <h3 style={{ margin: '0 0 0.25rem 0', fontSize: '1.1rem', color: '#ffffff', fontWeight: 600 }}>
+                  <h3 style={{ margin: '0 0 0.25rem 0', fontSize: '1.1rem', color: '#1a1a1a', fontWeight: 600 }}>
                     Consultation Hours
                   </h3>
-                  <p style={{ margin: 0, color: '#b0a89d', lineHeight: 1.5, fontSize: '0.95rem' }}>
+                  <p style={{ margin: 0, color: '#5a544c', lineHeight: 1.5, fontSize: '0.95rem' }}>
                     {CONTACT_INFO.hours}
                   </p>
                 </div>
@@ -357,8 +362,8 @@ export default function ContactPage() {
       <section
         data-testid="contact-map-container"
         style={{
-          borderTop: '1px solid rgba(201, 169, 110, 0.2)',
-          backgroundColor: '#111111',
+          borderTop: '1px solid rgba(201, 169, 110, 0.25)',
+          backgroundColor: '#ede5d8',
           position: 'relative',
           lineHeight: 0,
         }}
@@ -371,7 +376,7 @@ export default function ContactPage() {
           style={{
             border: 0,
             display: 'block',
-            filter: 'grayscale(0.6) invert(0.9) contrast(1.2)',
+            filter: 'grayscale(0.15) contrast(1.05)',
           }}
           allowFullScreen
           loading="lazy"

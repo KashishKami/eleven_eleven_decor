@@ -108,11 +108,11 @@ export default function ContactForm() {
   return (
     <div
       style={{
-        backgroundColor: '#161616',
+        backgroundColor: '#ffffff',
         padding: 'clamp(2rem, 4vw, 3rem)',
         borderRadius: '12px',
-        border: '1px solid rgba(201, 169, 110, 0.25)',
-        boxShadow: '0 20px 50px rgba(0,0,0,0.5)',
+        border: '1px solid rgba(201, 169, 110, 0.3)',
+        boxShadow: '0 20px 50px rgba(44, 34, 30, 0.08)',
       }}
     >
       <div style={{ marginBottom: '2rem' }}>
@@ -121,7 +121,7 @@ export default function ContactForm() {
             fontSize: '0.8rem',
             letterSpacing: '0.2em',
             textTransform: 'uppercase',
-            color: 'var(--color-accent, #c9a96e)',
+            color: 'var(--color-accent-dark, #a8834a)',
             fontWeight: 600,
             display: 'block',
             marginBottom: '0.35rem',
@@ -133,7 +133,7 @@ export default function ContactForm() {
           style={{
             fontFamily: 'var(--font-display, Cormorant Garamond, serif)',
             fontSize: 'clamp(1.75rem, 3vw, 2.25rem)',
-            color: '#ffffff',
+            color: '#1a1a1a',
             fontWeight: 400,
             margin: 0,
           }}
@@ -151,27 +151,27 @@ export default function ContactForm() {
             backgroundColor: 'rgba(201, 169, 110, 0.15)',
             border: '1px solid var(--color-accent, #c9a96e)',
             borderRadius: '6px',
-            color: '#f5f0e8',
+            color: '#2a2622',
             display: 'flex',
             alignItems: 'flex-start',
             gap: '1rem',
           }}
         >
-          <span style={{ fontSize: '1.5rem', color: 'var(--color-accent, #c9a96e)', lineHeight: 1 }}>
+          <span style={{ fontSize: '1.5rem', color: 'var(--color-accent-dark, #a8834a)', lineHeight: 1 }}>
             ✓
           </span>
           <div>
             <h4
               style={{
                 margin: '0 0 0.25rem 0',
-                color: 'var(--color-accent, #c9a96e)',
+                color: '#1a1a1a',
                 fontFamily: 'var(--font-display, serif)',
                 fontSize: '1.25rem',
               }}
             >
               Thank You! Your Inquiry Has Been Received.
             </h4>
-            <p style={{ margin: 0, fontSize: '0.925rem', color: '#ded6ca', lineHeight: 1.5 }}>
+            <p style={{ margin: 0, fontSize: '0.925rem', color: '#5a544c', lineHeight: 1.5 }}>
               Our executive planning and styling team will review your requirements and get in touch with you shortly.
             </p>
           </div>
@@ -184,10 +184,10 @@ export default function ContactForm() {
           style={{
             marginBottom: '2rem',
             padding: '1.25rem 1.5rem',
-            backgroundColor: 'rgba(239, 68, 68, 0.1)',
-            border: '1px solid rgba(239, 68, 68, 0.5)',
+            backgroundColor: 'rgba(239, 68, 68, 0.08)',
+            border: '1px solid rgba(239, 68, 68, 0.35)',
             borderRadius: '6px',
-            color: '#f5f0e8',
+            color: '#7f1d1d',
             display: 'flex',
             alignItems: 'flex-start',
             gap: '1rem',
@@ -198,14 +198,14 @@ export default function ContactForm() {
             <h4
               style={{
                 margin: '0 0 0.25rem 0',
-                color: '#ef4444',
+                color: '#b91c1c',
                 fontFamily: 'var(--font-display, serif)',
                 fontSize: '1.1rem',
               }}
             >
               Submission Failed
             </h4>
-            <p style={{ margin: 0, fontSize: '0.925rem', color: '#ded6ca', lineHeight: 1.5 }}>
+            <p style={{ margin: 0, fontSize: '0.925rem', color: '#991b1b', lineHeight: 1.5 }}>
               {submitError}
             </p>
           </div>
@@ -231,7 +231,7 @@ export default function ContactForm() {
                 fontSize: '0.85rem',
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
-                color: '#b0a89d',
+                color: '#332d26',
                 fontWeight: 600,
               }}
             >
@@ -247,12 +247,12 @@ export default function ContactForm() {
               style={{
                 width: '100%',
                 padding: '0.9rem 1.15rem',
-                backgroundColor: '#202020',
+                backgroundColor: '#fcfbfa',
                 border: errors.name
                   ? '1px solid #ef4444'
-                  : '1px solid rgba(255, 255, 255, 0.12)',
+                  : '1px solid rgba(168, 131, 74, 0.28)',
                 borderRadius: '6px',
-                color: '#ffffff',
+                color: '#1a1a1a',
                 fontSize: '0.95rem',
                 fontFamily: 'var(--font-body, DM Sans, sans-serif)',
                 outline: 'none',
@@ -276,7 +276,7 @@ export default function ContactForm() {
                 fontSize: '0.85rem',
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
-                color: '#b0a89d',
+                color: '#332d26',
                 fontWeight: 600,
               }}
             >
@@ -292,12 +292,12 @@ export default function ContactForm() {
               style={{
                 width: '100%',
                 padding: '0.9rem 1.15rem',
-                backgroundColor: '#202020',
+                backgroundColor: '#fcfbfa',
                 border: errors.phone
                   ? '1px solid #ef4444'
-                  : '1px solid rgba(255, 255, 255, 0.12)',
+                  : '1px solid rgba(168, 131, 74, 0.28)',
                 borderRadius: '6px',
-                color: '#ffffff',
+                color: '#1a1a1a',
                 fontSize: '0.95rem',
                 fontFamily: 'var(--font-body, DM Sans, sans-serif)',
                 outline: 'none',
@@ -321,7 +321,7 @@ export default function ContactForm() {
                 fontSize: '0.85rem',
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
-                color: '#b0a89d',
+                color: '#332d26',
                 fontWeight: 600,
               }}
             >
@@ -337,12 +337,12 @@ export default function ContactForm() {
               style={{
                 width: '100%',
                 padding: '0.9rem 1.15rem',
-                backgroundColor: '#202020',
+                backgroundColor: '#fcfbfa',
                 border: errors.email
                   ? '1px solid #ef4444'
-                  : '1px solid rgba(255, 255, 255, 0.12)',
+                  : '1px solid rgba(168, 131, 74, 0.28)',
                 borderRadius: '6px',
-                color: '#ffffff',
+                color: '#1a1a1a',
                 fontSize: '0.95rem',
                 fontFamily: 'var(--font-body, DM Sans, sans-serif)',
                 outline: 'none',
@@ -366,7 +366,7 @@ export default function ContactForm() {
                 fontSize: '0.85rem',
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
-                color: '#b0a89d',
+                color: '#332d26',
                 fontWeight: 600,
               }}
             >
@@ -380,12 +380,12 @@ export default function ContactForm() {
               style={{
                 width: '100%',
                 padding: '0.9rem 1.15rem',
-                backgroundColor: '#202020',
+                backgroundColor: '#fcfbfa',
                 border: errors.eventType
                   ? '1px solid #ef4444'
-                  : '1px solid rgba(255, 255, 255, 0.12)',
+                  : '1px solid rgba(168, 131, 74, 0.28)',
                 borderRadius: '6px',
-                color: formData.eventType ? '#ffffff' : '#888888',
+                color: formData.eventType ? '#1a1a1a' : '#888075',
                 fontSize: '0.95rem',
                 fontFamily: 'var(--font-body, DM Sans, sans-serif)',
                 outline: 'none',
@@ -397,7 +397,7 @@ export default function ContactForm() {
                 Select Celebration Type...
               </option>
               {EVENT_TYPE_OPTIONS.map((opt) => (
-                <option key={opt} value={opt} style={{ backgroundColor: '#1a1a1a', color: '#ffffff' }}>
+                <option key={opt} value={opt} style={{ backgroundColor: '#ffffff', color: '#1a1a1a' }}>
                   {opt}
                 </option>
               ))}
@@ -419,7 +419,7 @@ export default function ContactForm() {
                 fontSize: '0.85rem',
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
-                color: '#b0a89d',
+                color: '#332d26',
                 fontWeight: 600,
               }}
             >
@@ -434,12 +434,12 @@ export default function ContactForm() {
               style={{
                 width: '100%',
                 padding: '0.9rem 1.15rem',
-                backgroundColor: '#202020',
+                backgroundColor: '#fcfbfa',
                 border: errors.eventDate
                   ? '1px solid #ef4444'
-                  : '1px solid rgba(255, 255, 255, 0.12)',
+                  : '1px solid rgba(168, 131, 74, 0.28)',
                 borderRadius: '6px',
-                color: '#ffffff',
+                color: formData.eventDate ? '#1a1a1a' : '#888075',
                 fontSize: '0.95rem',
                 fontFamily: 'var(--font-body, DM Sans, sans-serif)',
                 outline: 'none',
@@ -463,7 +463,7 @@ export default function ContactForm() {
                 fontSize: '0.85rem',
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
-                color: '#b0a89d',
+                color: '#332d26',
                 fontWeight: 600,
               }}
             >
@@ -480,12 +480,12 @@ export default function ContactForm() {
               style={{
                 width: '100%',
                 padding: '0.9rem 1.15rem',
-                backgroundColor: '#202020',
+                backgroundColor: '#fcfbfa',
                 border: errors.guestCount
                   ? '1px solid #ef4444'
-                  : '1px solid rgba(255, 255, 255, 0.12)',
+                  : '1px solid rgba(168, 131, 74, 0.28)',
                 borderRadius: '6px',
-                color: '#ffffff',
+                color: '#1a1a1a',
                 fontSize: '0.95rem',
                 fontFamily: 'var(--font-body, DM Sans, sans-serif)',
                 outline: 'none',
@@ -510,7 +510,7 @@ export default function ContactForm() {
               fontSize: '0.85rem',
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
-              color: '#b0a89d',
+              color: '#332d26',
               fontWeight: 600,
             }}
           >
@@ -526,10 +526,10 @@ export default function ContactForm() {
             style={{
               width: '100%',
               padding: '0.9rem 1.15rem',
-              backgroundColor: '#202020',
-              border: '1px solid rgba(255, 255, 255, 0.12)',
+              backgroundColor: '#fcfbfa',
+              border: '1px solid rgba(168, 131, 74, 0.28)',
               borderRadius: '6px',
-              color: '#ffffff',
+              color: '#1a1a1a',
               fontSize: '0.95rem',
               fontFamily: 'var(--font-body, DM Sans, sans-serif)',
               outline: 'none',
@@ -548,7 +548,7 @@ export default function ContactForm() {
               fontSize: '0.85rem',
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
-              color: '#b0a89d',
+              color: '#332d26',
               fontWeight: 600,
             }}
           >
@@ -564,12 +564,12 @@ export default function ContactForm() {
             style={{
               width: '100%',
               padding: '0.9rem 1.15rem',
-              backgroundColor: '#202020',
+              backgroundColor: '#fcfbfa',
               border: errors.message
                 ? '1px solid #ef4444'
-                : '1px solid rgba(255, 255, 255, 0.12)',
+                : '1px solid rgba(168, 131, 74, 0.28)',
               borderRadius: '6px',
-              color: '#ffffff',
+              color: '#1a1a1a',
               fontSize: '0.95rem',
               fontFamily: 'var(--font-body, DM Sans, sans-serif)',
               outline: 'none',

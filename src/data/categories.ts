@@ -56,8 +56,8 @@ export const CATEGORIES: Category[] = [
     title: 'PRIVATE CELEBRATIONS',
     description:
       'Anniversaries, family functions, and personal celebrations planned with the same attention as our largest events.',
-    bgImage: '/events/parties-bg.jpg',
-    cardImage: '/events/parties-bg.jpg',
+    bgImage: '/events/private-parties-4.jpg',
+    cardImage: '/events/private-parties-4.jpg',
     link: '/events/private-events/',
   },
   {

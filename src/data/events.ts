@@ -154,7 +154,8 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     subtitle: 'Milestone birthdays and intimate parties',
     description:
       'Milestone birthdays and intimate parties, themed and decorated to match the celebration in mind.',
-    heroImage: '/images/events/birthday-events.jpg',
+    heroImage: '/images/events/birthday-event.png',
+    heroImagePosition: 'center bottom',
     intro:
       'From a first birthday to a milestone celebration, 11:11 Decor plans and decorates birthday events sized and styled to the occasion.',
     editorialStory: [

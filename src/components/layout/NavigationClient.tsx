@@ -363,7 +363,7 @@ export function NavigationClient({ visibility }: NavigationClientProps) {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/logo.png"
+              src="/logo-nav.png"
               alt="11:11 Decor — Event Management & Décor Studio"
               style={{
                 height: 'clamp(68px, 7vw, 100px)',

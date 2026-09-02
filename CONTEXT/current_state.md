@@ -2548,4 +2548,46 @@ Run every validation suite in sequence. Resolve any lint or typing issues. Verif
    - Applied `text-align: justify; text-justify: inter-word;` to blog article narrative paragraphs in `src/app/globals.css` (`.article-editorial-content p`) while preserving left-alignment for headings, TOC links, and FAQs.
    - Fixed `page-visibility.json` test leak: `tests/scripts/test-gateway.php` and `tests/gateway-routing.unit.test.ts` now execute strictly inside the `TEST_DATA_DIR` fixture sandbox without early exit, ensuring `php-admin/data/page-visibility.json` permanently retains its default `false` (OFF) state.
 
+7. **Event Planning Service Editorial Content Polish:**
+   - Removed duplicate introductory paragraph (*"Good events are designed before they're decorated..."*) from the `editorialStory` array in `src/data/services.ts` (`event-planning`), so the narrative under *"The Art of Event Planning"* flows directly into the planning philosophy without redundant repetition of the hero intro.
+
+8. **About Us Page Content Alignment & Alternating Rhythm:**
+   - Updated `src/app/about-us/page.tsx` and `about-us.module.css` with exact client copy across all sections:
+     - **Hero:** Updated eyebrow, headline (*"Creating Experiences, Not Just Events"*), and subtext emphasizing Dehradun studio roots, nationwide coverage, and full end-to-end vs. modular service offerings.
+     - **Philosophy — Our Approach:** 3-paragraph narrative on conversation-first discovery, custom palettes, layout pacing, and unified event vision.
+     - **What We Handle (New Section):** Full-service breakdown covering bespoke venue styling, synchronized catering timelines, unified artist/vendor booking, and discreet photography coordination.
+     - **Integrated Process — Planning & Décor, Together:** Three structured cards: *Connected Thinking*, *Informed Layouts*, and *Harmonious Execution*.
+     - **Craftsmanship — Attention to Detail:** Micro-decision focus (table spacing, evening flow, golden hour lighting, dinner course timing).
+     - **On Event Day:** Focused host peace-of-mind messaging paired with a styled *"Plan Your Event →"* action.
+     - **Closing CTA:** Enhanced `FooterCTA` component with customizable props (`eyebrow`, `headline`, `body`) to display nationwide outreach and custom quoting with dual buttons (*Plan Your Event* + *WhatsApp Us*).
+   - **Harmonious Theme Alternation:** Inverted the three middle sections to establish a rhythmic alternating cadence across the entire page:
+     - Hero: **Dark** (`#121212`)
+     - Philosophy: **Light** (`#ede5d8`)
+     - What We Handle: **Dark** (`#181818`)
+     - Planning & Décor, Together: **Light** (`#ede5d8` with elevated light cards `#fbf9f5`)
+     - Craftsmanship / Attention to Detail: **Dark** (`#181818`)
+     - On Event Day: **Light** (`#ede5d8` with tailored dark/gold pill button)
+     - Closing CTA: **Deep Dark** (`#0f0f0f`)
+
+9. **Official Studio Address & Primary Contact Email Synchronization:**
+   - Updated `src/data/contact.ts`:
+     - **Official Email:** `1111decorjd@gmail.com` (`mailto:1111decorjd@gmail.com`).
+     - **Official Address:** `1000, Doon Express Business Park Rd, Subhash Nagar, Dehradun, Sewla Khurd, Uttarakhand 248001`.
+   - Updated `php-admin/config.php`:
+     - `CONTACT_EMAIL`: Set to `'1111decorjd@gmail.com'` to route all website inquiry form submissions to the primary business inbox.
+   - Updated `src/components/layout/Footer.tsx`:
+     - Bound directly to `CONTACT_INFO` to dynamically render `1111decorjd@gmail.com` and phone link across all site pages.
+   - Structured Data / Schema: Automatically propagates the new address and email to Google's `LocalBusiness` and `Organization` JSON-LD schema via `src/lib/schemaGenerators.ts`.
+   - Automated Tests updated:
+     - `tests/contact.unit.test.ts`: Updated street address and email assertions (5/5 passed).
+     - `tests/e2e/contact-page.spec.ts`: Updated address visibility assertion.
+
+10. **Full CI/CD Quality Verification:**
+    - Ran full `pnpm ci:quality` suite:
+      - ESLint & TypeScript validation: Passed 0 errors.
+      - Vitest Unit Tests: 34/34 test files passed (104/104 tests).
+      - Playwright E2E Tests: 123 passed, 1 skipped.
+      - Next.js Production Build: Successfully generated all 56/56 static & SSG routes without errors.
+
+
 

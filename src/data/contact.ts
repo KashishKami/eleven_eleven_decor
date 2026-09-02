@@ -32,12 +32,12 @@ export const CONTACT_INFO: ContactInfo = {
   subtitle:
     'Tell us about your event and we will follow up with availability and a custom quote.',
   address: {
-    street: '123 Rajpur Road',
+    street: '1000, Doon Express Business Park Rd, Subhash Nagar, Sewla Khurd',
     city: 'Dehradun',
     state: 'Uttarakhand',
     postalCode: '248001',
     country: 'India',
-    formatted: '123 Rajpur Road, Dehradun, Uttarakhand 248001, India',
+    formatted: '1000, Doon Express Business Park Rd, Subhash Nagar, Dehradun, Sewla Khurd, Uttarakhand 248001',
   },
   phone: {
     display: '+91 98765 43210',
@@ -48,8 +48,8 @@ export const CONTACT_INFO: ContactInfo = {
     href: 'https://wa.me/919876543210?text=Hello%2011:11%20Decor,%20I%20would%20like%20to%20inquire%20about%20event%20planning%20and%20decor%20services.',
   },
   email: {
-    display: 'hello@1111decor.com',
-    href: 'mailto:hello@1111decor.com',
+    display: '1111decorjd@gmail.com',
+    href: 'mailto:1111decorjd@gmail.com',
   },
   hours: 'Mon – Sat, 10:00 AM – 7:00 PM IST',
   mapEmbedUrl:

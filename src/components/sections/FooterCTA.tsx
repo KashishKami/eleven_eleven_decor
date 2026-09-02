@@ -5,7 +5,17 @@ import Link from 'next/link'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 import { CONTACT_INFO } from '@/data/contact'
 
-export function FooterCTA() {
+export interface FooterCTAProps {
+  eyebrow?: string
+  headline?: string
+  body?: string
+}
+
+export function FooterCTA({
+  eyebrow = 'START THE CONVERSATION',
+  headline = "Let's create something unforgettable.",
+  body = "Tell us about your event — date, guest count, venue, and vision. We'll follow up with availability and a custom quote.",
+}: FooterCTAProps = {}) {
   return (
     <section
       id="footer-cta"
@@ -35,7 +45,7 @@ export function FooterCTA() {
             textTransform: 'uppercase',
           }}
         >
-          START THE CONVERSATION
+          {eyebrow}
         </span>
 
         <div style={{ maxWidth: '800px', margin: '0 auto 1.5rem' }}>
@@ -50,7 +60,7 @@ export function FooterCTA() {
               letterSpacing: '0.02em',
             }}
           >
-            Let&apos;s create something unforgettable.
+            {headline}
           </WindRevealHeading>
         </div>
 
@@ -64,7 +74,7 @@ export function FooterCTA() {
             margin: '0 auto 2.75rem',
           }}
         >
-          Tell us about your event — date, guest count, venue, and vision. We&apos;ll follow up with availability and a custom quote.
+          {body}
         </p>
 
         <div

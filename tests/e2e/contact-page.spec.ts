@@ -39,7 +39,7 @@ test.describe('Contact & Lead Conversion Page (W-801)', () => {
     await expect(page.locator('textarea[name="message"]')).toBeVisible()
 
     // 3. Assert contact details are present
-    await expect(page.getByText('Rajpur Road', { exact: false }).first()).toBeVisible()
+    await expect(page.getByText('Doon Express Business Park Rd', { exact: false }).first()).toBeVisible()
     await expect(page.getByText('Dehradun', { exact: false }).first()).toBeVisible()
     await expect(page.locator('a[href^="tel:"]').first()).toBeVisible()
     await expect(page.locator('a[href*="wa.me"]').first()).toBeVisible()

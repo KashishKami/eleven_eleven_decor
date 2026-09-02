@@ -9,13 +9,13 @@ import {
 describe('Contact Page Data & Validation (W-801)', () => {
   it('exports complete brand contact details', () => {
     expect(CONTACT_INFO.brandName).toBe('11:11 Decor')
-    expect(CONTACT_INFO.address.street).toContain('Rajpur Road')
+    expect(CONTACT_INFO.address.street).toContain('Doon Express Business Park Rd')
     expect(CONTACT_INFO.address.city).toBe('Dehradun')
     expect(CONTACT_INFO.address.state).toBe('Uttarakhand')
     expect(CONTACT_INFO.phone.display).toBe('+91 98765 43210')
     expect(CONTACT_INFO.phone.href).toBe('tel:+919876543210')
     expect(CONTACT_INFO.whatsapp.href).toContain('wa.me/919876543210')
-    expect(CONTACT_INFO.email.display).toContain('@1111decor.com')
+    expect(CONTACT_INFO.email.display).toBe('1111decorjd@gmail.com')
     expect(CONTACT_INFO.hours).toContain('10:00 AM')
     expect(CONTACT_INFO.mapEmbedUrl).toBeDefined()
   })

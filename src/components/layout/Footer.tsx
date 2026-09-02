@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { getPageVisibility } from '@/lib/server-visibility'
+import { CONTACT_INFO } from '@/data/contact'
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
@@ -25,8 +26,8 @@ export function Footer() {
             marginBottom: '4rem',
           }}
         >
-          {/* Column 1: Brand */}
-          <div style={{ gridColumn: 'span 1' }}>
+          {/* Column 1: Brand & Contact */}
+          <div>
             <Link href="/" style={{ textDecoration: 'none' }}>
               <span
                 style={{
@@ -59,7 +60,7 @@ export function Footer() {
             {/* Contact snippet */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <a
-                href="tel:+919876543210"
+                href={CONTACT_INFO.phone.href}
                 style={{
                   fontFamily: 'var(--font-body)',
                   fontSize: '0.825rem',
@@ -69,10 +70,10 @@ export function Footer() {
                   transition: 'opacity 0.2s ease',
                 }}
               >
-                +91 98765 43210
+                {CONTACT_INFO.phone.display}
               </a>
               <a
-                href="mailto:hello@1111decor.com"
+                href={CONTACT_INFO.email.href}
                 style={{
                   fontFamily: 'var(--font-body)',
                   fontSize: '0.825rem',
@@ -81,7 +82,7 @@ export function Footer() {
                   transition: 'color 0.2s ease',
                 }}
               >
-                hello@1111decor.com
+                {CONTACT_INFO.email.display}
               </a>
             </div>
           </div>

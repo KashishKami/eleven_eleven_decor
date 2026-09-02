@@ -2589,5 +2589,14 @@ Run every validation suite in sequence. Resolve any lint or typing issues. Verif
       - Playwright E2E Tests: 123 passed, 1 skipped.
       - Next.js Production Build: Successfully generated all 56/56 static & SSG routes without errors.
 
+11. **Condensation of Editorial Narratives ("The Art of...") Across All Services & Events:**
+    - Condensed the lengthy editorial narratives (~450–600+ words each) across all 11 services in `src/data/services.ts` and all 6 event categories in `src/data/events.ts` to concise, luxury ~100-word statements (structured into two balanced paragraphs of ~50 words each).
+    - **Mobile UX Optimization:** Eliminates the mobile "wall of text" (which previously required 3–4 full vertical viewport scrolls), creating a clean, editorial luxury reading experience that leads directly into offerings, feature grids, FAQs, and booking CTAs.
+    - **Unique Page Voice:** Every statement was crafted and distilled directly from each page's own original text, ensuring no two services or event categories share repetitive phrasing.
+    - **Verification:**
+      - Vitest Unit Tests: 34/34 test files passed (104/104 tests).
+      - Next.js Production Build: All 56/56 static and SSG routes built and exported cleanly with 0 errors.
+
+
 
 

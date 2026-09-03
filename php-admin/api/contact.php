@@ -188,8 +188,8 @@ $emailSent  = !empty($mailResult['success']);
 
 // ─── Log Inquiry to JSON (Safety Backup) ─────────────────────────────────────
 $logFile = $isTest
-    ? __DIR__ . '/../data/inquiries_test.json'
-    : __DIR__ . '/../data/inquiries.json';
+    ? get_data_dir() . '/inquiries_test.json'
+    : get_data_dir() . '/inquiries.json';
 $logDir  = dirname($logFile);
 
 if (!is_dir($logDir)) {

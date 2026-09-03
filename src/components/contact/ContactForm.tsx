@@ -47,16 +47,14 @@ export default function ContactForm() {
     setIsSubmitting(true)
 
     try {
-      // NEXT_PUBLIC_CONTACT_API_URL is the full URL to the PHP endpoint.
-      //
-      // Local dev  → http://127.0.0.1:8080/api/contact.php
-      //   (PHP server root = php-admin/, so path starts at /api/)
-      //
-      // GoDaddy    → https://yourdomain.com/php-admin/api/contact.php
-      //   (Set NEXT_PUBLIC_CONTACT_API_URL in .env.production before building)
-      const contactApiUrl =
-        process.env.NEXT_PUBLIC_CONTACT_API_URL ||
-        'http://127.0.0.1:8080/api/contact.php'
+      const isLocal =
+        typeof window !== 'undefined' &&
+        (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+      const contactApiUrl = isLocal
+        ? 'http://127.0.0.1:8080/api/contact.php'
+        : (process.env.NEXT_PUBLIC_CONTACT_API_URL && !process.env.NEXT_PUBLIC_CONTACT_API_URL.includes('127.0.0.1')
+            ? process.env.NEXT_PUBLIC_CONTACT_API_URL
+            : '/php-admin/api/contact.php')
 
       const response = await fetch(contactApiUrl, {
         method: 'POST',

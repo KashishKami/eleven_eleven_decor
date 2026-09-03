@@ -64,6 +64,11 @@ if ($section === 'portfolio' && !empty($slug) && $slug !== 'portfolio') {
             exit;
         }
     }
+    $files = glob($rootDir . '/portfolio/*/index.html');
+    if (!empty($files) && file_exists($files[0])) {
+        include $files[0];
+        exit;
+    }
     if (file_exists($rootDir . '/portfolio/index.html')) {
         include $rootDir . '/portfolio/index.html';
         exit;
@@ -79,6 +84,11 @@ if ($section === 'venues' && !empty($slug) && $slug !== 'venues') {
             exit;
         }
     }
+    $files = glob($rootDir . '/venues/*/index.html');
+    if (!empty($files) && file_exists($files[0])) {
+        include $files[0];
+        exit;
+    }
     if (file_exists($rootDir . '/venues/index.html')) {
         include $rootDir . '/venues/index.html';
         exit;
@@ -93,6 +103,18 @@ if ($section === 'blog' && !empty($slug) && $slug !== 'blog') {
             if (file_exists($rootDir . '/404.html')) include $rootDir . '/404.html';
             exit;
         }
+    }
+    if (count($parts) >= 3) {
+        $files = glob($rootDir . '/blog/*/*/index.html');
+        if (!empty($files) && file_exists($files[0])) {
+            include $files[0];
+            exit;
+        }
+    }
+    $catFiles = glob($rootDir . '/blog/*/index.html');
+    if (!empty($catFiles) && file_exists($catFiles[0])) {
+        include $catFiles[0];
+        exit;
     }
     if (file_exists($rootDir . '/blog/index.html')) {
         include $rootDir . '/blog/index.html';

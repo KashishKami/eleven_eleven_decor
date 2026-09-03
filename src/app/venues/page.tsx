@@ -1,7 +1,5 @@
 import React from 'react'
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
-import pageVisibility from '../../../php-admin/data/page-visibility.json'
 import { getAllVenuesServer } from '@/lib/server-venues'
 import { VenuesClient } from '@/components/sections/VenuesClient'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
@@ -26,10 +24,6 @@ export const metadata: Metadata = {
 }
 
 export default function VenuesHubPage() {
-  if (!pageVisibility.venues) {
-    notFound()
-  }
-
   const initialVenues = getAllVenuesServer()
 
   const schemaData = {

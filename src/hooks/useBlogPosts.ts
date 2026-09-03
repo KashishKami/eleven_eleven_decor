@@ -8,14 +8,13 @@ export interface FetchBlogPostsResult {
   error: string | null
 }
 
-const API_BASE = (process.env.NEXT_PUBLIC_API_URL || '').replace(/\/$/, '')
-
-/**
- * Direct async fetcher for blog posts with optional category filter
- */
 export async function fetchBlogPosts(category?: string): Promise<FetchBlogPostsResult> {
-  const endpoint = category ? `/api/blogs.php?category=${encodeURIComponent(category)}` : '/api/blogs.php'
-  const url = `${API_BASE}${endpoint}`
+  const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+  const baseUrl = isLocal ? 'http://127.0.0.1:8080' : ''
+  const apiPath = isLocal ? '/api/blogs.php' : '/php-admin/api/blogs.php'
+  const endpoint = category && category !== 'All' ? `${apiPath}?category=${encodeURIComponent(category)}` : apiPath
+  const url = `${baseUrl}${endpoint}`
+
   try {
     const response = await fetch(url)
     if (!response.ok) {

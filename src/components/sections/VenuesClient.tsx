@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useVenues } from '@/hooks/useVenues'
 import type { VenueItem } from '@/data/venues'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
+import { resolveImageUrl } from '@/lib/image-url'
 import styles from '@/app/venues/venues.module.css'
 
 interface VenuesClientProps {
@@ -40,7 +41,7 @@ export function VenuesClient({ initialVenues }: VenuesClientProps) {
               <Link key={venue.slug} href={`/venues/${venue.slug}/`} className={styles.venueCard}>
                 <div className={styles.imageWrapper}>
                   <Image
-                    src={venue.heroImage}
+                    src={resolveImageUrl(venue.heroImage)}
                     alt={venue.name}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

@@ -8,6 +8,7 @@ import { usePortfolioProject } from '@/hooks/usePortfolioProject'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 import { FooterCTA } from '@/components/sections/FooterCTA'
 import { generatePortfolioSchema } from '@/lib/schemaGenerators'
+import { resolveImageUrl } from '@/lib/image-url'
 import styles from '@/app/portfolio/[slug]/portfolio-detail.module.css'
 
 interface Props {
@@ -87,7 +88,7 @@ export function DynamicPortfolioClient({ slug, initialProject }: Props) {
     <div className={styles.detailContainer}>
       {/* SECTION 1: Dark Hero Banner */}
       <div className={styles.heroSection}>
-        <Image src={project.heroImage} alt={project.title} fill unoptimized className={styles.heroImage} priority />
+        <Image src={resolveImageUrl(project.heroImage)} alt={project.title} fill unoptimized className={styles.heroImage} priority />
         <div className={styles.heroContent}>
           <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', letterSpacing: '0.22em', color: '#c9a96e', textTransform: 'uppercase', fontWeight: 600 }}>
             {project.category} CASE STUDY
@@ -168,7 +169,7 @@ export function DynamicPortfolioClient({ slug, initialProject }: Props) {
             {project.galleryImages?.map((src, idx) => (
               <div key={idx} className={styles.galleryCard}>
                 <Image
-                  src={src}
+                  src={resolveImageUrl(src)}
                   alt={`${project.title} Gallery Image ${idx + 1}`}
                   fill
                   unoptimized

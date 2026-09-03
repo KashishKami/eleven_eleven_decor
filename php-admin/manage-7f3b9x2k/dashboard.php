@@ -19,7 +19,7 @@ try {
 }
 
 // Load page visibility configuration
-$visibilityFile = __DIR__ . '/../data/page-visibility.json';
+$visibilityFile = get_data_dir() . '/page-visibility.json';
 $visibility = [
     'blog' => false,
     'gallery' => false,

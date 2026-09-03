@@ -8,6 +8,7 @@ import { useVenue } from '@/hooks/useVenue'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 import { FooterCTA } from '@/components/sections/FooterCTA'
 import { generateVenueSchema } from '@/lib/schemaGenerators'
+import { resolveImageUrl } from '@/lib/image-url'
 import styles from '@/app/venues/[slug]/venue-detail.module.css'
 
 interface Props {
@@ -88,7 +89,7 @@ export function DynamicVenueClient({ slug, initialVenue }: Props) {
     <div className={styles.detailContainer}>
       {/* SECTION 1: Dark Hero Banner */}
       <div className={styles.heroSection}>
-        <Image src={venue.heroImage} alt={venue.name} fill unoptimized className={styles.heroImage} priority />
+        <Image src={resolveImageUrl(venue.heroImage)} alt={venue.name} fill unoptimized className={styles.heroImage} priority />
         <div className={styles.heroContent}>
           <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', letterSpacing: '0.22em', color: '#c9a96e', textTransform: 'uppercase', fontWeight: 600 }}>
             PREFERRED VENUE FRAMEWORK
@@ -169,7 +170,7 @@ export function DynamicVenueClient({ slug, initialVenue }: Props) {
             {venue.galleryImages?.map((src, idx) => (
               <div key={idx} className={styles.galleryCard}>
                 <Image
-                  src={src}
+                  src={resolveImageUrl(src)}
                   alt={`${venue.name} Gallery Image ${idx + 1}`}
                   fill
                   unoptimized

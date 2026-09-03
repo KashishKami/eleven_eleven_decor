@@ -11,7 +11,8 @@ export interface FetchVenuesResult {
 export async function fetchVenues(spaceType?: string): Promise<FetchVenuesResult> {
   const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
   const baseUrl = isLocal ? 'http://127.0.0.1:8080' : ''
-  const url = `${baseUrl}/api/venues.php${spaceType ? `?spaceType=${encodeURIComponent(spaceType)}` : ''}`
+  const endpoint = isLocal ? '/api/venues.php' : '/php-admin/api/venues.php'
+  const url = `${baseUrl}${endpoint}${spaceType ? `?spaceType=${encodeURIComponent(spaceType)}` : ''}`
 
   try {
     const res = await fetch(url, { cache: 'no-store' })

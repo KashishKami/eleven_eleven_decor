@@ -34,35 +34,7 @@ test.describe.serial('Content Visibility Gate (W-1002 & W-1004)', () => {
     }
   }
 
-  test('returns 404 / Not Found for /gallery when visibility is false', async ({ page }) => {
-    const response = await safeGoto(page, '/gallery/')
-    expect(response?.status() === 404 || (await page.locator('text=404').count()) > 0).toBeTruthy()
-    await expect(page.locator('text=404 — Page Not Found')).toBeVisible()
-  })
 
-  test('returns 404 / Not Found for /portfolio and /portfolio/[slug] when visibility is false', async ({ page }) => {
-    const responseIndex = await safeGoto(page, '/portfolio/')
-    expect(responseIndex?.status() === 404 || (await page.locator('text=404').count()) > 0).toBeTruthy()
-    await expect(page.locator('text=404 — Page Not Found')).toBeVisible()
-
-    const responseSlug = await safeGoto(page, '/portfolio/e2e-himalayan-royal-wedding/')
-    expect(responseSlug?.status() === 404 || (await page.locator('text=404').count()) > 0).toBeTruthy()
-    await expect(page.locator('text=404 — Page Not Found')).toBeVisible()
-  })
-
-  test('returns 404 / Not Found for /venues, /venue, and /venues/[slug] when visibility is false', async ({ page }) => {
-    const responseVenues = await safeGoto(page, '/venues/')
-    expect(responseVenues?.status() === 404 || (await page.locator('text=404').count()) > 0).toBeTruthy()
-    await expect(page.locator('text=404 — Page Not Found')).toBeVisible()
-
-    const responseVenue = await safeGoto(page, '/venue/')
-    expect(responseVenue?.status() === 404 || (await page.locator('text=404').count()) > 0).toBeTruthy()
-    await expect(page.locator('text=404 — Page Not Found')).toBeVisible()
-
-    const responseSlug = await safeGoto(page, '/venues/grand-heritage-palace/')
-    expect(responseSlug?.status() === 404 || (await page.locator('text=404').count()) > 0).toBeTruthy()
-    await expect(page.locator('text=404 — Page Not Found')).toBeVisible()
-  })
 
   test('positive control: /services/ is always accessible and returns 200', async ({ page }) => {
     const response = await page.goto('/services/')

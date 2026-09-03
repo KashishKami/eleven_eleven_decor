@@ -35,7 +35,7 @@ describe('useBlogPosts / fetchBlogPosts client fetcher', () => {
     } as Response)
 
     const result = await fetchBlogPosts()
-    expect(global.fetch).toHaveBeenCalledWith('/api/blogs.php')
+    expect(global.fetch).toHaveBeenCalledWith('/php-admin/api/blogs.php')
     expect(result.posts).toHaveLength(1)
     expect(result.posts[0]?.title).toBe('Top Luxury Wedding Decor Trends Shaping 2026')
     expect(result.error).toBeNull()
@@ -63,7 +63,7 @@ describe('useBlogPosts / fetchBlogPosts client fetcher', () => {
     } as Response)
 
     const result = await fetchBlogPosts('corporate-events')
-    expect(global.fetch).toHaveBeenCalledWith('/api/blogs.php?category=corporate-events')
+    expect(global.fetch).toHaveBeenCalledWith('/php-admin/api/blogs.php?category=corporate-events')
     expect(result.posts).toHaveLength(1)
     expect(result.posts[0]?.category).toBe('corporate-events')
     expect(result.error).toBeNull()

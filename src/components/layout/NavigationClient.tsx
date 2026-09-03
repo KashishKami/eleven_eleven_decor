@@ -271,6 +271,51 @@ interface NavigationClientProps {
 export function NavigationClient({ visibility }: NavigationClientProps) {
   const scrolled = useScrolled(80)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [liveVisibility, setLiveVisibility] = useState<PageVisibility>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const cached = sessionStorage.getItem('1111_page_visibility')
+        if (cached) return JSON.parse(cached)
+      } catch {
+        // fallback
+      }
+    }
+    return visibility || { blog: false, gallery: false, portfolio: false, venues: false }
+  })
+
+  useEffect(() => {
+    let isMounted = true
+    const fetchLiveVisibility = async () => {
+      try {
+        const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+        const url = isLocal ? 'http://127.0.0.1:8080/api/page-visibility.php' : '/php-admin/api/page-visibility.php'
+        const res = await fetch(url, { cache: 'no-store' })
+        if (res.ok && isMounted) {
+          const data = await res.json()
+          if (data && typeof data === 'object') {
+            const fresh: PageVisibility = {
+              blog: Boolean(data.blog),
+              gallery: Boolean(data.gallery),
+              portfolio: Boolean(data.portfolio),
+              venues: Boolean(data.venues),
+            }
+            try {
+              sessionStorage.setItem('1111_page_visibility', JSON.stringify(fresh))
+            } catch {
+              // ignore
+            }
+            setLiveVisibility(fresh)
+          }
+        }
+      } catch {
+        // Keep initial visibility on network error
+      }
+    }
+    fetchLiveVisibility()
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   return (
     <header
@@ -323,12 +368,22 @@ export function NavigationClient({ visibility }: NavigationClientProps) {
           >
             <NavDropdown label="Services" items={SERVICES_LINKS} />
             <NavDropdown label="Events" items={EVENTS_LINKS} />
-            {visibility?.portfolio && (
+            {liveVisibility.portfolio && (
               <Link href="/portfolio/" className="nav-item-link">
                 Portfolio
               </Link>
             )}
-            {visibility?.blog && (
+            {liveVisibility.gallery && (
+              <Link href="/gallery/" className="nav-item-link">
+                Gallery
+              </Link>
+            )}
+            {liveVisibility.venues && (
+              <Link href="/venues/" className="nav-item-link">
+                Venues
+              </Link>
+            )}
+            {liveVisibility.blog && (
               <Link href="/blog/" className="nav-item-link">
                 Blog
               </Link>
@@ -501,8 +556,10 @@ export function NavigationClient({ visibility }: NavigationClientProps) {
 
         <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           {[
-            ...(visibility?.portfolio ? [{ label: 'Portfolio', href: '/portfolio/' }] : []),
-            ...(visibility?.blog ? [{ label: 'Blog', href: '/blog/' }] : []),
+            ...(liveVisibility.portfolio ? [{ label: 'Portfolio', href: '/portfolio/' }] : []),
+            ...(liveVisibility.gallery ? [{ label: 'Gallery', href: '/gallery/' }] : []),
+            ...(liveVisibility.venues ? [{ label: 'Venues', href: '/venues/' }] : []),
+            ...(liveVisibility.blog ? [{ label: 'Blog', href: '/blog/' }] : []),
             { label: 'About Us', href: '/about-us/' },
           ].map((link) => (
             <Link
@@ -607,8 +664,8 @@ export function NavigationClient({ visibility }: NavigationClientProps) {
           box-shadow: 0 8px 28px rgba(201, 169, 110, 0.5) !important;
         }
 
-        /* Responsive Breakpoint: Switch cleanly at 1120px to prevent squeezing */
-        @media (max-width: 1120px) {
+        /* Responsive Breakpoint: Switch cleanly at 1480px to hamburger menu */
+        @media (max-width: 1480px) {
           .desktop-only {
             display: none !important;
           }

@@ -2594,8 +2594,44 @@ Run every validation suite in sequence. Resolve any lint or typing issues. Verif
     - **Mobile UX Optimization:** Eliminates the mobile "wall of text" (which previously required 3–4 full vertical viewport scrolls), creating a clean, editorial luxury reading experience that leads directly into offerings, feature grids, FAQs, and booking CTAs.
     - **Unique Page Voice:** Every statement was crafted and distilled directly from each page's own original text, ensuring no two services or event categories share repetitive phrasing.
     - **Verification:**
-      - Vitest Unit Tests: 34/34 test files passed (104/104 tests).
-      - Next.js Production Build: All 56/56 static and SSG routes built and exported cleanly with 0 errors.
+
+12. **Dynamic Live Visibility Architecture, Zero-Rebuild Slugs, Cross-Environment Media Resolvers & Sitemaps:**
+    - **Dynamic Live Visibility Architecture & Zero-Rebuild Slugs:**
+      - Removed hardcoded build-time `notFound()` traps across all Next.js page components (`/blog/`, `/portfolio/`, `/venues/`, `/gallery/`, and dynamic `[slug]` pages) so `pnpm build` always compiles full, pristine static HTML exports into `out/`.
+      - Real-time page gating is enforced dynamically via `public/gateway.php` on GoDaddy, returning live HTTP 404 when toggles are OFF and serving content when toggles are ON without requiring any Next.js rebuilds or static site re-exports.
+      - Fixed `src/app/portfolio/page.tsx` server pre-rendering by loading `getAllPortfolioProjectsServer()` synchronously into `<PortfolioClient />` (matching `src/app/venues/page.tsx`), ensuring initial HTML includes project cards for instant loading, E2E tests, and SEO.
+    - **Dynamic Navigation & Footer Visibility:**
+      - Updated `src/components/layout/NavigationClient.tsx` and `src/components/layout/Footer.tsx`:
+        - Top Navbar and Mobile Drawer dynamically display **Portfolio**, **Gallery**, **Venues**, and **Blog** links synchronized to live toggle states in `page-visibility.json`.
+        - Footer "Company" column dynamically displays active page links in real time via live API fetch.
+        - Removed social media links (Instagram, Facebook, Pinterest) from the footer bottom bar.
+      - Elevated mobile hamburger navigation breakpoint to `< 1480px` across `NavigationClient.tsx`, `src/styles/globals.css`, and `src/app/globals.css` to prevent horizontal navbar squeezing on medium laptops and tablets.
+    - **Cross-Environment Unified Image Resolver:**
+      - Created `src/lib/image-url.ts` with `resolveImageUrl()`:
+        - **Local Dev / Preview:** Automatically maps relative `/manage-7f3b9x2k/uploads/...` paths to `http://127.0.0.1:8080/manage-7f3b9x2k/uploads/...` so all images uploaded via the PHP Admin panel display immediately on `localhost:3000`.
+        - **Live Production (GoDaddy):** Resolves clean relative URLs handled by Apache rewrite rules in `public/.htaccess` (`RewriteRule ^manage-7f3b9x2k/uploads/(.*)$ php-admin/manage-7f3b9x2k/uploads/$1 [L,QSA]`).
+      - Applied `resolveImageUrl()` across all components: `DynamicPortfolioClient.tsx`, `PortfolioClient.tsx`, `DynamicVenueClient.tsx`, `VenuesClient.tsx`, `gallery/page.tsx`, `Lightbox.tsx`, `DynamicBlogClient.tsx`, and `BlogCard.tsx`.
+    - **Dynamic Sitemaps & Master Sitemap Index Engine:**
+      - Configured master sitemap index `php-admin/api/sitemap-index.php` pointing to core Next.js `sitemap.xml` and real-time dynamic XML feeds:
+        - `php-admin/api/blog-sitemap.php`
+        - `php-admin/api/portfolio-sitemap.php`
+        - `php-admin/api/venues-sitemap.php`
+      - Sitemaps dynamically exclude hidden sections when toggled OFF and automatically include new articles/venues/portfolio items when published, with zero site rebuilds.
+    - **Complete Backend Test Isolation (`get_data_dir`):**
+      - Synchronized `php-admin/config.php` and `config.example.php` with `get_data_dir()`.
+      - Updated all APIs (`page-visibility.php`, `venues-sitemap.php`, `portfolio-sitemap.php`, `blog-sitemap.php`, `contact.php`, `visibility-card.php`, `dashboard.php`) to use `get_data_dir()`.
+      - When automated tests run (`TEST_DATA_DIR` is set), all read/write/delete operations are sandboxed inside `tests/fixtures/data/`, keeping `php-admin/data/` pristine.
+    - **Gallery Card Visual Contrast & Typography Polish:**
+      - In `src/app/gallery/gallery.module.css`: Enhanced card text legibility with bold gold category eyebrows (`#c9a96e`), high-contrast serif white titles (`#ffffff` with drop shadows), and a stronger bottom gradient overlay (`rgba(0,0,0,0.92)` to `transparent`) ensuring effortless legibility over all photography.
+    - **Synchronous Navbar & Footer Hydration (Zero Flash on Reload):**
+      - Added synchronous `sessionStorage` caching in `src/components/layout/NavigationClient.tsx` and `src/components/layout/Footer.tsx` so toggle visibility states load instantaneously on page refresh before first paint, completely eliminating split-second navbar/footer layout shifts.
+    - **Contact Form Dynamic API Endpoint Resolution:**
+      - Updated `src/components/contact/ContactForm.tsx` to dynamically route submissions to `/php-admin/api/contact.php` on live hosting (`https://1111decor.com`) while preserving `http://127.0.0.1:8080/api/contact.php` for local development.
+    - **GoDaddy Live API Routing & Apache Rewrites for Blog Posts:**
+      - Updated `src/hooks/useBlogPosts.ts` and `src/hooks/useBlogPost.ts` to fetch from `/php-admin/api/blogs.php` and `/php-admin/api/blog-post.php` on live production.
+      - Added global rewrite rule `RewriteRule ^api/(.*)$ php-admin/api/$1 [L,QSA]` in `public/.htaccess` so all `/api/*` endpoints forward cleanly to `php-admin/api/*`.
+      - Updated Vitest unit tests in `tests/blog-article.unit.test.ts` and `tests/blog-client.unit.test.ts` to match production endpoint paths.
+
 
 
 

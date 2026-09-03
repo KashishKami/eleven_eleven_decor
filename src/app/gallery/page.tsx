@@ -1,15 +1,14 @@
 'use client'
 
 import React, { useState } from 'react'
-import { notFound } from 'next/navigation'
 import Image from 'next/image'
-import pageVisibility from '../../../php-admin/data/page-visibility.json'
 import { GALLERY_ITEMS, GalleryItem } from '@/data/gallery'
 import { useGallery } from '@/hooks/useGallery'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 import { Lightbox } from '@/components/ui/Lightbox'
 import { FooterCTA } from '@/components/sections/FooterCTA'
 import JsonLd from '@/components/seo/JsonLd'
+import { resolveImageUrl } from '@/lib/image-url'
 import styles from './gallery.module.css'
 
 const CATEGORY_TABS = [
@@ -24,10 +23,6 @@ const CATEGORY_TABS = [
 ]
 
 export default function GalleryPage() {
-  if (!pageVisibility.gallery) {
-    notFound()
-  }
-
   const [selectedCategory, setSelectedCategory] = useState<string>('All')
   const [activeLightboxItem, setActiveLightboxItem] = useState<GalleryItem | null>(null)
   const { items } = useGallery(GALLERY_ITEMS, selectedCategory)
@@ -100,15 +95,16 @@ export default function GalleryPage() {
                   className={styles.galleryItemCard}
                 >
                   <Image
-                    src={item.src}
+                    src={resolveImageUrl(item.src)}
                     alt={item.title}
                     fill
+                    unoptimized
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className={styles.galleryImage}
                   />
                   <div className={styles.overlay}>
-                    <span className={styles.itemCategory}>{item.category}</span>
-                    <h3 className={styles.itemTitle}>{item.title}</h3>
+                    <span className={styles.overlayCategory}>{item.category}</span>
+                    <h2 className={styles.overlayTitle}>{item.title}</h2>
                   </div>
                 </div>
               ))}

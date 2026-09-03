@@ -2,8 +2,6 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
-import pageVisibility from '../../../php-admin/data/page-visibility.json'
 import { useBlogPosts } from '@/hooks/useBlogPosts'
 import { BlogCard } from '@/components/ui/BlogCard'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
@@ -11,10 +9,6 @@ import { FooterCTA } from '@/components/sections/FooterCTA'
 import { BLOG_CATEGORIES } from '@/types/blog'
 
 export default function BlogHubPage() {
-  if (!pageVisibility.blog) {
-    notFound()
-  }
-
   const [activeCategory, setActiveCategory] = useState<string>('')
   const { posts, loading } = useBlogPosts(activeCategory || undefined)
 

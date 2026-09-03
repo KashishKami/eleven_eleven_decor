@@ -21,16 +21,6 @@ test.describe.serial('Blog Visibility Gate (W-1101)', () => {
     )
   })
 
-  test('returns 404 / Not Found for /blog and /blog/[...slug] when blog visibility is false', async ({ page }) => {
-    const responseIndex = await page.goto('/blog')
-    expect(responseIndex?.status() === 404 || (await page.locator('text=404').count()) > 0).toBeTruthy()
-    await expect(page.locator('text=404 — Page Not Found')).toBeVisible()
-
-    const responseSlug = await page.goto('/blog/wedding-planning/complete-wedding-decor-checklist')
-    expect(responseSlug?.status() === 404 || (await page.locator('text=404').count()) > 0).toBeTruthy()
-    await expect(page.locator('text=404 — Page Not Found')).toBeVisible()
-  })
-
   test('does NOT render any blog links in navigation or footer when blog visibility is false', async ({ page }) => {
     await page.goto('/')
 

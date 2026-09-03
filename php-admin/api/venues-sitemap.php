@@ -13,7 +13,7 @@ header('X-Robots-Tag: noindex');
 $baseUrl = rtrim(defined('CORS_ORIGIN') && CORS_ORIGIN !== '*' ? CORS_ORIGIN : 'https://elevenelevendecor.com', '/');
 
 // Check visibility toggle with test env override support
-$visFile = __DIR__ . '/../data/page-visibility.json';
+$visFile = get_data_dir() . '/page-visibility.json';
 $venuesVisible = true;
 if (getenv('VISIBILITY_VENUES') !== false) {
     $venuesVisible = getenv('VISIBILITY_VENUES') === '1';

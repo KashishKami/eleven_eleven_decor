@@ -29,27 +29,32 @@
         "created_at": "2026-08-27 12:00:00"
     },
     {
-        "name": "JD Connect",
-        "tagline": "5 years celeberation",
-        "slug": "jd-connect",
+        "name": "JD Fusion",
+        "tagline": "Test",
+        "slug": "jd-fusion",
         "spaceType": "Hybrid (Indoor & Outdoor)",
-        "location": "Dehradun",
-        "capacity": 20,
-        "heroImage": "\/manage-7f3b9x2k\/uploads\/front-banner-1-6a903fa055fa8.jpg",
+        "location": "Test",
+        "capacity": 100,
+        "heroImage": "\/manage-7f3b9x2k\/uploads\/1-6a95ab6e0fc53.jpg",
         "galleryImages": [
-            "\/manage-7f3b9x2k\/uploads\/birthday-events-1-6a903fae605bf.jpg"
+            "\/manage-7f3b9x2k\/uploads\/2-6a95ab7b8510e.jpg",
+            "\/manage-7f3b9x2k\/uploads\/3-6a95ab7b8e228.jpg",
+            "\/manage-7f3b9x2k\/uploads\/4-6a95ab7b9e28a.jpg",
+            "\/manage-7f3b9x2k\/uploads\/5-6a95ab7bb4490.jpg"
         ],
-        "summary": "JD Connect Party",
+        "summary": "Testing Venue",
         "decorHighlights": [
+            "Testing",
             "Testing"
         ],
         "planningConsiderations": [
-            "Testing"
+            "Testing Testing",
+            "TEST"
         ],
-        "metaTitle": "JD Connect | 11:11 Decor Venue Staging",
-        "metaDescription": "JD Connect Party",
+        "metaTitle": "JD Fusion | 11:11 Decor Venue Staging",
+        "metaDescription": "Testing Venue",
         "published": 1,
         "id": "2",
-        "created_at": "2026-08-27 13:46:28"
+        "created_at": "2026-08-31 16:27:50"
     }
 ]

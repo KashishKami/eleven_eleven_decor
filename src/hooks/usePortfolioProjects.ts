@@ -11,7 +11,8 @@ export interface FetchProjectsResult {
 export async function fetchPortfolioProjects(category?: string): Promise<FetchProjectsResult> {
   const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
   const baseUrl = isLocal ? 'http://127.0.0.1:8080' : ''
-  const url = `${baseUrl}/api/portfolio.php${category && category !== 'All' ? `?category=${encodeURIComponent(category)}` : ''}`
+  const endpoint = isLocal ? '/api/portfolio.php' : '/php-admin/api/portfolio.php'
+  const url = `${baseUrl}${endpoint}${category && category !== 'All' ? `?category=${encodeURIComponent(category)}` : ''}`
 
   try {
     const res = await fetch(url, { cache: 'no-store' })

@@ -174,7 +174,7 @@ export function Hero() {
               transition: 'background-color 0.3s ease, border-color 0.3s ease',
             }}
           >
-             {pageVisibility.portfolio ? 'View Our Work' : 'Explore Events'}
+            {pageVisibility.portfolio ? 'View Our Work' : 'Explore Events'}
           </Link>
         </div>
       </div>

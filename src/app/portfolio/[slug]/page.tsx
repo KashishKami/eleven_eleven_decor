@@ -1,7 +1,6 @@
 import React from 'react'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import pageVisibility from '../../../../php-admin/data/page-visibility.json'
 import { getAllPortfolioProjectsServer, getPortfolioProjectBySlugServer } from '@/lib/server-portfolio'
 import { DynamicPortfolioClient } from '@/components/portfolio/DynamicPortfolioClient'
 
@@ -28,7 +27,7 @@ export function generateMetadata({ params }: Props): Metadata {
     return { title: 'Project Not Found | 1111 Decor' }
   }
   const project = getPortfolioProjectBySlugServer(params.slug)
-  if (!project || !pageVisibility.portfolio) {
+  if (!project) {
     return { title: 'Project Not Found | 1111 Decor' }
   }
 
@@ -48,7 +47,7 @@ export function generateMetadata({ params }: Props): Metadata {
 }
 
 export default function PortfolioDetailPage({ params }: Props) {
-  if (params.slug === '__empty__' || !pageVisibility.portfolio) {
+  if (params.slug === '__empty__') {
     notFound()
   }
 

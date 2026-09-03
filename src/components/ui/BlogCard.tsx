@@ -4,20 +4,10 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { BlogPost } from '@/types/blog'
+import { resolveImageUrl } from '@/lib/image-url'
 
 interface BlogCardProps {
   post: BlogPost
-}
-
-const API_BASE = (process.env.NEXT_PUBLIC_API_URL || '').replace(/\/$/, '')
-
-function resolveImageUrl(src?: string): string {
-  if (!src) return 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1000&auto=format&fit=crop'
-  if (src.startsWith('http://') || src.startsWith('https://')) return src
-  if (src.startsWith('/')) {
-    return API_BASE ? `${API_BASE}${src}` : src
-  }
-  return src
 }
 
 export function BlogCard({ post }: BlogCardProps) {

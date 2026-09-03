@@ -34,7 +34,7 @@ describe('useBlogPost / fetchBlogPost single article fetcher', () => {
     } as Response)
 
     const result = await fetchBlogPost('complete-wedding-decor-checklist')
-    expect(global.fetch).toHaveBeenCalledWith('/api/blog-post.php?slug=complete-wedding-decor-checklist')
+    expect(global.fetch).toHaveBeenCalledWith('/php-admin/api/blog-post.php?slug=complete-wedding-decor-checklist')
     expect(result.post?.title).toBe('The Complete Wedding Decor Checklist')
     expect(result.post?.content).toBe('<p>Article content goes here</p>')
     expect(result.error).toBeNull()

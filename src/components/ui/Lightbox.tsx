@@ -3,6 +3,7 @@
 import React, { useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import type { GalleryItem } from '@/data/gallery'
+import { resolveImageUrl } from '@/lib/image-url'
 
 interface LightboxProps {
   item: GalleryItem | null
@@ -104,7 +105,7 @@ export function Lightbox({ item, items, onClose, onNavigate }: LightboxProps) {
           border: '1px solid rgba(201, 169, 110, 0.3)',
         }}
       >
-        <Image src={item.src} alt={item.title} fill sizes="90vw" style={{ objectFit: 'contain' }} priority />
+        <Image src={resolveImageUrl(item.src)} alt={item.title} fill unoptimized sizes="90vw" style={{ objectFit: 'contain' }} priority />
       </div>
 
       {/* Image Caption & Category */}

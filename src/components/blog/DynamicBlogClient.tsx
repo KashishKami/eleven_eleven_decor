@@ -12,20 +12,10 @@ import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 import { FooterCTA } from '@/components/sections/FooterCTA'
 import { BLOG_CATEGORIES } from '@/types/blog'
 
+import { resolveImageUrl } from '@/lib/image-url'
+
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
-}
-
-const API_BASE = (process.env.NEXT_PUBLIC_API_URL || '').replace(/\/$/, '')
-
-function resolveImageUrl(src?: string): string {
-  if (!src) return 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1000&auto=format&fit=crop'
-  if (src.startsWith('http://') || src.startsWith('https://')) return src
-  if (src.startsWith('/')) {
-    const base = API_BASE || (typeof window !== 'undefined' && window.location.port === '3000' ? 'http://localhost:8080' : '')
-    return base ? `${base}${src}` : src
-  }
-  return src
 }
 
 function slugifyHeading(text: string): string {
@@ -38,7 +28,8 @@ function slugifyHeading(text: string): string {
 
 function transformArticleContent(html?: string): string {
   if (!html) return ''
-  const base = API_BASE || (typeof window !== 'undefined' && window.location.port === '3000' ? 'http://localhost:8080' : '')
+  const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+  const base = isLocal ? 'http://127.0.0.1:8080' : ''
   
   let processed = html
   if (base) {

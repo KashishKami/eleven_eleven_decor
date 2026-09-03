@@ -31,10 +31,12 @@ test.describe('Gallery PHP Admin CRUD & Management (W-1105)', () => {
     await page.selectOption('select[name="aspectRatio"]', 'landscape')
     await page.fill('input[name="src"]', 'https://images.unsplash.com/photo-1519741497674-611481863552')
 
-    await page.locator('button[type="submit"]').click({ force: true })
+    await Promise.all([
+      page.waitForURL(/gallery\.php/, { waitUntil: 'domcontentloaded', timeout: 15000 }),
+      page.locator('button[type="submit"]').click({ force: true }),
+    ])
 
     // 5. Assert redirected to gallery list and photo is visible
-    await expect(page).toHaveURL(/gallery\.php/)
     const photoRow = page.locator('tr', { hasText: uniqueTitle })
     await expect(photoRow).toBeVisible()
 

@@ -10,7 +10,7 @@ test.describe('Venues Hub & Venue Detail Pages (W-602)', () => {
     await expect(mainHeading).toContainText('Find the Right Setting for Your Event')
 
     // 2. Assert venue cards render
-    const venueCards = page.locator('a[href*="/venues/"]')
+    const venueCards = page.locator('main a[href*="/venues/"]')
     await expect(venueCards.first()).toBeVisible()
 
     // 3. Assert venue detail page navigation

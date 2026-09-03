@@ -1,7 +1,6 @@
 import React from 'react'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import pageVisibility from '../../../../php-admin/data/page-visibility.json'
 import { getAllVenuesServer, getVenueBySlugServer } from '@/lib/server-venues'
 import { DynamicVenueClient } from '@/components/venues/DynamicVenueClient'
 
@@ -28,7 +27,7 @@ export function generateMetadata({ params }: Props): Metadata {
     return { title: 'Venue Not Found | 1111 Decor' }
   }
   const venue = getVenueBySlugServer(params.slug)
-  if (!venue || !pageVisibility.venues) {
+  if (!venue) {
     return { title: 'Venue Not Found | 1111 Decor' }
   }
 
@@ -48,7 +47,7 @@ export function generateMetadata({ params }: Props): Metadata {
 }
 
 export default function VenueDetailPage({ params }: Props) {
-  if (params.slug === '__empty__' || !pageVisibility.venues) {
+  if (params.slug === '__empty__') {
     notFound()
   }
 

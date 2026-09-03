@@ -1,11 +1,69 @@
-import React from 'react'
+'use client'
+
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { getPageVisibility } from '@/lib/server-visibility'
 import { CONTACT_INFO } from '@/data/contact'
+
+interface PageVisibility {
+  blog: boolean
+  gallery: boolean
+  portfolio: boolean
+  venues: boolean
+}
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
-  const pageVisibility = getPageVisibility()
+  const [visibility, setVisibility] = useState<PageVisibility>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const cached = sessionStorage.getItem('1111_page_visibility')
+        if (cached) return JSON.parse(cached)
+      } catch {
+        // fallback
+      }
+    }
+    return {
+      blog: false,
+      gallery: false,
+      portfolio: false,
+      venues: false,
+    }
+  })
+
+  useEffect(() => {
+    let isMounted = true
+    const fetchLiveVisibility = async () => {
+      try {
+        const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+        const url = isLocal ? 'http://127.0.0.1:8080/api/page-visibility.php' : '/php-admin/api/page-visibility.php'
+        const res = await fetch(url, { cache: 'no-store' })
+        if (res.ok && isMounted) {
+          const data = await res.json()
+          if (data && typeof data === 'object') {
+            const fresh: PageVisibility = {
+              blog: Boolean(data.blog),
+              gallery: Boolean(data.gallery),
+              portfolio: Boolean(data.portfolio),
+              venues: Boolean(data.venues),
+            }
+            try {
+              sessionStorage.setItem('1111_page_visibility', JSON.stringify(fresh))
+            } catch {
+              // ignore
+            }
+            setVisibility(fresh)
+          }
+        }
+      } catch {
+        // keep fallback
+      }
+    }
+
+    fetchLiveVisibility()
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   return (
     <footer
@@ -122,7 +180,7 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Events */}
+          {/* Column 3: Event Types */}
           <div>
             <h4
               style={{
@@ -173,11 +231,11 @@ export function Footer() {
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.7rem', padding: 0, margin: 0 }}>
               {[
                 { label: 'About Us', href: '/about-us/' },
-                ...(pageVisibility.portfolio ? [{ label: 'Portfolio', href: '/portfolio/' }] : []),
-                ...(pageVisibility.gallery ? [{ label: 'Gallery', href: '/gallery/' }] : []),
+                ...(visibility.portfolio ? [{ label: 'Portfolio', href: '/portfolio/' }] : []),
+                ...(visibility.gallery ? [{ label: 'Gallery', href: '/gallery/' }] : []),
                 { label: 'Packages', href: '/packages/' },
-                ...(pageVisibility.venues ? [{ label: 'Venues', href: '/venues/' }] : []),
-                ...(pageVisibility.blog ? [{ label: 'Blog', href: '/blog/' }] : []),
+                ...(visibility.venues ? [{ label: 'Venues', href: '/venues/' }] : []),
+                ...(visibility.blog ? [{ label: 'Blog', href: '/blog/' }] : []),
                 { label: 'Contact Us', href: '/contact/' },
               ].map((link) => (
                 <li key={link.href}>
@@ -219,27 +277,6 @@ export function Footer() {
           >
             © {currentYear} 11:11 Decor (Eleven Eleven Decor). All rights reserved.
           </p>
-
-          {/* Social icons */}
-          <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
-            {['Instagram', 'Facebook', 'Pinterest'].map((platform) => (
-              <span
-                key={platform}
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.75rem',
-                  fontWeight: 600,
-                  letterSpacing: '0.08em',
-                  color: '#555050',
-                  textTransform: 'uppercase',
-                  cursor: 'pointer',
-                  transition: 'color 0.2s ease',
-                }}
-              >
-                {platform}
-              </span>
-            ))}
-          </div>
         </div>
       </div>
     </footer>

@@ -9,14 +9,14 @@ export interface FetchBlogPostResult {
   error: string | null
 }
 
-const API_BASE = (process.env.NEXT_PUBLIC_API_URL || '').replace(/\/$/, '')
-
-/**
- * Direct async fetcher for a single blog post by slug
- */
 export async function fetchBlogPost(slug: string): Promise<FetchBlogPostResult> {
+  const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+  const baseUrl = isLocal ? 'http://127.0.0.1:8080' : ''
+  const apiPath = isLocal ? '/api/blog-post.php' : '/php-admin/api/blog-post.php'
+  const url = `${baseUrl}${apiPath}?slug=${encodeURIComponent(slug)}`
+
   try {
-    const response = await fetch(`${API_BASE}/api/blog-post.php?slug=${encodeURIComponent(slug)}`)
+    const response = await fetch(url)
     if (!response.ok) {
       return { post: null, error: 'Post not found' }
     }

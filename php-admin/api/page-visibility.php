@@ -17,7 +17,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS
     exit;
 }
 
-$dataFile = __DIR__ . '/../data/page-visibility.json';
+$dataFile = get_data_dir() . '/page-visibility.json';
 
 function getVisibilityConfig($file) {
     if (!file_exists($file)) {

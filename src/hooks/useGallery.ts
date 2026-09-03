@@ -11,7 +11,8 @@ export interface FetchGalleryResult {
 export async function fetchGalleryItems(category?: string): Promise<FetchGalleryResult> {
   const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
   const baseUrl = isLocal ? 'http://127.0.0.1:8080' : ''
-  const url = `${baseUrl}/api/gallery.php${category && category !== 'All' ? `?category=${encodeURIComponent(category)}` : ''}`
+  const endpoint = isLocal ? '/api/gallery.php' : '/php-admin/api/gallery.php'
+  const url = `${baseUrl}${endpoint}${category && category !== 'All' ? `?category=${encodeURIComponent(category)}` : ''}`
 
   try {
     const res = await fetch(url, { cache: 'no-store' })

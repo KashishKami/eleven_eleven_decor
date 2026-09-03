@@ -18,6 +18,13 @@ RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
+# Route uploads to php-admin upload directory
+RewriteRule ^uploads/(.*)$ php-admin/manage-7f3b9x2k/uploads/$1 [L,QSA]
+RewriteRule ^manage-7f3b9x2k/uploads/(.*)$ php-admin/manage-7f3b9x2k/uploads/$1 [L,QSA]
+
+# Route /api/* requests to /php-admin/api/*
+RewriteRule ^api/(.*)$ php-admin/api/$1 [L,QSA]
+
 # Route managed dynamic sections through gateway.php for live visibility 404s and zero-rebuild slugs
 RewriteRule ^(blog|portfolio|venues|gallery)(/.*)?$ gateway.php [L,QSA]
 

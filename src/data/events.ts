@@ -49,7 +49,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     subtitle: 'End-to-end wedding planning and décor across every ceremony',
     description:
       'End-to-end wedding planning and décor — mandap, stage, venue styling, and coordination across every ceremony.',
-    heroImage: '/images/events/wedding-events.png',
+    heroImage: '/images/events/wedding_event.png',
     heroImagePosition: 'center center',
     intro:
       'A wedding is several events inside one celebration. 11:11 Decor plans and manages every function — from the first consultation through to the final send-off — so timing, vendors, and décor stay connected across the whole event.',
@@ -303,7 +303,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     subtitle: 'Planning and décor coordination away from home',
     description:
       'Planning and décor coordination for events held away from home, with logistics handled end to end.',
-    heroImage: '/events/destinations-card.jpg',
+    heroImage: '/images/events/destination_event.png',
     intro:
       "Events held away from home add a layer of logistics most planners don't handle daily. 11:11 Decor plans and coordinates destination events end to end, including travel-dependent vendor and décor logistics.",
     editorialStory: [

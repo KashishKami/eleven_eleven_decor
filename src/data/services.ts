@@ -60,8 +60,8 @@ export const SERVICES_DATA: ServiceItem[] = [
     heroH1: 'Event Planning Services',
     intro: "Good events are designed before they're decorated. Event planning covers everything that happens before the first flower is placed — concept, budget guidance, vendor sourcing, and a realistic timeline built around your date.",
     editorialStory: [
-      "Planning an event is about weaving together every logistical and aesthetic detail so the day unfolds exactly as you envisioned. Rather than cookie-cutter templates, our planning is custom-built from the ground up—covering venue scouting, budget transparency, vendor sourcing, and realistic timelines tailored to your occasion.",
-      "We balance creativity with logistics, ensuring the celebration runs like clockwork. With dedicated contingency plans and calm coordination, 11:11 Decor takes the stress off your shoulders, turning complex preparations into an exciting, seamless journey."
+      "Planning for the event is not just about picking the right date and venue but it’s about weaving together every detail so the day unfolds what you exactly want. At 11:11 Decor we truly believe that “Your Wish Our creation is more than just a tagline.",
+      "Our event planning services are designed to take the stress off your shoulders and replacing it with excitement. Our team make sure the planning should feel more like a fun part rather than a frustrated job. So, whether you are organising a small family meet, product launch or celebrating a milestone achieved, we got your back."
     ],
     whatWeProvide: [
       'Concept development',
@@ -96,8 +96,8 @@ export const SERVICES_DATA: ServiceItem[] = [
     heroH1: 'Event Decoration Services',
     intro: 'Décor is where the concept becomes visible — colour, texture, florals, and staging brought together across a venue. 11:11 Decor designs and installs décor for events of every size, either as a standalone service or as part of full event management.',
     editorialStory: [
-      "At 11:11 Decor, our event decoration service transforms venues into memorable settings that reflect your unique celebration. We study the entire environment—entrances, stages, dining spaces, and backdrops—combining fabrics, florals, lighting, and textures to create cohesive atmosphere rather than crowded styling.",
-      "Every decorative choice serves a distinct purpose, from creating dramatic focal points to enhancing photography. We manage installation with meticulous attention to detail and proportion, ensuring your space is completely polished and visually captivating before the first guest arrives."
+      "Light, colour, design – the magic of the moment when it is combined in a beautiful way to transform an ordinary room into an extraordinary experience. Event decoration is not something that we just do, it's an art form, and something that we have honed over many years of dedication, creativity and a strong sense of vision with the ability to see our clients vision through to fruition.",
+      "We design every balloon arch, floral arrangement and lighting to reflect the theme of \"Your Wish Our Creation\". We provide event decoration for many events, such as baby showers, religious events, wedding, anniversaries, baby, graduation, retirement and so much more, making your moments immensely magical."
     ],
     whatWeProvide: [
       'Concept-to-installation décor design',
@@ -170,8 +170,8 @@ export const SERVICES_DATA: ServiceItem[] = [
     heroH1: 'Corporate Event Management',
     intro: 'Corporate events run on tighter timelines and higher expectations. 11:11 Decor plans and manages launches, conferences, and company celebrations with the coordination and polish they need.',
     editorialStory: [
-      "Corporate events require sharp precision and technical discipline because every detail reflects your brand. From corporate galas and conferences to product launches and executive summits, 11:11 Decor coordinates staging, sound, lighting, presentations, and guest hospitality into one synchronized run-of-show.",
-      "We coordinate technical teams, manage tight schedules, and ensure punctual transitions so presentations and networking unfold effortlessly. Our team handles operations with discretion and quick problem-solving, allowing your leadership to focus entirely on clients and business objectives."
+      "At 11:11 Decor, we design and execute corporate event decor that is both eye-catching and effective, making you leave the last impression and reflection of your brand. Our professionals are highly creative when it comes to creating setups for product launches, conferences, award shows, office inaugurations, anniversaries, networks, and corporate parties.",
+      "Our services include branded backdrops, stage décor, lighting, signage, entrance displays, table arrangements and customized themes. Collaborate effortlessly with the technical team, venue managers and event professionals to ensure smooth, timely and efficient execution. From intimate gathering for the executive to a lavish corporate event, we have the perfect decor for every event and a vision to create your wish into reality."
     ],
     whatWeProvide: [
       'Venue sourcing support',
@@ -206,8 +206,8 @@ export const SERVICES_DATA: ServiceItem[] = [
     heroH1: 'Stage Decoration Services',
     intro: 'The stage is where attention naturally gathers. 11:11 Decor designs custom stage backdrops and setups scaled to your venue, theme, and guest count.',
     editorialStory: [
-      "The stage is the visual centerpiece of your celebration, providing the backdrop for speeches, ceremonies, performances, and photographs. 11:11 Decor designs custom stage environments tailored to your venue architecture, sightlines, and lighting—combining structural panels, bespoke fabrics, florals, and branded backdrops into a unified focal point.",
-      "We assess stage dimensions, technical rigging, and audience viewing angles to ensure designs are both striking and practical. During setup, our team focuses on perfect symmetry, lighting balance, and finishing touches so your stage captures attention without overwhelming the space."
+      "The stage is the centre of attraction of all the events. At 11:11 decor we set stage backdrop for speeches, ceremonies, performances and photographs. We design stage sets that compliments on all your event themes, style and venue.",
+      "From elegant flower arrangements to stylish fabrics, balloons, lighting and personalized backdrops, we belief to craft every detail thoughtfully. Focusing on the stage dimension, audience visibility and lighting our team ensures the setup looks stunning from every angle that is picture ready."
     ],
     whatWeProvide: [
       'Custom backdrop design',
@@ -242,8 +242,8 @@ export const SERVICES_DATA: ServiceItem[] = [
     heroH1: 'Venue Decoration',
     intro: 'Every venue has a starting layout; venue decoration is how it becomes your event. 11:11 Decor styles full spaces — entrances, seating, lighting, and flow — to match your concept.',
     editorialStory: [
-      "A venue provides the physical structure, but thoughtful decoration gives it warmth, character, and emotion. 11:11 Decor designs complete venue transformations—connecting entrances, pathways, lounges, ceremony spaces, and dining layouts with harmonious fabrics, ambient lighting, and bespoke installations that complement the location’s architecture.",
-      "Rather than treating areas in isolation, we plan décor alongside guest movement and hospitality flow. From historic heritage halls to open-air destination lawns, we craft immersive, balanced environments where every corner feels intentional, welcoming, and memorable for your guests."
+      "A beautiful venue is all that you require to set the vibe of an event, therefore a perfect decoration can help you create a thoughtful impression on the audiences. At 11:11 Decor we transform ordinary spaces into beautiful entrance, lounges, ceremony areas and dinning spaces.",
+      "Staying on to our tagline Your Wish Our Creation, we stay persistent towards warm hospitality, decoration, lightning and all your needs so that you can cherish each moment to the fullest. Standing as one of the best event planners in Dehradun we specialise in curating unforgettable experiences that remains with you throughout your life."
     ],
     whatWeProvide: [
       'Full-venue styling',
@@ -278,8 +278,8 @@ export const SERVICES_DATA: ServiceItem[] = [
     heroH1: 'Floral Decoration',
     intro: 'Florals set the tone of a space more than almost any other element. 11:11 Decor designs fresh and artificial floral installations, from mandaps and backdrops to table centerpieces.',
     editorialStory: [
-      "Floral design instantly shapes the emotional atmosphere of an event through color, texture, and natural elegance. 11:11 Decor creates bespoke floral concepts—from majestic mandaps and grand entrance installations to delicate table centerpieces, hanging foliage, and statement floral walls tailored to your season and palette.",
-      "We carefully consider installation timing, flower longevity, lighting, and venue climate so arrangements remain fresh throughout your event. Whether classic traditional combinations or contemporary botanical styling, our florists place every bloom with care to create depth, luxury, and visual harmony."
+      "Flowers have a power to instantly shape your mood. From colour, texture and natural elegance to instantly transforming the emotional atmosphere of an event. At 11:11 Decor, we excel in customizing floral arrangements for majestic mandaps, grand entrance, floral walls, hanging foliage to everything that aligns your theme, season, venue and celebration.",
+      "We carefully consider installation timing, flower longevity and venue atmosphere so that arrangement remains fresh throughout. Whether you prefer traditional floral styling or botanical styling 11:11 Decor make sure every place blooms with special care and visual harmony so that you walk in with confidence."
     ],
     whatWeProvide: [
       'Mandap and backdrop florals',
@@ -314,8 +314,8 @@ export const SERVICES_DATA: ServiceItem[] = [
     heroH1: 'Lighting & Production',
     intro: 'Lighting changes how every other décor element is seen after dark. 11:11 Decor coordinates ambient and event lighting, along with sound and production support, as part of a complete décor plan.',
     editorialStory: [
-      "Lighting quietly commands the mood of an event, transforming how décor, staging, and architecture are experienced after dark. 11:11 Decor integrates technical production—ambient architectural washes, stage spotlights, sound reinforcement, and visual cues—directly into your design plan from day one.",
-      "Our technical team plans for every moment, shifting seamlessly from warm dining ambiance to high-energy celebratory performances. With thorough equipment testing and cue management, we ensure your event looks stunning in photography and runs without audio-visual disruption."
+      "Lighting is essential in forming the atmosphere and making your event decor come alive. We help to enhance decor, architecture and ambience with creative lighting solutions at 11:11 Decor, using professional production techniques. Everything from ambient lighting, architecture washes, through to stage lighting, sound systems and visual effects – everything is planned around for your event.",
+      "Whether it's a formal dinner, an office party, or a lively celebration, our technical team ensures seamless transitions between each event making you feel energetic after every effect. Along with careful equipment testing and precise coordination, we create visually stunning experiences while ensuring hassle free event production."
     ],
     whatWeProvide: [
       'Ambient and accent lighting',
@@ -351,8 +351,8 @@ export const SERVICES_DATA: ServiceItem[] = [
     heroH1: 'Entertainment & Hospitality',
     intro: 'What guests experience beyond the décor — entertainment, service, and hospitality — shapes how an event is remembered. 11:11 Decor coordinates these guest-facing elements as part of the wider event plan.',
     editorialStory: [
-      "While decor creates the initial impression, entertainment and hospitality define how guests feel throughout the celebration. 11:11 Decor coordinates vetted performers, live musicians, DJs, and hosts, pairing them with attentive guest management, arrival welcomes, and smooth transition cueing tailored to your audience.",
-      "We align performance schedules with dinner service and ceremony flow, ensuring programming feels natural rather than disruptive. Our coordinators provide dedicated, discreet on-site assistance so VIPs and guests feel genuinely cared for from the welcome to the final farewell."
+      "While decor create the overall impression of the venue: entertainment and hospitality defines how your guests feels throughout the event. At 11:11 Decor we prioritize to make each guest feel comfortable and special. From professional performers to live music, DJs hosts and fun entertainment we arrange everything to match your requirements.",
+      "Performances are planned to complement each ceremony flow, dinner services keeping in mind your event seems more natural rather than being disruptive. Our teams of dedicated professionals are dedicated to show extra care and affection to all the VIPs and guest so that they feel truly cherished throughout the event."
     ],
     whatWeProvide: [
       'Entertainment sourcing and booking liaison',
@@ -386,8 +386,8 @@ export const SERVICES_DATA: ServiceItem[] = [
     heroH1: 'Birthday Decoration Services',
     intro: "A birthday should reflect the person being celebrated. From milestone birthdays (1st, 18th, 21st, 50th) and intimate adult celebrations to lively themed children's parties, 11:11 Decor creates bespoke styling — custom photo backdrops, balloon art, luxury table styling, and ambient lighting.",
     editorialStory: [
-      "Every birthday celebration should reflect the personality and milestones of the person being honored. 11:11 Decor creates custom birthday styling from scratch—including bespoke theme backdrops, organic balloon architecture, luxury dessert tables, personalized signage, and ambient lighting for all ages and milestone years.",
-      "We study your venue layout to ensure guest seating, cake-cutting areas, and photo zones flow effortlessly together. Our team manages complete on-site installation before guests arrive, transforming ordinary party spaces into joyful, picture-perfect celebrations filled with creative character."
+      "Imagine celebrating your birthday exactly the way you want to — with perfect happiness and moment that feels truly a bliss. Whether it’s a grand celebration with your family, friends and your loved ones or a small intimate gathering, a beautiful decor can make your special day feel more memorable.",
+      "At 11:11 Decor we specialise in creating beautiful and magical moments with beautiful theme based decorations for all the age groups. Our services include customized backdrops, personalised banners, cake table decor, ambient lights, floral arrangements and themed props. With attention to every detail we make sure to deliver a picture-perfect decor that suits your imagination before your guests arrives."
     ],
     whatWeProvide: [
       'Custom themed stage and photo backdrops',

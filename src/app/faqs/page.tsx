@@ -78,7 +78,7 @@ export default function FaqsPage() {
         name: 'How do we request a quote?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'You can submit our quick inquiry form on the Contact page or message us directly on WhatsApp (+91 98765 43210) with your event date, estimated guest count, and preferred venue.',
+          text: 'You can submit our quick inquiry form on the Contact page or message us directly on WhatsApp (+91 74668 54475) with your event date, estimated guest count, and preferred venue.',
         },
       },
     ],

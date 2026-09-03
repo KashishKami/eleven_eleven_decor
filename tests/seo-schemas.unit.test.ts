@@ -23,7 +23,7 @@ describe('SEO Schema Engine (W-901)', () => {
     expect(schema['@context']).toBe('https://schema.org')
     expect(schema['@type']).toBe('LocalBusiness')
     expect(schema.name).toBe('11:11 Decor')
-    expect(schema.telephone).toBe('+919876543210')
+    expect(schema.telephone).toBe('+917466854475')
     expect(schema.address).toBeDefined()
     expect(schema.openingHoursSpecification).toBeInstanceOf(Array)
   })

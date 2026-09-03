@@ -288,7 +288,7 @@ export default function ContactForm() {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              placeholder="+91 98765 43210"
+              placeholder="+91 74668 54475"
               style={{
                 width: '100%',
                 padding: '0.9rem 1.15rem',

@@ -40,12 +40,12 @@ export const CONTACT_INFO: ContactInfo = {
     formatted: '1000, Doon Express Business Park Rd, Subhash Nagar, Dehradun, Sewla Khurd, Uttarakhand 248001',
   },
   phone: {
-    display: '+91 98765 43210',
-    href: 'tel:+919876543210',
+    display: '+91 74668 54475',
+    href: 'tel:+917466854475',
   },
   whatsapp: {
-    display: '+91 98765 43210',
-    href: 'https://wa.me/919876543210?text=Hello%2011:11%20Decor,%20I%20would%20like%20to%20inquire%20about%20event%20planning%20and%20decor%20services.',
+    display: '+91 74668 54475',
+    href: 'https://wa.me/917466854475?text=Hello%2011:11%20Decor,%20I%20would%20like%20to%20inquire%20about%20event%20planning%20and%20decor%20services.',
   },
   email: {
     display: '1111decorjd@gmail.com',

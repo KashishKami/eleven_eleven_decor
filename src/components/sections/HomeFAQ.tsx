@@ -35,7 +35,7 @@ const HOMEPAGE_FAQS = [
   },
   {
     q: 'How do we request a quote?',
-    a: 'You can submit our quick inquiry form on the Contact page or message us directly on WhatsApp (+91 98765 43210) with your event date, estimated guest count, and preferred venue.',
+    a: 'You can submit our quick inquiry form on the Contact page or message us directly on WhatsApp (+91 74668 54475) with your event date, estimated guest count, and preferred venue.',
   },
 ]
 

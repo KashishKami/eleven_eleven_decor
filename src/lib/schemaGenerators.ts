@@ -181,7 +181,7 @@ export function generateLocalBusinessSchema(): LocalBusinessSchema {
     name: '11:11 Decor',
     image: `${SITE_URL}/og-image.jpg`,
     url: `${SITE_URL}/contact/`,
-    telephone: '+919876543210',
+    telephone: '+917466854475',
     email: CONTACT_INFO.email.display,
     priceRange: '₹₹₹₹',
     address: {
@@ -227,7 +227,7 @@ export function generateServiceSchema(service: ServiceSchemaInput): ServiceSchem
     provider: {
       '@type': 'LocalBusiness',
       name: '11:11 Decor',
-      telephone: '+919876543210',
+      telephone: '+917466854475',
       url: `${SITE_URL}/`,
     },
     areaServed: {

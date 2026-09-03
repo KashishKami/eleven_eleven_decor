@@ -48,8 +48,8 @@ export const CONTACT_INFO: ContactInfo = {
     href: 'https://wa.me/917466854475?text=Hello%2011:11%20Decor,%20I%20would%20like%20to%20inquire%20about%20event%20planning%20and%20decor%20services.',
   },
   email: {
-    display: '1111decorjd@gmail.com',
-    href: 'mailto:1111decorjd@gmail.com',
+    display: 'hello1111decor@gmail.com',
+    href: 'mailto:hello1111decor@gmail.com',
   },
   hours: 'Mon – Sat, 10:00 AM – 7:00 PM IST',
   mapEmbedUrl:

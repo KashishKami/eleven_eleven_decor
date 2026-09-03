@@ -15,7 +15,7 @@ describe('Contact Page Data & Validation (W-801)', () => {
     expect(CONTACT_INFO.phone.display).toBe('+91 74668 54475')
     expect(CONTACT_INFO.phone.href).toBe('tel:+917466854475')
     expect(CONTACT_INFO.whatsapp.href).toContain('wa.me/917466854475')
-    expect(CONTACT_INFO.email.display).toBe('1111decorjd@gmail.com')
+    expect(CONTACT_INFO.email.display).toBe('hello1111decor@gmail.com')
     expect(CONTACT_INFO.hours).toContain('10:00 AM')
     expect(CONTACT_INFO.mapEmbedUrl).toBeDefined()
   })

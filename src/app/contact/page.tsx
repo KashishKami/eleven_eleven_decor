@@ -31,7 +31,7 @@ export default function ContactPage() {
     description:
       'Luxury event planning, bespoke floral styling, stage architecture, and celebration decor services in Dehradun and across Uttarakhand.',
     telephone: '+917466854475',
-    email: 'contact@1111decor.com',
+    email: CONTACT_INFO.email.display,
     address: {
       '@type': 'PostalAddress',
       streetAddress: CONTACT_INFO.address.street,

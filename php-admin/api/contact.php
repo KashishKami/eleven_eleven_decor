@@ -15,7 +15,7 @@ require_once __DIR__ . '/../config.php';
 // ─── CORS Headers ────────────────────────────────────────────────────────────
 header('Access-Control-Allow-Origin: ' . CORS_ORIGIN);
 header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Headers: Content-Type, X-Test-Mode');
 header('Content-Type: application/json; charset=utf-8');
 
 // Pre-flight OPTIONS request (browser CORS check)
@@ -79,6 +79,7 @@ if (!empty($data['website'])) {
 
 // ─── Build HTML Email ────────────────────────────────────────────────────────
 $submittedAt = date('D, d M Y \a\t h:i A T');
+$cleanPhone  = preg_replace('/[^0-9]/', '', $phone);
 
 $htmlBody = "
 <!DOCTYPE html>
@@ -88,19 +89,19 @@ $htmlBody = "
 <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
 <title>New Inquiry — 11:11 Decor</title>
 </head>
-<body style=\"margin:0;padding:0;background:#f5f0e8;font-family:'Helvetica Neue',Arial,sans-serif;\">
-  <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#f5f0e8;padding:30px 0;\">
+<body style=\"margin:0;padding:0;background:#f4efe8;font-family:'Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased;\">
+  <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#f4efe8;padding:32px 12px;\">
     <tr>
       <td align=\"center\">
-        <table width=\"620\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#1a1a1a;border-radius:10px;overflow:hidden;\">
+        <table width=\"600\" cellpadding=\"0\" cellspacing=\"0\" style=\"max-width:600px;width:100%;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e5dcca;box-shadow:0 10px 35px rgba(0,0,0,0.06);\">
 
           <!-- Header -->
           <tr>
-            <td style=\"background:#c9a96e;padding:28px 36px;text-align:center;\">
-              <h1 style=\"margin:0;color:#1a1a1a;font-size:26px;font-weight:700;letter-spacing:2px;\">
+            <td style=\"background:#c9a96e;padding:26px 32px;text-align:center;\">
+              <h1 style=\"margin:0;color:#111111;font-size:24px;font-weight:800;letter-spacing:2.5px;\">
                 ✦ 11:11 DECOR ✦
               </h1>
-              <p style=\"margin:6px 0 0;color:#1a1a1a;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;\">
+              <p style=\"margin:5px 0 0;color:#2c2214;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;\">
                 New Event Inquiry Received
               </p>
             </td>
@@ -108,13 +109,13 @@ $htmlBody = "
 
           <!-- Body -->
           <tr>
-            <td style=\"padding:36px;\">
-              <p style=\"margin:0 0 24px;color:#d0c8be;font-size:15px;line-height:1.6;\">
-                A new event inquiry was submitted on <strong style=\"color:#c9a96e;\">{$submittedAt}</strong>. Full details are below.
+            <td style=\"padding:32px 28px;background:#ffffff;\">
+              <p style=\"margin:0 0 20px;color:#444444;font-size:14px;line-height:1.6;\">
+                A new inquiry was submitted on <strong style=\"color:#8c6d37;\">{$submittedAt}</strong>. Full event requirements are listed below:
               </p>
 
               <!-- Detail Table -->
-              <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"border-collapse:collapse;\">
+              <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"border-collapse:collapse;border:1px solid #ede5d8;border-radius:6px;overflow:hidden;\">
                 " . _contact_row('Full Name',    $name) . "
                 " . _contact_row('Phone',        $phone) . "
                 " . _contact_row('Email',        $email) . "
@@ -127,35 +128,50 @@ $htmlBody = "
               <!-- Message Block -->
               <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin-top:20px;border-collapse:collapse;\">
                 <tr>
-                  <td style=\"padding:14px 16px;background:#242424;border-left:3px solid #c9a96e;border-radius:0 6px 6px 0;\">
-                    <p style=\"margin:0 0 6px;color:#c9a96e;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;\">
-                      Event Vision / Message
+                  <td style=\"padding:16px 18px;background:#f9f6f0;border-left:4px solid #c9a96e;border-radius:0 6px 6px 0;\">
+                    <p style=\"margin:0 0 6px;color:#8c6d37;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-weight:800;\">
+                      Event Vision / Client Message
                     </p>
-                    <p style=\"margin:0;color:#e0d8ce;font-size:14px;line-height:1.7;white-space:pre-wrap;\">" . nl2br(htmlspecialchars($message, ENT_QUOTES, 'UTF-8')) . "</p>
+                    <p style=\"margin:0;color:#222222;font-size:14px;line-height:1.7;white-space:pre-wrap;font-weight:500;\">" . nl2br(htmlspecialchars($message, ENT_QUOTES, 'UTF-8')) . "</p>
                   </td>
                 </tr>
               </table>
 
-              <!-- CTA -->
-              <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin-top:30px;\">
+              <!-- Client Quick Actions -->
+              <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin-top:24px;background:#faf8f5;border:1px solid #ebdcc5;border-radius:8px;\">
                 <tr>
-                  <td align=\"center\">
-                    <a href=\"mailto:{$email}?subject=Re: Your 11:11 Decor Inquiry — {$eventType}\"
-                       style=\"display:inline-block;padding:14px 32px;background:#c9a96e;color:#1a1a1a;text-decoration:none;font-size:14px;font-weight:700;letter-spacing:1px;border-radius:6px;\">
-                      Reply to {$name} ↗
-                    </a>
+                  <td style=\"padding:16px 20px;\">
+                    <p style=\"margin:0 0 10px;color:#8c6d37;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:800;\">
+                      ⚡ Quick Response Actions
+                    </p>
+                    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">
+                      <tr>
+                        <td style=\"padding:4px 0;\">
+                          <span style=\"color:#666666;font-size:13px;font-weight:600;\">Email: </span>
+                          <a href=\"mailto:{$email}?subject=Re: Your 11:11 Decor Inquiry — {$eventType}\" style=\"color:#b38c47;font-size:14px;font-weight:700;text-decoration:underline;\">{$email}</a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style=\"padding:4px 0;\">
+                          <span style=\"color:#666666;font-size:13px;font-weight:600;\">Phone: </span>
+                          <a href=\"tel:{$phone}\" style=\"color:#111111;font-size:14px;font-weight:700;text-decoration:none;\">{$phone}</a>
+                          " . ($cleanPhone ? "<a href=\"https://wa.me/{$cleanPhone}\" style=\"display:inline-block;margin-left:10px;padding:3px 10px;background:#25D366;color:#ffffff;border-radius:4px;font-size:11px;font-weight:700;text-decoration:none;\">Chat on WhatsApp</a>" : "") . "
+                        </td>
+                      </tr>
+                    </table>
                   </td>
                 </tr>
               </table>
+
             </td>
           </tr>
 
           <!-- Footer -->
           <tr>
-            <td style=\"padding:20px 36px;border-top:1px solid #2a2a2a;text-align:center;\">
-              <p style=\"margin:0;color:#555;font-size:12px;\">
-                This email was auto-generated by the 11:11 Decor contact form.<br>
-                The inquiry has also been saved to your admin lead log.
+            <td style=\"padding:18px 28px;background:#f9f6f0;border-top:1px solid #ede5d8;text-align:center;\">
+              <p style=\"margin:0;color:#777777;font-size:12px;line-height:1.5;\">
+                This inquiry was submitted on the 11:11 Decor website.<br>
+                Click <strong>Reply</strong> in your mail app to respond directly to <strong>{$name}</strong> ({$email}).
               </p>
             </td>
           </tr>
@@ -241,11 +257,11 @@ function _contact_row(string $label, string $value): string {
     $safeValue = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
     return "
         <tr>
-          <td style=\"padding:10px 14px;background:#242424;border-bottom:1px solid #2e2e2e;width:160px;vertical-align:top;\">
-            <span style=\"color:#c9a96e;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;\">{$label}</span>
+          <td style=\"padding:12px 16px;background:#fcfaf7;border-bottom:1px solid #ede5d8;width:150px;vertical-align:top;\">
+            <span style=\"color:#8c6d37;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:800;\">{$label}</span>
           </td>
-          <td style=\"padding:10px 14px;background:#1e1e1e;border-bottom:1px solid #2e2e2e;vertical-align:top;\">
-            <span style=\"color:#e0d8ce;font-size:14px;\">{$safeValue}</span>
+          <td style=\"padding:12px 16px;background:#ffffff;border-bottom:1px solid #ede5d8;vertical-align:top;\">
+            <span style=\"color:#111111;font-size:14px;font-weight:600;\">{$safeValue}</span>
           </td>
         </tr>";
 }

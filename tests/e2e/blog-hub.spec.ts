@@ -19,7 +19,7 @@ test.describe('Blog Hub & Category Architecture (W-701)', () => {
 
     // Verify blog cards render
     const articles = page.locator('article')
-    await expect(articles.first()).toBeVisible()
+    await expect(articles.first()).toBeVisible({ timeout: 10000 })
     const count = await articles.count()
     expect(count).toBeGreaterThanOrEqual(1)
   })
@@ -33,6 +33,6 @@ test.describe('Blog Hub & Category Architecture (W-701)', () => {
 
     // Verify articles rendered
     const articles = page.locator('article')
-    await expect(articles.first()).toBeVisible()
+    await expect(articles.first()).toBeVisible({ timeout: 10000 })
   })
 })

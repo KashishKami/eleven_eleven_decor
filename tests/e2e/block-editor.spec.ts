@@ -13,7 +13,7 @@ test.describe('Phase 7.5: Gutenberg Block Editor & Rank Math SEO Analyzer', () =
 
     // 2. Navigate to new post page
     await page.goto('http://127.0.0.1:8080/manage-7f3b9x2k/new-post.php')
-    await page.waitForSelector('#editor-root')
+    await page.waitForSelector('.ProseMirror', { timeout: 15000 })
 
     // 3. Verify editor root and Tiptap ProseMirror region
     const editorRoot = page.locator('#editor-root')

@@ -42,7 +42,8 @@ function sendInquiryEmail(
         || (!empty($_SERVER['HTTP_X_TEST_MODE']))
         || (isset($_SERVER['HTTP_X_PLAYWRIGHT_TEST']))
         || (!empty($overrideConfig['is_test']))
-        || (strpos($toEmail, '@example.com') !== false);
+        || (strpos($toEmail, '@example.com') !== false)
+        || (strpos($replyToEmail, '@example.com') !== false);
 
     // If test mode and NOT explicitly testing SMTP error fallback:
     if ($isTest && empty($overrideConfig['test_error_fallback'])) {

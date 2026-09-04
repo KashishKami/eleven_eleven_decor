@@ -38,6 +38,9 @@ export default defineConfig({
       url: 'http://127.0.0.1:8080/manage-7f3b9x2k/index.php',
       reuseExistingServer: true,
       timeout: 120 * 1000,
+      env: {
+        APP_ENV: 'test',
+      },
     },
   ],
 })

@@ -15,11 +15,11 @@ export const metadata: Metadata = {
     title: 'Find the Right Setting for Your Event | 1111 Decor',
     description:
       'Explore luxury indoor ballrooms, hill resort lawns, and riverfront settings across Dehradun, Mussoorie, and Rishikesh curated by 11:11 Decor.',
-    url: 'https://elevenelevendecor.com/venues/',
+    url: 'https://1111decor.com/venues/',
     type: 'website',
   },
   alternates: {
-    canonical: 'https://elevenelevendecor.com/venues/',
+    canonical: 'https://1111decor.com/venues/',
   },
 }
 
@@ -34,7 +34,7 @@ export default function VenuesHubPage() {
       '@type': 'ListItem',
       position: idx + 1,
       name: v.name,
-      url: `https://elevenelevendecor.com/venues/${v.slug}/`,
+      url: `https://1111decor.com/venues/${v.slug}/`,
     })),
   }
 

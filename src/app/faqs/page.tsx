@@ -7,6 +7,12 @@ import JsonLd from '@/components/seo/JsonLd'
 export const metadata: Metadata = {
   title: 'Frequently Asked Questions | 11:11 Decor',
   description: 'Answers to common questions about luxury event planning, wedding decoration, corporate galas, and venue staging by 11:11 Decor.',
+  openGraph: {
+    title: 'Frequently Asked Questions | 11:11 Decor',
+    description: 'Answers to common questions about luxury event planning, wedding decoration, corporate galas, and venue staging by 11:11 Decor.',
+    url: 'https://1111decor.com/faqs/',
+    type: 'website',
+  },
   alternates: {
     canonical: 'https://1111decor.com/faqs/',
   },

@@ -4,8 +4,17 @@ import { TeamSection } from '@/components/sections/TeamSection'
 import { FooterCTA } from '@/components/sections/FooterCTA'
 
 export const metadata: Metadata = {
-  title: 'Our Team | 1111 Decor',
-  description: 'Meet the creative directors, chefs, and event architects of 1111 Decor.',
+  title: 'Our Team | 11:11 Decor',
+  description: 'Meet the creative directors, chefs, and event architects of 11:11 Decor.',
+  openGraph: {
+    title: 'Our Team | 11:11 Decor',
+    description: 'Meet the creative directors, chefs, and event architects of 11:11 Decor.',
+    url: 'https://1111decor.com/our-team/',
+    type: 'website',
+  },
+  alternates: {
+    canonical: 'https://1111decor.com/our-team/',
+  },
 }
 
 export default function OurTeamPage() {

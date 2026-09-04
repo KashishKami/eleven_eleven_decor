@@ -37,11 +37,11 @@ export function generateMetadata({ params }: Props): Metadata {
     openGraph: {
       title: venue.metaTitle,
       description: venue.metaDescription,
-      url: `https://elevenelevendecor.com/venues/${venue.slug}/`,
+      url: `https://1111decor.com/venues/${venue.slug}/`,
       images: [{ url: venue.heroImage }],
     },
     alternates: {
-      canonical: `https://elevenelevendecor.com/venues/${venue.slug}/`,
+      canonical: `https://1111decor.com/venues/${venue.slug}/`,
     },
   }
 }

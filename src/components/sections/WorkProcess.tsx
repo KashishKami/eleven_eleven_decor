@@ -244,7 +244,7 @@ export function WorkProcess() {
                       src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=1400&auto=format&fit=crop"
                       alt="1111 Decor Work Process Showcase"
                       fill
-                      priority
+                      loading="lazy"
                       sizes="(max-width: 768px) 100vw, 540px"
                       style={{ objectFit: 'cover' }}
                     />
@@ -314,7 +314,7 @@ export function WorkProcess() {
                 src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=1200&auto=format&fit=crop"
                 alt="1111 Decor Work Process Showcase"
                 fill
-                priority
+                loading="lazy"
                 sizes="100vw"
                 style={{ objectFit: 'cover' }}
               />

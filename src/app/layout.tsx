@@ -23,11 +23,42 @@ const fontBody = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: '11:11 Decor | Event Management & Décor Studio',
+  metadataBase: new URL('https://1111decor.com'),
+  title: {
+    default: '11:11 Decor | Event Management & Décor Studio',
+    template: '%s | 11:11 Decor',
+  },
   description:
     '11:11 Decor plans and decorates weddings, celebrations, and corporate events — from first concept to final detail. Request a custom quote today.',
   verification: {
     google: 'VDCFlV4Uj6z3yjOIiNWGsI4JhCm5CWFnlTZV8Lv7YWo',
+  },
+  alternates: {
+    canonical: 'https://1111decor.com/',
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_IN',
+    url: 'https://1111decor.com/',
+    siteName: '11:11 Decor',
+    title: '11:11 Decor | Event Management & Décor Studio',
+    description:
+      '11:11 Decor plans and decorates weddings, celebrations, and corporate events — from first concept to final detail. Request a custom quote today.',
+    images: [
+      {
+        url: '/hero-banner.jpg',
+        width: 1200,
+        height: 630,
+        alt: '11:11 Decor - Luxury Event Management & Décor Studio',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '11:11 Decor | Event Management & Décor Studio',
+    description:
+      '11:11 Decor plans and decorates weddings, celebrations, and corporate events — from first concept to final detail.',
+    images: ['/hero-banner.jpg'],
   },
 }
 

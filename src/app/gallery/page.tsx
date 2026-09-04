@@ -37,7 +37,7 @@ export default function GalleryPage() {
     '@type': 'ImageGallery',
     name: "11:11 Decor Moments We've Helped Create",
     description: 'Visual showcase of luxury event planning, royal wedding mandaps, and bespoke floral staging by 11:11 Decor.',
-    url: 'https://elevenelevendecor.com/gallery/',
+    url: 'https://1111decor.com/gallery/',
   }
 
   return (

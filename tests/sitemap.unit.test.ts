@@ -10,29 +10,29 @@ describe('Dynamic Sitemap & Robots Generation with Visibility Gate (W-902 / W-10
 
     // Hidden sections MUST NOT be present when their flag is false
     if (!pageVisibility.gallery) {
-      expect(urls).not.toContain('https://elevenelevendecor.com/gallery/')
+      expect(urls).not.toContain('https://1111decor.com/gallery/')
     }
     if (!pageVisibility.portfolio) {
-      expect(urls).not.toContain('https://elevenelevendecor.com/portfolio/')
+      expect(urls).not.toContain('https://1111decor.com/portfolio/')
       expect(urls.some((u) => u.includes('/portfolio/'))).toBe(false)
     }
     if (!pageVisibility.venues) {
-      expect(urls).not.toContain('https://elevenelevendecor.com/venues/')
+      expect(urls).not.toContain('https://1111decor.com/venues/')
       expect(urls.some((u) => u.includes('/venues/'))).toBe(false)
     }
     if (!pageVisibility.blog) {
-      expect(urls).not.toContain('https://elevenelevendecor.com/blog/')
+      expect(urls).not.toContain('https://1111decor.com/blog/')
       expect(urls.some((u) => u.includes('/blog/'))).toBe(false)
     }
 
     // Core hubs MUST remain present
-    expect(urls).toContain('https://elevenelevendecor.com/')
-    expect(urls).toContain('https://elevenelevendecor.com/about-us/')
-    expect(urls).toContain('https://elevenelevendecor.com/services/')
-    expect(urls).toContain('https://elevenelevendecor.com/events/')
-    expect(urls).toContain('https://elevenelevendecor.com/packages/')
-    expect(urls).toContain('https://elevenelevendecor.com/testimonials/')
-    expect(urls).toContain('https://elevenelevendecor.com/contact/')
+    expect(urls).toContain('https://1111decor.com/')
+    expect(urls).toContain('https://1111decor.com/about-us/')
+    expect(urls).toContain('https://1111decor.com/services/')
+    expect(urls).toContain('https://1111decor.com/events/')
+    expect(urls).toContain('https://1111decor.com/packages/')
+    expect(urls).toContain('https://1111decor.com/testimonials/')
+    expect(urls).toContain('https://1111decor.com/contact/')
 
     // Core dynamic services & events MUST remain present
     expect(urls.some((u) => u.includes('/services/wedding-decoration/'))).toBe(true)
@@ -53,7 +53,7 @@ describe('Dynamic Sitemap & Robots Generation with Visibility Gate (W-902 / W-10
   it('generates robots.txt referencing the dynamic sitemap XML and protecting admin/API routes', () => {
     const robotsConfig = robots()
 
-    expect(robotsConfig.sitemap).toContain('/sitemap.xml')
+    expect(robotsConfig.sitemap).toContain('sitemap-index.php')
     expect(robotsConfig.rules).toBeDefined()
 
     const rules = Array.isArray(robotsConfig.rules) ? robotsConfig.rules[0] : robotsConfig.rules

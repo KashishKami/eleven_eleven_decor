@@ -5,18 +5,18 @@ import { PortfolioClient } from '@/components/portfolio/PortfolioClient'
 import JsonLd from '@/components/seo/JsonLd'
 
 export const metadata: Metadata = {
-  title: 'Portfolio & Case Studies | 1111 Decor',
+  title: 'Portfolio & Case Studies | 11:11 Decor',
   description:
     'Explore our portfolio of royal weddings, luxury corporate events, and bespoke celebrations curated by 11:11 Decor.',
   openGraph: {
-    title: 'Portfolio & Case Studies | 1111 Decor',
+    title: 'Portfolio & Case Studies | 11:11 Decor',
     description:
       'Explore our portfolio of royal weddings, luxury corporate events, and bespoke celebrations curated by 11:11 Decor.',
-    url: 'https://elevenelevendecor.com/portfolio/',
+    url: 'https://1111decor.com/portfolio/',
     type: 'website',
   },
   alternates: {
-    canonical: 'https://elevenelevendecor.com/portfolio/',
+    canonical: 'https://1111decor.com/portfolio/',
   },
 }
 
@@ -31,7 +31,7 @@ export default function PortfolioHubPage() {
       '@type': 'ListItem',
       position: idx + 1,
       name: p.title,
-      url: `https://elevenelevendecor.com/portfolio/${p.slug}/`,
+      url: `https://1111decor.com/portfolio/${p.slug}/`,
     })),
   }
 

@@ -293,7 +293,7 @@ function BlogArticleView({ articleSlug }: { articleSlug: string }) {
         {
           '@type': 'Organization',
           name: post.author || '1111 Decor',
-          url: 'https://elevenelevendecor.com',
+          url: 'https://1111decor.com',
         },
       ],
       publisher: {
@@ -301,7 +301,7 @@ function BlogArticleView({ articleSlug }: { articleSlug: string }) {
         name: '1111 Decor',
         logo: {
           '@type': 'ImageObject',
-          url: 'https://elevenelevendecor.com/logo.png',
+          url: 'https://1111decor.com/logo.png',
         },
       },
     }

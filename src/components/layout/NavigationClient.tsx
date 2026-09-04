@@ -420,6 +420,10 @@ export function NavigationClient({ visibility }: NavigationClientProps) {
             <img
               src="/logo-nav.png"
               alt="11:11 Decor — Event Management & Décor Studio"
+              width={260}
+              height={90}
+              loading="lazy"
+              decoding="async"
               style={{
                 height: 'clamp(68px, 7vw, 100px)',
                 width: 'auto',

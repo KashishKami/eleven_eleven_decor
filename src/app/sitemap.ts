@@ -8,7 +8,7 @@ import { BLOG_CATEGORIES } from '@/types/blog'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   // Uses environment variable NEXT_PUBLIC_SITE_URL if configured, with a default fallback
-  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://elevenelevendecor.com').replace(/\/$/, '')
+  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://1111decor.com').replace(/\/$/, '')
   const currentDate = new Date().toISOString().split('T')[0]
 
   // Core Static Hub Pages

@@ -16,6 +16,11 @@ export const metadata: Metadata = {
     description:
       'From first concept conversation to the last flower placed. Explore our 11 specialized event services.',
     url: 'https://1111decor.com/services/',
+    type: 'website',
+    images: [{ url: '/hero-banner.jpg', width: 1200, height: 630, alt: '11:11 Decor Services' }],
+  },
+  alternates: {
+    canonical: 'https://1111decor.com/services/',
   },
 }
 

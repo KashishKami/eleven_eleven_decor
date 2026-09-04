@@ -278,7 +278,7 @@ export function EventCategories() {
                   src={cat.bgImage}
                   alt={cat.name}
                   fill
-                  priority={idx === 0}
+                  loading="lazy"
                   sizes="100vw"
                   style={{
                     objectFit: 'cover',
@@ -357,7 +357,7 @@ export function EventCategories() {
                   src={cat.cardImage}
                   alt={cat.name}
                   fill
-                  priority={idx === 0}
+                  loading="lazy"
                   sizes="(max-width: 768px) 50vw, 300px"
                   style={{ objectFit: 'cover' }}
                 />

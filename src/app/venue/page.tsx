@@ -3,8 +3,17 @@ import type { Metadata } from 'next'
 import { FooterCTA } from '@/components/sections/FooterCTA'
 
 export const metadata: Metadata = {
-  title: 'Venues Archive | 1111 Decor',
-  description: 'Explore premier partner venues and exclusive historic estates styled by 1111 Decor.',
+  title: 'Venues Archive | 11:11 Decor',
+  description: 'Explore premier partner venues and exclusive historic estates styled by 11:11 Decor.',
+  openGraph: {
+    title: 'Venues Archive | 11:11 Decor',
+    description: 'Explore premier partner venues and exclusive historic estates styled by 11:11 Decor.',
+    url: 'https://1111decor.com/venue/',
+    type: 'website',
+  },
+  alternates: {
+    canonical: 'https://1111decor.com/venue/',
+  },
 }
 
 export default function VenuePage() {

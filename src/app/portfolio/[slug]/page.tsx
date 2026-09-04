@@ -37,11 +37,11 @@ export function generateMetadata({ params }: Props): Metadata {
     openGraph: {
       title: project.metaTitle,
       description: project.metaDescription,
-      url: `https://elevenelevendecor.com/portfolio/${project.slug}/`,
+      url: `https://1111decor.com/portfolio/${project.slug}/`,
       images: [{ url: project.heroImage }],
     },
     alternates: {
-      canonical: `https://elevenelevendecor.com/portfolio/${project.slug}/`,
+      canonical: `https://1111decor.com/portfolio/${project.slug}/`,
     },
   }
 }

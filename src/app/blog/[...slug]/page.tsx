@@ -32,15 +32,30 @@ export async function generateMetadata({ params }: { params: { slug: string[] } 
 
   if (isCategory) {
     const category = BLOG_CATEGORIES.find((c) => c.slug === categorySlug)
-    const title = category ? `${category.name} Articles | 1111 Decor Journal` : 'Blog Category | 1111 Decor'
-    const description = category?.description || 'Explore luxury event planning and decor insights from 1111 Decor.'
-    return { title, description }
+    const title = category ? `${category.name} Articles | 11:11 Decor Journal` : 'Blog Category | 11:11 Decor'
+    const description = category?.description || 'Explore luxury event planning and decor insights from 11:11 Decor.'
+    const url = `https://1111decor.com/blog/${categorySlug}/`
+    return {
+      title,
+      description,
+      openGraph: {
+        title,
+        description,
+        url,
+        type: 'website',
+      },
+      alternates: {
+        canonical: url,
+      },
+    }
   }
 
   const posts = getStoredBlogPosts()
   const post = posts.find((p) => p.slug === articleSlug)
-  const title = post ? `${post.title} | 1111 Decor` : 'Blog Article | 1111 Decor'
-  const description = post?.excerpt || 'Read the latest trends, styling guides, and event insights from 1111 Decor.'
+  const title = post ? `${post.title} | 11:11 Decor` : 'Blog Article | 11:11 Decor'
+  const description = post?.excerpt || 'Read the latest trends, styling guides, and event insights from 11:11 Decor.'
+  const categorySegment = post ? post.category.toLowerCase().replace(/\s+/g, '-') : categorySlug || 'events'
+  const url = `https://1111decor.com/blog/${categorySegment}/${articleSlug}/`
 
   return {
     title,
@@ -48,7 +63,12 @@ export async function generateMetadata({ params }: { params: { slug: string[] } 
     openGraph: {
       title,
       description,
-      images: post?.image ? [{ url: post.image }] : [],
+      url,
+      type: 'article',
+      images: post?.image ? [{ url: post.image, width: 1200, height: 630, alt: title }] : [],
+    },
+    alternates: {
+      canonical: url,
     },
   }
 }

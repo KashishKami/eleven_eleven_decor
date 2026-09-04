@@ -1,9 +1,10 @@
 import fs from 'fs'
 import path from 'path'
 import type { PortfolioProject } from '@/data/portfolio'
+import { getServerDataDir } from './server-data-dir'
 
 export function getAllPortfolioProjectsServer(): PortfolioProject[] {
-  const jsonPath = path.resolve(process.cwd(), 'php-admin/data/portfolio.json')
+  const jsonPath = path.join(getServerDataDir(), 'portfolio.json')
   if (!fs.existsSync(jsonPath)) {
     return []
   }

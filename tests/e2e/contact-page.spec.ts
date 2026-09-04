@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import fs from 'fs'
 import path from 'path'
 
-const testInquiriesPath = path.resolve(__dirname, '../../php-admin/data/inquiries_test.json')
+const testInquiriesPath = path.resolve(__dirname, '../fixtures/data/inquiries_test.json')
 
 test.describe('Contact & Lead Conversion Page (W-801)', () => {
   test.beforeEach(async ({ page }) => {

@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <>
       {/* 1. Hero */}
-      <Hero />
+      <Hero visibility={pageVisibility} />
 
       {/* 2. About 11:11 Decor */}
       <AboutSection />

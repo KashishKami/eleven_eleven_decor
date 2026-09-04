@@ -1,12 +1,22 @@
 'use client'
 
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import gsap from 'gsap'
-import pageVisibility from '../../../php-admin/data/page-visibility.json'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
+import type { PageVisibility } from '@/lib/server-visibility'
 
-export function Hero() {
+interface HeroProps {
+  visibility?: Partial<PageVisibility>
+}
+
+export function Hero({ visibility }: HeroProps) {
+  const [portfolioVisible] = useState(() => {
+    if (visibility?.portfolio !== undefined) {
+      return Boolean(visibility.portfolio)
+    }
+    return true
+  })
   const containerRef = useRef<HTMLDivElement>(null)
   const labelRef = useRef<HTMLSpanElement>(null)
   const subtextRef = useRef<HTMLParagraphElement>(null)
@@ -157,7 +167,7 @@ export function Hero() {
           </Link>
 
           <Link
-            href={pageVisibility.portfolio ? '/portfolio/' : '/events/'}
+            href={portfolioVisible ? '/portfolio/' : '/events/'}
             style={{
               padding: '1rem 2.25rem',
               backgroundColor: 'rgba(255, 255, 255, 0.12)',
@@ -174,7 +184,7 @@ export function Hero() {
               transition: 'background-color 0.3s ease, border-color 0.3s ease',
             }}
           >
-            {pageVisibility.portfolio ? 'View Our Work' : 'Explore Events'}
+            {portfolioVisible ? 'View Our Work' : 'Explore Events'}
           </Link>
         </div>
       </div>

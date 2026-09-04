@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import sitemap from '@/app/sitemap'
 import robots from '@/app/robots'
-import pageVisibility from '../php-admin/data/page-visibility.json'
+import pageVisibility from './fixtures/data/page-visibility.json'
 
 describe('Dynamic Sitemap & Robots Generation with Visibility Gate (W-902 / W-1003)', () => {
   it('excludes hidden sections (gallery, portfolio, venues, blog) from sitemap when visibility is false', () => {

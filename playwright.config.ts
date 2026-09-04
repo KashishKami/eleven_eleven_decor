@@ -10,10 +10,10 @@ export default defineConfig({
   fullyParallel: false,
   workers: 1,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
+  retries: 1,
   reporter: 'html',
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://127.0.0.1:3011',
     trace: 'on-first-retry',
   },
   projects: [
@@ -28,18 +28,19 @@ export default defineConfig({
   ],
   webServer: [
     {
-      command: 'npm run dev',
-      url: 'http://127.0.0.1:3000',
-      reuseExistingServer: true,
+      command: 'npx -y serve -p 3011 out',
+      url: 'http://127.0.0.1:3011',
+      reuseExistingServer: false,
       timeout: 120 * 1000,
     },
     {
       command: `"${phpBin}" -S 127.0.0.1:8080 -t php-admin`,
       url: 'http://127.0.0.1:8080/manage-7f3b9x2k/index.php',
-      reuseExistingServer: true,
+      reuseExistingServer: false,
       timeout: 120 * 1000,
       env: {
         APP_ENV: 'test',
+        TEST_DATA_DIR: require('path').resolve(__dirname, 'tests/fixtures/data'),
       },
     },
   ],

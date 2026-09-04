@@ -51,5 +51,23 @@
         "published": 1,
         "id": "2",
         "created_at": "2026-08-27 13:46:28"
+    },
+    {
+        "name": "E2E Palace Estate 1788541024375_hool",
+        "tagline": "Bespoke Valley Sanctuary",
+        "slug": "e2e-palace-estate-1788541024375-hool",
+        "spaceType": "Outdoor",
+        "location": "Dehradun Valley, Uttarakhand",
+        "capacity": 600,
+        "heroImage": "https:\/\/images.unsplash.com\/photo-1544078751-58fee2d8a03b",
+        "galleryImages": [],
+        "summary": "Private botanical sanctuary with mountain views.",
+        "decorHighlights": [],
+        "planningConsiderations": [],
+        "metaTitle": "E2E Palace Estate 1788541024375_hool | 11:11 Decor Venue Staging",
+        "metaDescription": "Private botanical sanctuary with mountain views.",
+        "published": 1,
+        "id": "3",
+        "created_at": "2026-09-04 16:57:05"
     }
 ]

@@ -14,7 +14,7 @@ describe('Static Export & robots.txt / sitemap.ts Hardening (W-704)', () => {
     const disallows = Array.isArray(rules?.disallow) ? rules?.disallow : [rules?.disallow]
     expect(disallows).toContain('/api/')
     expect(disallows).toContain('/manage-7f3b9x2k/')
-    expect(robotRules.sitemap).toMatch(/\/sitemap\.xml$/)
+    expect(robotRules.sitemap).toMatch(/(?:sitemap\.xml|sitemap-index\.php)$/)
   })
 
   it('generates XML sitemap URLs with trailing slashes and excludes secret admin URLs', async () => {

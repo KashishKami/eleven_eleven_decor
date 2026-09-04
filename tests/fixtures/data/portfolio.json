@@ -44,5 +44,25 @@
         "published": 1,
         "id": "2",
         "created_at": "2026-08-27 13:53:03"
+    },
+    {
+        "title": "E2E Wedding 1788540695398_x0fv",
+        "subtitle": "Cliffside Palace Staging",
+        "slug": "e2e-wedding-1788540695398-x0fv",
+        "category": "Weddings",
+        "location": "Mussoorie, Uttarakhand",
+        "venue": "JW Marriott Walnut Grove",
+        "guestCount": 400,
+        "heroImage": "https:\/\/images.unsplash.com\/photo-1519741497674-611481863552",
+        "galleryImages": [],
+        "summary": "Bespoke floral architecture in the Garhwal mountains.",
+        "planningDetails": [],
+        "decorHighlights": [],
+        "executionNotes": "",
+        "metaTitle": "E2E Wedding 1788540695398_x0fv | 11:11 Decor Showcase",
+        "metaDescription": "Bespoke floral architecture in the Garhwal mountains.",
+        "published": 1,
+        "id": "3",
+        "created_at": "2026-09-04 16:51:36"
     }
 ]

@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import fs from 'fs'
 import path from 'path'
 
-const dataPath = path.resolve(__dirname, '../../php-admin/data/page-visibility.json')
+const dataPath = path.resolve(__dirname, '../fixtures/data/page-visibility.json')
 
 test.describe.serial('Content Visibility Gate (W-1002 & W-1004)', () => {
   test.beforeEach(async () => {

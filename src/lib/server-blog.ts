@@ -3,6 +3,8 @@ import path from 'path'
 import type { BlogPost } from '@/types/blog'
 import { BLOG_DATA } from '@/data/blog'
 
+import { getServerDataDir } from './server-data-dir'
+
 interface RawPhpPost {
   id: string | number
   slug: string
@@ -27,7 +29,7 @@ interface RawPhpPost {
  */
 export function getStoredBlogPosts(): BlogPost[] {
   try {
-    const jsonPath = path.join(process.cwd(), 'php-admin', 'data', 'posts.json')
+    const jsonPath = path.join(getServerDataDir(), 'posts.json')
     if (fs.existsSync(jsonPath)) {
       const data = fs.readFileSync(jsonPath, 'utf-8')
       const posts = JSON.parse(data)

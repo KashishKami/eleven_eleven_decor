@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import sitemap from '@/app/sitemap'
 import type { PageVisibility } from '@/types/page-visibility'
-import rawVisibility from '../php-admin/data/page-visibility.json'
+import rawVisibility from './fixtures/data/page-visibility.json'
 
 describe('Blog Visibility Unit Tests (W-1101)', () => {
   it('validates that page-visibility.json contains blog boolean field', () => {

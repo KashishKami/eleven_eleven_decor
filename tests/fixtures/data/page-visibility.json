@@ -1,1 +1,6 @@
-{"blog":true,"portfolio":true,"venues":true,"gallery":true}
+{
+    "blog": true,
+    "gallery": true,
+    "portfolio": true,
+    "venues": true
+}

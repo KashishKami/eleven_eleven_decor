@@ -1,9 +1,10 @@
 import fs from 'fs'
 import path from 'path'
 import type { VenueItem } from '@/data/venues'
+import { getServerDataDir } from './server-data-dir'
 
 export function getAllVenuesServer(): VenueItem[] {
-  const jsonPath = path.resolve(process.cwd(), 'php-admin/data/venues.json')
+  const jsonPath = path.join(getServerDataDir(), 'venues.json')
   if (!fs.existsSync(jsonPath)) {
     return []
   }

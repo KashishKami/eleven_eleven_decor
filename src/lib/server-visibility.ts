@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { getServerDataDir } from './server-data-dir'
 
 export interface PageVisibility {
   blog: boolean
@@ -21,7 +22,7 @@ const DEFAULT_VISIBILITY: PageVisibility = {
  */
 export function getPageVisibility(): PageVisibility {
   try {
-    const filePath = path.join(process.cwd(), 'php-admin', 'data', 'page-visibility.json')
+    const filePath = path.join(getServerDataDir(), 'page-visibility.json')
     if (fs.existsSync(filePath)) {
       const content = fs.readFileSync(filePath, 'utf-8')
       const parsed = JSON.parse(content)

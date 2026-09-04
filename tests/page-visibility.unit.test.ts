@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import pageVisibility from '../php-admin/data/page-visibility.json'
+import pageVisibility from './fixtures/data/page-visibility.json'
 
 describe('Page Visibility Data Layer (W-1001)', () => {
   it('contains exactly 4 keys: blog, gallery, portfolio, venues', () => {

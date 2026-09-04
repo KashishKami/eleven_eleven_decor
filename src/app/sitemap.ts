@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next'
-import pageVisibility from '../../php-admin/data/page-visibility.json'
+import { getPageVisibility } from '@/lib/server-visibility'
 import { SERVICES_DATA } from '@/data/services'
 import { EVENT_CATEGORIES } from '@/data/events'
 import { PORTFOLIO_PROJECTS } from '@/data/portfolio'
@@ -7,6 +7,7 @@ import { VENUES } from '@/data/venues'
 import { BLOG_CATEGORIES } from '@/types/blog'
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const pageVisibility = getPageVisibility()
   // Uses environment variable NEXT_PUBLIC_SITE_URL if configured, with a default fallback
   const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://1111decor.com').replace(/\/$/, '')
   const currentDate = new Date().toISOString().split('T')[0]

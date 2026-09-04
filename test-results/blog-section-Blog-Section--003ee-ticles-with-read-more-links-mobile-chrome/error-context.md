@@ -6,45 +6,31 @@
 
 # Test info
 
-- Name: blog-hub.spec.ts >> Blog Hub & Category Architecture (W-701) >> renders blog hub page with H1, category filter links, and article cards
-- Location: tests\e2e\blog-hub.spec.ts:4:7
+- Name: blog-section.spec.ts >> Blog Section (W-209) >> renders blog articles with read more links
+- Location: tests\e2e\blog-section.spec.ts:4:7
 
 # Error details
 
 ```
 Error: expect(locator).toBeVisible() failed
 
-Locator: locator('article').first()
+Locator: getByRole('link', { name: /read article/i }).first()
 Expected: visible
-Timeout: 10000ms
+Timeout: 5000ms
 Error: element(s) not found
 
 Call log:
-  - Expect "toBeVisible" with timeout 10000ms
-  - waiting for locator('article').first()
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for getByRole('link', { name: /read article/i }).first()
 
 ```
 
 ```yaml
 - banner:
-  - navigation "Main navigation":
-    - button "Services ▾"
-    - button "Events ▾"
-    - link "Portfolio":
-      - /url: /portfolio/
-    - link "Gallery":
-      - /url: /gallery/
-    - link "Venues":
-      - /url: /venues/
-    - link "Blog":
-      - /url: /blog/
-    - link "About Us":
-      - /url: /about-us/
   - link "11:11 Decor — Event Management & Décor Studio":
     - /url: /
     - img "11:11 Decor — Event Management & Décor Studio"
-  - link "Plan Your Event":
-    - /url: /contact/
+  - button "Open menu"
 - main:
   - paragraph: EDITORIAL JOURNAL & GUIDES
   - heading "N e w s & I n s i g h t s" [level=1]
@@ -134,7 +120,6 @@ Call log:
       - link "Contact Us":
         - /url: /contact/
   - paragraph: © 2026 11:11 Decor (Eleven Eleven Decor). All rights reserved.
-- alert
 ```
 
 # Test source
@@ -142,42 +127,17 @@ Call log:
 ```ts
   1  | import { test, expect } from '@playwright/test'
   2  | 
-  3  | test.describe('Blog Hub & Category Architecture (W-701)', () => {
-  4  |   test('renders blog hub page with H1, category filter links, and article cards', async ({ page }) => {
-  5  |     await page.goto('/blog')
+  3  | test.describe('Blog Section (W-209)', () => {
+  4  |   test('renders blog articles with read more links', async ({ page }) => {
+  5  |     await page.goto('/blog/')
   6  | 
-  7  |     // Verify H1
-  8  |     const heading = page.locator('h1')
-  9  |     await expect(heading).toContainText(/News & Insights/i)
-  10 | 
-  11 |     // Verify 5 category navigation links
-  12 |     const categoryNav = page.locator('nav[aria-label="Blog categories"]')
-  13 |     await expect(categoryNav).toBeVisible()
-  14 |     await expect(categoryNav.getByRole('link', { name: /Wedding Planning/i })).toBeVisible()
-  15 |     await expect(categoryNav.getByRole('link', { name: /Event Planning/i })).toBeVisible()
-  16 |     await expect(categoryNav.getByRole('link', { name: /Decoration Ideas/i })).toBeVisible()
-  17 |     await expect(categoryNav.getByRole('link', { name: /Corporate Events/i })).toBeVisible()
-  18 |     await expect(categoryNav.getByRole('link', { name: /Venue & Destination/i })).toBeVisible()
-  19 | 
-  20 |     // Verify blog cards render
-  21 |     const articles = page.locator('article')
-> 22 |     await expect(articles.first()).toBeVisible({ timeout: 10000 })
-     |                                    ^ Error: expect(locator).toBeVisible() failed
-  23 |     const count = await articles.count()
-  24 |     expect(count).toBeGreaterThanOrEqual(1)
-  25 |   })
-  26 | 
-  27 |   test('navigates to category archive and filters articles', async ({ page }) => {
-  28 |     await page.goto('/blog/decoration-ideas')
-  29 | 
-  30 |     // Verify category archive heading
-  31 |     const heading = page.locator('h1')
-  32 |     await expect(heading).toContainText(/Decoration Ideas/i)
-  33 | 
-  34 |     // Verify articles rendered
-  35 |     const articles = page.locator('article')
-  36 |     await expect(articles.first()).toBeVisible({ timeout: 10000 })
-  37 |   })
-  38 | })
-  39 | 
+  7  |     const main = page.locator('main')
+  8  |     await expect(main).toBeVisible()
+  9  | 
+  10 |     const readMoreLinks = page.getByRole('link', { name: /read article/i })
+> 11 |     await expect(readMoreLinks.first()).toBeVisible()
+     |                                         ^ Error: expect(locator).toBeVisible() failed
+  12 |   })
+  13 | })
+  14 | 
 ```

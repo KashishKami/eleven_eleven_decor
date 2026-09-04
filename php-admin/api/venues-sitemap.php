@@ -8,9 +8,8 @@
 require_once __DIR__ . '/../config.php';
 
 header('Content-Type: application/xml; charset=utf-8');
-header('X-Robots-Tag: noindex');
 
-$baseUrl = rtrim(defined('CORS_ORIGIN') && CORS_ORIGIN !== '*' ? CORS_ORIGIN : 'https://elevenelevendecor.com', '/');
+$baseUrl = rtrim(defined('CORS_ORIGIN') && CORS_ORIGIN !== '*' ? CORS_ORIGIN : 'https://1111decor.com', '/');
 
 // Check visibility toggle with test env override support
 $visFile = get_data_dir() . '/page-visibility.json';

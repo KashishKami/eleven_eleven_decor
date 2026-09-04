@@ -17,7 +17,7 @@ require_once __DIR__ . '/../config.php';
 header('Content-Type: application/xml; charset=utf-8');
 
 // Derive base URL from CORS_ORIGIN defined in config.php
-$baseUrl = rtrim(defined('CORS_ORIGIN') && CORS_ORIGIN !== '*' ? CORS_ORIGIN : 'https://elevenelevendecor.com', '/');
+$baseUrl = rtrim(defined('CORS_ORIGIN') && CORS_ORIGIN !== '*' ? CORS_ORIGIN : 'https://1111decor.com', '/');
 
 $today = date('Y-m-d');
 

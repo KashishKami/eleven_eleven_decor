@@ -184,12 +184,6 @@ $htmlBody = "
 </html>
 ";
 
-// ─── Send Email ───────────────────────────────────────────────────────────────
-require_once __DIR__ . '/../lib/Mailer.php';
-
-$toEmail     = defined('CONTACT_EMAIL') ? CONTACT_EMAIL : 'hello@elevenelevendecor.com';
-$subject     = "✦ New Event Inquiry: {$eventType} — {$name}";
-
 // ─── Test Mode Detection ─────────────────────────────────────────────────────
 // When running automated tests (Playwright, CI, or test suite), redirect inquiries
 // to inquiries_test.json to protect real leads and prevent git diff pollution.
@@ -199,8 +193,17 @@ $isTest = (getenv('APP_ENV') === 'test')
     || (isset($data['_test_mode']) && $data['_test_mode'] === true)
     || (isset($email) && strpos($email, '@example.com') !== false);
 
-$mailResult = sendInquiryEmail($toEmail, $subject, $htmlBody, $email, $name);
-$emailSent  = !empty($mailResult['success']);
+// ─── Send Email (skipped in test mode to prevent SMTP hangs) ──────────────────
+require_once __DIR__ . '/../lib/Mailer.php';
+
+$toEmail   = defined('CONTACT_EMAIL') ? CONTACT_EMAIL : 'hello@elevenelevendecor.com';
+$subject   = "✔ New Event Inquiry: {$eventType} — {$name}";
+$emailSent = false;
+
+if (!$isTest) {
+    $mailResult = sendInquiryEmail($toEmail, $subject, $htmlBody, $email, $name);
+    $emailSent  = !empty($mailResult['success']);
+}
 
 // ─── Log Inquiry to JSON (Safety Backup) ─────────────────────────────────────
 $logFile = $isTest

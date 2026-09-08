@@ -90,23 +90,5 @@
             }
         ],
         "created_at": "2026-08-15 11:08:39"
-    },
-    {
-        "title": "Test",
-        "slug": "test",
-        "focus_keyword": "",
-        "category": "wedding-planning",
-        "category_name": "Wedding Planning",
-        "excerpt": "test blog",
-        "content": "<p>Testing<\/p>",
-        "author": "1111 Decor Studio",
-        "image": "\/manage-7f3b9x2k\/uploads\/test-6a99ad848c18d.jpg",
-        "image_alt": "concept 2 minimal arch",
-        "read_time": "5 min read",
-        "published": 1,
-        "related_service_slug": "",
-        "related_service_name": "",
-        "id": 6,
-        "created_at": "2026-09-03 17:25:24"
     }
 ]

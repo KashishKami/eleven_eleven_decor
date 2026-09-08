@@ -30,13 +30,13 @@ export default defineConfig({
     {
       command: 'npx -y serve -p 3011 out',
       url: 'http://127.0.0.1:3011',
-      reuseExistingServer: false,
+      reuseExistingServer: !process.env.CI,
       timeout: 120 * 1000,
     },
     {
       command: `"${phpBin}" -S 127.0.0.1:8080 -t php-admin`,
       url: 'http://127.0.0.1:8080/manage-7f3b9x2k/index.php',
-      reuseExistingServer: false,
+      reuseExistingServer: !process.env.CI,
       timeout: 120 * 1000,
       env: {
         APP_ENV: 'test',

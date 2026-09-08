@@ -22,6 +22,11 @@ export interface ContactInfo {
     display: string
     href: string
   }
+  instagram: {
+    handle: string
+    display: string
+    href: string
+  }
   hours: string
   mapEmbedUrl: string
 }
@@ -50,6 +55,11 @@ export const CONTACT_INFO: ContactInfo = {
   email: {
     display: 'hello1111decor@gmail.com',
     href: 'mailto:hello1111decor@gmail.com',
+  },
+  instagram: {
+    handle: '_11.11decor_',
+    display: '@_11.11decor_',
+    href: 'https://www.instagram.com/_11.11decor_?stkn=MXZsM3ZoOHg5dmp3Yg%3D%3D&utm_source=qr',
   },
   hours: 'Mon – Sat, 10:00 AM – 7:00 PM IST',
   mapEmbedUrl:

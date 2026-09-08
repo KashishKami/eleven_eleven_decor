@@ -228,3 +228,27 @@ button {
     display: flex !important;
   }
 }
+
+/* ==========================================================================
+   Zero-Flash Gated Page Visibility (Instant CSS Enforcement)
+   ========================================================================== */
+html[data-visibility-portfolio="false"] .gated-nav-portfolio,
+html[data-visibility-portfolio="false"] .gated-footer-portfolio {
+  display: none !important;
+}
+
+html[data-visibility-gallery="false"] .gated-nav-gallery,
+html[data-visibility-gallery="false"] .gated-footer-gallery {
+  display: none !important;
+}
+
+html[data-visibility-venues="false"] .gated-nav-venues,
+html[data-visibility-venues="false"] .gated-footer-venues {
+  display: none !important;
+}
+
+html[data-visibility-blog="false"] .gated-nav-blog,
+html[data-visibility-blog="false"] .gated-footer-blog {
+  display: none !important;
+}
+

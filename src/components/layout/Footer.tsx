@@ -1,69 +1,13 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import { CONTACT_INFO } from '@/data/contact'
-
-interface PageVisibility {
-  blog: boolean
-  gallery: boolean
-  portfolio: boolean
-  venues: boolean
-}
+import { usePageVisibility } from '@/hooks/usePageVisibility'
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
-  const [visibility, setVisibility] = useState<PageVisibility>(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const cached = sessionStorage.getItem('1111_page_visibility')
-        if (cached) return JSON.parse(cached)
-      } catch {
-        // fallback
-      }
-    }
-    return {
-      blog: false,
-      gallery: false,
-      portfolio: false,
-      venues: false,
-    }
-  })
-
-  useEffect(() => {
-    let isMounted = true
-    const fetchLiveVisibility = async () => {
-      try {
-        const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-        const url = isLocal ? 'http://127.0.0.1:8080/api/page-visibility.php' : '/php-admin/api/page-visibility.php'
-        const res = await fetch(url, { cache: 'no-store' })
-        if (res.ok && isMounted) {
-          const data = await res.json()
-          if (data && typeof data === 'object') {
-            const fresh: PageVisibility = {
-              blog: Boolean(data.blog),
-              gallery: Boolean(data.gallery),
-              portfolio: Boolean(data.portfolio),
-              venues: Boolean(data.venues),
-            }
-            try {
-              sessionStorage.setItem('1111_page_visibility', JSON.stringify(fresh))
-            } catch {
-              // ignore
-            }
-            setVisibility(fresh)
-          }
-        }
-      } catch {
-        // keep fallback
-      }
-    }
-
-    fetchLiveVisibility()
-    return () => {
-      isMounted = false
-    }
-  }, [])
+  const visibility = usePageVisibility()
 
   return (
     <footer
@@ -141,6 +85,53 @@ export function Footer() {
                 }}
               >
                 {CONTACT_INFO.email.display}
+              </a>
+            </div>
+
+            {/* Check our work on Instagram */}
+            <div style={{ marginTop: '1.25rem', paddingTop: '1rem', borderTop: '1px solid rgba(255, 255, 255, 0.06)' }}>
+              <span
+                style={{
+                  display: 'block',
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '0.78rem',
+                  color: '#9e9589',
+                  marginBottom: '0.4rem',
+                  letterSpacing: '0.04em',
+                  textTransform: 'uppercase',
+                  fontWeight: 600,
+                }}
+              >
+                Check our work at
+              </span>
+              <a
+                href={CONTACT_INFO.instagram.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram profile: @_11.11decor_"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  color: '#c9a96e',
+                  textDecoration: 'none',
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '0.875rem',
+                  fontWeight: 500,
+                  transition: 'opacity 0.2s ease',
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 448 512"
+                  width="18"
+                  height="18"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z" />
+                </svg>
+                <span>@_11.11decor_</span>
               </a>
             </div>
           </div>
@@ -230,15 +221,15 @@ export function Footer() {
             </h4>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.7rem', padding: 0, margin: 0 }}>
               {[
-                { label: 'About Us', href: '/about-us/' },
-                ...(visibility.portfolio ? [{ label: 'Portfolio', href: '/portfolio/' }] : []),
-                ...(visibility.gallery ? [{ label: 'Gallery', href: '/gallery/' }] : []),
-                { label: 'Packages', href: '/packages/' },
-                ...(visibility.venues ? [{ label: 'Venues', href: '/venues/' }] : []),
-                ...(visibility.blog ? [{ label: 'Blog', href: '/blog/' }] : []),
-                { label: 'Contact Us', href: '/contact/' },
+                { label: 'About Us', href: '/about-us/', className: '' },
+                ...(visibility.portfolio ? [{ label: 'Portfolio', href: '/portfolio/', className: 'gated-footer-portfolio' }] : []),
+                ...(visibility.gallery ? [{ label: 'Gallery', href: '/gallery/', className: 'gated-footer-gallery' }] : []),
+                { label: 'Packages', href: '/packages/', className: '' },
+                ...(visibility.venues ? [{ label: 'Venues', href: '/venues/', className: 'gated-footer-venues' }] : []),
+                ...(visibility.blog ? [{ label: 'Blog', href: '/blog/', className: 'gated-footer-blog' }] : []),
+                { label: 'Contact Us', href: '/contact/', className: '' },
               ].map((link) => (
-                <li key={link.href}>
+                <li key={link.href} className={link.className}>
                   <Link href={link.href} className="footer-link">
                     {link.label}
                   </Link>
@@ -277,6 +268,41 @@ export function Footer() {
           >
             © {currentYear} 11:11 Decor (Eleven Eleven Decor). All rights reserved.
           </p>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.8125rem', color: '#7a7168' }}>
+              Check our work at
+            </span>
+            <a
+              href={CONTACT_INFO.instagram.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram @_11.11decor_"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                color: '#c9a96e',
+                textDecoration: 'none',
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.8125rem',
+                fontWeight: 600,
+                transition: 'opacity 0.2s ease',
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 448 512"
+                width="16"
+                height="16"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z" />
+              </svg>
+              <span>@_11.11decor_</span>
+            </a>
+          </div>
         </div>
       </div>
     </footer>

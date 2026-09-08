@@ -262,6 +262,8 @@ function MobileGroup({ label, items, onClose }: MobileGroupProps) {
   )
 }
 
+import { usePageVisibility } from '@/hooks/usePageVisibility'
+
 /* ─── Main Navigation ───────────────────────────────────────────────────── */
 
 interface NavigationClientProps {
@@ -271,51 +273,7 @@ interface NavigationClientProps {
 export function NavigationClient({ visibility }: NavigationClientProps) {
   const scrolled = useScrolled(80)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [liveVisibility, setLiveVisibility] = useState<PageVisibility>(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const cached = sessionStorage.getItem('1111_page_visibility')
-        if (cached) return JSON.parse(cached)
-      } catch {
-        // fallback
-      }
-    }
-    return visibility || { blog: false, gallery: false, portfolio: false, venues: false }
-  })
-
-  useEffect(() => {
-    let isMounted = true
-    const fetchLiveVisibility = async () => {
-      try {
-        const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-        const url = isLocal ? 'http://127.0.0.1:8080/api/page-visibility.php' : '/php-admin/api/page-visibility.php'
-        const res = await fetch(url, { cache: 'no-store' })
-        if (res.ok && isMounted) {
-          const data = await res.json()
-          if (data && typeof data === 'object') {
-            const fresh: PageVisibility = {
-              blog: Boolean(data.blog),
-              gallery: Boolean(data.gallery),
-              portfolio: Boolean(data.portfolio),
-              venues: Boolean(data.venues),
-            }
-            try {
-              sessionStorage.setItem('1111_page_visibility', JSON.stringify(fresh))
-            } catch {
-              // ignore
-            }
-            setLiveVisibility(fresh)
-          }
-        }
-      } catch {
-        // Keep initial visibility on network error
-      }
-    }
-    fetchLiveVisibility()
-    return () => {
-      isMounted = false
-    }
-  }, [])
+  const liveVisibility = usePageVisibility(visibility)
 
   return (
     <header
@@ -369,22 +327,22 @@ export function NavigationClient({ visibility }: NavigationClientProps) {
             <NavDropdown label="Services" items={SERVICES_LINKS} />
             <NavDropdown label="Events" items={EVENTS_LINKS} />
             {liveVisibility.portfolio && (
-              <Link href="/portfolio/" className="nav-item-link">
+              <Link href="/portfolio/" className="nav-item-link gated-nav-portfolio">
                 Portfolio
               </Link>
             )}
             {liveVisibility.gallery && (
-              <Link href="/gallery/" className="nav-item-link">
+              <Link href="/gallery/" className="nav-item-link gated-nav-gallery">
                 Gallery
               </Link>
             )}
             {liveVisibility.venues && (
-              <Link href="/venues/" className="nav-item-link">
+              <Link href="/venues/" className="nav-item-link gated-nav-venues">
                 Venues
               </Link>
             )}
             {liveVisibility.blog && (
-              <Link href="/blog/" className="nav-item-link">
+              <Link href="/blog/" className="nav-item-link gated-nav-blog">
                 Blog
               </Link>
             )}
@@ -560,15 +518,16 @@ export function NavigationClient({ visibility }: NavigationClientProps) {
 
         <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           {[
-            ...(liveVisibility.portfolio ? [{ label: 'Portfolio', href: '/portfolio/' }] : []),
-            ...(liveVisibility.gallery ? [{ label: 'Gallery', href: '/gallery/' }] : []),
-            ...(liveVisibility.venues ? [{ label: 'Venues', href: '/venues/' }] : []),
-            ...(liveVisibility.blog ? [{ label: 'Blog', href: '/blog/' }] : []),
-            { label: 'About Us', href: '/about-us/' },
+            ...(liveVisibility.portfolio ? [{ label: 'Portfolio', href: '/portfolio/', className: 'gated-nav-portfolio' }] : []),
+            ...(liveVisibility.gallery ? [{ label: 'Gallery', href: '/gallery/', className: 'gated-nav-gallery' }] : []),
+            ...(liveVisibility.venues ? [{ label: 'Venues', href: '/venues/', className: 'gated-nav-venues' }] : []),
+            ...(liveVisibility.blog ? [{ label: 'Blog', href: '/blog/', className: 'gated-nav-blog' }] : []),
+            { label: 'About Us', href: '/about-us/', className: '' },
           ].map((link) => (
             <Link
               key={link.href}
               href={link.href}
+              className={link.className}
               onClick={() => setMobileMenuOpen(false)}
               style={{
                 display: 'block',

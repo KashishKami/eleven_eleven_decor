@@ -1,5 +1,5 @@
 {
-    "blog": false,
+    "blog": true,
     "gallery": false,
     "portfolio": false,
     "venues": false

@@ -15,7 +15,7 @@ test.describe('Hero Section (W-201)', () => {
     const planBtn = heroSection.getByRole('link', { name: /plan your event/i })
     await expect(planBtn).toBeVisible()
 
-    const workBtn = heroSection.getByRole('link', { name: /view our work/i })
+    const workBtn = heroSection.getByRole('link', { name: /(view our work|explore events)/i })
     await expect(workBtn).toBeVisible()
   })
 })

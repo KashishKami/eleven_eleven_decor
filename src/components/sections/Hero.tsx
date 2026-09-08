@@ -1,22 +1,20 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import gsap from 'gsap'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 import type { PageVisibility } from '@/lib/server-visibility'
+
+import { usePageVisibility } from '@/hooks/usePageVisibility'
 
 interface HeroProps {
   visibility?: Partial<PageVisibility>
 }
 
 export function Hero({ visibility }: HeroProps) {
-  const [portfolioVisible] = useState(() => {
-    if (visibility?.portfolio !== undefined) {
-      return Boolean(visibility.portfolio)
-    }
-    return true
-  })
+  const pageVis = usePageVisibility(visibility as PageVisibility)
+  const portfolioVisible = Boolean(pageVis?.portfolio)
   const containerRef = useRef<HTMLDivElement>(null)
   const labelRef = useRef<HTMLSpanElement>(null)
   const subtextRef = useRef<HTMLParagraphElement>(null)

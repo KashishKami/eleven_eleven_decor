@@ -4,6 +4,7 @@ import Script from 'next/script'
 import { SmoothScrollProvider } from '@/components/providers/SmoothScrollProvider'
 import { Navigation } from '@/components/layout/Navigation'
 import { Footer } from '@/components/layout/Footer'
+import { SocialFloatingSpeedDial } from '@/components/ui/SocialFloatingSpeedDial'
 import JsonLd from '@/components/seo/JsonLd'
 import { generateOrganizationSchema } from '@/lib/schemaGenerators'
 import './globals.css'
@@ -70,6 +71,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fontDisplay.variable} ${fontBody.variable}`}>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var v=JSON.parse(localStorage.getItem('1111_page_visibility')||'{}');var d=document.documentElement;['blog','gallery','portfolio','venues'].forEach(function(k){if(v[k]!==undefined){d.setAttribute('data-visibility-'+k,v[k]?'true':'false');}});}catch(e){}})();`,
+          }}
+        />
         <JsonLd data={generateOrganizationSchema()} />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-ZXHX187LF2"
@@ -89,6 +95,7 @@ export default function RootLayout({
           <Navigation />
           <main>{children}</main>
           <Footer />
+          <SocialFloatingSpeedDial />
         </SmoothScrollProvider>
       </body>
     </html>

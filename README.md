@@ -228,10 +228,11 @@ This application requires running two separate local servers concurrently:
 In your project root directory, run:
 
 ```bash
-php -S 127.0.0.1:8080 -t php-admin
+pnpm php
 ```
+*(or `php -S 127.0.0.1:8080 -t php-admin`)*
 
-This starts the PHP server with `php-admin` as its document root.
+This starts the PHP server with `php-admin` as its document root at `http://127.0.0.1:8080`.
 
 ### Terminal 2: Start the Next.js Frontend Server
 
@@ -244,7 +245,21 @@ pnpm dev
 
 ---
 
-## 6. Access Links & Default Credentials
+## 6. Running the Production Build
+
+To build and serve the optimized static production export locally:
+
+```bash
+# 1. Build the production static site
+pnpm build
+
+# 2. Serve the static export (from out/)
+pnpm start
+```
+
+---
+
+## 7. Access Links & Default Credentials
 
 | Service | URL | Credentials |
 | :--- | :--- | :--- |
@@ -254,18 +269,20 @@ pnpm dev
 | **Blog Posts API** | [http://127.0.0.1:8080/api/blogs.php](http://127.0.0.1:8080/api/blogs.php) | *API endpoint for published articles* |
 
 > **Note on Admin Password:**
-> The default admin login password is `AdminPassword1111!` (an alternative fallback password is `Admin1111Decor!`). You can change this password by generating a new bcrypt hash and updating `ADMIN_PASSWORD_HASH` in [php-admin/config.php](php-admin/config.php).
+> The default admin login password is `AdminPassword1111!` (an alternative fallback password is `Admin1111Decor!`)*. You can change this password by generating a new bcrypt hash and updating `ADMIN_PASSWORD_HASH` in [php-admin/config.php](php-admin/config.php).
 
 ---
 
-## 7. Available Scripts
+## 8. Available Scripts
 
 | Command | Purpose |
 | :--- | :--- |
 | `pnpm dev` / `npm run dev` | Runs the Next.js development server on `http://localhost:3000` |
-| `pnpm build` / `npm run build` | Builds the production Next.js bundle |
+| `pnpm php` / `npm run php` | Starts the PHP backend server on `http://127.0.0.1:8080` (`-t php-admin`) |
+| `pnpm build` / `npm run build` | Builds the production Next.js static export into `out/` |
+| `pnpm start` / `npm run start` | Serves the production static export from `out/` via `serve` |
 | `pnpm build:editor` / `npm run build:editor` | Compiles the Tiptap rich text editor bundle for the admin studio |
-| `pnpm start` / `npm run start` | Starts the production Next.js server |
+| `pnpm optimize:images` | Optimizes all image assets in `public/` using Sharp |
 | `pnpm lint` / `npm run lint` | Runs ESLint checks |
 | `pnpm typecheck` / `npm run typecheck` | Runs TypeScript type verification without emitting files |
 | `pnpm test:unit` / `npm run test:unit` | Executes unit tests with Vitest |

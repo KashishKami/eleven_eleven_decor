@@ -8,7 +8,7 @@ import JsonLd from '@/components/seo/JsonLd'
 import styles from './events.module.css'
 
 export const metadata: Metadata = {
-  title: 'Events We Plan, Manage & Decorate | 11:11 Decor',
+  title: 'Events We Plan, Manage & Decorate',
   description:
     'Every event type carries its own rhythm — a wedding unfolds across days, a product launch runs on minutes. 11:11 Decor plans and decorates each differently.',
   openGraph: {

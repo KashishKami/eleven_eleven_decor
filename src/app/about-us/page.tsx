@@ -8,7 +8,7 @@ import JsonLd from '@/components/seo/JsonLd'
 import styles from './about-us.module.css'
 
 export const metadata: Metadata = {
-  title: 'About Us | 11:11 Decor',
+  title: 'About Us',
   description:
     '11:11 Decor is an event management and décor studio designing weddings, celebrations, and corporate events with intention and detail.',
   openGraph: {

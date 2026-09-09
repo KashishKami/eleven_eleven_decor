@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import { FooterCTA } from '@/components/sections/FooterCTA'
 
 export const metadata: Metadata = {
-  title: 'Venues Archive | 11:11 Decor',
+  title: 'Venues Archive',
   description: 'Explore premier partner venues and exclusive historic estates styled by 11:11 Decor.',
   openGraph: {
     title: 'Venues Archive | 11:11 Decor',

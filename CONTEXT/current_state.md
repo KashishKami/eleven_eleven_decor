@@ -2633,6 +2633,82 @@ Run every validation suite in sequence. Resolve any lint or typing issues. Verif
       - Updated Vitest unit tests in `tests/blog-article.unit.test.ts` and `tests/blog-client.unit.test.ts` to match production endpoint paths.
 
 
+## Session — 09 Sep 2026
 
+### SEO Fix: Dynamic CMS Content Meta Tag Injection via `gateway.php`
+
+**Problem identified:**
+The site uses Next.js `output: 'export'` (static build) deployed on GoDaddy shared hosting.
+New blog posts, venues, and portfolio items created via the PHP CMS admin panel after the last
+build had no proper SEO meta tags — Googlebot was reading the wrong `<title>`, wrong
+`<meta description>`, wrong canonical URL, and no Article/Place/CreativeWork JSON-LD schema.
+Users could always see new content (React fetches it client-side), but crawlers could not.
+
+**Solution implemented:**
+Enhanced `public/gateway.php` (the existing Apache router/gatekeeper) with a new
+`injectSeoMeta()` helper function. For any new blog post, venue, or portfolio page that
+doesn't exist as a static HTML file, the gateway now:
+1. Reads the item's data from `posts.json` / `venues.json` / `portfolio.json`
+2. Loads the nearest existing static HTML shell as a template
+3. Surgically replaces all key SEO tags via regex (`<title>`, `<meta description>`,
+   `<link canonical>`, all `og:*` tags, all `twitter:*` tags)
+4. Injects correct JSON-LD schema (Article / Place / CreativeWork + BreadcrumbList)
+   before `</head>`
+5. Echoes the modified HTML — Googlebot sees the right page, React hydrates normally
+
+**Files changed:**
+- `public/gateway.php` — only file modified (1 file, no rebuild required)
+
+**Deployment:**
+Upload `public/gateway.php` to `public_html/gateway.php` on GoDaddy. No rebuild needed.
+Gallery pages are unaffected (single-page, always correct). Existing static pages bypass
+the gateway entirely and are served unchanged by Apache.
+
+## Session — 09 Sep 2026 (continued)
+
+### Post-Gateway Fixes: SEO Metadata, React Slug Correction & UI Cleanup
+
+**Double brand title bug fixed:**
+All page `title` exports stripped of the `| 11:11 Decor` suffix since `layout.tsx`
+already applies `template: '%s | 11:11 Decor'`. Fixed across all dynamic routes
+(blog, venues/[slug], portfolio/[slug], events/[slug], services/[slug]) and all
+static pages (about-us, contact, venues, portfolio, services, events, testimonials,
+faqs, our-team, packages, menu, venue). OG/Twitter titles still carry the full
+brand string explicitly since they bypass the template system.
+
+**Twitter/X metadata added:**
+Post-specific `twitter: { card, title, description, images }` added to all dynamic
+route pages so Twitter/X shares show the correct article/venue/portfolio image and
+title instead of falling back to the generic site hero banner.
+
+**React client-side slug correction (Blog/Venue/Portfolio):**
+`DynamicBlogClient`, `DynamicVenueClient`, and `DynamicPortfolioClient` now read
+the real slug from `window.location.pathname` on mount. When gateway.php recycles
+an old HTML shell for a new CMS-created item, React immediately corrects to the
+actual URL slug. For venues and portfolio, the stale `initialVenue`/`initialProject`
+prop is also discarded on mismatch so the hook fetches fresh data and never flashes
+wrong content.
+
+**Instagram link UI cleanup:**
+Removed `@_11.11decor_` username text from all 3 Instagram link locations
+(FooterCTA section, Footer left column, Footer bottom bar). Icon-only link remains
+fully clickable and accessible via aria-label. Preposition corrected from
+"Check our work at" to "Check our work on" in all 3 locations.
+
+**Files changed:**
+- `src/app/blog/[...slug]/page.tsx`
+- `src/app/venues/[slug]/page.tsx`
+- `src/app/portfolio/[slug]/page.tsx`
+- `src/app/events/[slug]/page.tsx`
+- `src/app/services/[slug]/page.tsx`
+- `src/app/about-us/page.tsx`, `contact/page.tsx`, `venues/page.tsx`,
+  `portfolio/page.tsx`, `services/page.tsx`, `events/page.tsx`,
+  `testimonials/page.tsx`, `faqs/page.tsx`, `our-team/page.tsx`,
+  `packages/page.tsx`, `menu/page.tsx`, `venue/page.tsx`
+- `src/components/blog/DynamicBlogClient.tsx`
+- `src/components/venues/DynamicVenueClient.tsx`
+- `src/components/portfolio/DynamicPortfolioClient.tsx`
+- `src/components/sections/FooterCTA.tsx`
+- `src/components/layout/Footer.tsx`
 
 

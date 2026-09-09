@@ -6,7 +6,7 @@ import ContactForm from '@/components/contact/ContactForm'
 import { CONTACT_INFO } from '@/data/contact'
 
 export const metadata: Metadata = {
-  title: "Contact Us — Let's Plan Your Event | 11:11 Decor",
+  title: "Contact Us — Let's Plan Your Event",
   description:
     'Connect with 11:11 Decor in Dehradun. Reserve your date for bespoke wedding decoration, corporate gala management, floral styling, and luxury event planning.',
   openGraph: {

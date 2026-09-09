@@ -26,15 +26,17 @@ export function generateMetadata({ params }: Props): Metadata {
   const service = SERVICES_DATA.find((s) => s.slug === params.slug)
   if (!service) {
     return {
-      title: 'Service Not Found | 1111 Decor',
+      title: 'Service Not Found',
     }
   }
 
+  const fullTitle = `${service.title} | 11:11 Decor`
+
   return {
-    title: `${service.title} | 1111 Decor`,
+    title: service.title,
     description: service.shortDescription,
     openGraph: {
-      title: `${service.title} | 1111 Decor`,
+      title: fullTitle,
       description: service.shortDescription,
       url: `https://1111decor.com/services/${service.slug}/`,
       images: [
@@ -45,6 +47,12 @@ export function generateMetadata({ params }: Props): Metadata {
           alt: service.title,
         },
       ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: fullTitle,
+      description: service.shortDescription,
+      images: [service.image],
     },
     alternates: {
       canonical: `https://1111decor.com/services/${service.slug}/`,

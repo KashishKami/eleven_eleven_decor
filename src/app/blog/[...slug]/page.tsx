@@ -32,17 +32,24 @@ export async function generateMetadata({ params }: { params: { slug: string[] } 
 
   if (isCategory) {
     const category = BLOG_CATEGORIES.find((c) => c.slug === categorySlug)
-    const title = category ? `${category.name} Articles | 11:11 Decor Journal` : 'Blog Category | 11:11 Decor'
+    const pageTitle = category ? `${category.name} Articles` : 'Blog Category'
+    const fullTitle = category ? `${category.name} Articles | 11:11 Decor` : 'Blog Category | 11:11 Decor'
     const description = category?.description || 'Explore luxury event planning and decor insights from 11:11 Decor.'
     const url = `https://1111decor.com/blog/${categorySlug}/`
     return {
-      title,
+      title: pageTitle,
       description,
       openGraph: {
-        title,
+        title: fullTitle,
         description,
         url,
         type: 'website',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: fullTitle,
+        description,
+        images: ['/hero-banner.jpg'],
       },
       alternates: {
         canonical: url,
@@ -52,20 +59,28 @@ export async function generateMetadata({ params }: { params: { slug: string[] } 
 
   const posts = getStoredBlogPosts()
   const post = posts.find((p) => p.slug === articleSlug)
-  const title = post ? `${post.title} | 11:11 Decor` : 'Blog Article | 11:11 Decor'
+  const pageTitle = post ? post.title : 'Blog Article'
+  const fullTitle = post ? `${post.title} | 11:11 Decor` : 'Blog Article | 11:11 Decor'
   const description = post?.excerpt || 'Read the latest trends, styling guides, and event insights from 11:11 Decor.'
   const categorySegment = post ? post.category.toLowerCase().replace(/\s+/g, '-') : categorySlug || 'events'
   const url = `https://1111decor.com/blog/${categorySegment}/${articleSlug}/`
+  const image = post?.image || '/hero-banner.jpg'
 
   return {
-    title,
+    title: pageTitle,
     description,
     openGraph: {
-      title,
+      title: fullTitle,
       description,
       url,
       type: 'article',
-      images: post?.image ? [{ url: post.image, width: 1200, height: 630, alt: title }] : [],
+      images: post?.image ? [{ url: post.image, width: 1200, height: 630, alt: pageTitle }] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: fullTitle,
+      description,
+      images: [image],
     },
     alternates: {
       canonical: url,

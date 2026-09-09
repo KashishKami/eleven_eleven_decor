@@ -5,7 +5,7 @@ import { PortfolioClient } from '@/components/portfolio/PortfolioClient'
 import JsonLd from '@/components/seo/JsonLd'
 
 export const metadata: Metadata = {
-  title: 'Portfolio & Case Studies | 11:11 Decor',
+  title: 'Portfolio & Case Studies',
   description:
     'Explore our portfolio of royal weddings, luxury corporate events, and bespoke celebrations curated by 11:11 Decor.',
   openGraph: {

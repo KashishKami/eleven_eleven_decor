@@ -4,7 +4,7 @@ import { TeamSection } from '@/components/sections/TeamSection'
 import { FooterCTA } from '@/components/sections/FooterCTA'
 
 export const metadata: Metadata = {
-  title: 'Our Team | 11:11 Decor',
+  title: 'Our Team',
   description: 'Meet the creative directors, chefs, and event architects of 11:11 Decor.',
   openGraph: {
     title: 'Our Team | 11:11 Decor',

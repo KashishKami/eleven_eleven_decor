@@ -5,7 +5,7 @@ import { FooterCTA } from '@/components/sections/FooterCTA'
 import JsonLd from '@/components/seo/JsonLd'
 
 export const metadata: Metadata = {
-  title: 'Frequently Asked Questions | 11:11 Decor',
+  title: 'Frequently Asked Questions',
   description: 'Answers to common questions about luxury event planning, wedding decoration, corporate galas, and venue staging by 11:11 Decor.',
   openGraph: {
     title: 'Frequently Asked Questions | 11:11 Decor',

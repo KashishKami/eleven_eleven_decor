@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { VenueItem } from '@/data/venues'
@@ -16,7 +16,39 @@ interface Props {
   initialVenue?: VenueItem | null
 }
 
-export function DynamicVenueClient({ slug, initialVenue }: Props) {
+/**
+ * Returns the last path segment of the browser URL, which is the venue slug.
+ * e.g. /venues/grand-heritage-palace/ → 'grand-heritage-palace'
+ */
+function getSlugFromPathname(): string | null {
+  if (typeof window === 'undefined') return null
+  const parts = window.location.pathname.replace(/\/$/, '').split('/').filter(Boolean)
+  // parts = ['venues', 'grand-heritage-palace']
+  const venueIndex = parts.indexOf('venues')
+  if (venueIndex === -1 || venueIndex + 1 >= parts.length) return null
+  return parts[venueIndex + 1] ?? null
+}
+
+export function DynamicVenueClient({ slug: propSlug, initialVenue: propInitialVenue }: Props) {
+  // On client mount, read the real slug from the browser URL.
+  // If gateway.php served an old HTML shell, propSlug is the old venue's slug.
+  // We detect the mismatch and discard the stale initialVenue so the hook
+  // fetches the correct venue instead of briefly showing the wrong one.
+  const [slug, setSlug] = useState<string>(propSlug)
+  const [initialVenue, setInitialVenue] = useState<VenueItem | null | undefined>(propInitialVenue)
+
+  useEffect(() => {
+    const urlSlug = getSlugFromPathname()
+    if (urlSlug && urlSlug !== propSlug) {
+      // URL slug differs from the baked prop — new CMS item served via old shell.
+      // Discard stale initialVenue so useVenue fetches fresh data.
+      setInitialVenue(null)
+      setSlug(urlSlug)
+    }
+  // Run once on mount only.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const { venue, loading, error } = useVenue(slug, initialVenue)
 
   // Client-side JSON-LD injection for rich Google Schema

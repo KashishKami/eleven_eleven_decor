@@ -24,21 +24,30 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: Props): Metadata {
   if (params.slug === '__empty__') {
-    return { title: 'Project Not Found | 1111 Decor' }
+    return { title: 'Project Not Found' }
   }
   const project = getPortfolioProjectBySlugServer(params.slug)
   if (!project) {
-    return { title: 'Project Not Found | 1111 Decor' }
+    return { title: 'Project Not Found' }
   }
 
+  const cleanTitle = (project.metaTitle || project.title).replace(/\s*\|\s*11:?11\s*Decor.*$/i, '').trim()
+  const fullTitle = project.metaTitle || `${project.title} | 11:11 Decor`
+
   return {
-    title: project.metaTitle,
+    title: cleanTitle,
     description: project.metaDescription,
     openGraph: {
-      title: project.metaTitle,
+      title: fullTitle,
       description: project.metaDescription,
       url: `https://1111decor.com/portfolio/${project.slug}/`,
-      images: [{ url: project.heroImage }],
+      images: project.heroImage ? [{ url: project.heroImage }] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: fullTitle,
+      description: project.metaDescription,
+      images: project.heroImage ? [project.heroImage] : ['/hero-banner.jpg'],
     },
     alternates: {
       canonical: `https://1111decor.com/portfolio/${project.slug}/`,

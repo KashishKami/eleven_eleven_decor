@@ -8,7 +8,7 @@ import { SERVICES_DATA } from '@/data/services'
 import styles from './services.module.css'
 
 export const metadata: Metadata = {
-  title: 'Event Planning, Management & Décor Services | 11:11 Decor',
+  title: 'Event Planning, Management & Décor Services',
   description:
     '11:11 Decor offers end-to-end event planning, management, visual decoration, floral installations, and lighting production for weddings, corporate events, and celebrations.',
   openGraph: {

@@ -4,7 +4,7 @@ import { MenusSection } from '@/components/sections/MenusSection'
 import { FooterCTA } from '@/components/sections/FooterCTA'
 
 export const metadata: Metadata = {
-  title: 'Our Menu | 11:11 Decor',
+  title: 'Our Menu',
   description: 'Explore gourmet catering menus, multi-course tasting banquets, and artisanal dishes by 11:11 Decor.',
   openGraph: {
     title: 'Our Menu | 11:11 Decor',

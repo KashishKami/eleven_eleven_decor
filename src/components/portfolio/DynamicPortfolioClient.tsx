@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { PortfolioProject } from '@/data/portfolio'
@@ -16,7 +16,39 @@ interface Props {
   initialProject?: PortfolioProject | null
 }
 
-export function DynamicPortfolioClient({ slug, initialProject }: Props) {
+/**
+ * Returns the last path segment of the browser URL, which is the portfolio slug.
+ * e.g. /portfolio/himalayan-royal-wedding/ → 'himalayan-royal-wedding'
+ */
+function getSlugFromPathname(): string | null {
+  if (typeof window === 'undefined') return null
+  const parts = window.location.pathname.replace(/\/$/, '').split('/').filter(Boolean)
+  // parts = ['portfolio', 'himalayan-royal-wedding']
+  const portfolioIndex = parts.indexOf('portfolio')
+  if (portfolioIndex === -1 || portfolioIndex + 1 >= parts.length) return null
+  return parts[portfolioIndex + 1] ?? null
+}
+
+export function DynamicPortfolioClient({ slug: propSlug, initialProject: propInitialProject }: Props) {
+  // On client mount, read the real slug from the browser URL.
+  // If gateway.php served an old HTML shell, propSlug is the old project's slug.
+  // We detect the mismatch and discard the stale initialProject so the hook
+  // fetches the correct portfolio item instead of briefly showing the wrong one.
+  const [slug, setSlug] = useState<string>(propSlug)
+  const [initialProject, setInitialProject] = useState<PortfolioProject | null | undefined>(propInitialProject)
+
+  useEffect(() => {
+    const urlSlug = getSlugFromPathname()
+    if (urlSlug && urlSlug !== propSlug) {
+      // URL slug differs from the baked prop — new CMS item served via old shell.
+      // Discard stale initialProject so usePortfolioProject fetches fresh data.
+      setInitialProject(null)
+      setSlug(urlSlug)
+    }
+  // Run once on mount only.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const { project, loading, error } = usePortfolioProject(slug, initialProject)
 
   // Client-side JSON-LD injection for rich Google Schema

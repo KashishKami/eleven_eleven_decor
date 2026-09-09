@@ -24,21 +24,30 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: Props): Metadata {
   if (params.slug === '__empty__') {
-    return { title: 'Venue Not Found | 1111 Decor' }
+    return { title: 'Venue Not Found' }
   }
   const venue = getVenueBySlugServer(params.slug)
   if (!venue) {
-    return { title: 'Venue Not Found | 1111 Decor' }
+    return { title: 'Venue Not Found' }
   }
 
+  const cleanTitle = (venue.metaTitle || venue.name).replace(/\s*\|\s*11:?11\s*Decor.*$/i, '').trim()
+  const fullTitle = venue.metaTitle || `${venue.name} | 11:11 Decor`
+
   return {
-    title: venue.metaTitle,
+    title: cleanTitle,
     description: venue.metaDescription,
     openGraph: {
-      title: venue.metaTitle,
+      title: fullTitle,
       description: venue.metaDescription,
       url: `https://1111decor.com/venues/${venue.slug}/`,
-      images: [{ url: venue.heroImage }],
+      images: venue.heroImage ? [{ url: venue.heroImage }] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: fullTitle,
+      description: venue.metaDescription,
+      images: venue.heroImage ? [venue.heroImage] : ['/hero-banner.jpg'],
     },
     alternates: {
       canonical: `https://1111decor.com/venues/${venue.slug}/`,

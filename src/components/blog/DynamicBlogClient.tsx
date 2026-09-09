@@ -51,7 +51,37 @@ function transformArticleContent(html?: string): string {
   return processed
 }
 
-export function DynamicBlogClient({ slugArray }: { slugArray: string[] }) {
+/**
+ * Parse the actual blog slugs from the browser URL.
+ * Format: /blog/[category]/[article-slug] → ['category', 'article-slug']
+ *          /blog/[category]               → ['category']
+ */
+function getSlugsFromPathname(): string[] | null {
+  if (typeof window === 'undefined') return null
+  const parts = window.location.pathname.replace(/\/$/, '').split('/').filter(Boolean)
+  // parts = ['blog', 'wedding-planning', 'lorem-ipsum'] or ['blog', 'wedding-planning']
+  const blogIndex = parts.indexOf('blog')
+  if (blogIndex === -1) return null
+  const slugParts = parts.slice(blogIndex + 1)
+  return slugParts.length > 0 ? slugParts : null
+}
+
+export function DynamicBlogClient({ slugArray: propSlugArray }: { slugArray: string[] }) {
+  // Start with the prop (used during SSG / initial render).
+  // On client mount we immediately override with the real browser URL so that
+  // when gateway.php recycles an old HTML shell for a brand-new post, React
+  // fetches the correct article instead of the old one baked into the shell.
+  const [slugArray, setSlugArray] = useState<string[]>(propSlugArray)
+
+  useEffect(() => {
+    const actualSlugs = getSlugsFromPathname()
+    if (actualSlugs && actualSlugs.join('/') !== propSlugArray.join('/')) {
+      setSlugArray(actualSlugs)
+    }
+  // We only want this to run once on mount — intentionally no deps.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const isCategoryView = slugArray.length === 1
   const categorySlug = slugArray[0] || ''
   const articleSlug = slugArray.length > 1 ? slugArray[1] : slugArray[0]

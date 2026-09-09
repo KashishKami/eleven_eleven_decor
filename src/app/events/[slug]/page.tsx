@@ -24,14 +24,16 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: Props): Metadata {
   const event = EVENT_CATEGORIES.find((cat) => cat.slug === params.slug)
   if (!event) {
-    return { title: 'Event Not Found | 11:11 Decor' }
+    return { title: 'Event Not Found' }
   }
 
+  const fullTitle = `${event.title} | 11:11 Decor`
+
   return {
-    title: `${event.title} | 11:11 Decor`,
+    title: event.title,
     description: event.description,
     openGraph: {
-      title: `${event.title} | 11:11 Decor`,
+      title: fullTitle,
       description: event.description,
       url: `https://1111decor.com/events/${event.slug}/`,
       images: [
@@ -42,6 +44,12 @@ export function generateMetadata({ params }: Props): Metadata {
           alt: event.title,
         },
       ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: fullTitle,
+      description: event.description,
+      images: [event.heroImage],
     },
     alternates: {
       canonical: `https://1111decor.com/events/${event.slug}/`,

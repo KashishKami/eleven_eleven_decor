@@ -8,11 +8,11 @@ import JsonLd from '@/components/seo/JsonLd'
 import styles from './packages.module.css'
 
 export const metadata: Metadata = {
-  title: 'Packages & Service Tiers | 1111 Decor',
+  title: 'Packages & Service Tiers',
   description:
     'Explore luxury event planning, décor staging, and master management packages tailored for weddings, corporate galas, and private celebrations.',
   openGraph: {
-    title: 'Packages & Service Tiers | 1111 Decor',
+    title: 'Packages & Service Tiers | 11:11 Decor',
     description:
       'Explore luxury event planning, décor staging, and master management packages tailored for weddings, corporate galas, and private celebrations.',
     url: 'https://1111decor.com/packages/',

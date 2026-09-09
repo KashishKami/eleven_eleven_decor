@@ -8,11 +8,11 @@ import JsonLd from '@/components/seo/JsonLd'
 import styles from './venues.module.css'
 
 export const metadata: Metadata = {
-  title: 'Find the Right Setting for Your Event | 1111 Decor',
+  title: 'Find the Right Setting for Your Event',
   description:
     'Explore luxury indoor ballrooms, hill resort lawns, and riverfront settings across Dehradun, Mussoorie, and Rishikesh curated by 11:11 Decor.',
   openGraph: {
-    title: 'Find the Right Setting for Your Event | 1111 Decor',
+    title: 'Find the Right Setting for Your Event | 11:11 Decor',
     description:
       'Explore luxury indoor ballrooms, hill resort lawns, and riverfront settings across Dehradun, Mussoorie, and Rishikesh curated by 11:11 Decor.',
     url: 'https://1111decor.com/venues/',

@@ -6,11 +6,11 @@ import { FooterCTA } from '@/components/sections/FooterCTA'
 import styles from './testimonials.module.css'
 
 export const metadata: Metadata = {
-  title: 'Client Testimonials | 1111 Decor',
+  title: 'Client Testimonials',
   description:
     'Read real stories and reviews from hosts and couples who experienced luxury event planning and decor by 11:11 Decor.',
   openGraph: {
-    title: 'Client Testimonials | 1111 Decor',
+    title: 'Client Testimonials | 11:11 Decor',
     description:
       'Read real stories and reviews from hosts and couples who experienced luxury event planning and decor by 11:11 Decor.',
     url: 'https://1111decor.com/testimonials/',

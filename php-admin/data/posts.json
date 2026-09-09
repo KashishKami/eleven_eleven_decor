@@ -90,5 +90,23 @@
             }
         ],
         "created_at": "2026-08-15 11:08:39"
+    },
+    {
+        "title": "Test",
+        "slug": "test",
+        "focus_keyword": "",
+        "category": "wedding-planning",
+        "category_name": "Wedding Planning",
+        "excerpt": "Test",
+        "content": "<p>Test<\/p>",
+        "author": "1111 Decor Studio",
+        "image": "\/manage-7f3b9x2k\/uploads\/test-6aa08e328ed15.png",
+        "image_alt": "two database ecosystem",
+        "read_time": "5 min read",
+        "published": 1,
+        "related_service_slug": "",
+        "related_service_name": "",
+        "id": 6,
+        "created_at": "2026-09-08 22:37:38"
     }
 ]

@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   description:
     '11:11 Decor plans and decorates weddings, celebrations, and corporate events — from first concept to final detail. Request a custom quote today.',
   verification: {
-    google: 'VDCFlV4Uj6z3yjOIiNWGsI4JhCm5CWFnlTZV8Lv7YWo',
+    google: '01eaf921f928b64d',
   },
   alternates: {
     canonical: 'https://1111decor.com/',
@@ -78,7 +78,7 @@ export default function RootLayout({
         />
         <JsonLd data={generateOrganizationSchema()} />
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-ZXHX187LF2"
+          src="https://www.googletagmanager.com/gtag/js?id=G-GSPJXEYL2T"
           strategy="afterInteractive"
         />
         <Script id="google-analytics" strategy="afterInteractive">
@@ -86,7 +86,7 @@ export default function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-ZXHX187LF2');
+            gtag('config', 'G-GSPJXEYL2T');
           `}
         </Script>
       </head>

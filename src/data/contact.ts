@@ -53,8 +53,8 @@ export const CONTACT_INFO: ContactInfo = {
     href: 'https://wa.me/917466854475?text=Hello%2011:11%20Decor,%20I%20would%20like%20to%20inquire%20about%20event%20planning%20and%20decor%20services.',
   },
   email: {
-    display: 'support1111@gmail.com',
-    href: 'mailto:support1111@gmail.com',
+    display: 'support1111decor@gmail.com',
+    href: 'mailto:support1111decor@gmail.com',
   },
   instagram: {
     handle: '_11.11decor_',

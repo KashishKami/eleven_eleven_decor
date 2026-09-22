@@ -31,7 +31,7 @@ define('SESSION_LIFETIME', 7200); // 2 hours
 // CONTACT_FROM_EMAIL — The "From:" address GoDaddy uses when sending.
 //                    MUST match a domain hosted on this GoDaddy account to avoid
 //                    being silently blocked (e.g. noreply@yourdomain.com).
-define('CONTACT_EMAIL',      'support1111@gmail.com');
+define('CONTACT_EMAIL',      'support1111decor@gmail.com');
 define('CONTACT_FROM_EMAIL', 'noreply@1111decor.com');
 
 // ─── SMTP Email Settings (Recommended for 99.9% Inbox Delivery) ─────────────

@@ -8,15 +8,36 @@ describe('Blog API Schema & Data Contracts (W-703 / W-1102)', () => {
     expect(BLOG_DATA.length).toBe(0)
   })
 
-  it('validates BlogPost contract shape with categories and FAQs', () => {
+  it('validates the standardized 9 blog categories registry and BlogPost contract', () => {
+    const expectedCategories = [
+      { slug: 'weddings', name: 'Weddings' },
+      { slug: 'birthdays', name: 'Birthdays' },
+      { slug: 'corporate-events', name: 'Corporate Events' },
+      { slug: 'parties-celebrations', name: 'Parties & Celebrations' },
+      { slug: 'event-decoration', name: 'Event Decoration' },
+      { slug: 'event-planning', name: 'Event Planning' },
+      { slug: 'event-ideas-inspiration', name: 'Event Ideas & Inspiration' },
+      { slug: 'special-occasions', name: 'Special Occasions' },
+      { slug: 'local-event-guides', name: 'Local Event Guides' },
+    ]
+
+    expect(BLOG_CATEGORIES).toHaveLength(9)
+    expectedCategories.forEach((expected) => {
+      const found = BLOG_CATEGORIES.find((c) => c.slug === expected.slug)
+      expect(found).toBeDefined()
+      expect(found?.name).toBe(expected.name)
+      expect(found?.description).toBeDefined()
+      expect(found?.description.length).toBeGreaterThan(10)
+    })
+
     const mockPost: BlogPost = {
       id: '1',
       slug: 'wedding-decor-checklist',
       title: 'Wedding Decor Checklist',
       excerpt: 'Complete checklist for luxury weddings.',
       content: '<h2>Step by step guide</h2>',
-      category: 'wedding-planning',
-      categoryName: 'Wedding Planning',
+      category: 'weddings',
+      categoryName: 'Weddings',
       date: 'August 10, 2026',
       author: '1111 Decor Studio',
       image: 'https://images.unsplash.com/photo-1519741497674-611481863552',

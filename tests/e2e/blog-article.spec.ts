@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 
 test.describe('Blog Single Article Detail Page (W-702)', () => {
   test('renders article detail with H1, author, reading progress bar, schema, and related CTA', async ({ page }) => {
-    await page.goto('/blog/wedding-planning/complete-wedding-decor-checklist')
+    await page.goto('/blog/weddings/complete-wedding-decor-checklist')
 
     // Verify H1
     const heading = page.locator('h1')
@@ -21,11 +21,11 @@ test.describe('Blog Single Article Detail Page (W-702)', () => {
     await expect(serviceCta).toBeVisible()
     await expect(serviceCta).toHaveAttribute('href', '/services/wedding-decoration/')
 
-    // Verify client-side Article JSON-LD schema is injected into document
+    // Verify client-side Article / BlogPosting JSON-LD schema is injected into document
     const schemaScript = page.locator('script#article-jsonld')
     await expect(schemaScript).toBeAttached()
     const schemaText = await schemaScript.textContent()
-    expect(schemaText).toContain('"@type":"Article"')
+    expect(schemaText).toMatch(/"@type":"(Article|BlogPosting)"/)
     expect(schemaText).toContain('The Complete Wedding Decor Checklist')
   })
 })

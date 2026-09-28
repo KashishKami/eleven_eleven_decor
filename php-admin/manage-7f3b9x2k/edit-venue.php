@@ -45,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $planningConsiderationsRaw = trim($_POST['planningConsiderations'] ?? '');
     $planningConsiderations = array_filter(array_map('trim', explode("\n", $planningConsiderationsRaw)));
+    $selected_tags = isset($_POST['tags']) && is_array($_POST['tags']) ? array_values(array_intersect($_POST['tags'], array_keys($GLOBAL_TAGS_MAP))) : [];
 
     if (empty($name)) {
         $error = 'Venue name is required.';
@@ -67,7 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'planningConsiderations' => array_values($planningConsiderations),
                 'metaTitle' => $name . ' | 11:11 Decor Venue Staging',
                 'metaDescription' => !empty($summary) ? substr($summary, 0, 160) : 'Luxury venue staging and decor by 11:11 Decor.',
-                'published' => $published
+                'published' => $published,
+                'tags' => $selected_tags,
             ]);
             header('Location: venues.php');
             exit;
@@ -260,6 +262,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php endforeach; ?>
                     </select>
                 </div>
+            </div>
+
+            <div class="form-group">
+                <label>🏷️ Topic Tags (Multi-Select for Global Topic Pages)</label>
+                <?php 
+                    $currentTags = $venue['tags'] ?? [];
+                    if (is_string($currentTags)) {
+                        $currentTags = array_map('trim', explode(',', $currentTags));
+                    }
+                    if (!is_array($currentTags)) $currentTags = [];
+                ?>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem; background: #242424; padding: 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); max-height: 180px; overflow-y: auto;">
+                    <?php foreach ($GLOBAL_TAGS_MAP as $tagSlug => $tagLabel): ?>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: #f5f0e8; cursor: pointer; text-transform: none; margin: 0;">
+                            <input type="checkbox" name="tags[]" value="<?= $tagSlug ?>" <?= in_array($tagSlug, $currentTags) ? 'checked' : '' ?> style="accent-color: #c9a96e; width: 15px; height: 15px;">
+                            <span><?= htmlspecialchars($tagLabel) ?></span>
+                        </label>
+                    <?php endforeach; ?>
+                </div>
+                <p class="help-text">Select multiple tags to cross-link this venue on global <code>/tags/[topic]/</code> pages.</p>
             </div>
 
             <div class="form-row">

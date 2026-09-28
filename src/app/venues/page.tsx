@@ -38,9 +38,19 @@ export default function VenuesHubPage() {
     })),
   }
 
+  const breadcrumbData = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://1111decor.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Venues', item: 'https://1111decor.com/venues/' },
+    ],
+  }
+
   return (
     <div className={styles.venuesContainer}>
       <JsonLd data={schemaData} />
+      <JsonLd data={breadcrumbData} />
 
       {/* SECTION 1: Dark Hero Header */}
       <section className={styles.heroSection}>

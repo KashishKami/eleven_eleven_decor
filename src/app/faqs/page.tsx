@@ -90,9 +90,19 @@ export default function FaqsPage() {
     ],
   }
 
+  const breadcrumbData = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://1111decor.com/' },
+      { '@type': 'ListItem', position: 2, name: 'FAQs', item: 'https://1111decor.com/faqs/' },
+    ],
+  }
+
   return (
     <div style={{ paddingTop: '80px', backgroundColor: '#121212', minHeight: '100vh' }}>
       <JsonLd data={schemaData} />
+      <JsonLd data={breadcrumbData} />
       <HomeFAQ />
       <FooterCTA />
     </div>

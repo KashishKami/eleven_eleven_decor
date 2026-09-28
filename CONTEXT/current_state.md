@@ -2711,4 +2711,149 @@ fully clickable and accessible via aria-label. Preposition corrected from
 - `src/components/sections/FooterCTA.tsx`
 - `src/components/layout/Footer.tsx`
 
+---
 
+### W-704 — Blog Category Architecture Standardization (9 Categories)
+
+**Root cause:**
+The blog category registry was previously restricted to 5 legacy categories. The business requirement dictates standardizing categorization across 9 core event verticals (`weddings`, `birthdays`, `corporate-events`, `parties-celebrations`, `event-decoration`, `event-planning`, `event-ideas-inspiration`, `special-occasions`, `local-event-guides`) across dynamic routing, sitemap, PHP Admin CMS studio, and testing contracts.
+
+**Goal:**
+1. Standardize `BLOG_CATEGORIES` in `src/types/blog.ts` with all 9 categories and bespoke editorial descriptions.
+2. Ensure dynamic static param generation and dynamic XML sitemap automatically emit routes for all 9 category archives.
+3. Update the PHP Gutenberg Admin Studio (`new-post.php`, `edit-post.php`) dropdowns to support all 9 categories.
+4. Remap data store fixtures and validate with 100% passing Unit, Schema, and E2E test suites.
+
+- [x] **RED — Unit & Schema Tests:**
+  - [x] Test in `tests/blog-api.unit.test.ts`: Assert `BLOG_CATEGORIES` contains exactly 9 categories with valid slugs, names, and descriptions.
+  - [x] Test in `tests/sitemap.unit.test.ts`: Assert sitemap URLs include `/blog/[slug]/` for all 9 categories.
+  - [x] **Run `pnpm test:unit` — confirmed RED.**
+
+- [x] **GREEN — Types, Routing & Admin Panel:**
+  - [x] [Types] Updated `BLOG_CATEGORIES` in `src/types/blog.ts`.
+  - [x] [Admin] Updated `$categories` map in `php-admin/manage-7f3b9x2k/new-post.php` and `edit-post.php`.
+  - [x] [Data] Remapped category fields in `php-admin/data/posts.json` and `tests/fixtures/data/posts.json`.
+  - [x] [Tests] Synchronized tests in `tests/blog-client.unit.test.ts`, `tests/seo-schemas.unit.test.ts`, `tests/e2e/blog-hub.spec.ts`, `tests/e2e/blog-article.spec.ts`.
+  - [x] Run `pnpm test:unit` — **confirmed GREEN (34 test files, 104 tests passed).**
+  - [x] Run `pnpm typecheck` — **0 errors.**
+  - [x] Run `pnpm lint` — **0 warnings/errors.**
+  - [x] Run `pnpm build` — **All 63 static pages compiled successfully.**
+
+- [x] **Verification chain:**
+  - [x] Blog Hub renders navigation pills for all 9 categories.
+  - [x] Category archives load on paths like `/blog/weddings/` and `/blog/event-decoration/`.
+  - [x] Dynamic sitemap outputs URLs for all 9 category archives.
+  - [x] PHP Gutenberg Studio saves new and edited posts with the 9 categories.
+  - [x] ✅ Done.
+
+---
+
+### W-705 — Global Cross-Module 15 Topic Tags Architecture
+
+**Root cause:**
+Content on the site (Blogs, Portfolio Case Studies, Venues, and Gallery Photos) lacked a unified global taxonomy for cross-discovery. To create authoritative root-level topic hubs (`/tags/[slug]/`) for search engines and visitors, a standardized 15-tag global taxonomy is required with multi-select assignment across all 4 admin modules.
+
+**Goal:**
+1. Create centralized `GLOBAL_TAGS` registry with 15 predefined topics in `src/types/tags.ts`.
+2. Implement multi-select checkbox UI across all 4 PHP Admin creation & edit views (`posts`, `portfolio`, `venues`, `gallery`).
+3. Build root-level dynamic tag archive pages at `/tags/[slug]/` with tabbed/sectioned cross-module discovery (Blogs, Portfolio, Venues, Gallery).
+4. Add all 15 `/tags/[slug]/` URLs to the XML sitemap.
+5. Provide live API filtering `?tag=[slug]` in PHP endpoints for real-time dynamic sync without static site rebuilds.
+
+- [x] **RED — Unit & Integration Tests:**
+  - [x] Test in `tests/tags.unit.test.ts`: Validate 15 global tags, type definitions, and sitemap entries.
+  - [x] **Run `pnpm test:unit` — confirm RED.**
+
+- [x] **GREEN — Global Tags Architecture & UI:**
+  - [x] [Types] Create `src/types/tags.ts` with 15 `GLOBAL_TAGS`. Update `BlogPost`, `PortfolioProject`, `Venue`, `GalleryItem` with `tags?: string[]`.
+  - [x] [Store] Update `php-admin/config.php` and `config.example.php` with `GLOBAL_TAGS` helper and tag-aware filters.
+  - [x] [Admin] Add multi-select tag picker to `new-post.php`, `edit-post.php`, `new-project.php`, `edit-project.php`, `new-venue.php`, `edit-venue.php`, `new-photo.php`, `edit-photo.php`.
+  - [x] [API] Update `/api/blogs.php`, `/api/portfolio.php`, `/api/venues.php`, `/api/gallery.php` to accept `?tag=[slug]`.
+  - [x] [Frontend] Create `src/app/tags/[slug]/page.tsx` and `src/components/tags/DynamicTagClient.tsx`.
+  - [x] [Sitemap] Update `src/app/sitemap.ts` to include all 15 `/tags/[slug]/` URLs.
+  - [x] [Article UI] Update `DynamicBlogClient.tsx` to show clickable tag badges linking to `/tags/[slug]/`.
+  - [x] Run `pnpm test:unit` — **confirm GREEN (35 test files, 111 tests passed).**
+  - [x] Run `pnpm typecheck && pnpm lint && pnpm build` — **confirm zero regressions (79 static pages generated).**
+
+- [x] **Verification chain:**
+  - [x] Publish/edit a blog post, portfolio item, venue, and gallery photo with tags in Admin Studio.
+  - [x] Visit `/tags/wedding-ideas/` and observe all tagged items seamlessly grouped.
+  - [x] Verify `/sitemap.xml` contains all 15 tag URLs.
+  - [x] ✅ Done.
+
+---
+
+## Session Note — 28 Sep 2026
+
+### Blog Category Standardization (9 Categories) & Global 15 Tags Architecture
+- **Blog Categories Standardized:** Replaced legacy 5 categories with 9 core event verticals: Weddings, Birthdays, Corporate Events, Parties & Celebrations, Event Decoration, Event Planning, Event Ideas & Inspiration, Special Occasions, Local Event Guides.
+- **Global 15 Tags System Designed & Implemented:** Added global topic taxonomy at `/tags/[slug]/` cross-linking Blogs, Portfolio Projects, Venues, and Gallery Photos.
+- **Multi-Select Admin UI:** Integrated tag selection matrix across all 4 PHP creation and edit dashboards with real-time JSON store synchronization.
+- **Sitemap & SEO Indexing:** All 15 global tag archives integrated into `sitemap.xml` and master `sitemap-index.php`.
+- **Comprehensive Edge Case Testing:** Tested whitespace, comma strings, casing, undefined/null tags, unknown slug 404 handling, and cross-module envelope parsing.
+- **Test Metrics:** 35 unit test suites passed (111 tests), zero TypeScript errors, zero ESLint warnings, 79 static pages generated cleanly in build.
+
+---
+
+### W-706 — Unified Linked Graph (@graph) Schema Architecture & Dynamic Real-Time Structured Data
+
+**Root cause:**
+Search engines require interconnected JSON-LD schema graphs to resolve entity authority and display rich snippet features (site search box, local business knowledge panel, service offer catalogs, breadcrumbs, and FAQs). Furthermore, dynamic CMS content (new blogs, portfolio projects, and venues created in the PHP backend) must automatically emit valid Google-compliant schema structures immediately without requiring static site re-exports.
+
+**Goal:**
+1. Implement a complete Linked Graph (`@graph`) generator for the Home Page (`/`) with `@id` cross-references covering:
+   - `Organization` (`#organization`)
+   - `LocalBusiness` (`#localbusiness`)
+   - `WebSite` (`#website`) with `SearchAction`
+   - `WebPage` (`#webpage`)
+   - `BreadcrumbList` (`#breadcrumb`)
+   - `Service` (`#service-event-planning`) with nested `OfferCatalog` & `itemListElement`
+   - `areaServed` (GeoCircle + administrative areas)
+   - `sameAs` social profiles
+   - `FAQPage` with `mainEntity` Question/Answer objects
+2. Standardize Schema.org structured data across all static routes (`/about-us`, `/contact`, `/menu`, `/our-team`, `/services`, `/portfolio`, `/venues`, `/gallery`, `/packages`, `/faqs`).
+3. Implement real-time dynamic JSON-LD injection on the client side (`DynamicBlogClient.tsx`, `DynamicPortfolioClient.tsx`, `DynamicVenueClient.tsx`, `DynamicTagClient.tsx`) so that any new item published via the PHP CMS creates its own Google-compliant schema (`Article`, `CreativeWork`, `Place`, `CollectionPage` + `BreadcrumbList`) instantly on mount and hydrates into `document.head`.
+4. Validate schema structure across all 35 test files and verify build passes.
+
+- [x] **RED — Unit Tests:**
+  - [x] Test suite `tests/seo-schemas.unit.test.ts` asserting all 9 Homepage entities, OfferCatalog, Breadcrumbs, and dynamic client schema generation.
+  - [x] Run `pnpm test:unit` — confirm RED for missing linked graph fields.
+
+- [x] **GREEN — Schema Generation & Page Integration:**
+  - [x] [Generators] Built `src/lib/schemaGenerators.ts` with `generateHomePageSchemaGraph()`, `generateAboutPageSchemaGraph()`, `generateContactPageSchemaGraph()`, `generateMenuPageSchemaGraph()`, and `generateTeamPageSchemaGraph()`.
+  - [x] [Pages] Integrated linked graph schemas with `JsonLd` components in:
+    - `src/app/page.tsx`
+    - `src/app/about-us/page.tsx`
+    - `src/app/contact/page.tsx`
+    - `src/app/menu/page.tsx`
+    - `src/app/our-team/page.tsx`
+    - `src/app/services/page.tsx`
+    - `src/app/portfolio/page.tsx`
+    - `src/app/venues/page.tsx`
+    - `src/app/gallery/page.tsx`
+    - `src/app/packages/page.tsx`
+    - `src/app/faqs/page.tsx`
+  - [x] [Dynamic Clients] Implemented real-time JSON-LD injection in `DynamicBlogClient.tsx`, `DynamicPortfolioClient.tsx`, `DynamicVenueClient.tsx`, and `DynamicTagClient.tsx`.
+  - [x] Run `pnpm test:unit` — **confirm GREEN (35 test files, 113 tests passed).**
+  - [x] Run `pnpm typecheck` — **0 errors.**
+  - [x] Run `pnpm lint` — **0 warnings/errors.**
+  - [x] Run `pnpm build` — **79 static pages compiled cleanly.**
+
+- [x] **Verification chain:**
+  - [x] Homepage HTML outputs unified `@graph` linking `#organization`, `#localbusiness`, `#website`, `#webpage`, `#breadcrumb`, `#service-event-planning`, `areaServed`, `sameAs`, and `FAQPage`.
+  - [x] New blog posts, venues, and portfolio projects created in PHP admin automatically inject valid schema into `<head>` when viewed by Googlebot/users.
+  - [x] ✅ Done.
+
+---
+
+## Session Note — 28 Sep 2026 (continued)
+
+### Unified Linked Graph Schema & Dynamic Client-Side Structured Data
+- **Homepage Schema Engine:** Generated unified `@graph` JSON-LD connecting all 9 requested core entities with URI `#id` references.
+- **Dynamic Content Real-Time Schema:** Injected structured data on client mount across all dynamic route templates (`DynamicBlogClient`, `DynamicPortfolioClient`, `DynamicVenueClient`, `DynamicTagClient`), ensuring immediate rich result compatibility for all newly added CMS entries without rebuilds.
+- **Site-wide Schema Compliance:** Verified BreadcrumbList, Organization, LocalBusiness, OfferCatalog, and FAQPage across all static and dynamic routes.
+- **Verification Metrics:** 36/36 test suites passed (118 tests), 0 TypeScript errors, 0 ESLint warnings, 79/79 Next.js static pages generated cleanly.
+
+### Page Visibility Gating Enforced Across Topic Tag Archives & Public PHP APIs
+- **Tag Archive Gating (`DynamicTagClient.tsx`):** Hooked into `usePageVisibility()`. Disabled sections (e.g. Gallery, Venues, Portfolio when turned OFF in Admin) have their tabs completely hidden, their items excluded from the "All Content" feed, and counter totals recalibrated.
+- **PHP Public API Visibility Gating (`api/gallery.php`, `api/portfolio.php`, `api/venues.php`, `api/blogs.php`, `api/blog-post.php`):** Added `is_section_visible($section)` checks returning clean empty responses `[]` / 404 when disabled in `page-visibility.json`.

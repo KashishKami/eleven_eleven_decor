@@ -49,9 +49,19 @@ export default function ServicesPage() {
     },
   }
 
+  const breadcrumbData = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://1111decor.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://1111decor.com/services/' },
+    ],
+  }
+
   return (
     <main className={styles.servicesContainer}>
       <JsonLd data={jsonLdData} />
+      <JsonLd data={breadcrumbData} />
 
       {/* Hero Section */}
       <section className={styles.heroSection}>

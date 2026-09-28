@@ -9,12 +9,15 @@ import { HomePackages } from '@/components/sections/HomePackages'
 import { HomeTestimonials } from '@/components/sections/HomeTestimonials'
 import { HomeFAQ } from '@/components/sections/HomeFAQ'
 import { FooterCTA } from '@/components/sections/FooterCTA'
+import JsonLd from '@/components/seo/JsonLd'
+import { generateHomePageSchemaGraph } from '@/lib/schemaGenerators'
 
 export default function Home() {
   const pageVisibility = getPageVisibility()
 
   return (
     <>
+      <JsonLd data={generateHomePageSchemaGraph()} />
       {/* 1. Hero */}
       <Hero visibility={pageVisibility} />
 

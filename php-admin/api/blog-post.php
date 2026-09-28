@@ -16,6 +16,12 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS
     exit;
 }
 
+if (!is_section_visible('blog')) {
+    http_response_code(404);
+    echo json_encode(['error' => 'Blog section is disabled'], JSON_PRETTY_PRINT);
+    exit;
+}
+
 $slug = isset($_GET['slug']) ? trim($_GET['slug']) : '';
 if (empty($slug)) {
     http_response_code(400);
@@ -47,6 +53,7 @@ try {
         'relatedServiceSlug' => $post['related_service_slug'] ?? '',
         'relatedServiceName' => $post['related_service_name'] ?? '',
         'faqs' => $post['faqs'] ?? [],
+        'tags' => is_array($post['tags'] ?? null) ? $post['tags'] : (is_string($post['tags'] ?? null) ? array_values(array_filter(array_map('trim', explode(',', $post['tags'])))) : []),
     ];
 
     echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);

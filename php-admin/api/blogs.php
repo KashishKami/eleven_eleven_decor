@@ -16,11 +16,21 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS
     exit;
 }
 
+if (!is_section_visible('blog')) {
+    echo json_encode([], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    exit;
+}
+
 try {
     $category = isset($_GET['category']) ? trim($_GET['category']) : null;
-    $posts = BlogStore::all(true, $category);
+    $tag = isset($_GET['tag']) ? trim($_GET['tag']) : null;
+    $posts = BlogStore::all(true, $category, $tag);
 
     $formatted = array_map(function($p) {
+        $rawTags = $p['tags'] ?? [];
+        if (is_string($rawTags)) {
+            $rawTags = array_values(array_filter(array_map('trim', explode(',', $rawTags))));
+        }
         return [
             'id' => (string)$p['id'],
             'slug' => $p['slug'],
@@ -32,6 +42,7 @@ try {
             'image' => $p['image'] ?? '',
             'readTime' => $p['read_time'] ?? '5 min read',
             'date' => !empty($p['created_at']) ? date('F d, Y', strtotime($p['created_at'])) : date('F d, Y'),
+            'tags' => is_array($rawTags) ? $rawTags : [],
         ];
     }, $posts);
 

@@ -11,7 +11,7 @@ import { BlogCard } from '@/components/ui/BlogCard'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 import { FooterCTA } from '@/components/sections/FooterCTA'
 import { BLOG_CATEGORIES } from '@/types/blog'
-
+import { GLOBAL_TAGS } from '@/types/tags'
 import { resolveImageUrl } from '@/lib/image-url'
 
 if (typeof window !== 'undefined') {
@@ -312,28 +312,59 @@ function BlogArticleView({ articleSlug }: { articleSlug: string }) {
   useEffect(() => {
     if (!post || typeof document === 'undefined') return
 
-    const schemaData = {
-      '@context': 'https://schema.org',
-      '@type': 'Article',
-      headline: post.title,
-      description: post.excerpt,
-      image: [post.image],
-      datePublished: post.date,
-      author: [
-        {
+    const graphEntities: Record<string, unknown>[] = [
+      {
+        '@type': 'BlogPosting',
+        headline: post.title,
+        description: post.excerpt,
+        image: post.image ? [post.image] : [],
+        datePublished: post.date,
+        author: {
           '@type': 'Organization',
-          name: post.author || '1111 Decor',
-          url: 'https://1111decor.com',
+          name: post.author || '11:11 Decor',
+          url: 'https://1111decor.com/',
         },
-      ],
-      publisher: {
-        '@type': 'Organization',
-        name: '1111 Decor',
-        logo: {
-          '@type': 'ImageObject',
-          url: 'https://1111decor.com/logo.png',
+        publisher: {
+          '@type': 'Organization',
+          name: '11:11 Decor',
+          logo: {
+            '@type': 'ImageObject',
+            url: 'https://1111decor.com/logo.png',
+          },
+        },
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': `https://1111decor.com/blog/${post.category}/${post.slug}/`,
         },
       },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://1111decor.com/' },
+          { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://1111decor.com/blog/' },
+          { '@type': 'ListItem', position: 3, name: post.categoryName || post.category, item: `https://1111decor.com/blog/${post.category}/` },
+          { '@type': 'ListItem', position: 4, name: post.title, item: `https://1111decor.com/blog/${post.category}/${post.slug}/` },
+        ],
+      },
+    ]
+
+    if (post.faqs && post.faqs.length > 0) {
+      graphEntities.push({
+        '@type': 'FAQPage',
+        mainEntity: post.faqs.map((faq) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer,
+          },
+        })),
+      })
+    }
+
+    const schemaData = {
+      '@context': 'https://schema.org',
+      '@graph': graphEntities,
     }
 
     const script = document.createElement('script')
@@ -609,6 +640,61 @@ function BlogArticleView({ articleSlug }: { articleSlug: string }) {
               })}
             </div>
           </section>
+        )}
+
+        {/* Topic Tags Badges */}
+        {post.tags && post.tags.length > 0 && (
+          <div
+            style={{
+              marginTop: '3.5rem',
+              paddingTop: '2rem',
+              borderTop: '1px solid rgba(0,0,0,0.08)',
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              gap: '0.65rem',
+            }}
+          >
+            <span
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.85rem',
+                fontWeight: 700,
+                color: '#8a8275',
+                textTransform: 'uppercase',
+                letterSpacing: '0.08em',
+                marginRight: '0.5rem',
+              }}
+            >
+              Topic Tags:
+            </span>
+            {post.tags.map((tagSlug) => {
+              const cleanSlug = tagSlug.toLowerCase().trim().replace(/\s+/g, '-')
+              const tagObj = GLOBAL_TAGS.find((t) => t.slug === cleanSlug)
+              const tagName = tagObj ? tagObj.name : tagSlug.replace(/-/g, ' ')
+              return (
+                <Link
+                  key={tagSlug}
+                  href={`/tags/${cleanSlug}/`}
+                  style={{
+                    display: 'inline-block',
+                    padding: '0.4rem 0.9rem',
+                    backgroundColor: '#ffffff',
+                    border: '1px solid rgba(201, 169, 110, 0.35)',
+                    borderRadius: '20px',
+                    color: '#8a6e3d',
+                    fontSize: '0.82rem',
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                    fontFamily: 'var(--font-body)',
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  #{tagName}
+                </Link>
+              )
+            })}
+          </div>
         )}
 
         {/* Related Service Link CTA Banner */}

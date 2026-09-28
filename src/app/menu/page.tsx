@@ -2,6 +2,8 @@ import React from 'react'
 import type { Metadata } from 'next'
 import { MenusSection } from '@/components/sections/MenusSection'
 import { FooterCTA } from '@/components/sections/FooterCTA'
+import JsonLd from '@/components/seo/JsonLd'
+import { generateMenuPageSchemaGraph } from '@/lib/schemaGenerators'
 
 export const metadata: Metadata = {
   title: 'Our Menu',
@@ -20,6 +22,7 @@ export const metadata: Metadata = {
 export default function MenuPage() {
   return (
     <div style={{ paddingTop: '80px' }}>
+      <JsonLd data={generateMenuPageSchemaGraph()} />
       <div
         style={{
           backgroundColor: '#121212',

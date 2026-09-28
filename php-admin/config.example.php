@@ -59,6 +59,63 @@ function get_data_dir() {
 }
 
 /**
+ * Checks whether a given content section (blog, gallery, portfolio, venues)
+ * is publicly visible according to data/page-visibility.json or environment overrides.
+ */
+function is_section_visible($section) {
+    $envKey = 'VISIBILITY_' . strtoupper($section);
+    $envVal = getenv($envKey);
+    if ($envVal !== false && $envVal !== '') {
+        return $envVal === '1' || $envVal === 'true';
+    }
+    $visFile = get_data_dir() . '/page-visibility.json';
+    if (!file_exists($visFile)) {
+        return false;
+    }
+    $data = json_decode(file_get_contents($visFile), true);
+    if (!is_array($data)) {
+        return false;
+    }
+    return !empty($data[$section]);
+}
+
+global $GLOBAL_TAGS_MAP;
+$GLOBAL_TAGS_MAP = [
+    'event-ideas' => 'Event Ideas',
+    'event-planning' => 'Event Planning',
+    'event-decoration' => 'Event Decoration',
+    'event-management' => 'Event Management',
+    'party-ideas' => 'Party Ideas',
+    'party-decoration' => 'Party Decoration',
+    'wedding-ideas' => 'Wedding Ideas',
+    'wedding-decoration' => 'Wedding Decoration',
+    'birthday-ideas' => 'Birthday Ideas',
+    'birthday-decoration' => 'Birthday Decoration',
+    'event-themes' => 'Event Themes',
+    'decoration-ideas' => 'Decoration Ideas',
+    'event-trends' => 'Event Trends',
+    'celebration-ideas' => 'Celebration Ideas',
+    'event-inspiration' => 'Event Inspiration',
+];
+
+function item_matches_tag($item, $targetTag) {
+    if (empty($targetTag)) return true;
+    $rawTags = $item['tags'] ?? [];
+    if (is_string($rawTags)) {
+        $rawTags = array_map('trim', explode(',', $rawTags));
+    }
+    if (!is_array($rawTags)) return false;
+    $target = strtolower(trim($targetTag));
+    foreach ($rawTags as $t) {
+        $tSlug = strtolower(trim($t));
+        if ($tSlug === $target || str_replace(' ', '-', $tSlug) === $target) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
  * File-based JSON Blog Store Helper for Local Dev & Staging
  */
 class BlogStore {
@@ -66,7 +123,7 @@ class BlogStore {
         return get_data_dir() . '/posts.json';
     }
 
-    public static function all($publishedOnly = true, $category = null) {
+    public static function all($publishedOnly = true, $category = null, $tag = null) {
         $file = self::getFilePath();
         if (!file_exists($file)) return [];
         $json = file_get_contents($file);
@@ -84,6 +141,12 @@ class BlogStore {
                 $pCat = strtolower($p['category'] ?? '');
                 $pCatName = strtolower($p['category_name'] ?? '');
                 return $pCat === $catLower || str_replace(' ', '-', $pCatName) === $catLower;
+            });
+        }
+
+        if ($tag !== null && $tag !== '') {
+            $posts = array_filter($posts, function($p) use ($tag) {
+                return item_matches_tag($p, $tag);
             });
         }
 
@@ -166,7 +229,7 @@ class PortfolioStore {
         return get_data_dir() . '/portfolio.json';
     }
 
-    public static function all($publishedOnly = true, $category = null) {
+    public static function all($publishedOnly = true, $category = null, $tag = null) {
         $file = self::getFilePath();
         if (!file_exists($file)) return [];
         $json = file_get_contents($file);
@@ -183,6 +246,12 @@ class PortfolioStore {
             $items = array_filter($items, function($item) use ($catLower) {
                 $itemCat = strtolower($item['category'] ?? '');
                 return $itemCat === $catLower || str_replace(' ', '-', $itemCat) === $catLower;
+            });
+        }
+
+        if ($tag !== null && $tag !== '') {
+            $items = array_filter($items, function($item) use ($tag) {
+                return item_matches_tag($item, $tag);
             });
         }
 
@@ -268,7 +337,7 @@ class VenueStore {
         return get_data_dir() . '/venues.json';
     }
 
-    public static function all($publishedOnly = true, $spaceType = null) {
+    public static function all($publishedOnly = true, $spaceType = null, $tag = null) {
         $file = self::getFilePath();
         if (!file_exists($file)) return [];
         $json = file_get_contents($file);
@@ -285,6 +354,12 @@ class VenueStore {
             $items = array_filter($items, function($item) use ($stLower) {
                 $itemSt = strtolower($item['spaceType'] ?? '');
                 return stripos($itemSt, $stLower) !== false;
+            });
+        }
+
+        if ($tag !== null && $tag !== '') {
+            $items = array_filter($items, function($item) use ($tag) {
+                return item_matches_tag($item, $tag);
             });
         }
 
@@ -370,7 +445,7 @@ class GalleryStore {
         return get_data_dir() . '/gallery.json';
     }
 
-    public static function all($publishedOnly = true, $category = null) {
+    public static function all($publishedOnly = true, $category = null, $tag = null) {
         $file = self::getFilePath();
         if (!file_exists($file)) return [];
         $json = file_get_contents($file);
@@ -387,6 +462,12 @@ class GalleryStore {
             $items = array_filter($items, function($item) use ($catLower) {
                 $itemCat = strtolower($item['category'] ?? '');
                 return $itemCat === $catLower || str_replace(' ', '-', $itemCat) === $catLower;
+            });
+        }
+
+        if ($tag !== null && $tag !== '') {
+            $items = array_filter($items, function($item) use ($tag) {
+                return item_matches_tag($item, $tag);
             });
         }
 

@@ -35,9 +35,19 @@ export default function PortfolioHubPage() {
     })),
   }
 
+  const breadcrumbData = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://1111decor.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Portfolio', item: 'https://1111decor.com/portfolio/' },
+    ],
+  }
+
   return (
     <>
       <JsonLd data={schemaData} />
+      <JsonLd data={breadcrumbData} />
       <PortfolioClient initialProjects={initialProjects} />
     </>
   )

@@ -40,9 +40,19 @@ export default function GalleryPage() {
     url: 'https://1111decor.com/gallery/',
   }
 
+  const breadcrumbData = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://1111decor.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Gallery', item: 'https://1111decor.com/gallery/' },
+    ],
+  }
+
   return (
     <div className={styles.galleryContainer}>
       <JsonLd data={schemaData} />
+      <JsonLd data={breadcrumbData} />
 
       {/* SECTION 1: Dark Hero Header */}
       <section className={styles.heroSection}>

@@ -5,6 +5,12 @@
         "title": "Royal Mandap Orchid Canopy",
         "category": "Weddings",
         "aspectRatio": "landscape",
+        "tags": [
+            "wedding-ideas",
+            "wedding-decoration",
+            "event-decoration",
+            "decoration-ideas"
+        ],
         "published": 1,
         "updated_at": "2026-08-27 16:08:27"
     },
@@ -14,6 +20,11 @@
         "title": "Botanical Glasshouse Reception Table",
         "category": "Décor",
         "aspectRatio": "portrait",
+        "tags": [
+            "decoration-ideas",
+            "event-inspiration",
+            "event-themes"
+        ],
         "published": 1
     },
     {
@@ -22,6 +33,11 @@
         "title": "Executive Keynote Curved LED Stage",
         "category": "Stage Designs",
         "aspectRatio": "landscape",
+        "tags": [
+            "event-management",
+            "event-trends",
+            "event-planning"
+        ],
         "published": 1
     },
     {
@@ -30,15 +46,12 @@
         "title": "50th Jubilee Marquee & Edison Canopy",
         "category": "Birthdays",
         "aspectRatio": "square",
+        "tags": [
+            "birthday-ideas",
+            "birthday-decoration",
+            "celebration-ideas",
+            "party-ideas"
+        ],
         "published": 1
-    },
-    {
-        "title": "E2E Floral Arch 1788540780717_s7ub",
-        "category": "Weddings",
-        "aspectRatio": "landscape",
-        "src": "https:\/\/images.unsplash.com\/photo-1519741497674-611481863552",
-        "published": 1,
-        "id": "1",
-        "created_at": "2026-09-04 16:53:01"
     }
 ]

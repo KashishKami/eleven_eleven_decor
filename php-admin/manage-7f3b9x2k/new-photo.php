@@ -20,6 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $src = trim($_POST['src'] ?? '');
     $published = isset($_POST['published']) ? 1 : 0;
 
+    $selected_tags = isset($_POST['tags']) && is_array($_POST['tags']) ? array_values(array_intersect($_POST['tags'], array_keys($GLOBAL_TAGS_MAP))) : [];
+
     if (empty($title)) {
         $error = 'Photo title is required.';
     } elseif (empty($src)) {
@@ -31,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'category' => $category,
                 'aspectRatio' => $aspectRatio,
                 'src' => $src,
+                'tags' => $selected_tags,
                 'published' => $published
             ]);
             header('Location: gallery.php');
@@ -213,6 +216,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <input type="text" id="src" name="src" placeholder="https://... or uploaded image path" style="margin-top: 0.5rem;" oninput="updatePreviewFromUrl(this.value, 'photo-preview')">
                 <p class="help-text">JPG, PNG, or WebP up to 5MB.</p>
+            </div>
+
+            <!-- Topic Tags Multi-Select -->
+            <div class="form-group">
+                <label>🏷️ Topic Tags (Multi-Select)</label>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem; max-height: 180px; overflow-y: auto; background: #222222; padding: 0.85rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                    <?php foreach ($GLOBAL_TAGS_MAP as $tagSlug => $tagLabel): ?>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: #d1d1d1; cursor: pointer; text-transform: none; margin-bottom: 0;">
+                            <input type="checkbox" name="tags[]" value="<?= $tagSlug ?>" <?= in_array($tagSlug, $selected_tags ?? []) ? 'checked' : '' ?> style="accent-color: #c9a96e; width: 15px; height: 15px;">
+                            <span><?= htmlspecialchars($tagLabel) ?></span>
+                        </label>
+                    <?php endforeach; ?>
+                </div>
+                <p class="help-text">Select relevant tags for global topic discovery (/tags/[slug]/).</p>
             </div>
 
             <div class="form-group" style="display: flex; align-items: center; gap: 0.75rem; margin-top: 1.5rem;">

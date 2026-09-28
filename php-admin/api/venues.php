@@ -16,6 +16,11 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS
     exit;
 }
 
+if (!is_section_visible('venues')) {
+    echo json_encode([], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    exit;
+}
+
 try {
     if (isset($_GET['slug']) && !empty(trim($_GET['slug']))) {
         $slug = trim($_GET['slug']);
@@ -30,7 +35,8 @@ try {
     }
 
     $spaceType = isset($_GET['spaceType']) ? trim($_GET['spaceType']) : null;
-    $venues = VenueStore::all(true, $spaceType);
+    $tag = isset($_GET['tag']) ? trim($_GET['tag']) : null;
+    $venues = VenueStore::all(true, $spaceType, $tag);
 
     echo json_encode($venues, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 } catch (Exception $e) {

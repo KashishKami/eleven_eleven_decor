@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 import { FooterCTA } from '@/components/sections/FooterCTA'
 import JsonLd from '@/components/seo/JsonLd'
+import { generateAboutPageSchemaGraph } from '@/lib/schemaGenerators'
 import styles from './about-us.module.css'
 
 export const metadata: Metadata = {
@@ -23,19 +24,9 @@ export const metadata: Metadata = {
 }
 
 export default function AboutUsPage() {
-  const schemaData = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: '11:11 Decor',
-    url: 'https://1111decor.com/',
-    logo: 'https://1111decor.com/logo.png',
-    description:
-      '11:11 Decor is an event management and décor studio based in Dehradun, working with clients across India.',
-  }
-
   return (
     <div className={styles.aboutContainer}>
-      <JsonLd data={schemaData} />
+      <JsonLd data={generateAboutPageSchemaGraph()} />
 
       {/* SECTION 1: Hero */}
       <section className={styles.heroSection}>

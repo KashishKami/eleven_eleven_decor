@@ -19,14 +19,15 @@ if ($id <= 0) {
 
 $error = '';
 $categories = [
-    'wedding-planning' => 'Wedding Planning',
-    'floral-design' => 'Floral Design',
-    'luxury-tablescapes' => 'Luxury Tablescapes',
-    'corporate-galas' => 'Corporate Galas',
-    'lighting-ambiance' => 'Lighting & Ambiance',
-    'venue-destination-events' => 'Venue & Destination Events',
-    'decoration-ideas' => 'Decoration Ideas',
+    'weddings' => 'Weddings',
+    'birthdays' => 'Birthdays',
+    'corporate-events' => 'Corporate Events',
+    'parties-celebrations' => 'Parties & Celebrations',
+    'event-decoration' => 'Event Decoration',
     'event-planning' => 'Event Planning',
+    'event-ideas-inspiration' => 'Event Ideas & Inspiration',
+    'special-occasions' => 'Special Occasions',
+    'local-event-guides' => 'Local Event Guides',
 ];
 
 try {
@@ -44,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = trim($_POST['title'] ?? '');
     $slug = trim($_POST['slug'] ?? '');
     $focus_keyword = trim($_POST['focus_keyword'] ?? '');
-    $category = trim($_POST['category'] ?? 'wedding-planning');
+    $category = trim($_POST['category'] ?? 'weddings');
     $category_name = $categories[$category] ?? 'General';
     $excerpt = trim($_POST['excerpt'] ?? '');
     $content = trim($_POST['content'] ?? '');
@@ -55,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $related_service_name = trim($_POST['related_service_name'] ?? '');
     $image_url = trim($_POST['image_url'] ?? ($post['image'] ?? ''));
     $image_alt = trim($_POST['image_alt'] ?? ($post['image_alt'] ?? ''));
+    $selected_tags = isset($_POST['tags']) && is_array($_POST['tags']) ? array_values(array_intersect($_POST['tags'], array_keys($GLOBAL_TAGS_MAP))) : [];
 
     // Handle File Upload
     if (isset($_FILES['image_file']) && $_FILES['image_file']['error'] === UPLOAD_ERR_OK) {
@@ -120,6 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'published' => $published,
                 'related_service_slug' => $related_service_slug,
                 'related_service_name' => $related_service_name,
+                'tags' => $selected_tags,
             ]);
 
             header('Location: dashboard.php?updated=1');
@@ -392,6 +395,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <option value="<?= $catKey ?>" <?= $post['category'] === $catKey ? 'selected' : '' ?>><?= $catLabel ?></option>
                         <?php endforeach; ?>
                     </select>
+                </div>
+
+                <div class="sidebar-group">
+                    <div class="sidebar-group-title">🏷️ Topic Tags (Multi-Select)</div>
+                    <?php 
+                        $currentTags = $post['tags'] ?? [];
+                        if (is_string($currentTags)) {
+                            $currentTags = array_map('trim', explode(',', $currentTags));
+                        }
+                        if (!is_array($currentTags)) $currentTags = [];
+                    ?>
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 0.4rem; max-height: 180px; overflow-y: auto; background: #222222; padding: 0.75rem; border-radius: 6px; border: 1px solid #333333;">
+                        <?php foreach ($GLOBAL_TAGS_MAP as $tagSlug => $tagLabel): ?>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: #d1d1d1; cursor: pointer;">
+                                <input type="checkbox" name="tags[]" value="<?= $tagSlug ?>" <?= in_array($tagSlug, $currentTags) ? 'checked' : '' ?> style="accent-color: #c9a96e; width: 14px; height: 14px;">
+                                <span><?= htmlspecialchars($tagLabel) ?></span>
+                            </label>
+                        <?php endforeach; ?>
+                    </div>
+                    <div class="sidebar-help">Select multiple topic tags for cross-module discovery</div>
                 </div>
 
                 <div class="sidebar-group">

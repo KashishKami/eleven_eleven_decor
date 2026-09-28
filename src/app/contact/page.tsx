@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 import JsonLd from '@/components/seo/JsonLd'
 import ContactForm from '@/components/contact/ContactForm'
+import { generateContactPageSchemaGraph } from '@/lib/schemaGenerators'
 import { CONTACT_INFO } from '@/data/contact'
 
 export const metadata: Metadata = {
@@ -21,46 +22,9 @@ export const metadata: Metadata = {
 }
 
 export default function ContactPage() {
-  const schemaData = {
-    '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
-    name: CONTACT_INFO.brandName,
-    url: 'https://1111decor.com/contact/',
-    logo: 'https://1111decor.com/logo.png',
-    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop',
-    description:
-      'Luxury event planning, bespoke floral styling, stage architecture, and celebration decor services in Dehradun and across Uttarakhand.',
-    telephone: '+917466854475',
-    email: CONTACT_INFO.email.display,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: CONTACT_INFO.address.street,
-      addressLocality: CONTACT_INFO.address.city,
-      addressRegion: CONTACT_INFO.address.state,
-      postalCode: CONTACT_INFO.address.postalCode,
-      addressCountry: 'IN',
-    },
-    openingHoursSpecification: [
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: [
-          'Monday',
-          'Tuesday',
-          'Wednesday',
-          'Thursday',
-          'Friday',
-          'Saturday',
-          'Sunday',
-        ],
-        opens: '09:00',
-        closes: '20:00',
-      },
-    ],
-  }
-
   return (
     <div style={{ paddingTop: '96px', backgroundColor: '#ede5d8', color: '#1a1a1a', minHeight: '100vh' }}>
-      <JsonLd data={schemaData} />
+      <JsonLd data={generateContactPageSchemaGraph()} />
 
       {/* HERO SECTION */}
       <section

@@ -7,7 +7,7 @@ import type { VenueItem } from '@/data/venues'
 import { useVenue } from '@/hooks/useVenue'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 import { FooterCTA } from '@/components/sections/FooterCTA'
-import { generateVenueSchema } from '@/lib/schemaGenerators'
+import { generateVenueSchema, generateBreadcrumbSchema } from '@/lib/schemaGenerators'
 import { resolveImageUrl } from '@/lib/image-url'
 import styles from '@/app/venues/[slug]/venue-detail.module.css'
 
@@ -55,15 +55,25 @@ export function DynamicVenueClient({ slug: propSlug, initialVenue: propInitialVe
   useEffect(() => {
     if (!venue || typeof document === 'undefined') return
 
-    const schemaData = generateVenueSchema({
-      name: venue.name,
-      description: venue.summary,
-      slug: venue.slug,
-      heroImage: venue.heroImage,
-      location: venue.location,
-      capacity: venue.capacity,
-      spaceType: venue.spaceType,
-    })
+    const schemaData = {
+      '@context': 'https://schema.org',
+      '@graph': [
+        generateVenueSchema({
+          name: venue.name,
+          description: venue.summary,
+          slug: venue.slug,
+          heroImage: venue.heroImage,
+          location: venue.location,
+          capacity: venue.capacity,
+          spaceType: venue.spaceType,
+        }),
+        generateBreadcrumbSchema([
+          { name: 'Home', url: 'https://1111decor.com/' },
+          { name: 'Venues', url: 'https://1111decor.com/venues/' },
+          { name: venue.name, url: `https://1111decor.com/venues/${venue.slug}/` },
+        ]),
+      ],
+    }
 
     const script = document.createElement('script')
     script.type = 'application/ld+json'

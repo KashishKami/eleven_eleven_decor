@@ -16,9 +16,15 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS
     exit;
 }
 
+if (!is_section_visible('gallery')) {
+    echo json_encode([], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    exit;
+}
+
 try {
     $category = isset($_GET['category']) && trim($_GET['category']) !== 'All' ? trim($_GET['category']) : null;
-    $items = GalleryStore::all(true, $category);
+    $tag = isset($_GET['tag']) ? trim($_GET['tag']) : null;
+    $items = GalleryStore::all(true, $category, $tag);
 
     // If data store is empty, provide initial seed items
     if (empty($items) && $category === null) {

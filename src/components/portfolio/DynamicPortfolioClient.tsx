@@ -7,7 +7,7 @@ import type { PortfolioProject } from '@/data/portfolio'
 import { usePortfolioProject } from '@/hooks/usePortfolioProject'
 import { WindRevealHeading } from '@/components/ui/WindRevealHeading'
 import { FooterCTA } from '@/components/sections/FooterCTA'
-import { generatePortfolioSchema } from '@/lib/schemaGenerators'
+import { generatePortfolioSchema, generateBreadcrumbSchema } from '@/lib/schemaGenerators'
 import { resolveImageUrl } from '@/lib/image-url'
 import styles from '@/app/portfolio/[slug]/portfolio-detail.module.css'
 
@@ -55,14 +55,24 @@ export function DynamicPortfolioClient({ slug: propSlug, initialProject: propIni
   useEffect(() => {
     if (!project || typeof document === 'undefined') return
 
-    const schemaData = generatePortfolioSchema({
-      title: project.title,
-      description: project.summary,
-      slug: project.slug,
-      heroImage: project.heroImage,
-      location: project.location,
-      category: project.category,
-    })
+    const schemaData = {
+      '@context': 'https://schema.org',
+      '@graph': [
+        generatePortfolioSchema({
+          title: project.title,
+          description: project.summary,
+          slug: project.slug,
+          heroImage: project.heroImage,
+          location: project.location,
+          category: project.category,
+        }),
+        generateBreadcrumbSchema([
+          { name: 'Home', url: 'https://1111decor.com/' },
+          { name: 'Portfolio', url: 'https://1111decor.com/portfolio/' },
+          { name: project.title, url: `https://1111decor.com/portfolio/${project.slug}/` },
+        ]),
+      ],
+    }
 
     const script = document.createElement('script')
     script.type = 'application/ld+json'

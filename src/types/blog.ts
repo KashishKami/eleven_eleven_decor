@@ -19,6 +19,7 @@ export interface BlogPost {
   faqs?: BlogFaq[]
   relatedServiceSlug?: string
   relatedServiceName?: string
+  tags?: string[]
 }
 
 export interface BlogCategory {
@@ -29,19 +30,14 @@ export interface BlogCategory {
 
 export const BLOG_CATEGORIES: BlogCategory[] = [
   {
-    slug: 'wedding-planning',
-    name: 'Wedding Planning',
-    description: 'Expert planning advice, timelines, and coordination secrets for seamless wedding celebrations.',
+    slug: 'weddings',
+    name: 'Weddings',
+    description: 'Expert planning advice, timelines, mandap inspiration, and coordination secrets for luxury weddings.',
   },
   {
-    slug: 'event-planning',
-    name: 'Event Planning',
-    description: 'Practical guides and structural strategies for planning milestones, anniversaries, and social events.',
-  },
-  {
-    slug: 'decoration-ideas',
-    name: 'Decoration Ideas',
-    description: 'Inspiring floral palettes, mandap styling, lighting concepts, and couture tablescapes.',
+    slug: 'birthdays',
+    name: 'Birthdays',
+    description: 'Creative birthday themes, bespoke milestones, balloon styling, and immersive celebration ideas.',
   },
   {
     slug: 'corporate-events',
@@ -49,8 +45,33 @@ export const BLOG_CATEGORIES: BlogCategory[] = [
     description: 'Executive galas, summit staging, brand launch aesthetics, and professional event management.',
   },
   {
-    slug: 'venue-destination-events',
-    name: 'Venue & Destination Events',
-    description: 'Destination logistics, luxury resort transformations, and indoor vs outdoor venue selection.',
+    slug: 'parties-celebrations',
+    name: 'Parties & Celebrations',
+    description: 'Private soirees, cocktail nights, anniversaries, and personal milestone celebrations.',
+  },
+  {
+    slug: 'event-decoration',
+    name: 'Event Decoration',
+    description: 'Inspiring floral palettes, bespoke stage styling, couture tablescapes, and ambient lighting.',
+  },
+  {
+    slug: 'event-planning',
+    name: 'Event Planning',
+    description: 'Practical checklists, budget planning, vendor coordination, and structural event strategies.',
+  },
+  {
+    slug: 'event-ideas-inspiration',
+    name: 'Event Ideas & Inspiration',
+    description: 'Curated aesthetic moodboards, design trend spotlights, and inventive styling concepts.',
+  },
+  {
+    slug: 'special-occasions',
+    name: 'Special Occasions',
+    description: 'Engagement functions, ring ceremonies, festive gatherings, and memorable family occasions.',
+  },
+  {
+    slug: 'local-event-guides',
+    name: 'Local Event Guides',
+    description: 'Premier venues, regional vendor spotlights, destination logistics, and local event insights.',
   },
 ]

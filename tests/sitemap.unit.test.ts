@@ -38,6 +38,24 @@ describe('Dynamic Sitemap & Robots Generation with Visibility Gate (W-902 / W-10
     expect(urls.some((u) => u.includes('/services/wedding-decoration/'))).toBe(true)
     expect(urls.some((u) => u.includes('/services/birthday-decoration/'))).toBe(true)
     expect(urls.some((u) => u.includes('/events/wedding-events/'))).toBe(true)
+
+    // Blog category routes when blog is enabled
+    if (pageVisibility.blog) {
+      const expectedCategories = [
+        'weddings',
+        'birthdays',
+        'corporate-events',
+        'parties-celebrations',
+        'event-decoration',
+        'event-planning',
+        'event-ideas-inspiration',
+        'special-occasions',
+        'local-event-guides',
+      ]
+      expectedCategories.forEach((catSlug) => {
+        expect(urls).toContain(`https://1111decor.com/blog/${catSlug}/`)
+      })
+    }
   })
 
   it('guarantees every sitemap URL ends with a trailing slash', () => {

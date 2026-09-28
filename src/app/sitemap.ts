@@ -5,6 +5,7 @@ import { EVENT_CATEGORIES } from '@/data/events'
 import { PORTFOLIO_PROJECTS } from '@/data/portfolio'
 import { VENUES } from '@/data/venues'
 import { BLOG_CATEGORIES } from '@/types/blog'
+import { GLOBAL_TAGS } from '@/types/tags'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const pageVisibility = getPageVisibility()
@@ -144,6 +145,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       }))
     : []
 
+  // Global Topic Tag Hub Pages (/tags/[slug]/)
+  const tagRoutes: MetadataRoute.Sitemap = GLOBAL_TAGS.map((tag) => ({
+    url: `${baseUrl}/tags/${tag.slug}/`,
+    lastModified: currentDate,
+    changeFrequency: 'weekly',
+    priority: 0.8,
+  }))
+
   return [
     ...staticRoutes,
     ...serviceRoutes,
@@ -151,5 +160,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...portfolioRoutes,
     ...venueRoutes,
     ...blogCategoryRoutes,
+    ...tagRoutes,
   ]
 }

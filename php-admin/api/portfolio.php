@@ -16,6 +16,11 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS
     exit;
 }
 
+if (!is_section_visible('portfolio')) {
+    echo json_encode([], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    exit;
+}
+
 try {
     if (isset($_GET['slug']) && !empty(trim($_GET['slug']))) {
         $slug = trim($_GET['slug']);
@@ -30,7 +35,8 @@ try {
     }
 
     $category = isset($_GET['category']) ? trim($_GET['category']) : null;
-    $projects = PortfolioStore::all(true, $category);
+    $tag = isset($_GET['tag']) ? trim($_GET['tag']) : null;
+    $projects = PortfolioStore::all(true, $category, $tag);
 
     echo json_encode($projects, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 } catch (Exception $e) {

@@ -25,49 +25,42 @@
         ],
         "metaTitle": "Grand Heritage Palace & Royal Gardens | 11:11 Decor Curated Venues",
         "metaDescription": "Explore Grand Heritage Palace & Royal Gardens in Dehradun Valley with bespoke floral architecture, banquet staging, and luxury event planning by 11:11 Decor.",
+        "tags": [
+            "wedding-ideas",
+            "wedding-decoration",
+            "event-planning",
+            "event-themes"
+        ],
         "published": 1,
         "created_at": "2026-08-27 12:00:00"
     },
     {
-        "name": "JD Connect",
-        "tagline": "5 years celeberation",
-        "slug": "jd-connect",
+        "name": "JD Fusion",
+        "tagline": "Test",
+        "slug": "jd-fusion",
         "spaceType": "Hybrid (Indoor & Outdoor)",
-        "location": "Dehradun",
-        "capacity": 20,
-        "heroImage": "\/manage-7f3b9x2k\/uploads\/front-banner-1-6a903fa055fa8.jpg",
+        "location": "Test",
+        "capacity": 100,
+        "heroImage": "\/manage-7f3b9x2k\/uploads\/1-6a95ab6e0fc53.jpg",
         "galleryImages": [
-            "\/manage-7f3b9x2k\/uploads\/birthday-events-1-6a903fae605bf.jpg"
+            "\/manage-7f3b9x2k\/uploads\/2-6a95ab7b8510e.jpg",
+            "\/manage-7f3b9x2k\/uploads\/3-6a95ab7b8e228.jpg",
+            "\/manage-7f3b9x2k\/uploads\/4-6a95ab7b9e28a.jpg",
+            "\/manage-7f3b9x2k\/uploads\/5-6a95ab7bb4490.jpg"
         ],
-        "summary": "JD Connect Party",
+        "summary": "Testing Venue",
         "decorHighlights": [
+            "Testing",
             "Testing"
         ],
         "planningConsiderations": [
-            "Testing"
+            "Testing Testing",
+            "TEST"
         ],
-        "metaTitle": "JD Connect | 11:11 Decor Venue Staging",
-        "metaDescription": "JD Connect Party",
+        "metaTitle": "JD Fusion | 11:11 Decor Venue Staging",
+        "metaDescription": "Testing Venue",
         "published": 1,
         "id": "2",
-        "created_at": "2026-08-27 13:46:28"
-    },
-    {
-        "name": "E2E Palace Estate 1788541024375_hool",
-        "tagline": "Bespoke Valley Sanctuary",
-        "slug": "e2e-palace-estate-1788541024375-hool",
-        "spaceType": "Outdoor",
-        "location": "Dehradun Valley, Uttarakhand",
-        "capacity": 600,
-        "heroImage": "https:\/\/images.unsplash.com\/photo-1544078751-58fee2d8a03b",
-        "galleryImages": [],
-        "summary": "Private botanical sanctuary with mountain views.",
-        "decorHighlights": [],
-        "planningConsiderations": [],
-        "metaTitle": "E2E Palace Estate 1788541024375_hool | 11:11 Decor Venue Staging",
-        "metaDescription": "Private botanical sanctuary with mountain views.",
-        "published": 1,
-        "id": "3",
-        "created_at": "2026-09-04 16:57:05"
+        "created_at": "2026-08-31 16:27:50"
     }
 ]

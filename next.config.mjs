@@ -25,6 +25,14 @@ const nextConfig = {
               source: '/uploads/:path*',
               destination: 'http://127.0.0.1:8080/manage-7f3b9x2k/uploads/:path*',
             },
+            {
+              source: '/php-admin/api/:path*',
+              destination: 'http://127.0.0.1:8080/api/:path*',
+            },
+            {
+              source: '/api/:path*',
+              destination: 'http://127.0.0.1:8080/api/:path*',
+            },
           ]
         },
       }

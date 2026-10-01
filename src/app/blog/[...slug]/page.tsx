@@ -4,7 +4,8 @@ import { DynamicBlogClient } from '@/components/blog/DynamicBlogClient'
 import { BLOG_CATEGORIES } from '@/types/blog'
 import { getStoredBlogPosts } from '@/lib/server-blog'
 import JsonLd from '@/components/seo/JsonLd'
-import { generateArticleSchema, generateBreadcrumbSchema } from '@/lib/schemaGenerators'
+import { generateArticleSchemaGraph, generateBreadcrumbSchema } from '@/lib/schemaGenerators'
+import { extractFaqsFromHtml } from '@/lib/faqExtractor'
 
 export const dynamicParams = true
 
@@ -59,9 +60,9 @@ export async function generateMetadata({ params }: { params: { slug: string[] } 
 
   const posts = getStoredBlogPosts()
   const post = posts.find((p) => p.slug === articleSlug)
-  const pageTitle = post ? post.title : 'Blog Article'
-  const fullTitle = post ? `${post.title} | 11:11 Decor` : 'Blog Article | 11:11 Decor'
-  const description = post?.excerpt || 'Read the latest trends, styling guides, and event insights from 11:11 Decor.'
+  const pageTitle = post ? (post.metaTitle || post.title) : 'Blog Article'
+  const fullTitle = post ? (post.metaTitle ? post.metaTitle : `${post.title} | 11:11 Decor`) : 'Blog Article | 11:11 Decor'
+  const description = post?.metaDescription || post?.excerpt || 'Read the latest trends, styling guides, and event insights from 11:11 Decor.'
   const categorySegment = post ? post.category.toLowerCase().replace(/\s+/g, '-') : categorySlug || 'events'
   const url = `https://1111decor.com/blog/${categorySegment}/${articleSlug}/`
   const image = post?.image || '/hero-banner.jpg'
@@ -94,12 +95,12 @@ export default function DynamicBlogPage({ params }: { params: { slug: string[] }
   const categorySlug = slugArray[0] || ''
   const articleSlug = slugArray.length > 1 ? slugArray[1] : slugArray[0]
 
-  let schemaData = null
-  let breadcrumbsData = null
+  let schemaGraph = null
+  let categoryBreadcrumbs = null
 
   if (isCategory) {
     const category = BLOG_CATEGORIES.find((c) => c.slug === categorySlug)
-    breadcrumbsData = generateBreadcrumbSchema([
+    categoryBreadcrumbs = generateBreadcrumbSchema([
       { name: 'Home', url: '/' },
       { name: 'Blog', url: '/blog/' },
       { name: category?.name || 'Category', url: `/blog/${categorySlug}/` },
@@ -108,28 +109,25 @@ export default function DynamicBlogPage({ params }: { params: { slug: string[] }
     const posts = getStoredBlogPosts()
     const post = posts.find((p) => p.slug === articleSlug)
     if (post) {
-      schemaData = generateArticleSchema({
+      const faqs = (post.faqs && post.faqs.length > 0) ? post.faqs : extractFaqsFromHtml(post.content)
+      schemaGraph = generateArticleSchemaGraph({
         title: post.title,
         description: post.excerpt,
         slug: post.slug,
         category: post.category.toLowerCase().replace(/\s+/g, '-'),
+        categoryName: post.categoryName || post.category,
         datePublished: post.date,
         image: post.image,
         author: post.author,
+        faqs,
       })
-      breadcrumbsData = generateBreadcrumbSchema([
-        { name: 'Home', url: '/' },
-        { name: 'Blog', url: '/blog/' },
-        { name: post.categoryName || post.category, url: `/blog/${post.category.toLowerCase().replace(/\s+/g, '-')}/` },
-        { name: post.title, url: `/blog/${post.category.toLowerCase().replace(/\s+/g, '-')}/${post.slug}/` },
-      ])
     }
   }
 
   return (
     <>
-      {schemaData && <JsonLd data={schemaData} />}
-      {breadcrumbsData && <JsonLd data={breadcrumbsData} />}
+      {schemaGraph && <JsonLd data={schemaGraph} />}
+      {categoryBreadcrumbs && <JsonLd data={categoryBreadcrumbs} />}
       <DynamicBlogClient slugArray={slugArray} />
     </>
   )

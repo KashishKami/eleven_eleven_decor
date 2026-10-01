@@ -7,7 +7,9 @@ export interface BlogPost {
   id: string
   slug: string
   title: string
+  metaTitle?: string
   excerpt: string
+  metaDescription?: string
   content?: string
   category: string
   categoryName?: string

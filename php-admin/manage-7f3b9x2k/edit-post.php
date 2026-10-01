@@ -43,11 +43,13 @@ try {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = trim($_POST['title'] ?? '');
+    $meta_title = trim($_POST['meta_title'] ?? '');
     $slug = trim($_POST['slug'] ?? '');
     $focus_keyword = trim($_POST['focus_keyword'] ?? '');
     $category = trim($_POST['category'] ?? 'weddings');
     $category_name = $categories[$category] ?? 'General';
     $excerpt = trim($_POST['excerpt'] ?? '');
+    $meta_description = trim($_POST['meta_description'] ?? '');
     $content = trim($_POST['content'] ?? '');
     $author = trim($_POST['author'] ?? '1111 Decor Studio');
     $read_time = trim($_POST['read_time'] ?? '5 min read');
@@ -106,14 +108,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($error)) {
         try {
-            BlogStore::save([
+            $savedPost = BlogStore::save([
                 'id' => $id,
                 'title' => $title,
+                'meta_title' => $meta_title,
                 'slug' => $slug,
                 'focus_keyword' => $focus_keyword,
                 'category' => $category,
                 'category_name' => $category_name,
                 'excerpt' => $excerpt,
+                'meta_description' => $meta_description,
                 'content' => $content,
                 'author' => $author,
                 'image' => $image_url,
@@ -125,7 +129,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'tags' => $selected_tags,
             ]);
 
-            header('Location: dashboard.php?updated=1');
+            $saveAction = $_POST['save_action'] ?? 'save_and_stay';
+            if ($saveAction === 'save_and_close') {
+                header('Location: dashboard.php?updated=1');
+            } else {
+                header('Location: edit-post.php?id=' . urlencode($id) . '&updated=1');
+            }
             exit;
         } catch (Exception $e) {
             $error = 'Error saving article: ' . $e->getMessage();
@@ -364,7 +373,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="header-actions">
                 <a href="dashboard.php" class="btn-cancel">&larr; Dashboard</a>
-                <button type="submit" class="btn-publish-top">Save Changes &rarr;</button>
+                <button type="submit" name="save_action" value="save_and_stay" class="btn-save-stay" style="background: #252525; color: #e5e5e5; border: 1px solid #444; padding: 0.6rem 1.1rem; border-radius: 6px; cursor: pointer; font-size: 0.88rem; font-weight: 500; transition: all 0.2s;">💾 Save & Stay</button>
+                <button type="submit" name="save_action" value="save_and_close" class="btn-publish-top">Save & Close &rarr;</button>
             </div>
         </header>
 
@@ -447,6 +457,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="text" id="image_alt" name="image_alt" value="<?= htmlspecialchars($post['image_alt'] ?? '') ?>" class="sidebar-input">
                 </div>
 
+                <div class="sidebar-group" style="background: #202020; padding: 1rem; border-radius: 8px; border: 1px solid #303030;">
+                    <div class="sidebar-group-title" style="color: #d4b883;">🔍 Google SERP / Meta Tags</div>
+                    
+                    <label style="font-size: 0.75rem; color: #a3a3a3; display: block; margin-bottom: 0.3rem;">Custom SERP Title (50–60 chars)</label>
+                    <input type="text" id="meta_title" name="meta_title" value="<?= htmlspecialchars($post['meta_title'] ?? '') ?>" placeholder="Defaults to Title | 11:11 Decor" class="sidebar-input" style="margin-bottom: 0.25rem;">
+                    <div class="sidebar-help" style="margin-bottom: 0.8rem;">Overrides standard page title for Google search snippet</div>
+
+                    <label style="font-size: 0.75rem; color: #a3a3a3; display: block; margin-bottom: 0.3rem;">Custom Meta Description (120–160 chars)</label>
+                    <textarea id="meta_description" name="meta_description" rows="3" placeholder="Defaults to excerpt..." class="sidebar-textarea" style="margin-bottom: 0.25rem;"><?= htmlspecialchars($post['meta_description'] ?? '') ?></textarea>
+                    <div class="sidebar-help">Target 120–160 chars for Rank Math score & Google snippet</div>
+                </div>
+
                 <div class="sidebar-group">
                     <div class="sidebar-group-title">🔗 Recommended Service CTA (Optional)</div>
                     
@@ -462,6 +484,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <!-- Center Column: Seamless Gutenberg Writing Canvas (Always Visible) -->
             <main class="gutenberg-canvas">
+                <?php if (isset($_GET['updated'])): ?>
+                    <div style="background: rgba(16, 185, 129, 0.12); border: 1px solid #10b981; color: #10b981; padding: 0.85rem 1.25rem; border-radius: 8px; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; font-size: 0.9rem;">
+                        <span>✅ <strong>Article saved successfully!</strong> Changes, meta tags & schema are live.</span>
+                        <a href="/blog/<?= htmlspecialchars($post['category']) ?>/<?= htmlspecialchars($post['slug']) ?>/" target="_blank" style="color: #c9a96e; text-decoration: underline; font-weight: 600; margin-left: 1rem;">View Live Post &rarr;</a>
+                    </div>
+                <?php endif; ?>
+
                 <?php if (!empty($error)): ?>
                     <div class="error-banner"><?= htmlspecialchars($error) ?></div>
                 <?php endif; ?>

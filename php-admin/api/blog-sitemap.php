@@ -11,6 +11,9 @@
 require_once __DIR__ . '/../config.php';
 
 header('Content-Type: application/xml; charset=utf-8');
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
+header('Expires: 0');
 
 // Derive the public base URL from CORS_ORIGIN (e.g. "https://1111decor.com")
 $baseUrl = rtrim(defined('CORS_ORIGIN') && CORS_ORIGIN !== '*' ? CORS_ORIGIN : 'https://1111decor.com', '/');

@@ -14,8 +14,10 @@ export function analyzeSeo(input: SeoInput): SeoResult {
   const primaryKw = kwList[0] || ''
   const focusKeywordSet = kwList.length > 0
   const title = (input.title || '').trim()
+  const metaTitle = (input.metaTitle || '').trim()
+  const effectiveTitle = metaTitle || title
   const slug = (input.slug || '').trim().toLowerCase()
-  const metaDesc = (input.metaDescription || '').trim()
+  const metaDesc = (input.metaDescription || input.excerpt || '').trim()
   const content = input.content || ''
   const wordCount = input.wordCount || 0
   const images = input.images || []
@@ -28,8 +30,8 @@ export function analyzeSeo(input: SeoInput): SeoResult {
     return kwList.some((k) => lower.includes(k))
   }
 
-  // 1. Keyword in title
-  const keywordInTitle = focusKeywordSet && matchesAnyKw(title)
+  // 1. Keyword in title (checks effectiveTitle: metaTitle || title)
+  const keywordInTitle = focusKeywordSet && matchesAnyKw(effectiveTitle)
 
   // 2. Keyword in meta description
   const keywordInMetaDescription = focusKeywordSet && matchesAnyKw(metaDesc)
@@ -109,8 +111,8 @@ export function analyzeSeo(input: SeoInput): SeoResult {
   const totalH1Count = (title.length > 0 ? 1 : 0) + h1MatchesInBody.length
   const h1Present = totalH1Count === 1
 
-  // 15. Title length (50 - 60 chars)
-  const titleLengthOk = title.length >= 50 && title.length <= 60
+  // 15. Title length (50 - 60 chars) (evaluated on effectiveTitle: metaTitle || title)
+  const titleLengthOk = effectiveTitle.length >= 50 && effectiveTitle.length <= 60
 
   const checks: SeoChecks = {
     focusKeywordSet,
@@ -144,10 +146,10 @@ export function analyzeSeo(input: SeoInput): SeoResult {
         : 'Keyword not set',
 
     titleLengthOk: titleLengthOk
-      ? `${title.length} / 50–60 chars (Optimal length)`
-      : title.length < 50
-        ? `${title.length} / 50–60 chars (${50 - title.length} more chars recommended)`
-        : `${title.length} / 50–60 chars (${title.length - 60} chars over limit)`,
+      ? `${effectiveTitle.length} / 50–60 chars (Optimal length)`
+      : effectiveTitle.length < 50
+        ? `${effectiveTitle.length} / 50–60 chars (${50 - effectiveTitle.length} more chars recommended)`
+        : `${effectiveTitle.length} / 50–60 chars (${effectiveTitle.length - 60} chars over limit)`,
 
     keywordInUrl: keywordInUrl
       ? 'Focus keyword found in URL slug'

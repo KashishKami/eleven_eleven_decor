@@ -282,6 +282,80 @@ export function generateArticleSchema(article: ArticleSchemaInput): ArticleSchem
   }
 }
 
+export interface ArticleGraphInput {
+  title: string
+  description: string
+  slug: string
+  category: string
+  categoryName?: string
+  datePublished: string
+  dateModified?: string
+  image?: string
+  author?: string
+  faqs?: FaqItem[]
+}
+
+export function generateArticleSchemaGraph(post: ArticleGraphInput) {
+  const articleEntity = {
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.description,
+    url: `${SITE_URL}/blog/${post.category}/${post.slug}/`,
+    image: post.image || `${SITE_URL}/og-blog.jpg`,
+    datePublished: post.datePublished,
+    dateModified: post.dateModified || post.datePublished,
+    author: {
+      '@type': 'Organization',
+      name: post.author || '11:11 Decor Design Studio',
+      url: `${SITE_URL}/`,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: '11:11 Decor',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE_URL}/logo.png`,
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${SITE_URL}/blog/${post.category}/${post.slug}/`,
+    },
+  }
+
+  const breadcrumbsEntity = {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE_URL}/blog/` },
+      { '@type': 'ListItem', position: 3, name: post.categoryName || post.category, item: `${SITE_URL}/blog/${post.category}/` },
+      { '@type': 'ListItem', position: 4, name: post.title, item: `${SITE_URL}/blog/${post.category}/${post.slug}/` },
+    ],
+  }
+
+  const graphEntities: Record<string, unknown>[] = [articleEntity, breadcrumbsEntity]
+
+  if (post.faqs && post.faqs.length > 0) {
+    const faqEntity = {
+      '@type': 'FAQPage',
+      mainEntity: post.faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.answer,
+        },
+      })),
+    }
+    graphEntities.push(faqEntity)
+  }
+
+  return {
+    '@context': 'https://schema.org',
+    '@graph': graphEntities,
+  }
+}
+
 export function generateBreadcrumbSchema(items: BreadcrumbItem[]): BreadcrumbListSchema {
   return {
     '@context': 'https://schema.org',

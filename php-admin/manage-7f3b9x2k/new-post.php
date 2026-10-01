@@ -26,11 +26,13 @@ $categories = [
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = trim($_POST['title'] ?? '');
+    $meta_title = trim($_POST['meta_title'] ?? '');
     $slug = trim($_POST['slug'] ?? '');
     $focus_keyword = trim($_POST['focus_keyword'] ?? '');
     $category = trim($_POST['category'] ?? 'weddings');
     $category_name = $categories[$category] ?? 'General';
     $excerpt = trim($_POST['excerpt'] ?? '');
+    $meta_description = trim($_POST['meta_description'] ?? '');
     $content = trim($_POST['content'] ?? '');
     $author = trim($_POST['author'] ?? '1111 Decor Studio');
     $read_time = trim($_POST['read_time'] ?? '5 min read');
@@ -91,11 +93,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             BlogStore::save([
                 'title' => $title,
+                'meta_title' => $meta_title,
                 'slug' => $slug,
                 'focus_keyword' => $focus_keyword,
                 'category' => $category,
                 'category_name' => $category_name,
                 'excerpt' => $excerpt,
+                'meta_description' => $meta_description,
                 'content' => $content,
                 'author' => $author,
                 'image' => $image_url,
@@ -420,6 +424,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <label style="font-size: 0.75rem; color: #a3a3a3; display: block; margin-bottom: 0.3rem;">Feature Image Alt Text *</label>
                     <input type="text" id="image_alt" name="image_alt" placeholder="e.g. Luxury Wedding Floral Decor by 1111 Decor" class="sidebar-input">
+                </div>
+
+                <div class="sidebar-group" style="background: #202020; padding: 1rem; border-radius: 8px; border: 1px solid #303030;">
+                    <div class="sidebar-group-title" style="color: #d4b883;">🔍 Google SERP / Meta Tags</div>
+                    
+                    <label style="font-size: 0.75rem; color: #a3a3a3; display: block; margin-bottom: 0.3rem;">Custom SERP Title (50–60 chars)</label>
+                    <input type="text" id="meta_title" name="meta_title" placeholder="Defaults to Title | 11:11 Decor" class="sidebar-input" style="margin-bottom: 0.25rem;">
+                    <div class="sidebar-help" style="margin-bottom: 0.8rem;">Overrides standard page title for Google search snippet</div>
+
+                    <label style="font-size: 0.75rem; color: #a3a3a3; display: block; margin-bottom: 0.3rem;">Custom Meta Description (120–160 chars)</label>
+                    <textarea id="meta_description" name="meta_description" rows="3" placeholder="Defaults to excerpt..." class="sidebar-textarea" style="margin-bottom: 0.25rem;"></textarea>
+                    <div class="sidebar-help">Target 120–160 chars for Rank Math score & Google snippet</div>
                 </div>
 
                 <div class="sidebar-group">

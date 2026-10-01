@@ -7,8 +7,10 @@ export interface SeoInput {
   focusKeyword?: string
   focusKeywords?: string[] | string
   title: string
+  metaTitle?: string
   slug: string
-  metaDescription: string
+  metaDescription?: string
+  excerpt?: string
   content: string
   wordCount: number
   images: SeoImage[]

@@ -9,7 +9,9 @@ interface RawPhpPost {
   id: string | number
   slug: string
   title: string
+  meta_title?: string
   excerpt?: string
+  meta_description?: string
   content?: string
   category: string
   category_name?: string
@@ -38,7 +40,9 @@ export function getStoredBlogPosts(): BlogPost[] {
           id: String(p.id),
           slug: p.slug,
           title: p.title,
+          metaTitle: p.meta_title || undefined,
           excerpt: p.excerpt || '',
+          metaDescription: p.meta_description || undefined,
           content: p.content || '',
           category: p.category,
           categoryName: p.category_name || p.category,

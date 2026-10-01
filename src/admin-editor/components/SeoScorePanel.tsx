@@ -5,6 +5,7 @@ import { analyzeSeo } from '../lib/seoAnalyzer'
 interface SeoScorePanelProps {
   initialKeyword?: string
   getTitle: () => string
+  getMetaTitle?: () => string
   getSlug: () => string
   getMetaDescription: () => string
   getContentHtml: () => string
@@ -15,6 +16,7 @@ interface SeoScorePanelProps {
 export const SeoScorePanel: React.FC<SeoScorePanelProps> = ({
   initialKeyword = '',
   getTitle,
+  getMetaTitle,
   getSlug,
   getMetaDescription,
   getContentHtml,
@@ -36,6 +38,7 @@ export const SeoScorePanel: React.FC<SeoScorePanelProps> = ({
     analyzeSeo({
       focusKeywords: parseKeywords(initialKeyword),
       title: getTitle(),
+      metaTitle: getMetaTitle ? getMetaTitle() : getTitle(),
       slug: getSlug(),
       metaDescription: getMetaDescription(),
       content: getContentHtml(),
@@ -56,6 +59,7 @@ export const SeoScorePanel: React.FC<SeoScorePanelProps> = ({
 
   const runAnalysis = useCallback(() => {
     const title = getTitle()
+    const metaTitle = getMetaTitle ? getMetaTitle() : title
     const slug = getSlug()
     const metaDescription = getMetaDescription()
     const content = getContentHtml()
@@ -93,6 +97,7 @@ export const SeoScorePanel: React.FC<SeoScorePanelProps> = ({
     const res = analyzeSeo({
       focusKeywords: keywords,
       title,
+      metaTitle,
       slug,
       metaDescription,
       content,
@@ -103,7 +108,7 @@ export const SeoScorePanel: React.FC<SeoScorePanelProps> = ({
     })
 
     setResult(res)
-  }, [keywords, getTitle, getSlug, getMetaDescription, getContentHtml, getWordCount, getImages])
+  }, [keywords, getTitle, getMetaTitle, getSlug, getMetaDescription, getContentHtml, getWordCount, getImages])
 
   useEffect(() => {
     runAnalysis()

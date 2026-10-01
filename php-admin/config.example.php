@@ -169,11 +169,39 @@ class BlogStore {
         return null;
     }
 
+    public static function extractFaqs($html) {
+        if (empty($html) || !is_string($html)) return [];
+        $faqs = [];
+        if (preg_match_all('/<details[^>]*>([\s\S]*?)<\/details>/i', $html, $matches)) {
+            foreach ($matches[1] as $inner) {
+                if (preg_match('/<summary[^>]*>([\s\S]*?)<\/summary>/i', $inner, $sumMatch)) {
+                    $q = trim(strip_tags($sumMatch[1]));
+                    $withoutSummary = preg_replace('/<summary[^>]*>[\s\S]*?<\/summary>/i', '', $inner);
+                    $a = trim(preg_replace('/\s+/', ' ', strip_tags($withoutSummary)));
+                    if (!empty($q) && !empty($a)) {
+                        $faqs[] = [
+                            'question' => $q,
+                            'answer' => $a,
+                        ];
+                    }
+                }
+            }
+        }
+        return $faqs;
+    }
+
     public static function save($postData) {
         $file = self::getFilePath();
         $dir = dirname($file);
         if (!is_dir($dir)) mkdir($dir, 0755, true);
         $posts = self::all(false);
+
+        if (empty($postData['faqs']) && !empty($postData['content'])) {
+            $extracted = self::extractFaqs($postData['content']);
+            if (!empty($extracted)) {
+                $postData['faqs'] = $extracted;
+            }
+        }
 
         if (isset($postData['id']) && (int)$postData['id'] > 0) {
             $id = (int)$postData['id'];

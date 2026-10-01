@@ -1950,7 +1950,7 @@ Run the full verification pipeline. Fix any TypeScript strict mode errors arisin
 
 ---
 
-# Phase 11 — Dynamic PHP Admin CMS (Portfolio, Venues, Gallery & Gated Blog Engine)
+## Phase 11 — Dynamic PHP Admin CMS (Portfolio, Venues, Gallery & Gated Blog Engine)
 
 > **Objective:** Transition 11:11 Decor from hardcoded placeholder arrays to an authentic, 100% client-managed Content Management System (CMS). Add a visibility gate for Blog, remove all hardcoded dummy fallback arrays across Blog, Portfolio, Venues, and Gallery, build full PHP Admin CRUD management for Portfolio, Venues, and Gallery, and wire Next.js pages to render real live data with graceful empty states.
 
@@ -2857,3 +2857,175 @@ Search engines require interconnected JSON-LD schema graphs to resolve entity au
 ### Page Visibility Gating Enforced Across Topic Tag Archives & Public PHP APIs
 - **Tag Archive Gating (`DynamicTagClient.tsx`):** Hooked into `usePageVisibility()`. Disabled sections (e.g. Gallery, Venues, Portfolio when turned OFF in Admin) have their tabs completely hidden, their items excluded from the "All Content" feed, and counter totals recalibrated.
 - **PHP Public API Visibility Gating (`api/gallery.php`, `api/portfolio.php`, `api/venues.php`, `api/blogs.php`, `api/blog-post.php`):** Added `is_section_visible($section)` checks returning clean empty responses `[]` / 404 when disabled in `page-visibility.json`.
+
+---
+
+## Phase 9 — CMS Dynamic Schemas, SEO Metadata & Edit Pipeline Hardening
+
+### W-901 — Automatic Dynamic FAQ Schema Extraction & Multi-Layer Structured Data
+
+**Root cause:**
+Interactive FAQ blocks (`<details class="faq-item">`) inserted in the blog editor are stored inside raw `content` HTML but are never parsed into `$post['faqs']` upon save. Consequently, neither server-side SSG (`src/app/blog/[...slug]/page.tsx`), client-side React (`DynamicBlogClient.tsx`), nor GoDaddy Apache Gateway (`public/gateway.php`) inject `@type: 'FAQPage'` structured data for newly edited or published articles.
+
+**Goal:**
+1. Auto-extract all FAQ items `{ question, answer }` from article HTML during PHP store save (`BlogStore::save`) and API serialization.
+2. In `src/app/blog/[...slug]/page.tsx` and `DynamicBlogClient.tsx`, generate combined JSON-LD schemas containing `BlogPosting`, `BreadcrumbList`, and `FAQPage` whenever FAQ items exist in content.
+3. In `public/gateway.php`, dynamically inject `@type: 'FAQPage'` into the served HTML shell before Googlebot reads the page.
+
+**Approach:**
+Implement a shared FAQ HTML parser in PHP (`BlogStore::extractFaqs`) and TypeScript helper (`extractFaqsFromHtml`). Update schema generators to compose `@graph` entities with valid schema.org types.
+
+---
+
+- [x] **RED — Unit Test (`tests/faq-schema-extractor.unit.test.ts`):**
+  - [x] Test `extractFaqsFromHtml(html)`:
+    - Input: `<details class="faq-item"><summary>What is 1111 Decor?</summary><div class="faq-answer">Luxury decor studio</div></details>`
+    - Output: `[{ question: "What is 1111 Decor?", answer: "Luxury decor studio" }]`
+  - [x] Test `generateArticleFaqSchemaGraph(post)`:
+    - Assert `@graph` contains both `@type: 'BlogPosting'` and `@type: 'FAQPage'` with exact question/answer entities.
+    - Assert empty FAQs do not emit `@type: 'FAQPage'`.
+  - [x] **Run — confirm RED.**
+
+- [x] **GREEN — Core Logic & Next.js Schema:**
+  - [x] [Helper] Create `src/lib/faqExtractor.ts` with `extractFaqsFromHtml(html: string): FaqItem[]`.
+  - [x] [Schema Generator] In `src/lib/schemaGenerators.ts`, update `generateArticleSchema` / graph generator to include `FAQPage` when FAQs are present.
+  - [x] [Server Page] In `src/app/blog/[...slug]/page.tsx`, parse FAQs from `post.content` if `post.faqs` is missing, and pass to schema generator.
+  - [x] [Client Component] In `src/components/blog/DynamicBlogClient.tsx`, ensure client-injected JSON-LD includes `FAQPage`.
+  - [x] Run unit test — **confirm GREEN.**
+
+- [x] **RED — Integration & PHP Store Test (`tests/blog-faq-extraction.test.ts`):**
+  - [x] Test `BlogStore::save` with content containing FAQ blocks → verify `$post['faqs']` in `posts.json` is populated with parsed questions and answers.
+  - [x] Test `GET /api/blog-post.php?slug=test-faq-post` → verify JSON response includes non-empty `faqs` array.
+  - [x] Test `public/gateway.php` rendering for FAQ post → assert output contains `<script type="application/ld+json">` with `FAQPage`.
+  - [x] **Run — confirm RED.**
+
+- [x] **GREEN — PHP Admin & Gateway:**
+  - [x] [PHP Store] In `php-admin/config.php` (`BlogStore::save`), add regex/DOM parser to extract FAQ blocks into `$postData['faqs']`.
+  - [x] [PHP Admin] In `edit-post.php` and `new-post.php`, preserve parsed FAQs upon saving.
+  - [x] [Gateway] In `public/gateway.php`, construct and inject `FAQPage` schema block into the HTML shell when `$item['faqs']` is non-empty.
+  - [x] Run integration test — **confirm GREEN.**
+
+- [x] **Verification chain:**
+  - [x] Open Gutenberg blog editor → insert FAQ block: Question "Do you travel?" / Answer "Yes, across Uttarakhand".
+  - [x] Click "Save Changes" → inspect `posts.json` → confirm `faqs` array contains the entry.
+  - [x] Open blog URL in browser / Rich Results Test simulator → confirm `@type: 'FAQPage'` is present with exact Q&A.
+  - [x] ✅ Done.
+
+---
+
+### W-902 — Dedicated Meta Title & Meta Description in Blog Editor & Rank Math Panel
+
+**Root cause:**
+The editor only provides on-page Title (`#title`) and on-page Excerpt (`#excerpt`). Rank Math checks the excerpt length against the 120–160 character limit. Authors writing detailed 200–400 character blog excerpts are penalized in their SEO score, and there is no way to specify a separate SERP `<title>` (50–60 chars) or `<meta name="description">` (120–160 chars) distinct from the on-page H1 headline and card intro.
+
+**Goal:**
+1. Add explicit, dedicated **Meta Title** and **Meta Description** fields in the blog editor sidebar (inside a "Google SERP Preview / SEO Metadata" section).
+2. Update the Rank Math panel to analyze the dedicated Meta Description when provided (falling back to Excerpt if blank), passing the 120–160 character check without compromising the on-page excerpt.
+3. Store `meta_title` and `meta_description` in `posts.json` and consume them across `generateMetadata`, `DynamicBlogClient`, and `gateway.php`.
+
+**Approach:**
+Add `meta_title` and `meta_description` to `types/blog.ts`, PHP stores, `new-post.php`, `edit-post.php`, `AdminEditor.tsx`, `SeoScorePanel.tsx`, and Next.js metadata generators.
+
+---
+
+- [x] **RED — Unit Test (`tests/seo-metadata-panel.unit.test.ts`):**
+  - [x] Test `analyzeSeo()` with:
+    - Long excerpt (350 chars) + Custom meta description (145 chars with keyword)
+    - Assert `metaDescriptionLength: true` (PASSED).
+    - Assert `keywordInMetaDescription: true` (PASSED).
+    - Assert `metaDescriptionPresent: true` (PASSED).
+  - [x] Test `analyzeSeo()` with custom Meta Title (55 chars with keyword) + H1 title (85 chars):
+    - Assert `titleLengthOk: true` (PASSED).
+    - Assert `keywordInTitle: true` (PASSED).
+  - [x] **Run — confirm RED.**
+
+- [x] **GREEN — Types & SEO Analyzer:**
+  - [x] [Type] In `src/types/blog.ts`, add `metaTitle?: string` and `metaDescription?: string` to `BlogPost`.
+  - [x] [SEO Analyzer] In `src/admin-editor/lib/seoAnalyzer.ts`, prioritize `metaTitle` over `title` and `metaDescription` over `excerpt`.
+  - [x] [SeoPanel Component] In `src/admin-editor/components/SeoScorePanel.tsx`, add Google SERP Snippet Preview and character counters (50-60 for title, 120-160 for description).
+  - [x] Run unit test — **confirm GREEN.**
+
+- [x] **RED — Integration Test (`tests/blog-meta-tags.test.ts`):**
+  - [x] Test `POST` to `edit-post.php` with `meta_title` and `meta_description` → verify stored in `posts.json`.
+  - [x] Test Next.js `generateMetadata({ params })` → verify returned `title` matches `meta_title` and `description` matches `meta_description`.
+  - [x] Test `public/gateway.php` with `meta_title` and `meta_description` → verify injected `<title>` and `<meta name="description">` match.
+  - [x] **Run — confirm RED.**
+
+- [x] **GREEN — Forms, Server & Gateway:**
+  - [x] [Forms] In `php-admin/manage-7f3b9x2k/new-post.php` and `edit-post.php`, add sidebar inputs for `meta_title` and `meta_description` with live char counters.
+  - [x] [Store] In `php-admin/config.php` (`BlogStore::save`), save `meta_title` and `meta_description`.
+  - [x] [API] In `php-admin/api/blog-post.php` and `blogs.php`, serialize `metaTitle` and `metaDescription`.
+  - [x] [Next.js] In `src/app/blog/[...slug]/page.tsx`, use `post.metaTitle || post.title` and `post.metaDescription || post.excerpt`.
+  - [x] [Gateway] In `public/gateway.php`, prioritize `$item['meta_title']` and `$item['meta_description']`.
+  - [x] Run integration test — **confirm GREEN.**
+
+- [x] **Verification chain:**
+  - [x] In edit blog page, write a 350-character Excerpt.
+  - [x] In the SEO Metadata section, fill a 140-character Meta Description with focus keyword.
+  - [x] Check Rank Math SEO score → confirm "Meta description length is 120–160 chars" is ✅ GREEN (passed).
+  - [x] Save changes → view page source of blog post → confirm `<meta name="description">` matches custom Meta Description.
+  - [x] ✅ Done.
+
+---
+
+### W-903 — Edit Blog Page Cache-Control, Gateway Freshness & Safe Update Pipeline
+
+**Root cause:**
+1. `/php-admin/api/blog-post.php` lacks `Cache-Control: no-store, no-cache, must-revalidate` HTTP headers, causing proxy/browser caching of stale blog data after edits.
+2. `gateway.php` serves disk-cached static `.html` files without dynamic re-injection when a post built at compile-time is modified in PHP admin.
+3. Changing a post's slug or category leaves the old URL returning an unhandled 404 screen if the visitor reloads the old tab.
+4. Form submission in `edit-post.php` hard redirects out of the editor instead of providing a smooth inline success state.
+
+**Goal:**
+1. Enforce strict `Cache-Control: no-cache, no-store, must-revalidate` on all public PHP API endpoints (`blog-post.php`, `blogs.php`, `blog-sitemap.php`).
+2. Update `public/gateway.php` to detect when a post has been updated in `posts.json` and dynamically re-inject fresh SEO metadata into the served HTML shell.
+3. Provide an inline "Save & Stay" option / instant feedback banner in `edit-post.php` so editors can make changes without jarring redirects.
+
+**Approach:**
+Add cache-control headers, enhance `gateway.php` file modification time checking against `posts.json`, and refine `edit-post.php` submission handling.
+
+---
+
+- [x] **RED — Integration Test (`tests/gateway-cache-headers.unit.test.ts`):**
+  - [x] Test `GET /api/blog-post.php` → assert response headers include `Cache-Control: no-store, no-cache, must-revalidate, max-age=0`.
+  - [x] Test `GET /api/blogs.php` → assert `Cache-Control: no-store, no-cache, must-revalidate`.
+  - [x] Test `gateway.php` serving an edited post whose `posts.json` timestamp > static shell timestamp → assert gateway serves re-injected fresh metadata instead of stale baked metadata.
+  - [x] **Run — confirm RED.**
+
+- [x] **GREEN — API Headers & Gateway Freshness:**
+  - [x] [API Headers] In `php-admin/api/blog-post.php`, `blogs.php`, and `blog-sitemap.php`, add `header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0')` and `header('Pragma: no-cache')`.
+  - [x] [Gateway Freshness] In `public/gateway.php`, check `posts.json` modification date for blog URLs so that edited articles always receive fresh metadata injection.
+  - [x] [Editor UX] In `php-admin/manage-7f3b9x2k/edit-post.php`, support staying on the page with an inline "Saved successfully!" toast and updated preview link.
+  - [x] Run integration test — **confirm GREEN.**
+
+- [x] **Verification chain:**
+  - [x] Edit an existing blog post title and content in `edit-post.php` → click "Save Changes".
+  - [x] Reload the live website post in browser without hard cache clearing.
+  - [x] Confirm the new title, content, and schema appear immediately with zero stale cache delay.
+  - [x] ✅ Done.
+
+---
+
+## Session Note — 01 Oct 2026
+
+### Phase 9: Dynamic FAQ Schemas, SEO Metadata & Edit Pipeline Hardening
+- **W-901 (Dynamic FAQ Schema Extraction & Linked Structured Data):**
+  - Built `extractFaqsFromHtml()` in `src/lib/faqExtractor.ts` and `BlogStore::extractFaqs()` in `php-admin/config.php`.
+  - Enhanced `src/lib/schemaGenerators.ts`, `src/app/blog/[...slug]/page.tsx`, `DynamicBlogClient.tsx`, and `public/gateway.php` to generate and hydrate unified schema graphs including `@type: 'FAQPage'` when FAQ items are present.
+  - Verified with `tests/faq-schema-extractor.unit.test.ts` and `tests/blog-faq-extraction.test.ts`.
+- **W-902 (Dedicated Meta Title & Meta Description in Blog Editor & Rank Math Panel):**
+  - Decoupled on-page card excerpt from Google SERP snippet requirements.
+  - Added dedicated `meta_title` and `meta_description` fields in `BlogPost` TypeScript interface, `seoAnalyzer.ts`, `SeoScorePanel.tsx`, `new-post.php`, `edit-post.php`, `generateMetadata()`, `DynamicBlogClient.tsx`, and `public/gateway.php`.
+  - Recompiled editor bundle via Vite (`pnpm build:editor`).
+  - Verified with `tests/seo-metadata-panel.unit.test.ts` and `tests/blog-meta-tags.test.ts`.
+- **W-903 (Edit Blog Page Cache-Control, Gateway Freshness & Safe Update Pipeline):**
+  - Enforced `Cache-Control: no-store, no-cache, must-revalidate, max-age=0`, `Pragma: no-cache`, and `Expires: 0` headers across all public API endpoints (`api/blog-post.php`, `api/blogs.php`, `api/blog-sitemap.php`, `api/portfolio.php`, `api/venues.php`, `api/gallery.php`).
+  - Updated `public/gateway.php` so dynamic detail routes bypass static caching and always receive real-time SEO metadata and FAQ schema injection.
+  - Added "Save & Stay" and "Save & Close" workflows in `edit-post.php` with inline success feedback and live preview links.
+  - Verified with `tests/gateway-cache-headers.unit.test.ts`.
+- **Full Verification Suite:**
+  - Unit Tests: 41 test files, 134 tests passed cleanly (0 failures).
+  - TypeScript: `pnpm typecheck` passed (0 errors).
+  - ESLint: `pnpm lint` passed (0 warnings/errors).
+  - Production Build: `pnpm build` compiled all 79 static routes cleanly.
+

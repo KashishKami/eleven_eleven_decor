@@ -13,6 +13,7 @@ import { FooterCTA } from '@/components/sections/FooterCTA'
 import { BLOG_CATEGORIES } from '@/types/blog'
 import { GLOBAL_TAGS } from '@/types/tags'
 import { resolveImageUrl } from '@/lib/image-url'
+import { extractFaqsFromHtml } from '@/lib/faqExtractor'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
@@ -348,10 +349,12 @@ function BlogArticleView({ articleSlug }: { articleSlug: string }) {
       },
     ]
 
-    if (post.faqs && post.faqs.length > 0) {
+    const faqs = (post.faqs && post.faqs.length > 0) ? post.faqs : extractFaqsFromHtml(post.content)
+
+    if (faqs && faqs.length > 0) {
       graphEntities.push({
         '@type': 'FAQPage',
-        mainEntity: post.faqs.map((faq) => ({
+        mainEntity: faqs.map((faq) => ({
           '@type': 'Question',
           name: faq.question,
           acceptedAnswer: {

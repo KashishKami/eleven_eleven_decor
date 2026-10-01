@@ -32,12 +32,21 @@ function initAdminEditor() {
       return el ? el.value : ''
     }
 
+    const getMetaTitle = () => {
+      const metaEl = document.getElementById('meta_title') as HTMLInputElement
+      if (metaEl && metaEl.value.trim()) return metaEl.value.trim()
+      const titleEl = document.getElementById('title') as HTMLInputElement
+      return titleEl ? titleEl.value : ''
+    }
+
     const getSlug = () => {
       const el = document.getElementById('slug') as HTMLInputElement
       return el ? el.value : ''
     }
 
     const getMetaDescription = () => {
+      const metaEl = (document.getElementById('meta_description') as HTMLTextAreaElement | HTMLInputElement)
+      if (metaEl && metaEl.value.trim()) return metaEl.value.trim()
       const el = document.getElementById('excerpt') as HTMLTextAreaElement
       return el ? el.value : ''
     }
@@ -90,6 +99,7 @@ function initAdminEditor() {
       <SeoScorePanel
         initialKeyword={initialKeyword}
         getTitle={getTitle}
+        getMetaTitle={getMetaTitle}
         getSlug={getSlug}
         getMetaDescription={getMetaDescription}
         getContentHtml={getContentHtml}

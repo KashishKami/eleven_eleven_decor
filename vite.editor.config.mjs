@@ -1,3 +1,5 @@
+process.env.NODE_ENV = 'production'
+
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
@@ -6,7 +8,13 @@ import { fileURLToPath } from 'url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
-  plugins: [react()],
+  mode: 'production',
+  envFile: false,
+  plugins: [
+    react({
+      jsxRuntime: 'classic',
+    }),
+  ],
   define: {
     'process.env.NODE_ENV': JSON.stringify('production'),
   },

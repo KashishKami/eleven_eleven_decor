@@ -10,6 +10,9 @@ header('Access-Control-Allow-Origin: ' . CORS_ORIGIN);
 header('Access-Control-Allow-Methods: GET, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json; charset=utf-8');
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
+header('Expires: 0');
 
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -35,9 +38,11 @@ try {
             'id' => (string)$p['id'],
             'slug' => $p['slug'],
             'title' => $p['title'],
+            'metaTitle' => $p['meta_title'] ?? '',
             'category' => $p['category'],
             'categoryName' => $p['category_name'] ?? $p['category'],
             'excerpt' => $p['excerpt'] ?? '',
+            'metaDescription' => $p['meta_description'] ?? '',
             'author' => $p['author'] ?? '1111 Decor Team',
             'image' => $p['image'] ?? '',
             'readTime' => $p['read_time'] ?? '5 min read',

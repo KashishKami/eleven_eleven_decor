@@ -7,7 +7,7 @@
         "category": "local-event-guides",
         "category_name": "Local Event Guides",
         "excerpt": "Key strategies for coordinating destination weddings, mountain retreats, and heritage palace celebrations across Uttarakhand.",
-        "content": "<h2>The Art of Flawless Destination Celebrations<\/h2><p>From Himalayan foothills to luxury heritage estates, destination events demand meticulous logistics, weather contingencies, and strong regional vendor partnerships.<\/p><h2>Guest Hospitality & Welcome Flow<\/h2><p>Curate tailored welcome hampers, smooth airport transfers, and multi-day itinerary guides that make every guest feel pampered from the moment of arrival.<\/p>",
+        "content": "<h2 id=\"the-art-of-flawless-destination-celebrations\">The Art of Flawless Destination Celebrations<\/h2><p>From Himalayan foothills to luxury heritage estates, destination events demand meticulous logistics, weather contingencies, and strong regional vendor partnerships.<\/p><h2 id=\"guest-hospitality-amp-welcome-flow\">Guest Hospitality &amp; Welcome Flow<\/h2><p>Curate tailored welcome hampers, smooth airport transfers, and multi-day itinerary guides that make every guest feel pampered from the moment of arrival.<\/p>",
         "author": "1111 Decor Destination Team",
         "image": "https:\/\/images.unsplash.com\/photo-1464366400600-7168b8af9bc3?q=80&w=1000&auto=format&fit=crop",
         "read_time": "6 min read",
@@ -20,7 +20,11 @@
                 "answer": "We recommend 6 to 9 months advance booking to secure premier venue dates and coordinate specialized transport logistics."
             }
         ],
-        "created_at": "2026-08-24 11:08:39"
+        "created_at": "2026-08-24 11:08:39",
+        "meta_title": "",
+        "meta_description": "Destination Event Planning: Navigating Multi-Day Logistics & Local Sourcing. The Art of Flawless Destination Celebrations",
+        "image_alt": "",
+        "tags": []
     },
     {
         "id": 4,
@@ -143,7 +147,7 @@
         "category": "birthdays",
         "category_name": "Birthdays",
         "excerpt": "Test",
-        "content": "<p>Test<\/p><p><img src=\"\/manage-7f3b9x2k\/uploads\/pexels-damian-cejlowski-2164109650-39451447-6aba565cb54e4.jpg\" alt=\"pexels damian cejlowski 2164109650 39451447\"><\/p>",
+        "content": "<p>Test<\/p><p><img src=\"\/manage-7f3b9x2k\/uploads\/pexels-damian-cejlowski-2164109650-39451447-6aba565cb54e4.jpg\" alt=\"Blog illustration\"><\/p><p>FAQ<\/p><details class=\"faq-item\" question=\"Test\" answer=\"Test\"><summary>Test<\/summary><div class=\"faq-answer\">Test<\/div><\/details><p><\/p><p><\/p>",
         "author": "1111 Decor Studio",
         "image": "\/manage-7f3b9x2k\/uploads\/birthday-6aba56687671d.jpg",
         "image_alt": "Gemini Generated Image dis7vldis7vldis7",
@@ -156,6 +160,14 @@
         "tags": [
             "event-ideas",
             "event-planning"
+        ],
+        "meta_title": "",
+        "meta_description": "",
+        "faqs": [
+            {
+                "question": "Test",
+                "answer": "Test"
+            }
         ]
     }
 ]

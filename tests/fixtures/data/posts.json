@@ -455,5 +455,58 @@
         "published": 1,
         "id": 24,
         "created_at": "2026-10-01 17:51:41"
+    },
+    {
+        "title": "Fresh Live Title That Was Just Updated In Admin",
+        "meta_title": "Fresh Live SERP Meta Title | 11:11 Decor",
+        "slug": "freshness-test-post",
+        "category": "weddings",
+        "category_name": "Weddings",
+        "excerpt": "Fresh excerpt summary.",
+        "meta_description": "Fresh meta description strictly 120-160 chars for SEO snippet testing.",
+        "content": "<p>Article body<\/p><details class=\"faq-item\"><summary>Can you customize mandaps?<\/summary><div class=\"faq-answer\">Yes custom designs available.<\/div><\/details>",
+        "published": 1,
+        "faqs": [
+            {
+                "question": "Can you customize mandaps?",
+                "answer": "Yes custom designs available."
+            }
+        ],
+        "id": 25,
+        "created_at": "2026-10-01 18:31:11"
+    },
+    {
+        "title": "FAQ Extraction Test Post",
+        "slug": "faq-extraction-test-post",
+        "category": "weddings",
+        "category_name": "Weddings",
+        "excerpt": "Testing auto extraction of FAQ blocks into post data.",
+        "content": "<h2>Planning Guide<\/h2><p>Here is introductory advice.<\/p><details class=\"faq-item\"><summary>Can we customize our stage?<\/summary><div class=\"faq-answer\">Yes, absolutely bespoke.<\/div><\/details><details class=\"faq-item\"><summary>Do you travel to Mussoorie?<\/summary><div class=\"faq-answer\">Yes, regularly.<\/div><\/details>",
+        "author": "Test Author",
+        "published": 1,
+        "faqs": [
+            {
+                "question": "Can we customize our stage?",
+                "answer": "Yes, absolutely bespoke."
+            },
+            {
+                "question": "Do you travel to Mussoorie?",
+                "answer": "Yes, regularly."
+            }
+        ],
+        "id": 26,
+        "created_at": "2026-10-01 18:31:12"
+    },
+    {
+        "title": "Editorial H1 Article Headline That Is Deliberately Very Long",
+        "meta_title": "Custom SERP Meta Title | 11:11 Decor",
+        "slug": "custom-meta-tags-test-post",
+        "category": "weddings",
+        "category_name": "Weddings",
+        "excerpt": "This is a long introductory card excerpt that contains rich details about the decor concept.",
+        "meta_description": "Custom SERP meta description strictly within 120-160 characters for search snippet ranking.",
+        "published": 1,
+        "id": 27,
+        "created_at": "2026-10-01 18:31:13"
     }
 ]

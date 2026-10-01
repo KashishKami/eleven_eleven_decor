@@ -287,7 +287,6 @@ function BlogCategoryView({ categorySlug }: { categorySlug: string }) {
 function BlogArticleView({ articleSlug }: { articleSlug: string }) {
   const { post, loading, error } = useBlogPost(articleSlug)
   const progressBarRef = useRef<HTMLDivElement>(null)
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null)
 
   // Reading progress bar setup
   useEffect(() => {
@@ -563,86 +562,6 @@ function BlogArticleView({ articleSlug }: { articleSlug: string }) {
           <div className="article-editorial-content">
             <p>{post.excerpt}</p>
           </div>
-        )}
-
-        {/* FAQs Accordion if available */}
-        {post.faqs && post.faqs.length > 0 && (
-          <section
-            style={{
-              marginTop: '5rem',
-              paddingTop: '3.5rem',
-              borderTop: '1px solid rgba(0,0,0,0.1)',
-            }}
-          >
-            <h3
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(1.85rem, 3.5vw, 2.35rem)',
-                color: '#1a1a1a',
-                marginBottom: '2rem',
-                fontWeight: 500,
-                letterSpacing: '0.02em',
-              }}
-            >
-              Frequently Asked Questions
-            </h3>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {post.faqs.map((faq, idx) => {
-                const isOpen = openFaqIndex === idx
-                return (
-                  <div
-                    key={idx}
-                    style={{
-                      backgroundColor: '#ffffff',
-                      borderRadius: '12px',
-                      border: '1px solid rgba(0,0,0,0.08)',
-                      overflow: 'hidden',
-                      boxShadow: '0 4px 15px rgba(0,0,0,0.03)',
-                    }}
-                  >
-                    <button
-                      onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
-                      style={{
-                        width: '100%',
-                        padding: '1.35rem 1.6rem',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        background: 'none',
-                        border: 'none',
-                        textAlign: 'left',
-                        cursor: 'pointer',
-                        fontWeight: 600,
-                        fontFamily: 'var(--font-body)',
-                        fontSize: '1.05rem',
-                        color: '#1a1a1a',
-                      }}
-                    >
-                      <span>{faq.question}</span>
-                      <span style={{ color: '#c9a96e', fontSize: '1.35rem', lineHeight: 1 }}>
-                        {isOpen ? '−' : '+'}
-                      </span>
-                    </button>
-                    {isOpen && (
-                      <div
-                        style={{
-                          padding: '0 1.6rem 1.35rem',
-                          color: '#4a443c',
-                          fontFamily: 'var(--font-body)',
-                          fontSize: '1rem',
-                          lineHeight: 1.7,
-                          borderTop: '1px solid rgba(0,0,0,0.04)',
-                        }}
-                      >
-                        {faq.answer}
-                      </div>
-                    )}
-                  </div>
-                )
-              })}
-            </div>
-          </section>
         )}
 
         {/* Topic Tags Badges */}
